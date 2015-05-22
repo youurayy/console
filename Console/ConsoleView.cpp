@@ -25,6 +25,7 @@ CFont ConsoleView::m_fontText;
 CFont ConsoleView::m_fontTextHigh;
 DWORD ConsoleView::m_dwFontSize(0);
 DWORD ConsoleView::m_dwFontZoom(100); // 100 %
+DWORD ConsoleView::m_dwScreenDpi(96);
 
 int ConsoleView::m_nCharHeight(0);
 int ConsoleView::m_nCharWidth(0);
@@ -528,7 +529,7 @@ LRESULT ConsoleView::OnMouseWheel(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*
     if (uKeys & MK_CONTROL)
     {
       // recreate font with new size
-      if (RecreateFont(m_dwFontSize + nScrollDelta, true))
+      if (RecreateFont(m_dwFontSize + nScrollDelta, true, m_dwScreenDpi))
       {
         // only if the new size is different (to avoid flickering at extremes)
         m_mainFrame.AdjustWindowSize(ADJUSTSIZE_FONT);
@@ -1328,7 +1329,7 @@ void ConsoleView::SetAppActiveStatus(bool bAppActive)
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool ConsoleView::RecreateFont(DWORD dwNewFontSize, bool boolZooming)
+bool ConsoleView::RecreateFont(DWORD dwNewFontSize, bool boolZooming, DWORD dwScreenDpi)
 {
 	// calculate new font size in the [5, 36] interval
 	DWORD size = dwNewFontSize;
@@ -1340,11 +1341,12 @@ bool ConsoleView::RecreateFont(DWORD dwNewFontSize, bool boolZooming)
 
 	TRACE(L"size %lu->%lu / zoom %lu->%lu\n", m_dwFontSize, size, m_dwFontZoom, zoom);
 
-	if (boolZooming && m_dwFontSize == size) return false;
+	if (boolZooming && m_dwFontSize == size && m_dwScreenDpi == dwScreenDpi) return false;
 
 	// adjust the font size
 	m_dwFontSize = size;
 	m_dwFontZoom = zoom;
+	m_dwScreenDpi = dwScreenDpi;
 
 	if (!m_fontText.IsNull()) m_fontText.DeleteObject();
 	if (!m_fontTextHigh.IsNull()) m_fontTextHigh.DeleteObject();
@@ -1881,7 +1883,7 @@ bool ConsoleView::CreateFont(const wstring& strFontName)
 	bool bItalic = fontSettings.bItalic;
 
 	m_fontText.CreateFont(
-		-::MulDiv(m_dwFontSize, dcText.GetDeviceCaps(LOGPIXELSY), 72),
+		-::MulDiv(m_dwFontSize, m_dwScreenDpi, 72),
 		0,
 		0,
 		0,
@@ -1902,7 +1904,7 @@ bool ConsoleView::CreateFont(const wstring& strFontName)
 		bItalic = !bItalic;
 
 	m_fontTextHigh.CreateFont(
-		-::MulDiv(m_dwFontSize, dcText.GetDeviceCaps(LOGPIXELSY), 72),
+		-::MulDiv(m_dwFontSize, m_dwScreenDpi, 72),
 		0,
 		0,
 		0,
