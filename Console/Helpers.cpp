@@ -670,3 +670,27 @@ std::wstring Helpers::GetUACPrefix(void)
 
 //////////////////////////////////////////////////////////////////////////////
 
+
+//////////////////////////////////////////////////////////////////////////////
+
+#ifndef _USING_V110_SDK71_
+
+bool Helpers::GetDpiForMonitor(HMONITOR hmonitor, MONITOR_DPI_TYPE dpiType, UINT *dpiX, UINT *dpiY)
+{
+	HMODULE hmodule = ::LoadLibrary(L"Shcore.dll");
+	if( hmodule == nullptr ) return false;
+
+	typedef HRESULT (WINAPI* GetDPIForMonitor_t)(HMONITOR hmonitor, MONITOR_DPI_TYPE dpiType, UINT *dpiX, UINT *dpiY);
+
+	GetDPIForMonitor_t fnGetDPIForMonitor = (GetDPIForMonitor_t)::GetProcAddress(hmodule, "GetDpiForMonitor");
+	bool res = fnGetDPIForMonitor && fnGetDPIForMonitor(hmonitor, dpiType, dpiX, dpiY) == S_OK;
+
+	::FreeLibrary(hmodule);
+
+	return res;
+}
+
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+

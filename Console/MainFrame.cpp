@@ -10,7 +10,6 @@
 #include "DlgSettingsMain.h"
 #include "MainFrame.h"
 #include "JumpList.h"
-#include "ShellScalingAPI.h"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -476,18 +475,16 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	m_dwWindowWidth = rectWindow.Width();
 	m_dwWindowHeight = rectWindow.Height();
 
-#if _WIN64 // per-monitor dpi awareness is only supported in x64
-
+#ifndef _USING_V110_SDK71_
 	UINT dpiX; UINT dpiY;
 	HMONITOR hmonitor = MonitorFromRect(&rectWindow, MONITOR_DEFAULTTOPRIMARY);
-	if (GetDpiForMonitor(hmonitor, MDT_DEFAULT, &dpiX, &dpiY) == S_OK)
+	if (Helpers::GetDpiForMonitor(hmonitor, MDT_DEFAULT, &dpiX, &dpiY))
 		m_dwScreenDpi = dpiY;
-
-#else
-
-	m_dwScreenDpi = CDC(::CreateCompatibleDC(NULL)).GetDeviceCaps(LOGPIXELSY);
-
+	else
 #endif
+		m_dwScreenDpi = CDC(::CreateCompatibleDC(NULL)).GetDeviceCaps(LOGPIXELSY);
+
+	TRACE(L"OnCreate m_dwScreenDpi = %lu\n", m_dwScreenDpi);
 
 	// create font
 	ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false, m_dwScreenDpi);
@@ -1143,6 +1140,7 @@ LRESULT MainFrame::OnDpiChanged(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOO
 	if (dpi != m_dwScreenDpi)
 	{
 		m_dwScreenDpi = dpi;
+		TRACE(L"OnDpiChanged m_dwScreenDpi = %lu\n", m_dwScreenDpi);
 		ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false, m_dwScreenDpi);
 
 		CRect newRect = CRect(reinterpret_cast<RECT*>(lParam));

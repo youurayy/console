@@ -191,7 +191,7 @@
 copy "..\setup\dlls\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\"</Command>
     </PostBuildEvent>
     <Manifest>
-      <EnableDpiAwareness>true</EnableDpiAwareness>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -243,7 +243,7 @@ copy "..\setup\dlls\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\"</C
 copy "..\setup\dlls\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\"</Command>
     </PostBuildEvent>
     <Manifest>
-      <EnableDpiAwareness>true</EnableDpiAwareness>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Legacy|x64'">
@@ -278,7 +278,7 @@ copy "..\setup\dlls\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\"</C
       <AdditionalIncludeDirectories>$(IntDir);../shared;../wtl/wtl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;psapi.lib;Muiload.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib;shcore.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;psapi.lib;Muiload.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib</AdditionalDependencies>
       <DelayLoadDLLs>uxtheme.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -330,7 +330,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
       <AdditionalIncludeDirectories>$(IntDir);../shared;../wtl/wtl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;Muiload.lib;Credui.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib;shcore.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;Muiload.lib;Credui.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib</AdditionalDependencies>
       <DelayLoadDLLs>uxtheme.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -397,7 +397,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
 copy "..\setup\dlls\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\"</Command>
     </PostBuildEvent>
     <Manifest>
-      <EnableDpiAwareness>true</EnableDpiAwareness>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Legacy|x64'">
@@ -430,7 +430,7 @@ copy "..\setup\dlls\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\"</C
       <AdditionalIncludeDirectories>$(IntDir);../shared;../wtl/wtl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;Muiload.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib;shcore.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;Muiload.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib</AdditionalDependencies>
       <DelayLoadDLLs>uxtheme.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -499,7 +499,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     </Link>
     <Manifest>
       <AdditionalManifestFiles>res\Console.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
-      <EnableDpiAwareness>true</EnableDpiAwareness>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
       <Message>FreeImage</Message>
@@ -537,7 +537,7 @@ copy "..\setup\dlls\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\"</C
       <AdditionalIncludeDirectories>$(IntDir);../shared;../wtl/wtl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;Muiload.lib;Credui.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib;shcore.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\FreeImage\x64\FreeImagePlus.lib;delayimp.lib;htmlhelp.lib;userenv.lib;Muiload.lib;Credui.lib;imm32.lib;%(AdditionalDependencies);netapi32.lib;version.lib</AdditionalDependencies>
       <DelayLoadDLLs>uxtheme.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
