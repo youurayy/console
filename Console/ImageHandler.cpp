@@ -795,26 +795,29 @@ void ImageHandler::LoadDesktopWallpaperWin8(MonitorEnumData* pEnumData)
 			bkImage = pEnumData->bkImage;
 		}
 
-		// create template image
-		CDC     dcTemplate;
-		CBitmap	bmpTemplate;
-		dcTemplate.CreateCompatibleDC(NULL);
+		if( bkImage->originalImage.get() )
+		{
+			// create template image
+			CDC     dcTemplate;
+			CBitmap	bmpTemplate;
+			dcTemplate.CreateCompatibleDC(NULL);
 
-		DWORD dwNewWidth = rectMonitor.Width();
-		DWORD dwNewHeight = rectMonitor.Height();
-		ImageHandler::PaintRelativeImage(pEnumData->dcTemplate, bmpTemplate, bkImage, dwNewWidth, dwNewHeight);
+			DWORD dwNewWidth = rectMonitor.Width();
+			DWORD dwNewHeight = rectMonitor.Height();
+			ImageHandler::PaintRelativeImage(pEnumData->dcTemplate, bmpTemplate, bkImage, dwNewWidth, dwNewHeight);
 
-		dcTemplate.SelectBitmap(bmpTemplate);
+			dcTemplate.SelectBitmap(bmpTemplate);
 
-		ImageHandler::PaintTemplateImage(
-			dcTemplate,
-			rectMonitor.left - ::GetSystemMetrics(SM_XVIRTUALSCREEN),
-			rectMonitor.top - ::GetSystemMetrics(SM_YVIRTUALSCREEN),
-			dwNewWidth,
-			dwNewHeight,
-			rectMonitor.Width(),
-			rectMonitor.Height(),
-			pEnumData->bkImage);
+			ImageHandler::PaintTemplateImage(
+				dcTemplate,
+				rectMonitor.left - ::GetSystemMetrics(SM_XVIRTUALSCREEN),
+				rectMonitor.top - ::GetSystemMetrics(SM_YVIRTUALSCREEN),
+				dwNewWidth,
+				dwNewHeight,
+				rectMonitor.Width(),
+				rectMonitor.Height(),
+				pEnumData->bkImage);
+		}
 	}
 }
 #endif
@@ -948,28 +951,31 @@ BOOL CALLBACK ImageHandler::MonitorEnumProcWin8(HMONITOR hMonitor, HDC /*hdcMoni
     bkImage = pEnumData->bkImage;
   }
 
-  CRect   rectMonitor(lprcMonitor);
+	if( bkImage.get() )
+	{
+		CRect   rectMonitor(lprcMonitor);
 
-  // create template image
-  CDC     dcTemplate;
-  CBitmap	bmpTemplate;
-  dcTemplate.CreateCompatibleDC(NULL);
+		// create template image
+		CDC     dcTemplate;
+		CBitmap	bmpTemplate;
+		dcTemplate.CreateCompatibleDC(NULL);
 
-  DWORD dwNewWidth  = rectMonitor.Width();
-  DWORD dwNewHeight = rectMonitor.Height();
-  ImageHandler::PaintRelativeImage(pEnumData->dcTemplate, bmpTemplate, bkImage, dwNewWidth, dwNewHeight);
+		DWORD dwNewWidth = rectMonitor.Width();
+		DWORD dwNewHeight = rectMonitor.Height();
+		ImageHandler::PaintRelativeImage(pEnumData->dcTemplate, bmpTemplate, bkImage, dwNewWidth, dwNewHeight);
 
-  dcTemplate.SelectBitmap(bmpTemplate);
+		dcTemplate.SelectBitmap(bmpTemplate);
 
-  ImageHandler::PaintTemplateImage(
-    dcTemplate, 
-    rectMonitor.left - ::GetSystemMetrics(SM_XVIRTUALSCREEN), 
-    rectMonitor.top  - ::GetSystemMetrics(SM_YVIRTUALSCREEN), 
-    dwNewWidth,
-    dwNewHeight,
-    rectMonitor.Width(), 
-    rectMonitor.Height(), 
-    pEnumData->bkImage);
+		ImageHandler::PaintTemplateImage(
+			dcTemplate,
+			rectMonitor.left - ::GetSystemMetrics(SM_XVIRTUALSCREEN),
+			rectMonitor.top - ::GetSystemMetrics(SM_YVIRTUALSCREEN),
+			dwNewWidth,
+			dwNewHeight,
+			rectMonitor.Width(),
+			rectMonitor.Height(),
+			pEnumData->bkImage);
+	}
 
   return TRUE;
 }
