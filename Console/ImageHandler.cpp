@@ -430,12 +430,20 @@ void ImageHandler::CreateRelativeImage(const CDC& dc, std::shared_ptr<Background
   CRect	rect(0, 0, bkImage->dwImageWidth, bkImage->dwImageHeight);
   bkImage->dcImage.FillRect(&rect, backgroundBrush);
 
-  // this can be false only for desktop backgrounds with no wallpaper image
+  // this can be false for desktop backgrounds with no wallpaper image
   if (bkImage->originalImage.get() != NULL)
   {
-    if (bkImage->imageData.imagePosition == imagePositionTile ||
-        bkImage->imageData.bExtend ||
-        !ImageHandler::IsWin8())
+    if (bkImage->bWallpaper && ImageHandler::IsWin8())
+    {
+      // Windows 8 wallpaper (Stretch, Fit & Fill) is handled separately for each monitor
+      MonitorEnumData enumData(dc, bkImage);
+#if _WIN32_WINNT >= 0x0602
+      ImageHandler::LoadDesktopWallpaperWin8(&enumData);
+#else
+      ::EnumDisplayMonitors(NULL, NULL, ImageHandler::MonitorEnumProcWin8, reinterpret_cast<LPARAM>(&enumData));
+#endif
+    }
+    else
     {
       // create template image
       CDC     dcTemplate;
@@ -474,16 +482,6 @@ void ImageHandler::CreateRelativeImage(const CDC& dc, std::shared_ptr<Background
         MonitorEnumData	enumData(dcTemplate, bkImage);
         ::EnumDisplayMonitors(NULL, NULL, ImageHandler::MonitorEnumProc, reinterpret_cast<LPARAM>(&enumData));
       }
-    }
-    else
-    {
-      // Windows 8 wallpaper (Stretch, Fit & Fill) is handled separately for each monitor
-      MonitorEnumData enumData(dc, bkImage);
-#if _WIN32_WINNT >= 0x0602
-      ImageHandler::LoadDesktopWallpaperWin8(&enumData);
-#else
-      ::EnumDisplayMonitors(NULL, NULL, ImageHandler::MonitorEnumProcWin8, reinterpret_cast<LPARAM>(&enumData));
-#endif
     }
   }
 
