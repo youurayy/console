@@ -7,6 +7,9 @@
     <Filter Include="RUS">
       <UniqueIdentifier>{f8ff1951-f9e2-4965-abff-9692d4025ba0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DEU">
+      <UniqueIdentifier>{5426a010-5084-4bdd-9de5-37adbd28f3ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
@@ -15,6 +18,9 @@
     </None>
     <None Include="RUS\console.ini">
       <Filter>RUS</Filter>
+    </None>
+    <None Include="DEU\console.ini">
+      <Filter>DEU</Filter>
     </None>
   </ItemGroup>
 </Project>
