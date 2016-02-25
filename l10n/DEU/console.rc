@@ -52,14 +52,14 @@ END
 
 IDD_CREDENTIALS DIALOGEX 0, 0, 207, 79
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Username und Passwort eingeben"
+CAPTION "Benutzername und Passwort eingeben"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CTEXT           "\n&Passwort:",IDC_STATIC_PASSWORD,7,22,42,22
     EDITTEXT        IDC_PASSWORD,54,28,146,14,ES_PASSWORD | ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,93,58,50,14
     PUSHBUTTON      "Abbrechen",IDCANCEL,150,58,50,14
-    CTEXT           "\n&Username:",IDC_STATIC_USER,7,8,42,22
+    CTEXT           "\n&Benutzername:",IDC_STATIC_USER,7,8,42,22
     EDITTEXT        IDC_USER,54,13,146,14,ES_AUTOHSCROLL
 END
 
@@ -95,7 +95,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_TREE_SECTIONS,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_NOSCROLL | WS_BORDER | WS_TABSTOP,7,7,98,265
     CONTROL         "",IDC_CHILD_PLACEHOLDER,"Static",SS_BLACKFRAME,112,7,235,265
-    CONTROL         "Einstellungen im Userverzeichnis ablegen",IDC_CHECK_USER_DATA_DIR,
+    CONTROL         "Einstellungen im Benutzerverzeichnis ablegen",IDC_CHECK_USER_DATA_DIR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,280,300,10
     LTEXT           "Einstellungen mit *, erst nach Neustart aktiv",IDC_STATIC,7,296,230,8
     PUSHBUTTON      "OK",IDOK,241,300,50,14
@@ -109,13 +109,13 @@ BEGIN
     RTEXT           "Konsole:",IDC_STATIC,10,6,43,8
     EDITTEXT        IDC_SHELL,55,3,152,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_SHELL,210,3,15,14
-    RTEXT           "Start verzeichnis",IDC_STATIC,10,21,43,8
+    RTEXT           "Start- Verzeichnis",IDC_STATIC,10,17,43,16
     EDITTEXT        IDC_INIT_DIR,55,18,152,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_DIR,210,18,15,14
     CONTROL         "Konsole beim Start verstecken",IDC_CHECK_START_HIDDEN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,55,35,170,10
 
-    RTEXT           "Bei Veränderung:",IDC_STATIC,10,65,43,8
+    RTEXT           "Änderung:",IDC_STATIC,10,65,43,8
     EDITTEXT        IDC_CHANGE_REFRESH,55,62,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_CHANGE_REFRESH,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,86,56,11,14
     LTEXT           "ms",IDC_STATIC,100,65,10,8
@@ -148,9 +148,9 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     RTEXT           "Titel:",IDC_STATIC,10,15,43,8
     EDITTEXT        IDC_WINDOW_TITLE,55,13,105,14,ES_AUTOHSCROLL
-    CONTROL         "Tab Titel nutzen",IDC_CHECK_USE_TAB_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,14,58,10
+    CONTROL         "Titel nutzen",IDC_CHECK_USE_TAB_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,14,58,10
 
-    RTEXT           "Haupt Format:",IDC_STATIC,10,35,43,8
+    RTEXT           "Format:",IDC_STATIC,10,35,43,8
     EDITTEXT        IDC_MAIN_TITLE_FORMAT,55,33,170,14,ES_AUTOHSCROLL
     RTEXT           "Tab Format:",IDC_STATIC,10,55,43,8
     EDITTEXT        IDC_TAB_TITLE_FORMAT,55,53,170,14,ES_AUTOHSCROLL
@@ -393,7 +393,7 @@ BEGIN
     GROUPBOX        "Spalten/Klonen",IDC_STATIC,0,35,235,33
 
     CONTROL         "Identitätsanbieter nutzen",IDC_CHECK_USE_CREDPROV,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,220,16
-    GROUPBOX        "Als user ausführen",IDC_STATIC,0,70,235,33
+    GROUPBOX        "Als Benutzer ausführen",IDC_STATIC,0,70,235,33
 END
 
 IDD_SETTINGS_TABS_1 DIALOGEX 0, 0, 224, 172
@@ -412,16 +412,16 @@ BEGIN
     RTEXT           "Konsole:",IDC_STATIC,8,71,45,8
     EDITTEXT        IDC_TAB_SHELL,55,68,142,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_SHELL,200,68,15,14
-    RTEXT           "Start verzeichnis",IDC_STATIC,8,86,45,8
+    RTEXT           "Start- Verzeichnis",IDC_STATIC,3,82,45,16
     EDITTEXT        IDC_TAB_INIT_DIR,55,83,142,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_DIR,200,83,15,14
     RTEXT           "Priorität:",IDC_STATIC,8,101,45,8
     COMBOBOX        IDC_COMBO_BASE_PRIORITY,55,99,63,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     RTEXT           "Ausführen als",IDC_STATIC,8,116,45,8
-    CONTROL         "Jetztiger user",IDC_CHECK_RUN_AS_CURRENT_USER,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,55,113,160,16
+    CONTROL         "Jetztiger Benutzer",IDC_CHECK_RUN_AS_CURRENT_USER,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,55,113,160,16
     CONTROL         "&Administrator",IDC_CHECK_RUN_AS_ADMIN,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,55,129,160,16
-    CONTROL         "&user:",IDC_CHECK_RUN_AS_USER,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,55,145,48,16
+    CONTROL         "&Benutzer:",IDC_CHECK_RUN_AS_USER,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,55,145,48,16
     EDITTEXT        IDC_TAB_USER,105,145,70,14,ES_AUTOHSCROLL
     CONTROL         "&Nur Netz",IDC_CHECK_NET_ONLY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,177,145,38,16
 
@@ -523,7 +523,7 @@ BEGIN
     CONTROL         "",IDC_BGTEXT_OPACITY,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,53,75,140,20
     LTEXT           "255",IDC_BGTEXT_OPACITY_VAL,195,78,14,8,0,WS_EX_RIGHT
 #endif
-    PUSHBUTTON      "Importieren...",IDC_BTN_IMPORT_COLORS,127,96,40,14
+    PUSHBUTTON      "Import",IDC_BTN_IMPORT_COLORS,127,96,40,14
     PUSHBUTTON      "Re&set",IDC_BTN_RESET_COLORS,172,96,40,14
     CONTROL         "Erben",IDC_BTN_INHERIT_COLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,98,37,10
     PUSHBUTTON      "Als standard setzen",IDC_BTN_SET_AS_DEFAULT_COLORS,50,96,70,14
@@ -550,10 +550,10 @@ BEGIN
     PUSHBUTTON      "Editieren",IDC_BTN_ENV_EDIT,110,112,48,14
 
     RTEXT           "Variable:",IDC_STATIC,3,135,40,8
-    EDITTEXT        IDC_ENV_VARIABLE,45,132,145,14,ES_AUTOHSCROLL | ES_UPPERCASE
+    EDITTEXT        IDC_ENV_VARIABLE,45,132,130,14,ES_AUTOHSCROLL | ES_UPPERCASE
     RTEXT           "Wert:",IDC_STATIC,3,150,40,8
     EDITTEXT        IDC_ENV_VALUE,45,147,175,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Hinzufügen",IDC_BTN_ENV_ADD,192,132,28,14
+    PUSHBUTTON      "Hinzufügen",IDC_BTN_ENV_ADD,177,132,43,14
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -891,7 +891,7 @@ BEGIN
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR
                             "Konfiguration konnte nicht gespeichert werden. Stellen Sie sicher Sie haben Berechtigung für %1% haben."
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR_EXEDIR
-                            "Es ist empfohlen Einstellungen im Userverzeichnis abzulegen."
+                            "Es ist empfohlen Einstellungen im Benutzerverzeichnis abzulegen."
     MSG_SETTINGS_INIT_DIR
                             "Initial Verzeichnis auswählen"
     MSG_SETTINGS_ICON_FILES
@@ -916,7 +916,7 @@ BEGIN
     MSG_MAINFRAME_SYNTAX_ERROR
                             "Syntax error bei Position %1%"
 
-    MSG_TABVIEW_RUNAS       "Als Anwender ausführen"
+    MSG_TABVIEW_RUNAS       "Als Benutzer ausführen"
 
     MSG_ABOUT               "\nConsoleZ %1%.%2%.%3%.%4%\nCopyright (c)\n2011-2016\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
 END
@@ -1098,7 +1098,7 @@ BEGIN
     IDC_COMBO_BUTTONS            "Leer;Links;Rechts;Mitte;Viertes;Fünftes;"
     IDC_COMBO_BK_POS             "Zentrum;Strecken,Titel,Passend,Füllend"
     IDC_COMBO_FULLSCREEN_MONITOR "Aktuell;"
-    IDC_COMBO_BASE_PRIORITY      "Warten;unter durchschnittlich;Normal;überdurchschnittlich;Hoch;Echtzeit;"
+    IDC_COMBO_BASE_PRIORITY      "Warten;Niedrig;Normal;Höher;Hoch;Echtzeit;"
 END
 
 #endif    // English (United States) resources
