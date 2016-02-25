@@ -3,6 +3,7 @@ obj/
 ipch/
 help/console.chm
 help/html/changelog.html
+help/xx*
 
 *.aps
 *.user

@@ -13,15 +13,6 @@
       <UniqueIdentifier>{4489e1b3-a800-45a7-8ae5-ca49ea815733}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest</Extensions>
     </Filter>
-    <Filter Include="Help Files">
-      <UniqueIdentifier>{cc4765aa-179c-439b-83ac-a4bb303faca5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Help Files\html">
-      <UniqueIdentifier>{44a4528b-d8da-4212-aa2b-1f4888f80c0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Help Files\html\styles">
-      <UniqueIdentifier>{5fe3ba1d-76b1-443d-a80c-c5a24a502a52}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\shared">
       <UniqueIdentifier>{8c14276e-e91a-4f46-8dd5-975b3b0c355f}</UniqueIdentifier>
     </Filter>
@@ -286,95 +277,8 @@
     <None Include="res\Console.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\help\console.hhc">
-      <Filter>Help Files</Filter>
-    </None>
-    <None Include="..\help\console.hhk">
-      <Filter>Help Files</Filter>
-    </None>
-    <None Include="..\help\html\acknowledgements.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\changelog.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\copyright.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\gpl.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\introduction.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\language.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\menus.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\running.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_appearance.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_appearance_more.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_behavior.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_console.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_hotkeys.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_mouse.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_tabs.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\tips_tricks.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\styles\help.css">
-      <Filter>Help Files\html\styles</Filter>
-    </None>
     <None Include="..\setup\config\console.xml">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\help\html\settings_appearance_fullscreen.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_tabs_background.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_tabs_colors.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_tabs_main.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_appearance_font.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_appearance_styles.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_behavior_more.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\text_formatting.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\credentials.html">
-      <Filter>Help Files\html</Filter>
     </None>
     <None Include="res\Toolbar.rc2">
       <Filter>Resource Files</Filter>
@@ -382,23 +286,11 @@
     <None Include="res\SearchBar.rc2">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\help\html\settings_appearance_transparency.html">
-      <Filter>Help Files\html</Filter>
-    </None>
-    <None Include="..\help\html\settings_tabs_environment.html">
-      <Filter>Help Files\html</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Console.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="..\help\console.hhp">
-      <Filter>Help Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fullscreen1_16.bmp">
