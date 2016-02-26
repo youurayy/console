@@ -901,7 +901,7 @@ BEGIN
     MSG_SETTINGS_EXECUTABLE_FILES_AND_LINKS
                             "Fichiers Éxecutables (*.exe)|*.exe|Raccourcis (*.lnk)|*.lnk|Fichiers Batch (*.bat;*.cmd)|*.bat;*.cmd|Tous les fichiers (*.*)|*.*||"
     MSG_SETTINGS_IMAGE_FILES
-                            "Fichiers Images (*.jpg)|*.jpg|Tous les fichiers (*.*)|*.*||"
+                            "Tous les Fichiers Image|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Fichiers Bitmap (*.bmp;*.dib)|*.bmp;*.dib|GIF (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|PNG (*.png)|*.png|Tous les Fichiers (*.*)|*.*||"
     MSG_SETTINGS_CONFIG_FILES
                             "Fichiers de Paramétrage (*.xml)|*.xml|Tous les Fichiers (*.*)|*.*||"
 

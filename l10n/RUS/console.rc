@@ -901,7 +901,7 @@ BEGIN
     MSG_SETTINGS_EXECUTABLE_FILES_AND_LINKS
                             "Исполнительные файлы (*.exe)|*.exe|Ярлыки (*.lnk)|*.lnk|Командные файлы (*.bat;*.cmd)|*.bat;*.cmd|Все файлы (*.*)|*.*||"
     MSG_SETTINGS_IMAGE_FILES
-                            "Рисунки (*.jpg)|*.jpg|Все файлы (*.*)|*.*||"
+                            "All Image Files|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Bitmap Files (*.bmp;*.dib)|*.bmp;*.dib|Graphics Interchange Format (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|Portable Network Graphics (*.png)|*.png|All Files (*.*)|*.*||"
     MSG_SETTINGS_CONFIG_FILES
                             "Конфигурационные файлы (*.xml)|*.xml|Все файлы (*.*)|*.*||"
 
