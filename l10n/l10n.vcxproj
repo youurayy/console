@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DEU\console.ini" />
     <None Include="FRA\console.ini" />
     <None Include="makefile" />
     <None Include="RUS\console.ini" />
@@ -47,6 +48,7 @@
     <NMakeCleanCommandLine>nmake clean /C /D configuration="$(Configuration)" /D _USE_AERO=1</NMakeCleanCommandLine>
     <OutDir>..\bin\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>..\obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../Console/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Legacy|Win32'">
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
