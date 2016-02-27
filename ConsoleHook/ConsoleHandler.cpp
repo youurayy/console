@@ -1310,9 +1310,9 @@ right:
 
 		for (SHORT x = srBuffer.Left; x <= srBuffer.Right; ++x)
 		{
-			for (size_t d = 0; m_multipleInfo->u.select_word.szLeftDelimiters[d]; ++d)
+			for (size_t d = 0; m_multipleInfo->u.select_word.szRightDelimiters[d]; ++d)
 			{
-				if( pScreenBuffer[x - srBuffer.Left].Char.UnicodeChar == m_multipleInfo->u.select_word.szLeftDelimiters[d] )
+				if( pScreenBuffer[x - srBuffer.Left].Char.UnicodeChar == m_multipleInfo->u.select_word.szRightDelimiters[d] )
 				{
 					if( m_multipleInfo->u.select_word.bIncludeRightDelimiter )
 					{
@@ -1401,9 +1401,9 @@ right:
 		for (SHORT x = srBuffer.Left; x <= srBuffer.Right; ++x)
 		{
 			wchar_t c = pScreenBuffer[x - srBuffer.Left].Char.UnicodeChar;
-			for (size_t d = 0; m_multipleInfo->u.select_word.szLeftDelimiters[d]; ++d)
+			for (size_t d = 0; m_multipleInfo->u.select_word.szRightDelimiters[d]; ++d)
 			{
-				if( c == m_multipleInfo->u.select_word.szLeftDelimiters[d] )
+				if( c == m_multipleInfo->u.select_word.szRightDelimiters[d] )
 				{
 					goto link;
 				}
