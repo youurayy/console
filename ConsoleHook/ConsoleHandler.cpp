@@ -1414,7 +1414,13 @@ right:
 
 link:
 
-	ShellExecute(NULL, L"open", strLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	// remove spaces on either end of a string
+	boost::trim(strLink);
+
+	// don't execute an empty string (= nothing found)
+	// that launches explorer in the current working directory
+	if( !strLink.empty() )
+		ShellExecute(NULL, L"open", strLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 
 //////////////////////////////////////////////////////////////////////////////
