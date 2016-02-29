@@ -6,7 +6,7 @@ If so then it is not a ConsoleZ issue. Please contact the shell or responsible p
 Before continuing please check to see if the issue occurs in the latest version (experimental, beta, or release) available here:
 https://github.com/cbucher/console/wiki/Downloads
 
-Lastly, please search for an extisting issue before opening a new one.
+Lastly, please search for an existing issue before opening a new one.
 
 If this is in fact a new issue in ConsoleZ then feel free to delete this message and proceed.
 
@@ -32,6 +32,6 @@ Please paste that information here or include that file.
 ```
 
 ### Crash Report
-When reporting a crash you must provide a crash dump.
+When reporting a crash you **must** provide a crash dump.
 Instructions on how to generate one can be found here:
 https://github.com/cbucher/console/wiki/How-to-Report-an-Issue
