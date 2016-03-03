@@ -773,7 +773,7 @@ bool StylesSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 		XmlHelper::SetRGBAttribute(pSelColorElement, crSelectionColor);
 
 	CComPtr<IXMLDOMElement>	pHiColorElement;
-	if (SUCCEEDED(XmlHelper::GetDomElement(pStylesElement, CComBSTR(L"highlight_color"), pHiColorElement)))
+	if (SUCCEEDED(XmlHelper::AddDomElementIfNotExist(pStylesElement, CComBSTR(L"highlight_color"), pHiColorElement)))
 		XmlHelper::SetRGBAttribute(pHiColorElement, crHighlightColor);
 
 	return true;
