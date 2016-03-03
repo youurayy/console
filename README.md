@@ -24,6 +24,11 @@ This fork supports:
 * Localization
 * and more...
 
+Downloads
+=========
+
+See the [download wiki page](https://github.com/cbucher/console/wiki/Downloads).
+
 Changelog
 =========
 
