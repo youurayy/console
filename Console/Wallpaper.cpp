@@ -81,29 +81,69 @@ unsigned int __stdcall _MyThreadFunction(void* arg)
 
 DWORD WallPaperThread::Process(HANDLE hStopSignal)
 {
-  HKEY hkey;
-  LSTATUS rc = ::RegOpenKeyEx(
-    HKEY_CURRENT_USER,
-    L"Control Panel\\Desktop",
-    0,
-    KEY_READ,
-    &hkey);
+	LSTATUS rc;
+	std::unique_ptr<HKEY__, RegCloseKeyHelper> hkeyControlPanelPtr;
 
-  if( rc != ERROR_SUCCESS )
-    Win32Exception::Throw("RegOpenKeyEx", rc);
+	{
+		HKEY hkey;
+		rc = ::RegOpenKeyEx(
+			HKEY_CURRENT_USER,
+			L"Control Panel",
+			0,
+			KEY_READ,
+			&hkey);
 
-  unique_ptr<HKEY__, RegCloseKeyHelper>hkeyPtr(hkey);
+		if( rc != ERROR_SUCCESS )
+			Win32Exception::Throw("RegOpenKeyEx", rc);
 
-  std::unique_ptr<void, CloseHandleHelper>regkeyChangeNotification(
+		hkeyControlPanelPtr.reset(hkey);
+	}
+
+	std::unique_ptr<HKEY__, RegCloseKeyHelper> hkeyDesktopPtr;
+
+	{
+		HKEY hkey;
+		rc = ::RegOpenKeyEx(
+			hkeyControlPanelPtr.get(),
+			L"Desktop",
+			0,
+			KEY_READ,
+			&hkey);
+
+		if( rc != ERROR_SUCCESS )
+			Win32Exception::Throw("RegOpenKeyEx", rc);
+
+		hkeyDesktopPtr.reset(hkey);
+	}
+
+	std::unique_ptr<HKEY__, RegCloseKeyHelper> hkeyColorsPtr;
+
+	{
+		HKEY hkey;
+		rc = ::RegOpenKeyEx(
+			hkeyControlPanelPtr.get(),
+			L"Colors",
+			0,
+			KEY_READ,
+			&hkey);
+
+		if( rc != ERROR_SUCCESS )
+			Win32Exception::Throw("RegOpenKeyEx", rc);
+
+		hkeyColorsPtr.reset(hkey);
+	}
+
+  std::unique_ptr<void, CloseHandleHelper> regkeyChangeNotification(
     ::CreateEvent(NULL, FALSE, TRUE, NULL));
   if( regkeyChangeNotification.get() == nullptr )
     Win32Exception::ThrowFromLastError("CreateEvent");
 
-  unique_ptr<void, FindCloseChangeNotificationHelper>folderChangeNotification(INVALID_HANDLE_VALUE);
+  unique_ptr<void, FindCloseChangeNotificationHelper> folderChangeNotification(INVALID_HANDLE_VALUE);
 
   wchar_t   szWallpaper[_MAX_PATH] = L"";
   wchar_t   szWallpaperStyle  [16] = L"";
   wchar_t   szTileWallpaper   [16] = L"";
+  wchar_t   szBackground      [16] = L"";
   long long llWallPaperFileSize    = 0;
   bool      boolInit               = true;
 
@@ -127,9 +167,10 @@ DWORD WallPaperThread::Process(HANDLE hStopSignal)
         wchar_t szWallpaperTmp[_MAX_PATH];
         wchar_t szWallpaperStyleTmp[16];
         wchar_t szTileWallpaperTmp[16];
+        wchar_t szBackgroundTmp[16];
 
         rc = ::RegQueryValueEx(
-          hkeyPtr.get(),
+          hkeyDesktopPtr.get(),
           L"Wallpaper",
           NULL,
           &dwType,
@@ -139,7 +180,7 @@ DWORD WallPaperThread::Process(HANDLE hStopSignal)
           Win32Exception::Throw("RegQueryValueEx", rc);
 
         rc = ::RegQueryValueEx(
-          hkeyPtr.get(),
+          hkeyDesktopPtr.get(),
           L"WallpaperStyle",
           NULL,
           &dwType,
@@ -149,16 +190,33 @@ DWORD WallPaperThread::Process(HANDLE hStopSignal)
           Win32Exception::Throw("RegQueryValueEx", rc);
 
         rc = ::RegQueryValueEx(
-          hkeyPtr.get(),
+          hkeyDesktopPtr.get(),
           L"TileWallpaper",
           NULL,
           &dwType,
           (LPBYTE)szTileWallpaperTmp, &(dwValueSize = static_cast<DWORD>(sizeof(szTileWallpaperTmp))));
 
+        rc = ::RegQueryValueEx(
+          hkeyColorsPtr.get(),
+          L"Background",
+          NULL,
+          &dwType,
+          (LPBYTE)szBackgroundTmp, &(dwValueSize = static_cast<DWORD>(sizeof(szBackgroundTmp))));
+
         if( rc != ERROR_SUCCESS )
           Win32Exception::Throw("RegQueryValueEx", rc);
 
-        if( wcscmp(szWallpaperTmp, szWallpaper) || 
+				if( wcscmp(szBackground, szBackgroundTmp) )
+				{
+					// the background color has changed!
+					// there is no wallpaper file
+					// but we must signal the desktop modification
+					wcscpy_s(szBackground, szBackgroundTmp);
+
+					boolWallpaperChangeHasChanged = true;
+				}
+
+        if( wcscmp(szWallpaperTmp, szWallpaper) ||
             wcscmp(szWallpaperStyleTmp, szWallpaperStyle) ||
             wcscmp(szTileWallpaperTmp, szTileWallpaper) )
         {
@@ -171,14 +229,23 @@ DWORD WallPaperThread::Process(HANDLE hStopSignal)
           ::memcpy(szWallpaperFolder, szWallpaper, sizeof(szWallpaperFolder));
           ::PathRemoveFileSpec(szWallpaperFolder);
 
-          folderChangeNotification.reset(
-            ::FindFirstChangeNotification(
-              szWallpaperFolder,
-              FALSE,
-              FILE_NOTIFY_CHANGE_SIZE));
+					if( szWallpaperFolder[0] )
+					{
+						// if a wallpaper is set
+						// we monitor the wallpaper folder
+						folderChangeNotification.reset(
+							::FindFirstChangeNotification(
+								szWallpaperFolder,
+								FALSE,
+								FILE_NOTIFY_CHANGE_SIZE));
 
-          if( folderChangeNotification.get() == INVALID_HANDLE_VALUE )
-            Win32Exception::ThrowFromLastError("FindFirstChangeNotification");
+						if( folderChangeNotification.get() == INVALID_HANDLE_VALUE )
+							Win32Exception::ThrowFromLastError("FindFirstChangeNotification");
+					}
+					else
+					{
+						folderChangeNotification.reset(INVALID_HANDLE_VALUE);
+					}
 
           if( !boolInit )
             boolWallpaperChangeHasChanged = true;
@@ -186,8 +253,8 @@ DWORD WallPaperThread::Process(HANDLE hStopSignal)
 
         // reactive registry monitoring
         rc = ::RegNotifyChangeKeyValue(
-          hkeyPtr.get(),
-          FALSE,
+          hkeyControlPanelPtr.get(),
+          TRUE,
           REG_NOTIFY_CHANGE_LAST_SET,
           regkeyChangeNotification.get(),
           TRUE
@@ -212,8 +279,15 @@ DWORD WallPaperThread::Process(HANDLE hStopSignal)
     if( boolWallpaperChangeHasChanged || boolCheckWallpaperChange || boolInit )
     {
 			struct _stat64 theStat;
-      if( _wstat64(szWallpaper, &theStat) )
-        throw std::exception(_sys_errlist[errno]);
+			if( szWallpaper[0] )
+			{
+				if( _wstat64(szWallpaper, &theStat) )
+					throw std::exception(_sys_errlist[errno]);
+			}
+			else
+			{
+				theStat.st_size = 0;
+			}
 
       if( boolInit )
         boolInit = false;
