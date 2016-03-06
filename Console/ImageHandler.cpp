@@ -93,7 +93,14 @@ void ImageHandler::CalcRescale(DWORD& dwNewWidth, DWORD& dwNewHeight, std::share
       }
     }
     break;
-  }
+
+	case imagePositionCenter:
+		{
+			dwNewWidth  = bkImage->originalImage->getWidth();
+			dwNewHeight = bkImage->originalImage->getHeight();
+		}
+		break;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -292,10 +299,18 @@ bool ImageHandler::GetDesktopImageData(ImageData& imageData)
 		HRESULT hr = desktopWallpaper.CoCreateInstance(CLSID_DesktopWallpaper, nullptr, CLSCTX_ALL);
 		if( SUCCEEDED(hr) )
 		{
-			CComHeapPtr<wchar_t> spszWallpaper;
-			hr = desktopWallpaper->GetWallpaper(NULL, &spszWallpaper);
-			if( hr == S_OK )
-				imageData.bExtend = true;
+			DESKTOP_WALLPAPER_POSITION position;
+			hr = desktopWallpaper->GetPosition(&position);
+
+			UINT count = 0;
+			hr = desktopWallpaper->GetMonitorDevicePathCount(&count);
+			if( hr == S_OK && position == DWPOS_SPAN && count > 1 )
+			{
+				CComHeapPtr<wchar_t> spszWallpaper;
+				hr = desktopWallpaper->GetWallpaper(NULL, &spszWallpaper);
+				if( hr == S_OK )
+					imageData.bExtend = true;
+			}
 		}
 	}
 #endif
@@ -431,7 +446,9 @@ void ImageHandler::CreateRelativeImage(const CDC& dc, std::shared_ptr<Background
   // this can be false for desktop backgrounds with no wallpaper image
   if (bkImage->originalImage.get() != NULL)
   {
-    if (bkImage->bWallpaper && ImageHandler::IsWin8())
+    if ( bkImage->bWallpaper && ImageHandler::IsWin8()           // Win8 wallpaper
+      && !bkImage->imageData.bExtend                             // not extended
+      && bkImage->imageData.imagePosition != imagePositionTile ) // and not tiled
     {
       // Windows 8 wallpaper (Stretch, Fit & Fill) is handled separately for each monitor
       MonitorEnumData enumData(dc, bkImage);
@@ -544,6 +561,9 @@ void ImageHandler::CreateImage(const CDC& dc, const CRect& clientRect, std::shar
 		}
 		else
 		{
+			dwNewWidth  = bkImage->dwOriginalImageWidth;
+			dwNewHeight = bkImage->dwOriginalImageHeight;
+
 			bmpTemplate.CreateDIBitmap(
 							dc,
 							bkImage->originalImage->getInfoHeader(),
@@ -562,7 +582,6 @@ void ImageHandler::CreateImage(const CDC& dc, const CRect& clientRect, std::shar
 				0,
 				0,
 				bkImage);
-
 		}
 		else
 		{
@@ -588,23 +607,11 @@ void ImageHandler::CreateImage(const CDC& dc, const CRect& clientRect, std::shar
 
 void ImageHandler::PaintTemplateImage(const CDC& dcTemplate, int nOffsetX, int nOffsetY, DWORD dwSrcWidth, DWORD dwSrcHeight, DWORD dwDstWidth, DWORD dwDstHeight, std::shared_ptr<BackgroundImage>& bkImage)
 {
-  if (bkImage->imageData.imagePosition == imagePositionCenter)
+	if( bkImage->imageData.imagePosition == imagePositionFill && (!bkImage->imageData.bExtend) && ImageHandler::IsWin8() )
 	{
-		bkImage->dcImage.BitBlt(
-					(dwDstWidth <= bkImage->dwOriginalImageWidth) ? nOffsetX : nOffsetX + (dwDstWidth - bkImage->dwOriginalImageWidth)/2,
-					(dwDstHeight <= bkImage->dwOriginalImageHeight) ? nOffsetY : nOffsetY + (dwDstHeight - bkImage->dwOriginalImageHeight)/2,
-					dwDstWidth, 
-					dwDstHeight,
-					dcTemplate,
-					(dwDstWidth < bkImage->dwOriginalImageWidth) ? (bkImage->dwOriginalImageWidth - dwDstWidth)/2 : 0,
-					(dwDstHeight < bkImage->dwOriginalImageHeight) ? (bkImage->dwOriginalImageHeight - dwDstHeight)/2 : 0,
-					SRCCOPY);
-	}
-  else if (bkImage->imageData.imagePosition == imagePositionFill && (!bkImage->imageData.bExtend) && ImageHandler::IsWin8())
-  {
-    // Windows 8 filled wallpaper:
-    // when image height is greater than screen height
-    // top is not shifted with half but 1/3
+		// Windows 8 filled wallpaper:
+		// when image height is greater than screen height
+		// top is not shifted with half but 1/3
 		bkImage->dcImage.BitBlt(
 					(dwDstWidth <= dwSrcWidth) ? nOffsetX : nOffsetX + (dwDstWidth - dwSrcWidth)/2,
 					(dwDstHeight <= dwSrcHeight) ? nOffsetY : nOffsetY + (dwDstHeight - dwSrcHeight)/3,
@@ -730,8 +737,8 @@ BOOL CALLBACK ImageHandler::MonitorEnumProc(HMONITOR /*hMonitor*/, HDC /*hdcMoni
 					rectMonitor.top  - ::GetSystemMetrics(SM_YVIRTUALSCREEN), 
 					dwNewWidth,
 					dwNewHeight,
-					rectMonitor.Width(), 
-					rectMonitor.Height(), 
+					rectMonitor.Width(),
+					rectMonitor.Height(),
 					pEnumData->bkImage);
 
 	return TRUE;
