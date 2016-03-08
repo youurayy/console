@@ -41,9 +41,11 @@ Changes in 1.16.1 (08 mar 2016)
 
     ! Upgrade FreeImage version from 3.15.4 to 3.17.0.
     ! Show BMP/DIB/GIF/JPEG/PNG files in Browse background image dialog.
-    + Detect new docking positions with "snap to desktop edges" (top/bottom/left/right middle).
-    + By default the console support UNICODE characters and number of rows/columns should not be limited:
-      ConsoleZ set the current Windows console font to "Lucidia Console" size 5.
+    + Detect new docking positions with "snap to desktop edges"
+      (top/bottom/left/right middle).
+    + ConsoleZ sets the current Windows console font to "Lucidia Console" size 5.
+      Windows console should support UNICODE characters.
+      Number of rows/columns should not be limited.
     + Support UNICODE picture filename.
     + German localization (thanks to cruzzer).
     * Fix placement problem with "snap to desktop edges" when cursor is in another monitor.
