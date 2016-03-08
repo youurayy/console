@@ -37,6 +37,24 @@ Changelog
     + added
     * fixed
 
+Changes in 1.16.1 (08 mar 2016)
+
+    ! Upgrade FreeImage version from 3.15.4 to 3.17.0.
+    ! Show BMP/DIB/GIF/JPEG/PNG files in Browse background image dialog.
+    + Detect new docking positions with "snap to desktop edges" (top/bottom/left/right middle).
+    + By default the console support UNICODE characters and number of rows/columns should not be limited:
+      ConsoleZ set the current Windows console font to "Lucidia Console" size 5.
+    + Support UNICODE picture filename.
+    + German localization (thanks to cruzzer).
+    * Fix placement problem with "snap to desktop edges" when cursor is in another monitor.
+    * Fix crash when wallpaper picture loading fails.
+    * When you configured a background with relative picture then wallpaper was drawn.
+    * Fix the word selection: right delimiters was not used.
+    * "Click Link" does no longer launch an empty string.
+      This was launching explorer in the current working directory.
+    * Fix highlighting color setting saving.
+    * Fix wallpaper display.
+
 Changes in 1.16.0 (07 feb 2016)
 
     ! PowerShell progressbar detection is disabled.
@@ -51,7 +69,7 @@ Changes in 1.16.0 (07 feb 2016)
       Inheritance works now with mono-instance.
       There is no inheritance when the shell run as administrator
       or whith another user credentials!
-    + Glass effect transparency under Windows 10.
+    + Glass effect transparency on Windows 10.
     + Specific ConsoleZxxx environment variables:
       ConsoleZBaseDir = folder containing console.exe
       ConsoleZVersion = current version of ConsoleZ
