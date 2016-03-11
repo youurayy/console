@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>ConsoleZ</id>
-    <version>1.15.0.15253</version>
+    <version>1.16.1.16068</version>
     <authors>cbucher</authors>
     <owners>cbucher</owners>
     <licenseUrl>http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html</licenseUrl>
@@ -26,30 +26,26 @@ This fork supports:
 * Strict monospace font rendering
 * Settable opacity of text background color
 * Full screen
-* PowerShell progress bar
+* High DPI (per monitor)
 * Localization
 * and more...</description>
     <summary>This is a modified version of Console 2 for a better experience under Windows Vista/7/8/10 and a better visual rendering.</summary>
     <releaseNotes>
-    + Hide when loosing focus.
-    + Support localization.
-    + New command "paste selection".
-    + Support %D (current directory leaf) in text formatting.
-    + Support PowerShell progress bar.
-    + Support typographic ligatures.
-    + Support missing font smoothings: antialiased and "natural" ClearType.
-    + Support localization.
-    + French localization.
-    + Russian localization.
-    * Fix "Clone in new Tab" inverts initial directory and tab's title.
-    * Fix incomplete shell title.
-    * Fix touch scrolling broken on Win10.
-    * Fix "Browse..." button for icon change causes program "Not Responding".
-    * Fix repaint failure when background is a relative image
-      and the application is minimized.
-    * Fix hook can crash during resizing.
+! Upgrade FreeImage version from 3.15.4 to 3.17.0.
+! Show BMP/DIB/GIF/JPEG/PNG files in Browse background image dialog.
++ Detect new docking positions with "snap to desktop edges" (top/bottom/left/right middle).
++ ConsoleZ sets the current Windows console font to "Lucidia Console" size 5. Windows console should support UNICODE characters. Number of rows/columns should not be limited.
++ Support UNICODE picture filename.
++ German localization (thanks to cruzzer).
+* Fix placement problem with "snap to desktop edges" when cursor is in another monitor.
+* Fix crash when wallpaper picture loading fails.
+* When you configured a background with relative picture then wallpaper was drawn.
+* Fix the word selection: right delimiters was not used.
+* "Click Link" does no longer launch an empty string. This was launching explorer in the current working directory.
+* Fix highlighting color setting saving.
+* Fix wallpaper display.
     </releaseNotes>
-    <copyright>Copyright 2015</copyright>
+    <copyright>Copyright 2016</copyright>
     <tags>shell console tabs split glass fullscreen</tags>
   </metadata>
 </package>

@@ -20,7 +20,7 @@ This fork supports:
 * Strict monospace font rendering
 * Settable opacity of text background color
 * Full screen
-* PowerShell progress bar
+* High DPI (per monitor)
 * Localization
 * and more...
 
