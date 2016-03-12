@@ -2,11 +2,17 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>ConsoleZ</id>
+    <title>ConsoleZ (Install)</title>
     <version>1.16.1.16068</version>
     <authors>cbucher</authors>
     <owners>cbucher</owners>
     <licenseUrl>http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html</licenseUrl>
     <projectUrl>https://github.com/cbucher/console</projectUrl>
+    <packageSourceUrl>https://github.com/cbucher/console/tree/master/Packaging/chocolatey</packageSourceUrl>
+    <projectSourceUrl>https://github.com/cbucher/console</projectSourceUrl>
+    <docsUrl>https://github.com/cbucher/console/wiki</docsUrl>
+    <!--<mailingListUrl></mailingListUrl>-->
+    <bugTrackerUrl>https://github.com/cbucher/console/issues</bugTrackerUrl>
     <iconUrl>https://raw.github.com/wiki/cbucher/console/ConsoleZ_128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>![screenshot005](https://github.com/cbucher/console/wiki/screenshot001.png)
@@ -48,4 +54,7 @@ This fork supports:
     <copyright>Copyright 2016</copyright>
     <tags>shell console tabs split glass fullscreen</tags>
   </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
 </package>
