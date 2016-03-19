@@ -275,7 +275,13 @@
     <ClInclude Include="DlgSettingsTransparency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DynamicDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Snippet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicSnippetDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

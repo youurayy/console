@@ -306,6 +306,14 @@
 #define IDC_CHECK_HIDE_WHEN_INACTIVE    1232
 #define IDC_CHECK_LIGATURE              1233
 #define IDC_CHECK_PER_MONITOR_DPI       1234
+#define IDC_SNIPPET_RESULT              1235
+#define IDC_SNIPPET_INFORMATION         1236
+#define IDC_SNIPPET_AUTHOR_URL          1237
+#define IDC_SNIPPET_AUTHOR_EMAIL        1238
+#define IDC_SNIPPET_EDIT                1239
+
+#define ID_SNIPPET_ID_FIRST             1900
+#define ID_SNIPPET_ID_LAST              1999
 
 #define ID_NEW_TAB_1                    2000
 #define ID_SWITCH_TAB_1                 2100
@@ -505,6 +513,11 @@
 #define IDS_SETTINGS_VARIABLE           8019
 #define IDS_SETTINGS_VALUE              8020
 #define IDS_SETTINGS_WINDOWED           8021
+
+#define IDS_SNIPPET_AUTHOR              9000
+#define IDS_SNIPPET_DESCRIPTION         9001
+#define IDS_SNIPPET_CODE                9002
+#define IDS_SNIPPET_VERSION             9003
 
 #define MSG_SETTINGS_INVALID_BUFFER_ROWS 10000
 #define MSG_SETTINGS_INVALID_BUFFER_COLUMNS 10001

@@ -619,6 +619,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="..\wtl\wtl\include\multisplit.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AeroTabCtrl.h" />
+    <ClInclude Include="DynamicSnippetDialog.h" />
     <ClInclude Include="CFileNameEdit.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleException.h" />
@@ -652,6 +653,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="PageSettingsTabsColors.h" />
     <ClInclude Include="PageSettingsTabsEnv.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="DynamicDialog.h" />
     <ClInclude Include="SelectionHandler.h" />
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="..\shared\SharedMemNames.h" />
