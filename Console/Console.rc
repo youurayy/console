@@ -841,6 +841,18 @@ END
 
 STRINGTABLE
 BEGIN
+    IDOK                    "OK"
+    IDCANCEL                "Cancel"
+    IDS_SNIPPET_AUTHOR      "Author"
+    IDS_SNIPPET_DESCRIPTION "Description"
+    IDS_SNIPPET_CODE        "Code"
+    IDS_SNIPPET_VERSION     "Version"
+    IDC_SNIPPET_INFORMATION "Show snippet information"
+    IDC_SNIPPET_EDIT        "Edit"
+END
+
+STRINGTABLE
+BEGIN
     ATL_IDS_IDLEMESSAGE     "Ready"
 END
 
@@ -1016,6 +1028,7 @@ BEGIN
     IDS_SHOW_CONTEXT_MENU_1  "Show Context menu #1"
     IDS_SHOW_CONTEXT_MENU_2  "Show Context menu #2"
     IDS_SHOW_CONTEXT_MENU_3  "Show Context menu #3"
+    ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
 
     IDS_SEND_CTRL_C          "Send CTRL-C event"
 
@@ -1061,6 +1074,7 @@ BEGIN
     IDS_MOUSE_MENU1          "Context menu #1"
     IDS_MOUSE_MENU2          "Context menu #2"
     IDS_MOUSE_MENU3          "Context menu #3"
+    IDS_MOUSE_SNIPPETS       "Snippets context menu"
 END
 
 STRINGTABLE

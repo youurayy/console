@@ -11,6 +11,9 @@
 #include "MainFrame.h"
 #include "JumpList.h"
 
+#include "DynamicDialog.h"
+#include "DynamicSnippetDialog.h"
+
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -1629,6 +1632,15 @@ LRESULT MainFrame::OnShowPopupMenu(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, 
 			CMenu menu;
 			UpdateOpenedTabsMenu(m_CmdBar.GetMenu(), menu, true);
 			m_CmdBar.TrackPopupMenu(menu, 0, point.x, point.y);
+		}
+		break;
+
+	case MouseSettings::cmdSnippets:
+		{
+			CMenu snippetsMenu;
+			UpdateSnippetsMenu(snippetsMenu);
+			if( snippetsMenu.GetMenuItemCount() )
+				m_CmdBar.TrackPopupMenu(snippetsMenu, 0, point.x, point.y);
 		}
 		break;
 	}
@@ -3437,6 +3449,36 @@ void MainFrame::UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool
 	}
 }
 
+void MainFrame::UpdateSnippetsMenu(CMenu & snippetsMenu)
+{
+	if (!snippetsMenu.IsNull()) snippetsMenu.DestroyMenu();
+	snippetsMenu.CreatePopupMenu();
+
+	// reload snippets
+	m_snippetCollection.reset();
+	m_snippetCollection.load(
+		g_settingsHandler->GetSnippetSettings().strDir.empty()
+			?	g_settingsHandler->GetSettingsPath() + L"\\Snippets"
+			: g_settingsHandler->GetSnippetSettings().strDir);
+
+	WORD wID = ID_SNIPPET_ID_FIRST;
+	for( auto snippet = m_snippetCollection.snippets().begin();
+	     snippet != m_snippetCollection.snippets().end();
+	     ++snippet )
+	{
+		CMenuItemInfo	subMenuItem;
+
+		subMenuItem.fMask = MIIM_STRING | MIIM_ID;
+		subMenuItem.wID = wID;
+		subMenuItem.dwTypeData = const_cast<wchar_t *>(snippet->get()->header().title.c_str());
+		subMenuItem.cch = static_cast<UINT>(snippet->get()->header().title.length() + 1);
+
+		snippetsMenu.InsertMenuItem(wID, TRUE, &subMenuItem);
+
+		if( ++wID > ID_SNIPPET_ID_LAST ) break;
+	}
+}
+
 void MainFrame::UpdateMenuHotKeys(void)
 {
   CMenuHandle menu = m_CmdBar.GetMenu();
@@ -4722,6 +4764,35 @@ LRESULT MainFrame::OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWnd
 
 /////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnSnippet(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	WORD wSnippetId = wID - ID_SNIPPET_ID_FIRST;
+	if( wSnippetId >= m_snippetCollection.snippets().size() ) return 0;
+
+  if (!m_activeTabView) return 0;
+  std::shared_ptr<ConsoleView> activeConsoleView = m_activeTabView->GetActiveConsole(_T(__FUNCTION__));
+  if( activeConsoleView )
+	{
+		CDynamicSnippetDialog dlgSnippet(m_snippetCollection.snippets()[wSnippetId]);
+		if( dlgSnippet.DoModal() == IDOK )
+		{
+			CString value = dlgSnippet.GetResult();
+
+			if( activeConsoleView->IsGrouped() )
+				SendTextToConsoles(value);
+			else
+				activeConsoleView->GetConsoleHandler().SendTextToConsole(value);
+		}
+	}
+
+	return 0;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnGetMinMaxInfo(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
 {
   if( g_settingsHandler->GetAppearanceSettings().stylesSettings.bCaption ) return 0;
@@ -4946,30 +5017,24 @@ LRESULT MainFrame::OnSwitchTransparency(WORD /*wNotifyCode*/, WORD /*wID*/, HWND
 
 /////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnShowContextMenu1(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT MainFrame::OnShowContextMenu(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	CPoint	screenPoint(0,0);
 	ClientToScreen(&screenPoint);
-	
-	SendMessage(UM_SHOW_POPUP_MENU, static_cast<WPARAM>(MouseSettings::cmdMenu1), MAKELPARAM(screenPoint.x, screenPoint.y));
-	return 0;
-}
 
-LRESULT MainFrame::OnShowContextMenu2(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-{
-	CPoint	screenPoint(0, 0);
-	ClientToScreen(&screenPoint);
+	WPARAM wparam;
+	switch( wID )
+	{
+		case ID_SHOW_CONTEXT_MENU_1       : wparam = static_cast<WPARAM>(MouseSettings::cmdMenu1);    break;
+		case ID_SHOW_CONTEXT_MENU_2       : wparam = static_cast<WPARAM>(MouseSettings::cmdMenu2);    break;
+		case ID_SHOW_CONTEXT_MENU_3       : wparam = static_cast<WPARAM>(MouseSettings::cmdMenu3);    break;
+		case ID_SHOW_CONTEXT_MENU_SNIPPETS: wparam = static_cast<WPARAM>(MouseSettings::cmdSnippets); break;
 
-	SendMessage(UM_SHOW_POPUP_MENU, static_cast<WPARAM>(MouseSettings::cmdMenu2), MAKELPARAM(screenPoint.x, screenPoint.y));
-	return 0;
-}
+		default: return  0;
+	}
 
-LRESULT MainFrame::OnShowContextMenu3(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-{
-	CPoint	screenPoint(0, 0);
-	ClientToScreen(&screenPoint);
+	SendMessage(UM_SHOW_POPUP_MENU, wparam, MAKELPARAM(screenPoint.x, screenPoint.y));
 
-	SendMessage(UM_SHOW_POPUP_MENU, static_cast<WPARAM>(MouseSettings::cmdMenu3), MAKELPARAM(screenPoint.x, screenPoint.y));
 	return 0;
 }
 

@@ -374,6 +374,7 @@
 #define ID_SPLIT_SWAP                   2937
 #define ID_MOVE_TAB_LEFT                2938
 #define ID_MOVE_TAB_RIGHT               2939
+#define ID_SHOW_CONTEXT_MENU_SNIPPETS   2940
 
 #define IDC_DUMP_BUFFER                 3000
 
@@ -490,6 +491,7 @@
 #define IDS_MOUSE_MENU1                 7006
 #define IDS_MOUSE_MENU2                 7007
 #define IDS_MOUSE_MENU3                 7008
+#define IDS_MOUSE_SNIPPETS              7009
 
 #define IDS_SETTINGS_CONSOLE            8000
 #define IDS_SETTINGS_APPEARANCE         8001
@@ -573,7 +575,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
 #define _APS_NEXT_COMMAND_VALUE         32801
-#define _APS_NEXT_CONTROL_VALUE         1234
+#define _APS_NEXT_CONTROL_VALUE         1240
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
