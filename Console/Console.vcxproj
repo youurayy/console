@@ -596,6 +596,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClCompile Include="PageSettingsTabsEnv.cpp" />
     <ClCompile Include="SelectionHandler.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
+    <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Legacy|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -655,6 +656,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="..\shared\SharedMemNames.h" />
     <ClInclude Include="..\shared\SharedMemory.h" />
+    <ClInclude Include="Snippet.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\shared\Structures.h" />
     <ClInclude Include="TabView.h" />

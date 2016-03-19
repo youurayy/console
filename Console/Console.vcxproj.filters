@@ -120,6 +120,9 @@
     <ClCompile Include="DlgSettingsTransparency.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Snippet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AboutDlg.h">
@@ -270,6 +273,9 @@
       <Filter>Header Files\GUI custom</Filter>
     </ClInclude>
     <ClInclude Include="DlgSettingsTransparency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Snippet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
