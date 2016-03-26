@@ -472,6 +472,7 @@
 #define IDS_SPLIT_SWAP                  6088
 #define IDS_MOVE_TAB_LEFT               6089
 #define IDS_MOVE_TAB_RIGHT              6090
+#define IDS_EDIT_RESUME_SCROLLING       6091
 
 #define IDS_MOUSE_COPY                  7000
 #define IDS_MOUSE_SELECT                7001
@@ -553,13 +554,15 @@
 #define ID_FILE_CLOSE_ALL_TABS_LEFT     32798
 #define ID_FILE_CLOSE_ALL_TABS_RIGHT    32799
 #define ID_VIEW_SEARCH_BAR              32800
+#define ID_EDIT_RESUME_SCROLLING        32801
+
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
-#define _APS_NEXT_COMMAND_VALUE         32801
+#define _APS_NEXT_COMMAND_VALUE         32802
 #define _APS_NEXT_CONTROL_VALUE         1234
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

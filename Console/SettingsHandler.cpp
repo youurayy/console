@@ -1833,6 +1833,7 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"paste",              ID_EDIT_PASTE,           IDS_EDIT_PASTE          )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"paste_selection",    ID_PASTE_SELECTION,      IDS_PASTE_SELECTION     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"stopscroll",         ID_EDIT_STOP_SCROLLING,  IDS_EDIT_STOP_SCROLLING )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"resumescroll",       ID_EDIT_RESUME_SCROLLING, IDS_EDIT_RESUME_SCROLLING )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"textselleft",        ID_TEXT_SELECTION_LEFT_KEY      , ID_TEXT_SELECTION_LEFT_KEY      )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"textselright",       ID_TEXT_SELECTION_RIGHT_KEY     , ID_TEXT_SELECTION_RIGHT_KEY     )));
