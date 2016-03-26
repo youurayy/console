@@ -41,6 +41,7 @@ class Helpers
 		static std::wstring ExpandEnvironmentStrings(const std::map<std::wstring, std::wstring, __case_insensitive_compare> & dictionary, const std::wstring & str);
 
 		static std::wstring GetComputerName(void);
+		static std::wstring GetWindowsVersionString(void);
 
 		static bool GetMonitorRect(HWND hWnd, CRect& rectMonitor);
 		static bool GetDesktopRect(HWND hWnd, CRect& rectDesktop);

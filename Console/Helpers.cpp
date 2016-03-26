@@ -238,6 +238,61 @@ std::wstring Helpers::GetComputerName(void)
 
 //////////////////////////////////////////////////////////////////////////////
 
+std::wstring Helpers::GetWindowsVersionString(void)
+{
+	__pragma(warning(push))
+	__pragma(warning(disable:4996))
+
+	std::wstring    winver;
+	OSVERSIONINFOEX osver;
+	SYSTEM_INFO     sysInfo;
+
+	memset(&osver, 0, sizeof(osver));
+	osver.dwOSVersionInfoSize = sizeof(osver);
+	if( ::GetVersionEx(reinterpret_cast<LPOSVERSIONINFO>(&osver)) )
+	{
+		::GetSystemInfo(&sysInfo);
+
+		if( osver.dwMajorVersion == 10 && osver.dwMinorVersion >= 0 && osver.wProductType != VER_NT_WORKSTATION )  winver = L"Windows 10 Server";
+		if( osver.dwMajorVersion == 10 && osver.dwMinorVersion >= 0 && osver.wProductType == VER_NT_WORKSTATION )  winver = L"Windows 10";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 3 && osver.wProductType != VER_NT_WORKSTATION )  winver = L"Windows Server 2012 R2";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 3 && osver.wProductType == VER_NT_WORKSTATION )  winver = L"Windows 8.1";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 2 && osver.wProductType != VER_NT_WORKSTATION )  winver = L"Windows Server 2012";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 2 && osver.wProductType == VER_NT_WORKSTATION )  winver = L"Windows 8";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 1 && osver.wProductType != VER_NT_WORKSTATION )  winver = L"Windows Server 2008 R2";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 1 && osver.wProductType == VER_NT_WORKSTATION )  winver = L"Windows 7";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 0 && osver.wProductType != VER_NT_WORKSTATION )  winver = L"Windows Server 2008";
+		if( osver.dwMajorVersion == 6  && osver.dwMinorVersion == 0 && osver.wProductType == VER_NT_WORKSTATION )  winver = L"Windows Vista";
+		if( osver.dwMajorVersion == 5  && osver.dwMinorVersion == 2 && osver.wProductType != VER_NT_WORKSTATION )  winver = L"Windows Server 2003";
+		if( osver.dwMajorVersion == 5  && osver.dwMinorVersion == 2 && osver.wProductType == VER_NT_WORKSTATION )  winver = L"Windows XP x64";
+		if( osver.dwMajorVersion == 5 && osver.dwMinorVersion == 1 )   winver = L"Windows XP";
+		if( osver.dwMajorVersion == 5 && osver.dwMinorVersion == 0 )   winver = L"Windows 2000";
+		if( osver.dwMajorVersion < 5 )   winver = L"unknown";
+
+		if( osver.wServicePackMajor != 0 )
+		{
+			winver += L" Service Pack ";
+			winver += std::to_wstring(osver.wServicePackMajor);
+		}
+
+		winver += boost::str(
+			boost::wformat(L" (%1% bits) [%2%.%3%.%4%]")
+			% (sysInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 ? 64 : 32)
+			% osver.dwMajorVersion
+			% osver.dwMinorVersion
+			% osver.dwBuildNumber);
+	}
+
+	return winver;
+
+	__pragma(warning(pop))
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 bool Helpers::GetMonitorRect(HWND hWnd, CRect& rectMonitor)
 {
 	HMONITOR hMonitor = ::MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);

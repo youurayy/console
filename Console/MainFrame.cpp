@@ -3005,6 +3005,8 @@ LRESULT MainFrame::OnDiagnose(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl
 
 			Helpers::WriteLine(file.get(), dummy);
 
+			Helpers::WriteLine(file.get(), Helpers::GetWindowsVersionString());
+
 			dummy = L"is elevated? ";
 			dummy += Helpers::IsElevated() ? L"yes" : L"no";
 			Helpers::WriteLine(file.get(), dummy);
