@@ -570,6 +570,7 @@
 #define ID_FILE_CLOSE_ALL_TABS_RIGHT    32799
 #define ID_VIEW_SEARCH_BAR              32800
 #define ID_EDIT_RESUME_SCROLLING        32801
+#define ID_EDIT_INSERT_SNIPPET          32802
 
 
 // Next default values for new objects
@@ -577,7 +578,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
-#define _APS_NEXT_COMMAND_VALUE         32802
+#define _APS_NEXT_COMMAND_VALUE         32803
 #define _APS_NEXT_CONTROL_VALUE         1240
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

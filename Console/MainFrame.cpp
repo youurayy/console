@@ -370,6 +370,10 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	tbi.fsStyle |= BTNS_DROPDOWN;
 	m_toolbar.SetButtonInfo(ID_FILE_NEW_TAB, &tbi);
 
+	m_toolbar.GetButtonInfo(ID_EDIT_INSERT_SNIPPET, &tbi);
+	tbi.fsStyle |= BTNS_WHOLEDROPDOWN;
+	m_toolbar.SetButtonInfo(ID_EDIT_INSERT_SNIPPET, &tbi);
+
 	m_toolbar.AddBitmap(1, Helpers::GetHighDefinitionResourceId(IDR_FULLSCREEN1_16));
 	m_nFullSreen1Bitmap = m_toolbar.GetImageList().GetImageCount() - 1;
 	m_nFullSreen2Bitmap = m_toolbar.GetBitmap(ID_VIEW_FULLSCREEN);
@@ -1983,16 +1987,32 @@ LRESULT MainFrame::OnRebarHeightChanged(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& 
 
 //////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnToolbarDropDown(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
+LRESULT MainFrame::OnToolbarDropDown(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*/)
 {
 	CPoint	cursorPos;
 	::GetCursorPos(&cursorPos);
 
-	CRect	buttonRect;
-	m_toolbar.GetItemRect(0, &buttonRect);
+	LPNMTOOLBAR pnmtb = reinterpret_cast<LPNMTOOLBAR>(pnmh);
+
+	CRect	buttonRect = pnmtb->rcButton;
 	m_toolbar.ClientToScreen(&buttonRect);
 
-	m_CmdBar.TrackPopupMenu(m_tabsMenu, 0, buttonRect.left, buttonRect.bottom);
+	switch( pnmtb->iItem )
+	{
+	case ID_FILE_NEW_TAB:
+		m_CmdBar.TrackPopupMenu(m_tabsMenu, 0, buttonRect.left, buttonRect.bottom);
+		break;
+
+	case ID_EDIT_INSERT_SNIPPET:
+		{
+			CMenu snippetsMenu;
+			UpdateSnippetsMenu(snippetsMenu);
+			if( snippetsMenu.GetMenuItemCount() )
+				m_CmdBar.TrackPopupMenu(snippetsMenu, 0, buttonRect.left, buttonRect.bottom);
+		}
+		break;
+	}
+
 	return 0;
 }
 
