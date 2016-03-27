@@ -392,7 +392,17 @@ void ConsoleHandler::CreateShellProcess
 	// add specific ConsoleZxxx environment variables
 	embededEnv.push_back(
 		std::shared_ptr<VarEnv>(
-			new VarEnv(std::wstring(L"ConsoleZBaseDir"), Helpers::GetModulePath(NULL, false))));
+			new VarEnv(std::wstring(L"ConsoleZBaseDir"), Helpers::GetModulePath(NULL, true))));
+	embededEnv.push_back(
+		std::shared_ptr<VarEnv>(
+			new VarEnv(std::wstring(L"ConsoleZSettingsDir"), g_settingsHandler->GetSettingsPath())));
+	embededEnv.push_back(
+		std::shared_ptr<VarEnv>(
+			new VarEnv(
+				std::wstring(L"ConsoleZSnippetsDir"),
+				g_settingsHandler->GetSnippetSettings().strDir.empty()
+					?	g_settingsHandler->GetSettingsPath() + L"Snippets\\"
+					: g_settingsHandler->GetSnippetSettings().strDir)));
 	embededEnv.push_back(
 		std::shared_ptr<VarEnv>(
 			new VarEnv(std::wstring(L"ConsoleZVersion"), _TEXT(VERSION_FILE))));

@@ -3497,7 +3497,7 @@ void MainFrame::UpdateSnippetsMenu(CMenu & snippetsMenu)
 	m_snippetCollection.reset();
 	m_snippetCollection.load(
 		g_settingsHandler->GetSnippetSettings().strDir.empty()
-			?	g_settingsHandler->GetSettingsPath() + L"\\Snippets"
+			?	g_settingsHandler->GetSettingsPath() + L"Snippets\\"
 			: g_settingsHandler->GetSnippetSettings().strDir);
 
 	WORD wID = ID_SNIPPET_ID_FIRST;
