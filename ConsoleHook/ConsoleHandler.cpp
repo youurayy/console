@@ -1829,7 +1829,8 @@ DWORD ConsoleHandler::MonitorThread()
 						0,
 						0);
 
-	SetConsoleFont();
+	// TODO: handle specfic font for DBCS code page
+	//SetConsoleFont();
 	SetConsoleParams();
 
 	m_consoleParams.SetReqEvent();
