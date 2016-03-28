@@ -141,6 +141,7 @@ class MainFrame
 			MESSAGE_HANDLER(WM_SIZE, OnSize)
 			MESSAGE_HANDLER(WM_SIZING, OnSizing)
 			MESSAGE_HANDLER(WM_WINDOWPOSCHANGING, OnWindowPosChanging)
+			MESSAGE_HANDLER(WM_INITMENUPOPUP, OnInitMenuPopup)
 
 #ifndef _USING_V110_SDK71_
 
@@ -287,6 +288,7 @@ class MainFrame
 		LRESULT OnSize(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 		LRESULT OnSizing(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& bHandled);
+		LRESULT OnInitMenuPopup(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 		LRESULT OnDpiChanged(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/);
 		LRESULT OnMouseButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled);
 		LRESULT OnExitSizeMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
@@ -397,9 +399,9 @@ class MainFrame
 		void CloseTab(CTabViewTabItem* pTabItem);
 
 		void UpdateTabTitle(std::shared_ptr<TabView> tabView);
-		void UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu);
-		void UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool bContextual);
-		void UpdateSnippetsMenu(CMenu& snippetsMenu);
+		void UpdateTabsMenu();
+		void UpdateOpenedTabsMenu(CMenu& tabsMenu, bool bContextual);
+		void UpdateSnippetsMenu();
 		void UpdateMenuHotKeys(void);
 		void UpdateStatusBar();
 		void SetWindowStyles(void);
@@ -467,6 +469,7 @@ class MainFrame
 		CMenu			m_tabsMenu;
 		CMenu			m_tabsRPopupMenu;
 		CMenu			m_openedTabsMenu;
+		CMenu			m_snippetsMenu;
 
 		CIcon			m_icon;
 		CIcon			m_smallIcon;

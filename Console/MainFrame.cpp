@@ -480,7 +480,7 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false, m_dwScreenDpi);
 
 	// initialize tabs
-	UpdateTabsMenu(m_CmdBar.GetMenu(), m_tabsMenu);
+	UpdateTabsMenu();
 	SetReflectNotifications(true);
 
 	DWORD dwTabStyles = CTCS_TOOLTIPS | CTCS_DRAGREARRANGE | CTCS_SCROLL | CTCS_CLOSEBUTTON | CTCS_HOTTRACK;
@@ -1185,6 +1185,26 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnInitMenuPopup(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CMenuHandle menuPopup(reinterpret_cast<HMENU>(wParam));
+
+	TRACE(L"hMenu %p wParam %p lParam %p window menu ? %s relative position of the menu item %hu\n", m_CmdBar.GetMenu().m_hMenu, wParam, lParam, HIWORD(lParam) ? L"yes" : L"no", LOWORD(lParam));
+	if( LOWORD(lParam) == 1 && m_CmdBar.GetMenu().GetSubMenu(1) == menuPopup )
+	{
+		TRACE(L"must populate!\n");
+		UpdateSnippetsMenu();
+	}
+
+	bHandled = FALSE;
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 
 LRESULT MainFrame::OnDpiChanged(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/)
 {
@@ -1353,7 +1373,7 @@ LRESULT MainFrame::OnUpdateTitles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*
 			UpdateTabTitle(itView->second);
 	}
 
-	UpdateOpenedTabsMenu(m_CmdBar.GetMenu(), m_openedTabsMenu, false);
+	UpdateOpenedTabsMenu(m_openedTabsMenu, false);
 
 	return 0;
 }
@@ -1634,17 +1654,16 @@ LRESULT MainFrame::OnShowPopupMenu(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, 
 	case MouseSettings::cmdMenu3:
 		{
 			CMenu menu;
-			UpdateOpenedTabsMenu(m_CmdBar.GetMenu(), menu, true);
+			UpdateOpenedTabsMenu(menu, true);
 			m_CmdBar.TrackPopupMenu(menu, 0, point.x, point.y);
 		}
 		break;
 
 	case MouseSettings::cmdSnippets:
 		{
-			CMenu snippetsMenu;
-			UpdateSnippetsMenu(snippetsMenu);
-			if( snippetsMenu.GetMenuItemCount() )
-				m_CmdBar.TrackPopupMenu(snippetsMenu, 0, point.x, point.y);
+			UpdateSnippetsMenu();
+			if( !m_snippetsMenu.IsNull() && m_snippetsMenu.GetMenuItemCount() )
+				m_CmdBar.TrackPopupMenu(m_snippetsMenu, 0, point.x, point.y);
 		}
 		break;
 	}
@@ -1960,6 +1979,8 @@ LRESULT MainFrame::OnTabRightClick(int idCtrl, LPNMHDR pnmh, BOOL& bHandled)
 		// this will update the menu UI
 		m_TabCtrl.SetCurSel(pTabItems->iItem);
 
+		UpdateSnippetsMenu();
+
 		CPoint point(pTabItems->pt.x, pTabItems->pt.y);
 		CPoint screenPoint(point);
 		this->m_TabCtrl.ClientToScreen(&screenPoint);
@@ -2005,10 +2026,9 @@ LRESULT MainFrame::OnToolbarDropDown(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHand
 
 	case ID_EDIT_INSERT_SNIPPET:
 		{
-			CMenu snippetsMenu;
-			UpdateSnippetsMenu(snippetsMenu);
-			if( snippetsMenu.GetMenuItemCount() )
-				m_CmdBar.TrackPopupMenu(snippetsMenu, 0, buttonRect.left, buttonRect.bottom);
+			UpdateSnippetsMenu();
+			if( !m_snippetsMenu.IsNull() && m_snippetsMenu.GetMenuItemCount() )
+				m_CmdBar.TrackPopupMenu(m_snippetsMenu, 0, buttonRect.left, buttonRect.bottom);
 		}
 		break;
 	}
@@ -2722,7 +2742,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 
 	SetWindowStyles();
 
-	UpdateTabsMenu(m_CmdBar.GetMenu(), m_tabsMenu);
+	UpdateTabsMenu();
 	UpdateMenuHotKeys();
 
 	CreateAcceleratorTable();
@@ -3349,10 +3369,10 @@ void MainFrame::CloseTab(HWND hwndTabView)
 
 //////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
+void MainFrame::UpdateTabsMenu()
 {
-	if (!tabsMenu.IsNull()) tabsMenu.DestroyMenu();
-	tabsMenu.CreateMenu();
+	if (!m_tabsMenu.IsNull()) m_tabsMenu.DestroyMenu();
+	m_tabsMenu.CreateMenu();
 
 	// build tabs menu
 	TabDataVector&  tabDataVector = g_settingsHandler->GetTabSettings().tabDataVector;
@@ -3376,7 +3396,7 @@ void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
 		subMenuItem.dwTypeData  = const_cast<wchar_t*>(strTitle.c_str());
 		subMenuItem.cch         = static_cast<UINT>(strTitle.length());
 
-		tabsMenu.InsertMenuItem(wId-ID_NEW_TAB_1, TRUE, &subMenuItem);
+		m_tabsMenu.InsertMenuItem(wId-ID_NEW_TAB_1, TRUE, &subMenuItem);
 
 		m_CmdBar.RemoveImage(wId);
 		HICON hiconMenu = (*it)->GetMenuIcon();
@@ -3385,12 +3405,13 @@ void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
 	}
 
 	// set tabs menu as popup submenu
+	CMenuHandle mainMenu = m_CmdBar.GetMenu();
 	if (!mainMenu.IsNull())
 	{
 		CMenuItemInfo	menuItem;
 
 		menuItem.fMask    = MIIM_SUBMENU;
-		menuItem.hSubMenu = HMENU(tabsMenu);
+		menuItem.hSubMenu = m_tabsMenu;
 
 		mainMenu.SetMenuItemInfo(ID_FILE_NEW_TAB, FALSE, &menuItem);
 	}
@@ -3399,7 +3420,7 @@ void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
 	JumpList::CreateList(g_settingsHandler->GetTabSettings().tabDataVector);
 }
 
-void MainFrame::UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool bContextual)
+void MainFrame::UpdateOpenedTabsMenu(CMenu& tabsMenu, bool bContextual)
 {
 	if (!tabsMenu.IsNull()) tabsMenu.DestroyMenu();
 	tabsMenu.CreatePopupMenu();
@@ -3477,6 +3498,7 @@ void MainFrame::UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool
 	if(!bContextual)
 	{
 		// set tabs menu as popup submenu
+		CMenuHandle mainMenu = m_CmdBar.GetMenu();
 		if(!mainMenu.IsNull())
 		{
 			mainMenu.ModifyMenu(mainMenu.GetMenuItemCount() - 2, MF_BYPOSITION | MF_POPUP, tabsMenu, Helpers::LoadStringW(IDS_SETTINGS_TABS).c_str());
@@ -3488,10 +3510,10 @@ void MainFrame::UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool
 	}
 }
 
-void MainFrame::UpdateSnippetsMenu(CMenu & snippetsMenu)
+void MainFrame::UpdateSnippetsMenu()
 {
-	if (!snippetsMenu.IsNull()) snippetsMenu.DestroyMenu();
-	snippetsMenu.CreatePopupMenu();
+	if (!m_snippetsMenu.IsNull()) m_snippetsMenu.DestroyMenu();
+	m_snippetsMenu.CreatePopupMenu();
 
 	// reload snippets
 	m_snippetCollection.reset();
@@ -3512,9 +3534,33 @@ void MainFrame::UpdateSnippetsMenu(CMenu & snippetsMenu)
 		subMenuItem.dwTypeData = const_cast<wchar_t *>(snippet->get()->header().title.c_str());
 		subMenuItem.cch = static_cast<UINT>(snippet->get()->header().title.length() + 1);
 
-		snippetsMenu.InsertMenuItem(wID, TRUE, &subMenuItem);
+		m_snippetsMenu.InsertMenuItem(wID, TRUE, &subMenuItem);
 
 		if( ++wID > ID_SNIPPET_ID_LAST ) break;
+	}
+
+#if 0
+	TBBUTTONINFO tbbi = {sizeof(TBBUTTONINFO), TBIF_STATE};
+	tbbi.fsState = ( m_snippetsMenu.IsNull() || m_snippetsMenu.GetMenuItemCount() == 0 ) ? TBSTATE_INDETERMINATE : TBSTATE_ENABLED;
+	m_toolbar.SetButtonInfo(ID_EDIT_INSERT_SNIPPET, &tbbi);
+#endif
+
+	CMenuItemInfo	menuItem;
+
+	menuItem.fMask    = MIIM_SUBMENU | MIIM_STATE;
+	menuItem.hSubMenu = m_snippetsMenu;
+	menuItem.fState   = ( m_snippetsMenu.IsNull() || m_snippetsMenu.GetMenuItemCount() == 0 ) ? MFS_DISABLED : MFS_ENABLED;
+
+	// set snippets menu as popup submenu
+	CMenuHandle mainMenu = m_CmdBar.GetMenu();
+	if (!mainMenu.IsNull())
+	{
+		mainMenu.SetMenuItemInfo(ID_EDIT_INSERT_SNIPPET, FALSE, &menuItem);
+	}
+
+	if( !m_tabsRPopupMenu.IsNull() )
+	{
+		m_tabsRPopupMenu.SetMenuItemInfo(ID_EDIT_INSERT_SNIPPET, FALSE, &menuItem);
 	}
 }
 

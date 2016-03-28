@@ -639,7 +639,9 @@ BEGIN
         MENUITEM "Select &All",                 ID_EDIT_SELECT_ALL
         MENUITEM "Cl&ear Selection",            ID_EDIT_CLEAR_SELECTION
         MENUITEM "&Paste",                      ID_EDIT_PASTE
-        MENUITEM "Paste selection",             ID_PASTE_SELECTION
+        MENUITEM "Paste Selection",             ID_PASTE_SELECTION
+        MENUITEM SEPARATOR
+        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Stop Scr&olling",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
@@ -681,8 +683,6 @@ BEGIN
 
     POPUP "Tab"
     BEGIN
-
-        MENUITEM "&New Tab",                    ID_FILE_NEW_TAB
         MENUITEM "&Close Tab",                  ID_FILE_CLOSE_TAB
         MENUITEM "Close All Tabs BUT This",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
         MENUITEM "Close All Tabs to the Left",  ID_FILE_CLOSE_ALL_TABS_LEFT
@@ -691,7 +691,10 @@ BEGIN
         MENUITEM "&Close View",                 ID_CLOSE_VIEW
         MENUITEM "&Detach View",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Attach Consoles",             ID_ATTACH_CONSOLES
+        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM SEPARATOR
+        MENUITEM "Stop Scr&olling",             ID_EDIT_STOP_SCROLLING
+        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -700,9 +703,7 @@ BEGIN
         MENUITEM "Swap Views",                  ID_SPLIT_SWAP
         MENUITEM "Clone in new &Tab",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
-
         MENUITEM "&Console Window",             ID_VIEW_CONSOLE
-
     END
 END
 
@@ -796,6 +797,7 @@ BEGIN
     ID_EDIT_FIND            "Find the specified text\nFind"
     ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
     ID_PASTE_SELECTION      "Insert selected text\nPaste Selection"
+    ID_EDIT_INSERT_SNIPPET  "Insert Snippet\nInsert Snippet"
     ID_EDIT_STOP_SCROLLING  "Stop Scrolling\nStop Scrolling"
     ID_EDIT_RESUME_SCROLLING "Resume Scrolling\nResume Scrolling"
     ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
