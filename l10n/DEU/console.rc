@@ -72,7 +72,7 @@ BEGIN
 #ifndef _USE_AERO
     CTEXT           "\nConsoleZ",IDC_STATIC_VERSION,25,41,78,25
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
-    CTEXT           "\nCopyright (C) 2011-2016\nChristophe Bucher\n\na modified version of\nConsole 2\nfrom\nMarko Bozikovic",IDC_APPTEXT,14,64,103,70,,WS_EX_TRANSPARENT
+    CTEXT           "\nCopyright (C) 2011-2016\nChristophe Bucher\n\na modifizierte Version von\nConsole 2\nvon\nMarko Bozikovic",IDC_APPTEXT,14,64,103,70,,WS_EX_TRANSPARENT
 #endif
     GROUPBOX        "",IDC_STATIC,7,7,115,137
 END
@@ -225,7 +225,7 @@ BEGIN
     CONTROL         "Vergrösserbar",IDC_CHECK_STYLE_RESIZABLE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,27,100,16
     CONTROL         "Rahmen",IDC_CHECK_STYLE_BORDER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
     CONTROL         "Verstecken wenn inaktiv",IDC_CHECK_HIDE_WHEN_INACTIVE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,59,100,16
-    CONTROL         "&Quake-style",IDC_CHECK_STYLE_QUAKE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,75,100,16
+    CONTROL         "&Quake ähnlich",IDC_CHECK_STYLE_QUAKE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,75,100,16
 
     CONTROL         "Tas&kbar knopf",IDC_CHECK_STYLE_TASKBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
     CONTROL         "Ablage Symbol",IDC_CHECK_STYLE_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,27,100,16
@@ -641,7 +641,10 @@ BEGIN
         MENUITEM "Einfügen",                      ID_EDIT_PASTE
         MENUITEM "Auswahl einfügen",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
+        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM SEPARATOR
         MENUITEM "Scroll-stop",             ID_EDIT_STOP_SCROLLING
+        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -680,8 +683,6 @@ BEGIN
 
     POPUP "Tab"
     BEGIN
-
-        MENUITEM "Neuer Tab",                    ID_FILE_NEW_TAB
         MENUITEM "Tab schliessen",                  ID_FILE_CLOSE_TAB
         MENUITEM "Alle Tabs ausser diesem schliessen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
         MENUITEM "Alle Tabs nach links schliessen",  ID_FILE_CLOSE_ALL_TABS_LEFT
@@ -690,7 +691,10 @@ BEGIN
         MENUITEM "Ansicht schliessen",                 ID_CLOSE_VIEW
         MENUITEM "Ansicht trennen",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Konsole anhängen",             ID_ATTACH_CONSOLES
+        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM SEPARATOR
+        MENUITEM "Scroll-stop",             ID_EDIT_STOP_SCROLLING
+        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -699,9 +703,7 @@ BEGIN
         MENUITEM "Anzeige auswächseln",                  ID_SPLIT_SWAP
         MENUITEM "In neuem Tab klonen",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
-
         MENUITEM "Konsolen Fenster",             ID_VIEW_CONSOLE
-
     END
 END
 
@@ -795,7 +797,9 @@ BEGIN
     ID_EDIT_FIND            "Finde angegebenen Text\nFinde"
     ID_EDIT_PASTE           "Ins Clipboard schreiben\nEinfügen"
     ID_PASTE_SELECTION      "Ausgewählter Text einfügen\nAuswahl einfügen"
+    ID_EDIT_INSERT_SNIPPET  "Insert Snippet\nInsert Snippet"
     ID_EDIT_STOP_SCROLLING  "Skrollen stoppen\nSkrollen stoppen"
+    ID_EDIT_RESUME_SCROLLING "Resume Scrolling\nResume Scrolling"
     ID_EDIT_SELECT_ALL      "Ganzen Dokument auswählen\nAlles auswählen"
     ID_EDIT_RENAME_TAB      "Aktiver Tab umbenennen\nTab umbenennen"
     ID_EDIT_SETTINGS        "Öffne Einstellungen\nEinstellungen..."
@@ -837,6 +841,18 @@ BEGIN
     ID_UNGROUP_ALL          "Alle Gruppierungen aufheben\nGruppierungen aufheben"
     ID_GROUP_TAB            "All Konsolen so grupieren, dass Eingaben in diesem Tab an allen ausgeführt wird.\nTab Gruppe"
     ID_UNGROUP_TAB          "Gruppierung von aktuellen Tab aufheben\nGruppierungen aufheben"
+END
+
+STRINGTABLE
+BEGIN
+    IDOK                    "OK"
+    IDCANCEL                "Abbrechen"
+    IDS_SNIPPET_AUTHOR      "Author"
+    IDS_SNIPPET_DESCRIPTION "Description"
+    IDS_SNIPPET_CODE        "Code"
+    IDS_SNIPPET_VERSION     "Version"
+    IDC_SNIPPET_INFORMATION "Show snippet information"
+    IDC_SNIPPET_EDIT        "Edit"
 END
 
 STRINGTABLE
@@ -918,7 +934,7 @@ BEGIN
 
     MSG_TABVIEW_RUNAS       "Als Benutzer ausführen"
 
-    MSG_ABOUT               "\nConsoleZ %1%.%2%.%3%.%4%\nCopyright (c)\n2011-2016\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
+    MSG_ABOUT               "\nConsoleZ %1%.%2%.%3%.%4%\nCopyright (c)\n2011-2016\nChristophe Bucher\n\na modifizierte Version von\nConsole 2 von\nMarko Bozikovic"
 END
 
 STRINGTABLE
@@ -995,6 +1011,7 @@ BEGIN
     IDS_EDIT_PASTE           "Einfügen"
     IDS_PASTE_SELECTION      "Auswahl einfügen"
     IDS_EDIT_STOP_SCROLLING  "Skrollen stoppen"
+    IDS_EDIT_RESUME_SCROLLING "Resume scrolling"
 
     IDS_SCROLL_UP            "Scroll Puffer Reihe nach-oben"
     IDS_SCROLL_DOWN          "Scroll Puffer Reihe nach-unten"
@@ -1016,6 +1033,7 @@ BEGIN
     IDS_SHOW_CONTEXT_MENU_1  "Kontextmenu #1 anzeigen"
     IDS_SHOW_CONTEXT_MENU_2  "Kontextmenu #2 anzeigen"
     IDS_SHOW_CONTEXT_MENU_3  "Kontextmenu #3 anzeigen"
+    ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
 
     IDS_SEND_CTRL_C          "Sende CTRL-C Event"
 
@@ -1061,6 +1079,7 @@ BEGIN
     IDS_MOUSE_MENU1          "Kontext menu #1"
     IDS_MOUSE_MENU2          "Kontext menu #2"
     IDS_MOUSE_MENU3          "Kontext menu #3"
+    IDS_MOUSE_SNIPPETS       "Snippets context menu"
 END
 
 STRINGTABLE

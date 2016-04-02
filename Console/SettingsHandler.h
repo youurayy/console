@@ -688,6 +688,7 @@ struct MouseSettings : public SettingsBase
 		cmdMenu3        = 7,
 		cmdColumnSelect = 8,
 		cmdLink         = 9,
+		cmdSnippets     = 10,
 	};
 
 	enum Button
@@ -1023,6 +1024,23 @@ private:
 
 
 //////////////////////////////////////////////////////////////////////////////
+
+struct SnippetSettings : public SettingsBase
+{
+	SnippetSettings();
+
+	bool Load(const CComPtr<IXMLDOMElement>& pSettingsRoot);
+	bool Save(const CComPtr<IXMLDOMElement>& pSettingsRoot);
+
+	SnippetSettings& operator=(const SnippetSettings& other);
+
+	std::wstring strDir;
+};
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
@@ -1063,6 +1081,7 @@ class SettingsHandler
 		HotKeys& GetHotKeys() { return m_hotKeys; }
 		MouseSettings& GetMouseSettings() { return m_mouseSettings; }
 		TabSettings& GetTabSettings() { return m_tabSettings; }
+		const SnippetSettings& GetSnippetSettings(void) const { return m_snippetSettings; }
 
 	private:
 
@@ -1082,6 +1101,7 @@ class SettingsHandler
 		BehaviorSettings2	m_behaviorSettings2;
 		HotKeys				m_hotKeys;
 		MouseSettings		m_mouseSettings;
+		SnippetSettings m_snippetSettings;
 
 		TabSettings			m_tabSettings;
 };

@@ -866,14 +866,19 @@ LRESULT ConsoleView::OnMouseButton(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 			return 0;
 		}
 
-		// menu command
-		for(int i = 0; i < 3; ++i)
+		// menu commands
+		std::array<MouseSettings::Command, 4> menuCommands = {
+			MouseSettings::cmdMenu1,
+			MouseSettings::cmdMenu2,
+			MouseSettings::cmdMenu3,
+			MouseSettings::cmdSnippets};
+
+		for(auto i = menuCommands.begin(); i != menuCommands.end(); ++i)
 		{
-			MouseSettings::Command command = static_cast<MouseSettings::Command>(MouseSettings::cmdMenu1 + i);
-			it = mouseSettings.commands.get<MouseSettings::commandID>().find(command);
+			it = mouseSettings.commands.get<MouseSettings::commandID>().find(*i);
 			if ((*it)->action == mouseAction)
 			{
-				m_mouseCommand = command;
+				m_mouseCommand = *i;
 				return 0;
 			}
 		}
@@ -925,6 +930,7 @@ LRESULT ConsoleView::OnMouseButton(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 			case MouseSettings::cmdMenu1 :
 			case MouseSettings::cmdMenu2 :
 			case MouseSettings::cmdMenu3 :
+			case MouseSettings::cmdSnippets :
 			{
 				CPoint	screenPoint(point);
 				ClientToScreen(&screenPoint);
