@@ -318,7 +318,7 @@ LRESULT ConsoleView::OnWindowPosChanged(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 
   if (!(pWinPos->flags & SWP_NOSIZE))
   {
-    TRACE(L"!!! ConsoleView::OnSize (%d) !!!\n", ::InterlockedIncrement(&l1));
+    TRACE(L"!!! ConsoleView::OnSize (%d) (%i,%i) [%i, %i] !!!\n", ::InterlockedIncrement(&l1), pWinPos->x, pWinPos->y, pWinPos->cx, pWinPos->cy);
   }
 
 	// showing the view, repaint

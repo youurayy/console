@@ -523,47 +523,13 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	UISetCheck(ID_SEARCH_MATCH_CASE, searchSettings.bMatchCase);
 	UISetCheck(ID_SEARCH_MATCH_WHOLE_WORD, searchSettings.bMatchWholeWord);
 
-	DWORD dwFlags	= SWP_NOSIZE|SWP_NOZORDER;
-
-	if( !positionSettings.bSavePosition &&
-	    (positionSettings.nX == -1 || positionSettings.nY == -1) )
-	{
-		// do not reposition the window
-		dwFlags |= SWP_NOMOVE;
-	}
-	else
-	{
-		// check we're not out of desktop bounds 
-		int	nDesktopLeft	= ::GetSystemMetrics(SM_XVIRTUALSCREEN);
-		int	nDesktopTop		= ::GetSystemMetrics(SM_YVIRTUALSCREEN);
-
-		int	nDesktopRight	= nDesktopLeft + ::GetSystemMetrics(SM_CXVIRTUALSCREEN);
-		int	nDesktopBottom	= nDesktopTop + ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
-
-		if ((positionSettings.nX < nDesktopLeft) || (positionSettings.nX > nDesktopRight)) positionSettings.nX = 50;
-		if ((positionSettings.nY < nDesktopTop) || (positionSettings.nY > nDesktopBottom)) positionSettings.nY = 50;
-	}
-
 	SetTransparency();
-	SetWindowPos(NULL, positionSettings.nX, positionSettings.nY, 0, 0, dwFlags);
-	DockWindow(positionSettings.dockPosition);
-	SetZOrder(positionSettings.zOrder);
 
 	if (g_settingsHandler->GetAppearanceSettings().stylesSettings.bTrayIcon) SetTrayIcon(NIM_ADD);
 	SetWindowIcons();
 
 	CreateAcceleratorTable();
 	RegisterGlobalHotkeys();
-
-	AdjustWindowSize(ADJUSTSIZE_NONE);
-
-	CRect rectWindow;
-	GetWindowRect(&rectWindow);
-
-	m_dwWindowWidth	= rectWindow.Width();
-	m_dwWindowHeight= rectWindow.Height();
-
-	TRACE(L"initial dims: %ix%i\n", m_dwWindowWidth, m_dwWindowHeight);
 
 	// register object for message filtering and idle updates
 	CMessageLoop* pLoop = _Module.GetMessageLoop();
@@ -575,18 +541,63 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	// if they're being called after OnCreate has finished
 	m_bOnCreateDone = true;
 
-	if( positionSettings.bSaveSize ||
-	    (positionSettings.nW != -1 && positionSettings.nH != -1) )
+	// by default the window size will be determinate from rows/cols (settings)
+	bool bDefaultSize = true;
+
+	WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+	if( GetWindowPlacement(&wndpl) )
 	{
-		// resize the window
-		SetWindowPos(NULL, 0, 0, positionSettings.nW, positionSettings.nH, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
-		AdjustWindowSize(ADJUSTSIZE_WINDOW);
+		bool bPlacement = false;
+
+		if( positionSettings.bSavePosition || (positionSettings.nX != -1 && positionSettings.nY != -1) )
+		{
+			// check we're not out of desktop bounds
+			int	nDesktopLeft = ::GetSystemMetrics(SM_XVIRTUALSCREEN);
+			int	nDesktopTop = ::GetSystemMetrics(SM_YVIRTUALSCREEN);
+
+			int	nDesktopRight = nDesktopLeft + ::GetSystemMetrics(SM_CXVIRTUALSCREEN);
+			int	nDesktopBottom = nDesktopTop + ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
+
+			if( (positionSettings.nX < nDesktopLeft) || (positionSettings.nX > nDesktopRight) ) positionSettings.nX = 50;
+			if( (positionSettings.nY < nDesktopTop) || (positionSettings.nY > nDesktopBottom) ) positionSettings.nY = 50;
+
+			CRect rect = wndpl.rcNormalPosition;
+			rect.MoveToXY(positionSettings.nX, positionSettings.nY);
+			wndpl.rcNormalPosition = rect;
+
+			bPlacement = true;
+		}
+
+		if( positionSettings.nW > 0 && positionSettings.nH > 0 )
+		{
+			wndpl.rcNormalPosition.right = wndpl.rcNormalPosition.left + positionSettings.nW;
+			wndpl.rcNormalPosition.bottom = wndpl.rcNormalPosition.top + positionSettings.nH;
+
+			bDefaultSize = false;
+			bPlacement = true;
+		}
+
+		if( bPlacement )
+			SetWindowPlacement(&wndpl);
 	}
 
-	if( g_settingsHandler->GetAppearanceSettings().fullScreenSettings.bStartInFullScreen )
-		ShowFullScreen(true);
+	DockWindow(positionSettings.dockPosition);
+	SetZOrder(positionSettings.zOrder);
 
-	//ShowHideWindow(m_visibility);
+	if( bDefaultSize )
+		AdjustWindowSize(ADJUSTSIZE_NONE);
+
+	CRect rectWindow;
+	GetWindowRect(&rectWindow);
+
+	m_dwWindowWidth	= rectWindow.Width();
+	m_dwWindowHeight= rectWindow.Height();
+
+	TRACE(L"initial dims: %ix%i\n", m_dwWindowWidth, m_dwWindowHeight);
+
+	if( g_settingsHandler->GetAppearanceSettings().fullScreenSettings.bStartInFullScreen ||
+	    g_settingsHandler->GetAppearanceSettings().positionSettings.nState == WindowState::stateFullScreen )
+		ShowFullScreen(true);
 
 	return 0;
 }
@@ -640,9 +651,13 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 
 	if (positionSettings.bSavePosition || positionSettings.bSaveSize)
 	{
-		// we store position and size of the non fullscreen window
+		// we store position and size of the restored window
 		if( !m_bFullScreen )
-			GetWindowRect(&m_rectWndNotFS);
+		{
+			WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+			GetWindowPlacement(&wndpl);
+			m_rectWndNotFS = wndpl.rcNormalPosition;
+		}
 
 		if (positionSettings.bSavePosition)
 		{
@@ -4047,9 +4062,10 @@ void MainFrame::ShowFullScreen(bool bShow)
     m_CmdBar.ReplaceBitmap(Helpers::GetHighDefinitionResourceId(IDR_FULLSCREEN1_16), ID_VIEW_FULLSCREEN);
     m_toolbar.ChangeBitmap(ID_VIEW_FULLSCREEN, m_nFullSreen1Bitmap);
 
-    // save the non fullscreen position and size
-    // normal or maximized
-    GetWindowRect(&m_rectWndNotFS);
+    // we store position and size of the restored window
+		WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+		GetWindowPlacement(&wndpl);
+		m_rectWndNotFS = wndpl.rcNormalPosition;
   }
   else
   {
@@ -4117,7 +4133,12 @@ void MainFrame::ShowFullScreen(bool bShow)
   {
     // restore the non fullscreen position
     // normal or maximized
-    SetWindowPos(NULL, m_rectWndNotFS, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
+		WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+		if( GetWindowPlacement(&wndpl) )
+		{
+			wndpl.rcNormalPosition = m_rectWndNotFS;
+			SetWindowPlacement(&wndpl);
+		}
   }
 
   AdjustWindowSize(ADJUSTSIZE_WINDOW);

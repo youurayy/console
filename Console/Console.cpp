@@ -300,6 +300,8 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 		}
 
     wndMain.ShowWindow(nCmdShow);
+		// /!\ ShowWindow with "maximized" will resize the window, but views are not aware...
+		wndMain.AdjustWindowSize(ADJUSTSIZE_WINDOW);
 
     SharedMemory<HWND> sharedInstance;
     if (bReuse)
