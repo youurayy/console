@@ -823,6 +823,8 @@ PositionSettings::PositionSettings()
 , zOrder(zorderNormal)
 , dockPosition(dockNone)
 , nSnapDistance(-1)
+, nState(WindowState::stateNone)
+, bSaveState(false)
 {
 }
 
@@ -846,6 +848,8 @@ bool PositionSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"z_order"), reinterpret_cast<int&>(zOrder), static_cast<int>(zorderNormal));
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"dock"), reinterpret_cast<int&>(dockPosition), static_cast<int>(dockNone));
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"snap"), nSnapDistance, -1);
+	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"save_state"), bSaveState, false);
+	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"state"), reinterpret_cast<int&>(nState), static_cast<int>(WindowState::stateNone));
 
 	return true;
 }
@@ -870,6 +874,8 @@ bool PositionSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"z_order"), static_cast<int>(zOrder));
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"dock"), static_cast<int>(dockPosition));
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"snap"), nSnapDistance);
+	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"save_state"), bSaveState);
+	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"state"), nState);
 
 	return true;
 }
@@ -881,6 +887,8 @@ bool PositionSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 PositionSettings& PositionSettings::operator=(const PositionSettings& other)
 {
+	bSaveState    = other.bSaveState;
+	nState        = other.nState;
 	nX            = other.nX;
 	nY            = other.nY;
 	bSavePosition = other.bSavePosition;

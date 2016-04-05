@@ -311,6 +311,9 @@
 #define IDC_SNIPPET_AUTHOR_URL          1237
 #define IDC_SNIPPET_AUTHOR_EMAIL        1238
 #define IDC_SNIPPET_EDIT                1239
+#define IDC_CHECK_STATE                 1240
+#define IDC_COMBO_STATE                 1241
+#define IDC_CHECK_SAVE_STATE            1242
 
 #define ID_SNIPPET_ID_FIRST             1900
 #define ID_SNIPPET_ID_LAST              1999
@@ -579,7 +582,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
 #define _APS_NEXT_COMMAND_VALUE         32803
-#define _APS_NEXT_CONTROL_VALUE         1240
+#define _APS_NEXT_CONTROL_VALUE         1243
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

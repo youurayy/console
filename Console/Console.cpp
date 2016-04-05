@@ -294,12 +294,28 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
     ::ChangeWindowMessageFilter(0x0049, MSGFLT_ADD);
 #endif
 
-		if( visibility == ShowHideWindowAction::SHWA_HIDE_ONLY )
+		switch( g_settingsHandler->GetAppearanceSettings().positionSettings.nState )
 		{
-			nCmdShow = g_settingsHandler->GetAppearanceSettings().stylesSettings.bTaskbarButton ? SW_MINIMIZE : SW_HIDE;
+			case WindowState::stateNormal:
+			case WindowState::stateFullScreen:
+				nCmdShow = SW_NORMAL;
+				break;
+
+			case WindowState::stateMinimized:
+				nCmdShow = g_settingsHandler->GetAppearanceSettings().stylesSettings.bTaskbarButton ? SW_SHOWMINNOACTIVE : SW_HIDE;
+				break;
+
+			case WindowState::stateMaximized:
+				nCmdShow = SW_MAXIMIZE;
+				break;
 		}
 
-    wndMain.ShowWindow(nCmdShow);
+		if( visibility == ShowHideWindowAction::SHWA_HIDE_ONLY )
+		{
+			nCmdShow = g_settingsHandler->GetAppearanceSettings().stylesSettings.bTaskbarButton ? SW_SHOWMINNOACTIVE : SW_HIDE;
+		}
+
+		wndMain.ShowWindow(nCmdShow);
 		// /!\ ShowWindow with "maximized" will resize the window, but views are not aware...
 		wndMain.AdjustWindowSize(ADJUSTSIZE_WINDOW);
 

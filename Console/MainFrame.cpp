@@ -649,7 +649,7 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 		bSaveSettings = true;
 	}
 
-	if (positionSettings.bSavePosition || positionSettings.bSaveSize)
+	if (positionSettings.bSaveState || positionSettings.bSavePosition || positionSettings.bSaveSize)
 	{
 		// we store position and size of the restored window
 		if( !m_bFullScreen )
@@ -657,6 +657,18 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 			WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
 			GetWindowPlacement(&wndpl);
 			m_rectWndNotFS = wndpl.rcNormalPosition;
+		}
+
+		if (positionSettings.bSaveState)
+		{
+			if( m_bFullScreen )
+				positionSettings.nState = WindowState::stateFullScreen;
+			else if( IsIconic() || !IsWindowVisible() )
+				positionSettings.nState = WindowState::stateMinimized;
+			else if( IsZoomed() )
+				positionSettings.nState = WindowState::stateMaximized;
+			else
+				positionSettings.nState = WindowState::stateNormal;
 		}
 
 		if (positionSettings.bSavePosition)

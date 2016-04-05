@@ -273,6 +273,20 @@ enum ZOrder
 
 //////////////////////////////////////////////////////////////////////////////
 
+enum WindowState
+{
+	stateNone       = -1,
+	stateNormal     = 0,
+	stateMinimized  = 1,
+	stateMaximized  = 2,
+	stateFullScreen = 3,
+};
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 struct PositionSettings : public SettingsBase
 {
 	PositionSettings();
@@ -282,15 +296,17 @@ struct PositionSettings : public SettingsBase
 
 	PositionSettings& operator=(const PositionSettings& other);
 
+	bool         bSaveState;
 	bool         bSavePosition;
 	bool         bSaveSize;
 	int          nX;
 	int          nY;
 	int          nW;
 	int          nH;
+	int          nSnapDistance;
+	WindowState  nState;
 	ZOrder       zOrder;
 	DockPosition dockPosition;
-	int          nSnapDistance;
 };
 
 //////////////////////////////////////////////////////////////////////////////

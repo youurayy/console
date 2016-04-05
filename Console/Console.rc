@@ -169,36 +169,41 @@ BEGIN
     EDITTEXT        IDC_WINDOW_ICON,55,128,150,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON,210,128,16,14
     CONTROL         "Use tab &icons",IDC_CHECK_USE_TAB_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,55,145,170,16
-    GROUPBOX        "Title && icon",IDC_STATIC,0,0,235,165
+    GROUPBOX        "Title && icon",IDC_STATIC,0,0,235,163
 
-    CONTROL         "Initial p&osition*",IDC_CHECK_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,187,60,16
-    RTEXT           "X:",IDC_STATIC,73,191,10,8
-    EDITTEXT        IDC_POS_X,85,188,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "Initial state*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
+    COMBOBOX        IDC_COMBO_STATE,85,179,88,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Save on exit",IDC_CHECK_SAVE_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,177,52,16
+
+    CONTROL         "Initial p&osition*",IDC_CHECK_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,193,60,16
+    RTEXT           "X:",IDC_STATIC,73,197,10,10
+    EDITTEXT        IDC_POS_X,85,195,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_X,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,107,196,11,14
-    RTEXT           "Y:",IDC_STATIC,124,191,10,8
-    EDITTEXT        IDC_POS_Y,136,188,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    RTEXT           "Y:",IDC_STATIC,124,197,10,8
+    EDITTEXT        IDC_POS_Y,136,195,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_Y,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,178,11,14
-    CONTROL         "Save on exit",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,187,52,16
+    CONTROL         "Save on exit",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,193,52,16
 
-    CONTROL         "Initial size*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,205,60,16
-    RTEXT           "W:",IDC_STATIC,73,209,10,8
-    EDITTEXT        IDC_POS_W,85,206,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "Initial size*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,209,60,16
+    RTEXT           "W:",IDC_STATIC,73,213,10,8
+    EDITTEXT        IDC_POS_W,85,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_W,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,107,196,11,14
-    RTEXT           "H:",IDC_STATIC,124,209,10,8
-    EDITTEXT        IDC_POS_H,136,206,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    RTEXT           "H:",IDC_STATIC,124,213,10,8
+    EDITTEXT        IDC_POS_H,136,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_H,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,196,11,14
-    CONTROL         "Save on exit",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,205,52,16
+    CONTROL         "Save on exit",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
 
-    CONTROL         "&Snap to desktop edges",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,223,89,16
-    RTEXT           "&Distance:",IDC_STATIC,104,227,31,8
-    EDITTEXT        IDC_SNAP,136,224,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "&Snap to desktop edges",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,225,89,16
+    RTEXT           "&Distance:",IDC_STATIC,104,229,31,8
+    EDITTEXT        IDC_SNAP,136,227,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SNAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,166,231,11,14
-    LTEXT           "pixels",IDC_STATIC,179,227,52,8
-    RTEXT           "Docking:",IDC_STATIC,10,246,37,8
-    COMBOBOX        IDC_COMBO_DOCKING,48,244,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Z order:",IDC_STATIC,120,246,37,8
-    COMBOBOX        IDC_COMBO_ZORDER,158,244,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Position",IDC_STATIC,0,175,235,90
+    LTEXT           "pixels",IDC_STATIC,179,229,52,8
+
+    RTEXT           "Docking:",IDC_STATIC,10,245,37,8
+    COMBOBOX        IDC_COMBO_DOCKING,48,243,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Z order:",IDC_STATIC,120,245,37,8
+    COMBOBOX        IDC_COMBO_ZORDER,158,243,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Position",IDC_STATIC,0,165,235,100
 END
 
 IDD_SETTINGS_HOTKEYS DIALOGEX 0, 0, 235, 265
@@ -1018,106 +1023,107 @@ BEGIN
     IDS_SCROLL_PAGE_UP       "Scroll buffer page up"
     IDS_SCROLL_PAGE_DOWN     "Scroll buffer page down"
     IDS_SCROLL_LEFT          "Scroll buffer column left"
-    IDS_SCROLL_RIGHT         "Scroll buffer column right"
-    IDS_SCROLL_PAGE_LEFT     "Scroll buffer page left"
-    IDS_SCROLL_PAGE_RIGHT    "Scroll buffer page right"
+IDS_SCROLL_RIGHT         "Scroll buffer column right"
+IDS_SCROLL_PAGE_LEFT     "Scroll buffer page left"
+IDS_SCROLL_PAGE_RIGHT    "Scroll buffer page right"
 
-    IDS_FIND                 "Find text"
-    IDS_SEARCH_NEXT          "Find next"
-    IDS_SEARCH_PREV          "Find previous"
+IDS_FIND                 "Find text"
+IDS_SEARCH_NEXT          "Find next"
+IDS_SEARCH_PREV          "Find previous"
 
-    IDS_SWITCH_TRANSPARENCY  "Turn on/off transparency"
+IDS_SWITCH_TRANSPARENCY  "Turn on/off transparency"
 
-    IDS_DUMP_BUFFER          "Dump screen buffer"
+IDS_DUMP_BUFFER          "Dump screen buffer"
 
-    IDS_SHOW_CONTEXT_MENU_1  "Show Context menu #1"
-    IDS_SHOW_CONTEXT_MENU_2  "Show Context menu #2"
-    IDS_SHOW_CONTEXT_MENU_3  "Show Context menu #3"
-    ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
+IDS_SHOW_CONTEXT_MENU_1  "Show Context menu #1"
+IDS_SHOW_CONTEXT_MENU_2  "Show Context menu #2"
+IDS_SHOW_CONTEXT_MENU_3  "Show Context menu #3"
+ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
 
-    IDS_SEND_CTRL_C          "Send CTRL-C event"
+IDS_SEND_CTRL_C          "Send CTRL-C event"
 
-    IDS_EXTERNAL_COMMAND_1   "External command 1"
-    IDS_EXTERNAL_COMMAND_2   "External command 2"
-    IDS_EXTERNAL_COMMAND_3   "External command 3"
-    IDS_EXTERNAL_COMMAND_4   "External command 4"
-    IDS_EXTERNAL_COMMAND_5   "External command 5"
-    IDS_EXTERNAL_COMMAND_6   "External command 6"
-    IDS_EXTERNAL_COMMAND_7   "External command 7"
-    IDS_EXTERNAL_COMMAND_8   "External command 8"
-    IDS_EXTERNAL_COMMAND_9   "External command 9"
-    IDS_EXTERNAL_COMMAND_10  "External command 10"
+IDS_EXTERNAL_COMMAND_1   "External command 1"
+IDS_EXTERNAL_COMMAND_2   "External command 2"
+IDS_EXTERNAL_COMMAND_3   "External command 3"
+IDS_EXTERNAL_COMMAND_4   "External command 4"
+IDS_EXTERNAL_COMMAND_5   "External command 5"
+IDS_EXTERNAL_COMMAND_6   "External command 6"
+IDS_EXTERNAL_COMMAND_7   "External command 7"
+IDS_EXTERNAL_COMMAND_8   "External command 8"
+IDS_EXTERNAL_COMMAND_9   "External command 9"
+IDS_EXTERNAL_COMMAND_10  "External command 10"
 
-    IDS_GLOBAL_ACTIVATE      "Activate ConsoleZ (global)"
+IDS_GLOBAL_ACTIVATE      "Activate ConsoleZ (global)"
 
-    ID_TEXT_SELECTION_LEFT_KEY        "Text selection left key"
-    ID_TEXT_SELECTION_RIGHT_KEY       "Text selection right key"
-    ID_TEXT_SELECTION_TOP_KEY         "Text selection top key"
-    ID_TEXT_SELECTION_BOTTOM_KEY      "Text selection bottom key"
-    ID_TEXT_SELECTION_HOME_KEY        "Text selection home key"
-    ID_TEXT_SELECTION_END_KEY         "Text selection end key"
-    ID_TEXT_SELECTION_PAGEUP_KEY      "Text selection page up key"
-    ID_TEXT_SELECTION_PAGEDOWN_KEY    "Text selection page down key"
-    ID_COLUMN_SELECTION_LEFT_KEY      "Column selection left key"
-    ID_COLUMN_SELECTION_RIGHT_KEY     "Column selection right key"
-    ID_COLUMN_SELECTION_TOP_KEY       "Column selection top key"
-    ID_COLUMN_SELECTION_BOTTOM_KEY    "Column selection bottom key"
-    ID_COLUMN_SELECTION_HOME_KEY      "Column selection home key"
-    ID_COLUMN_SELECTION_END_KEY       "Column selection end key"
-    ID_COLUMN_SELECTION_PAGEUP_KEY    "Column selection page up key"
-    ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Column selection page down key"
+ID_TEXT_SELECTION_LEFT_KEY        "Text selection left key"
+ID_TEXT_SELECTION_RIGHT_KEY       "Text selection right key"
+ID_TEXT_SELECTION_TOP_KEY         "Text selection top key"
+ID_TEXT_SELECTION_BOTTOM_KEY      "Text selection bottom key"
+ID_TEXT_SELECTION_HOME_KEY        "Text selection home key"
+ID_TEXT_SELECTION_END_KEY         "Text selection end key"
+ID_TEXT_SELECTION_PAGEUP_KEY      "Text selection page up key"
+ID_TEXT_SELECTION_PAGEDOWN_KEY    "Text selection page down key"
+ID_COLUMN_SELECTION_LEFT_KEY      "Column selection left key"
+ID_COLUMN_SELECTION_RIGHT_KEY     "Column selection right key"
+ID_COLUMN_SELECTION_TOP_KEY       "Column selection top key"
+ID_COLUMN_SELECTION_BOTTOM_KEY    "Column selection bottom key"
+ID_COLUMN_SELECTION_HOME_KEY      "Column selection home key"
+ID_COLUMN_SELECTION_END_KEY       "Column selection end key"
+ID_COLUMN_SELECTION_PAGEUP_KEY    "Column selection page up key"
+ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Column selection page down key"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MOUSE_COPY           "Copy/clear selection"
-    IDS_MOUSE_SELECT         "Select text"
-    IDS_MOUSE_COLUMNSELECT   "Select column"
-    IDS_MOUSE_PASTE          "Paste text"
-    IDS_MOUSE_DRAG           "Drag window"
-    IDS_MOUSE_LINK           "Click link"
-    IDS_MOUSE_MENU1          "Context menu #1"
-    IDS_MOUSE_MENU2          "Context menu #2"
-    IDS_MOUSE_MENU3          "Context menu #3"
-    IDS_MOUSE_SNIPPETS       "Snippets context menu"
+IDS_MOUSE_COPY           "Copy/clear selection"
+IDS_MOUSE_SELECT         "Select text"
+IDS_MOUSE_COLUMNSELECT   "Select column"
+IDS_MOUSE_PASTE          "Paste text"
+IDS_MOUSE_DRAG           "Drag window"
+IDS_MOUSE_LINK           "Click link"
+IDS_MOUSE_MENU1          "Context menu #1"
+IDS_MOUSE_MENU2          "Context menu #2"
+IDS_MOUSE_MENU3          "Context menu #3"
+IDS_MOUSE_SNIPPETS       "Snippets context menu"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_SETTINGS_CONSOLE       "Console"
-    IDS_SETTINGS_APPEARANCE    "Appearance"
-    IDS_SETTINGS_STYLES        "Styles"
-    IDS_SETTINGS_TRANSPARENCY  "Transparency"
-    IDS_SETTINGS_FONT          "Font"
-    IDS_SETTINGS_FULLSCREEN    "Full screen"
-    IDS_SETTINGS_BEHAVIOR      "Behavior"
-    IDS_SETTINGS_MORE          "More..."
-    IDS_SETTINGS_HOTKEYS       "Hotkeys"
-    IDS_SETTINGS_MOUSE         "Mouse"
-    IDS_SETTINGS_TABS          "Tabs"
-    IDS_SETTINGS_COMMAND       "Command"
-    IDS_SETTINGS_MOUSE_ACTION  "Mouse action"
-    IDS_SETTINGS_TAB_NAME      "Tab name"
-    IDS_SETTINGS_MAIN          "Main"
-    IDS_SETTINGS_BACKGROUND    "Background"
-    IDS_SETTINGS_COLORS_CURSOR "Colors && Cursor"
-    IDS_SETTINGS_ENVIRONMENT   "Environment"
-    IDS_SETTINGS_HOTKEY        "Hotkey"
-    IDS_SETTINGS_VARIABLE      "Variable"
-    IDS_SETTINGS_VALUE         "Value"
-    IDS_SETTINGS_WINDOWED      "Windowed"
+IDS_SETTINGS_CONSOLE       "Console"
+IDS_SETTINGS_APPEARANCE    "Appearance"
+IDS_SETTINGS_STYLES        "Styles"
+IDS_SETTINGS_TRANSPARENCY  "Transparency"
+IDS_SETTINGS_FONT          "Font"
+IDS_SETTINGS_FULLSCREEN    "Full screen"
+IDS_SETTINGS_BEHAVIOR      "Behavior"
+IDS_SETTINGS_MORE          "More..."
+IDS_SETTINGS_HOTKEYS       "Hotkeys"
+IDS_SETTINGS_MOUSE         "Mouse"
+IDS_SETTINGS_TABS          "Tabs"
+IDS_SETTINGS_COMMAND       "Command"
+IDS_SETTINGS_MOUSE_ACTION  "Mouse action"
+IDS_SETTINGS_TAB_NAME      "Tab name"
+IDS_SETTINGS_MAIN          "Main"
+IDS_SETTINGS_BACKGROUND    "Background"
+IDS_SETTINGS_COLORS_CURSOR "Colors && Cursor"
+IDS_SETTINGS_ENVIRONMENT   "Environment"
+IDS_SETTINGS_HOTKEY        "Hotkey"
+IDS_SETTINGS_VARIABLE      "Variable"
+IDS_SETTINGS_VALUE         "Value"
+IDS_SETTINGS_WINDOWED      "Windowed"
 END
 
 STRINGTABLE
 BEGIN
-    IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
-    IDC_COMBO_DOCKING            "None;Top left;Top right;Bottom left;Bottom right;Top middle;Bottom middle;Left middle;Right middle;"
-    IDC_COMBO_ZORDER             "Regular;Always on top;Always on bottom;Pinned to desktop;"
-    IDC_COMBO_SMOOTHING          "Default;None;ClearType;Natural ClearType;Antialiased"
-    IDC_COMBO_BUTTONS            "None;Left;Right;Middle;Fourth;Fifth;"
-    IDC_COMBO_BK_POS             "Center;Stretch;Tile;Fit;Fill;"
-    IDC_COMBO_FULLSCREEN_MONITOR "Current;"
-    IDC_COMBO_BASE_PRIORITY      "Idle;Below normal;Normal;Above normal;High;Realtime;"
+IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
+IDC_COMBO_DOCKING            "None;Top left;Top right;Bottom left;Bottom right;Top middle;Bottom middle;Left middle;Right middle;"
+IDC_COMBO_ZORDER             "Regular;Always on top;Always on bottom;Pinned to desktop;"
+IDC_COMBO_SMOOTHING          "Default;None;ClearType;Natural ClearType;Antialiased"
+IDC_COMBO_BUTTONS            "None;Left;Right;Middle;Fourth;Fifth;"
+IDC_COMBO_BK_POS             "Center;Stretch;Tile;Fit;Fill;"
+IDC_COMBO_FULLSCREEN_MONITOR "Current;"
+IDC_COMBO_BASE_PRIORITY      "Idle;Below normal;Normal;Above normal;High;Realtime;"
+IDC_COMBO_STATE              "Normal window;Minimized;Maximized;Full screen;"
 END
 
 #endif    // English (United States) resources

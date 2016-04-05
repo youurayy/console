@@ -16,6 +16,7 @@
 DlgSettingsAppearance::DlgSettingsAppearance(CComPtr<IXMLDOMElement>& pOptionsRoot)
 : DlgSettingsBase(pOptionsRoot)
 , m_bTrimTabTitles(false)
+, m_bUseState(false)
 , m_bUsePosition(false)
 , m_nX(0)
 , m_nY(0)
@@ -43,6 +44,8 @@ LRESULT DlgSettingsAppearance::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LP
 	Helpers::LoadCombo(m_comboDocking, IDC_COMBO_DOCKING);
 	m_comboZOrder.Attach(GetDlgItem(IDC_COMBO_ZORDER));
 	Helpers::LoadCombo(m_comboZOrder, IDC_COMBO_ZORDER);
+	m_comboState.Attach(GetDlgItem(IDC_COMBO_STATE));
+	Helpers::LoadCombo(m_comboState, IDC_COMBO_STATE);
 
 	m_windowSettings.Load(m_pOptionsRoot);
 	m_positionSettings.Load(m_pOptionsRoot);
@@ -66,6 +69,22 @@ LRESULT DlgSettingsAppearance::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LP
 
 	m_comboDocking.SetCurSel(static_cast<int>(m_positionSettings.dockPosition) + 1);
 	m_comboZOrder.SetCurSel(static_cast<int>(m_positionSettings.zOrder));
+
+	switch( m_positionSettings.nState )
+	{
+	case WindowState::stateNormal:
+	case WindowState::stateMinimized:
+	case WindowState::stateMaximized:
+	case WindowState::stateFullScreen:
+		m_comboState.SetCurSel(static_cast<int>(m_positionSettings.nState));
+		m_bUseState = true;
+		break;
+
+	default:
+		m_comboState.SetCurSel(0);
+		m_bUseState = false;
+		break;
+	}
 
 	CUpDownCtrl	spin;
 	UDACCEL udAccel;
@@ -127,11 +146,20 @@ LRESULT DlgSettingsAppearance::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /
 	{
 		DoDataExchange(DDX_SAVE);
 
-		m_windowSettings.strTitle			= m_strWindowTitle;
+		m_windowSettings.strTitle           = m_strWindowTitle;
 		if (!m_bTrimTabTitles) m_windowSettings.dwTrimTabTitles = 0;
-		m_windowSettings.strIcon			= m_strWindowIcon;
+		m_windowSettings.strIcon            = m_strWindowIcon;
 		m_windowSettings.strMainTitleFormat = m_strMainTitleFormat;
 		m_windowSettings.strTabTitleFormat  = m_strTabTitleFormat;
+
+		if( m_bUseState )
+		{
+			m_positionSettings.nState = static_cast<WindowState>(m_comboState.GetCurSel());
+		}
+		else
+		{
+			m_positionSettings.nState = WindowState::stateNone;
+		}
 
 		if (m_bUsePosition)
 		{
@@ -168,14 +196,14 @@ LRESULT DlgSettingsAppearance::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /
 			m_positionSettings.nSnapDistance = -1;
 		}
 
-		m_positionSettings.dockPosition	= static_cast<DockPosition>(m_comboDocking.GetCurSel() - 1);
-		m_positionSettings.zOrder		= static_cast<ZOrder>(m_comboZOrder.GetCurSel());
+		m_positionSettings.dockPosition = static_cast<DockPosition>(m_comboDocking.GetCurSel() - 1);
+		m_positionSettings.zOrder       = static_cast<ZOrder>(m_comboZOrder.GetCurSel());
 
-		WindowSettings&		windowSettings	= g_settingsHandler->GetAppearanceSettings().windowSettings;
-		PositionSettings&	positionSettings= g_settingsHandler->GetAppearanceSettings().positionSettings;
+		WindowSettings&   windowSettings   = g_settingsHandler->GetAppearanceSettings().windowSettings;
+		PositionSettings&	positionSettings = g_settingsHandler->GetAppearanceSettings().positionSettings;
 
-		windowSettings	= m_windowSettings;
-		positionSettings= m_positionSettings;
+		windowSettings   = m_windowSettings;
+		positionSettings = m_positionSettings;
 
 		m_windowSettings.Save(m_pOptionsRoot);
 		m_positionSettings.Save(m_pOptionsRoot);
@@ -247,6 +275,8 @@ void DlgSettingsAppearance::EnableControls()
 
 	GetDlgItem(IDC_WINDOW_ICON).EnableWindow(!m_windowSettings.bUseTabIcon);
 	GetDlgItem(IDC_BTN_BROWSE_ICON).EnableWindow(!m_windowSettings.bUseTabIcon);
+
+	GetDlgItem(IDC_COMBO_STATE).EnableWindow(m_bUseState);
 
 	GetDlgItem(IDC_POS_X).EnableWindow(m_bUsePosition);
 	GetDlgItem(IDC_POS_Y).EnableWindow(m_bUsePosition);
