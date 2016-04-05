@@ -4055,6 +4055,9 @@ void MainFrame::ShowTabs(bool bShow)
 
 void MainFrame::ShowFullScreen(bool bShow)
 {
+	// can switch only if window is visible
+	ShowHideWindow(SHWA_SHOW_ONLY);
+
   m_bFullScreen = bShow;
 
   if( m_bFullScreen )
