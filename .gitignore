@@ -10,6 +10,10 @@ help/xx*
 *.opensdf
 *.sdf
 *.suo
+*.opendb
+*.log
+
+*.nupkg
 
 *~
 *.bak
