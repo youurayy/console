@@ -12,7 +12,7 @@ This fork supports:
 * Splitting Tabs into views (horizontally and vertically)
 * Grouping views (so input sent to one goes to all of them)
 * Windows Vista aero glass theme
-* Windows 7 jumplist
+* Windows 7 jump list
 * Windows 7 wallpaper positions and slideshow
 * Windows 8 wallpapers on dual screen
 * Zooming with Ctrl-Mouse
@@ -22,6 +22,7 @@ This fork supports:
 * Full screen
 * High DPI (per monitor)
 * Localization
+* Snippets
 * and more...
 
 Downloads
@@ -36,6 +37,16 @@ Changelog
     - removed
     + added
     * fixed
+
+Changes in 1.17.0 experimental (06 apr 2016)
+
+    ! Rebuild FreeImage 3.17.0 (static link without OpenMP)
+    - ConsoleZ sets the current Windows console font to "Lucidia Console" size 5.
+      (DBCS code page requires a specific font)
+    + Snippets manager.
+    + "Resume scrolling" command.
+    + Configure initial window state (appearence settings).
+    * Mono-instance is no longer forced in jump lists.
 
 Changes in 1.16.1 (08 mar 2016)
 
