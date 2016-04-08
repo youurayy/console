@@ -17,6 +17,15 @@ struct CloseHandleHelper
   };
 };
 
+struct FindCloseHelper
+{
+  void operator()(void * toFree)
+  {
+    if( toFree && toFree != INVALID_HANDLE_VALUE )
+      ::FindClose(static_cast<HANDLE>(toFree));
+  };
+};
+
 struct GlobalUnlockHelper
 {
 	void operator()(void * toFree)

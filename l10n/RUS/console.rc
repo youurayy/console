@@ -147,13 +147,13 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     RTEXT           "&Заголовок:",IDC_STATIC,10,15,43,8
-    EDITTEXT        IDC_WINDOW_TITLE,55,13,85,14,ES_AUTOHSCROLL
-    CONTROL         "Ис&пользовать заголовок вкладки",IDC_CHECK_USE_TAB_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP, 150, 13, 78, 16
+    EDITTEXT        IDC_WINDOW_TITLE,55,13,105,14,ES_AUTOHSCROLL
+    CONTROL         "Ис&пользовать заголовок вкладки",IDC_CHECK_USE_TAB_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,14,58,10
 
-    RTEXT           "Формат заголовка основного окна:",IDC_STATIC,10,31,63,16
-    EDITTEXT        IDC_MAIN_TITLE_FORMAT,75,33,150,14,ES_AUTOHSCROLL
-    RTEXT           "Формат заголовка вкладки:",IDC_STATIC,10,51,63,16
-    EDITTEXT        IDC_TAB_TITLE_FORMAT,75,53,150,14,ES_AUTOHSCROLL
+    RTEXT           "Формат заголовка основного окна:",IDC_STATIC,10,35,43,8
+    EDITTEXT        IDC_MAIN_TITLE_FORMAT,55,33,170,14,ES_AUTOHSCROLL
+    RTEXT           "Формат заголовка вкладки:",IDC_STATIC,10,55,43,8
+    EDITTEXT        IDC_TAB_TITLE_FORMAT,55,53,170,14,ES_AUTOHSCROLL
 
     CONTROL         "Ограничить заголовок вкладки",IDC_CHECK_TRIM_TAB_TITLES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,215,10
     RTEXT           "",IDC_STATIC_TRIM_CHARS,22,90,30,8
@@ -169,36 +169,41 @@ BEGIN
     EDITTEXT        IDC_WINDOW_ICON,55,128,150,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON,210,128,16,14
     CONTROL         "И&спользовать иконки вкладок",IDC_CHECK_USE_TAB_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,55,145,170,16
-    GROUPBOX        "Заголовок && иконка",IDC_STATIC,0,0,235,165
+    GROUPBOX        "Заголовок && иконка",IDC_STATIC,0,0,235,163
 
-    CONTROL         "&Начальная позиция*",IDC_CHECK_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,187,60,16
-    RTEXT           "X:",IDC_STATIC,73,191,10,8
-    EDITTEXT        IDC_POS_X,85,188,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "Initial state*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
+    COMBOBOX        IDC_COMBO_STATE,85,179,88,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Сохранять",IDC_CHECK_SAVE_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,177,52,16
+
+    CONTROL         "&Начальная позиция*",IDC_CHECK_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,193,60,16
+    RTEXT           "X:",IDC_STATIC,73,197,10,10
+    EDITTEXT        IDC_POS_X,85,195,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_X,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,107,196,11,14
-    RTEXT           "Y:",IDC_STATIC,124,191,10,8
-    EDITTEXT        IDC_POS_Y,136,188,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    RTEXT           "Y:",IDC_STATIC,124,197,10,8
+    EDITTEXT        IDC_POS_Y,136,195,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_Y,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,178,11,14
-    CONTROL         "Сохранять",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,187,52,16
+    CONTROL         "Сохранять",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,193,52,16
 
-    CONTROL         "Начальный размер*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,205,60,16
-    RTEXT           "W:",IDC_STATIC,73,209,10,8
-    EDITTEXT        IDC_POS_W,85,206,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "Начальный размер*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,209,60,16
+    RTEXT           "W:",IDC_STATIC,73,213,10,8
+    EDITTEXT        IDC_POS_W,85,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_W,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,107,196,11,14
-    RTEXT           "H:",IDC_STATIC,124,209,10,8
-    EDITTEXT        IDC_POS_H,136,206,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    RTEXT           "H:",IDC_STATIC,124,213,10,8
+    EDITTEXT        IDC_POS_H,136,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_H,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,196,11,14
-    CONTROL         "Сохранять",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,205,52,16
+    CONTROL         "Сохранять",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
 
-    CONTROL         "&Клеить к краю",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,223,74,16
-    RTEXT           "&Расстояние:",IDC_STATIC,89,227,45,8
-    EDITTEXT        IDC_SNAP,136,224,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "&Клеить к краю",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,225,89,16
+    RTEXT           "&Расстояние:",IDC_STATIC,104,229,31,8
+    EDITTEXT        IDC_SNAP,136,227,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SNAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,166,231,11,14
-    LTEXT           "пиксел",IDC_STATIC,179,227,52,8
-    RTEXT           "Привязка:",IDC_STATIC,7,246,37,8
-    COMBOBOX        IDC_COMBO_DOCKING,45,244,60,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Z порядок:",IDC_STATIC,107,246,37,8
-    COMBOBOX        IDC_COMBO_ZORDER,145,244,83,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Размещение",IDC_STATIC,0,175,235,90
+    LTEXT           "пиксел",IDC_STATIC,179,229,52,8
+
+    RTEXT           "Привязка:",IDC_STATIC,10,245,37,8
+    COMBOBOX        IDC_COMBO_DOCKING,48,243,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Z порядок:",IDC_STATIC,120,245,37,8
+    COMBOBOX        IDC_COMBO_ZORDER,158,243,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Размещение",IDC_STATIC,0,165,235,100
 END
 
 IDD_SETTINGS_HOTKEYS DIALOGEX 0, 0, 235, 265
@@ -641,7 +646,10 @@ BEGIN
         MENUITEM "&Вставить",                      ID_EDIT_PASTE
         MENUITEM "Вставить выделенное",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
+        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM SEPARATOR
         MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
+        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -680,8 +688,6 @@ BEGIN
 
     POPUP "Вкладка"
     BEGIN
-
-        MENUITEM "&Новая вкладка",                    ID_FILE_NEW_TAB
         MENUITEM "&Закрыть вкладку",                  ID_FILE_CLOSE_TAB
         MENUITEM "Закрыть все вкладки, кроме активной",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
         MENUITEM "Закрыть все вкладки слева от активной",  ID_FILE_CLOSE_ALL_TABS_LEFT
@@ -690,7 +696,10 @@ BEGIN
         MENUITEM "З&акрыть  активную вкладку",                 ID_CLOSE_VIEW
         MENUITEM "&Выделить вкладку в отдельное окно",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Прикрепить консоли",             ID_ATTACH_CONSOLES
+        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM SEPARATOR
+        MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
+        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -699,9 +708,7 @@ BEGIN
         MENUITEM "Поменять местами",                  ID_SPLIT_SWAP
         MENUITEM "К&лонировать в новой  вкладке",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
-
         MENUITEM "&Окно консоли",             ID_VIEW_CONSOLE
-
     END
 END
 
@@ -795,7 +802,9 @@ BEGIN
     ID_EDIT_FIND            "Найти определенный текст\nНайти"
     ID_EDIT_PASTE           "Вставить содержимое Буфера обмена\nВставить"
     ID_PASTE_SELECTION      "Вставить выделенный текст\nВставить выделение"
+    ID_EDIT_INSERT_SNIPPET  "Insert Snippet\nInsert Snippet"
     ID_EDIT_STOP_SCROLLING  "Остановить прокрутку\nОстановить прокрутку"
+    ID_EDIT_RESUME_SCROLLING "Resume Scrolling\nResume Scrolling"
     ID_EDIT_SELECT_ALL      "Выделить весь документ\nВыделить все"
     ID_EDIT_RENAME_TAB      "Переименовать активную вкладку\nПереименовать вкладку"
     ID_EDIT_SETTINGS        "Открыть диалог настроек\nНастройки..."
@@ -837,6 +846,18 @@ BEGIN
     ID_UNGROUP_ALL          "Удалить объединение всех терминалов\nРазгруппировать все"
     ID_GROUP_TAB            "Объединить все терминалы вкладки так, что входные данные одного из них направлялись всем\nГруппировать вкладку"
     ID_UNGROUP_TAB          "Удалить объединение всех терминалов текущей вкладки\nРазгруппировать вкладку"
+END
+
+STRINGTABLE
+BEGIN
+    IDOK                    "OK"
+    IDCANCEL                "Отмена"
+    IDS_SNIPPET_AUTHOR      "Author"
+    IDS_SNIPPET_DESCRIPTION "Description"
+    IDS_SNIPPET_CODE        "Code"
+    IDS_SNIPPET_VERSION     "Version"
+    IDC_SNIPPET_INFORMATION "Show snippet information"
+    IDC_SNIPPET_EDIT        "Edit"
 END
 
 STRINGTABLE
@@ -995,110 +1016,114 @@ BEGIN
     IDS_EDIT_PASTE           "Вставка"
     IDS_PASTE_SELECTION      "Вставить выделенное"
     IDS_EDIT_STOP_SCROLLING  "Остановить прокрутку"
+    IDS_EDIT_RESUME_SCROLLING "Resume scrolling"
 
     IDS_SCROLL_UP            "Прокрутить на строку вверх"
     IDS_SCROLL_DOWN          "Прокрутить на строку вниз"
     IDS_SCROLL_PAGE_UP       "Прокрутить на страницу вверх"
     IDS_SCROLL_PAGE_DOWN     "Прокрутить на страницу вниз"
     IDS_SCROLL_LEFT          "Прокрутить на символ влево"
-    IDS_SCROLL_RIGHT         "Прокрутить на символ вправо"
-    IDS_SCROLL_PAGE_LEFT     "Прокрутить на страницу влево"
-    IDS_SCROLL_PAGE_RIGHT    "Прокрутить на страницу вправо"
+IDS_SCROLL_RIGHT         "Прокрутить на символ вправо"
+IDS_SCROLL_PAGE_LEFT     "Прокрутить на страницу влево"
+IDS_SCROLL_PAGE_RIGHT    "Прокрутить на страницу вправо"
 
-    IDS_FIND                 "Найти текст"
-    IDS_SEARCH_NEXT          "Найти следующее"
-    IDS_SEARCH_PREV          "Найти предыдущее"
+IDS_FIND                 "Найти текст"
+IDS_SEARCH_NEXT          "Найти следующее"
+IDS_SEARCH_PREV          "Найти предыдущее"
 
-    IDS_SWITCH_TRANSPARENCY  "Вкл./Выкл. прозрачность"
+IDS_SWITCH_TRANSPARENCY  "Вкл./Выкл. прозрачность"
 
-    IDS_DUMP_BUFFER          "Дамп буфера экрана"
+IDS_DUMP_BUFFER          "Дамп буфера экрана"
 
-    IDS_SHOW_CONTEXT_MENU_1  "Показать контекстное меню №1"
-    IDS_SHOW_CONTEXT_MENU_2  "Показать контекстное меню №2"
-    IDS_SHOW_CONTEXT_MENU_3  "Показать контекстное меню №3"
+IDS_SHOW_CONTEXT_MENU_1  "Показать контекстное меню №1"
+IDS_SHOW_CONTEXT_MENU_2  "Показать контекстное меню №2"
+IDS_SHOW_CONTEXT_MENU_3  "Показать контекстное меню №3"
+ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
 
-    IDS_SEND_CTRL_C          "Отправить CTRL-C"
+IDS_SEND_CTRL_C          "Отправить CTRL-C"
 
-    IDS_EXTERNAL_COMMAND_1   "Внешняя команда 1"
-    IDS_EXTERNAL_COMMAND_2   "Внешняя команда 2"
-    IDS_EXTERNAL_COMMAND_3   "Внешняя команда 3"
-    IDS_EXTERNAL_COMMAND_4   "Внешняя команда 4"
-    IDS_EXTERNAL_COMMAND_5   "Внешняя команда 5"
-    IDS_EXTERNAL_COMMAND_6   "Внешняя команда 6"
-    IDS_EXTERNAL_COMMAND_7   "Внешняя команда 7"
-    IDS_EXTERNAL_COMMAND_8   "Внешняя команда 8"
-    IDS_EXTERNAL_COMMAND_9   "Внешняя команда 9"
-    IDS_EXTERNAL_COMMAND_10  "Внешняя команда 10"
+IDS_EXTERNAL_COMMAND_1   "Внешняя команда 1"
+IDS_EXTERNAL_COMMAND_2   "Внешняя команда 2"
+IDS_EXTERNAL_COMMAND_3   "Внешняя команда 3"
+IDS_EXTERNAL_COMMAND_4   "Внешняя команда 4"
+IDS_EXTERNAL_COMMAND_5   "Внешняя команда 5"
+IDS_EXTERNAL_COMMAND_6   "Внешняя команда 6"
+IDS_EXTERNAL_COMMAND_7   "Внешняя команда 7"
+IDS_EXTERNAL_COMMAND_8   "Внешняя команда 8"
+IDS_EXTERNAL_COMMAND_9   "Внешняя команда 9"
+IDS_EXTERNAL_COMMAND_10  "Внешняя команда 10"
 
-    IDS_GLOBAL_ACTIVATE      "Переключиться на ConsoleZ (глобальная)"
+IDS_GLOBAL_ACTIVATE      "Переключиться на ConsoleZ (глобальная)"
 
-    ID_TEXT_SELECTION_LEFT_KEY        "Выделить текст левее"
-    ID_TEXT_SELECTION_RIGHT_KEY       "Выделить текст правее"
-    ID_TEXT_SELECTION_TOP_KEY         "Выделить текст выше"
-    ID_TEXT_SELECTION_BOTTOM_KEY      "Выделить текст ниже"
-    ID_TEXT_SELECTION_HOME_KEY        "Выделить тескт до начала"
-    ID_TEXT_SELECTION_END_KEY         "Выделить тескт до конца"
-    ID_TEXT_SELECTION_PAGEUP_KEY      "Выделить страницу текста вверх"
-    ID_TEXT_SELECTION_PAGEDOWN_KEY    "Выделить страницу текста вниз"
-    ID_COLUMN_SELECTION_LEFT_KEY      "Выделить колонку левее"
-    ID_COLUMN_SELECTION_RIGHT_KEY     "Выделить колонку правее"
-    ID_COLUMN_SELECTION_TOP_KEY       "Выделить колонку выше"
-    ID_COLUMN_SELECTION_BOTTOM_KEY    "Выделить колонку ниже"
-    ID_COLUMN_SELECTION_HOME_KEY      "Выделить колонку до начала"
-    ID_COLUMN_SELECTION_END_KEY       "Выделить колонку до конца"
-    ID_COLUMN_SELECTION_PAGEUP_KEY    "Выделить колонку на страницу вверх"
-    ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Выделить колонку на страницу вниз"
+ID_TEXT_SELECTION_LEFT_KEY        "Выделить текст левее"
+ID_TEXT_SELECTION_RIGHT_KEY       "Выделить текст правее"
+ID_TEXT_SELECTION_TOP_KEY         "Выделить текст выше"
+ID_TEXT_SELECTION_BOTTOM_KEY      "Выделить текст ниже"
+ID_TEXT_SELECTION_HOME_KEY        "Выделить тескт до начала"
+ID_TEXT_SELECTION_END_KEY         "Выделить тескт до конца"
+ID_TEXT_SELECTION_PAGEUP_KEY      "Выделить страницу текста вверх"
+ID_TEXT_SELECTION_PAGEDOWN_KEY    "Выделить страницу текста вниз"
+ID_COLUMN_SELECTION_LEFT_KEY      "Выделить колонку левее"
+ID_COLUMN_SELECTION_RIGHT_KEY     "Выделить колонку правее"
+ID_COLUMN_SELECTION_TOP_KEY       "Выделить колонку выше"
+ID_COLUMN_SELECTION_BOTTOM_KEY    "Выделить колонку ниже"
+ID_COLUMN_SELECTION_HOME_KEY      "Выделить колонку до начала"
+ID_COLUMN_SELECTION_END_KEY       "Выделить колонку до конца"
+ID_COLUMN_SELECTION_PAGEUP_KEY    "Выделить колонку на страницу вверх"
+ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Выделить колонку на страницу вниз"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MOUSE_COPY           "Копировать/очистить выделение"
-    IDS_MOUSE_SELECT         "Выделить текст"
-    IDS_MOUSE_COLUMNSELECT   "Выделение колонкой"
-    IDS_MOUSE_PASTE          "Вставить текст"
-    IDS_MOUSE_DRAG           "Перетащить окно"
-    IDS_MOUSE_LINK           "Открыть ссылку"
-    IDS_MOUSE_MENU1          "Контекстное меню №1"
-    IDS_MOUSE_MENU2          "Контекстное меню №2"
-    IDS_MOUSE_MENU3          "Контекстное меню №3"
+IDS_MOUSE_COPY           "Копировать/очистить выделение"
+IDS_MOUSE_SELECT         "Выделить текст"
+IDS_MOUSE_COLUMNSELECT   "Выделение колонкой"
+IDS_MOUSE_PASTE          "Вставить текст"
+IDS_MOUSE_DRAG           "Перетащить окно"
+IDS_MOUSE_LINK           "Открыть ссылку"
+IDS_MOUSE_MENU1          "Контекстное меню №1"
+IDS_MOUSE_MENU2          "Контекстное меню №2"
+IDS_MOUSE_MENU3          "Контекстное меню №3"
+IDS_MOUSE_SNIPPETS       "Snippets context menu"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_SETTINGS_CONSOLE       "Основные"
-    IDS_SETTINGS_APPEARANCE    "Внешний вид"
-    IDS_SETTINGS_STYLES        "Стили"
-    IDS_SETTINGS_TRANSPARENCY  "Прозрачность"
-    IDS_SETTINGS_FONT          "Шрифт"
-    IDS_SETTINGS_FULLSCREEN    "Во весь экран"
-    IDS_SETTINGS_BEHAVIOR      "Поведение"
-    IDS_SETTINGS_MORE          "Еще..."
-    IDS_SETTINGS_HOTKEYS       "Горячие клавиши"
-    IDS_SETTINGS_MOUSE         "Мышь"
-    IDS_SETTINGS_TABS          "Вкладки"
-    IDS_SETTINGS_COMMAND       "Команда"
-    IDS_SETTINGS_MOUSE_ACTION  "Кнопки мыши"
-    IDS_SETTINGS_TAB_NAME      "Имя вкладки"
-    IDS_SETTINGS_MAIN          "Главная"
-    IDS_SETTINGS_BACKGROUND    "Фон"
-    IDS_SETTINGS_COLORS_CURSOR "Цвета && Курсор"
-    IDS_SETTINGS_ENVIRONMENT   "Окружение"
-    IDS_SETTINGS_HOTKEY        "Клавиша"
-    IDS_SETTINGS_VARIABLE      "Переменная"
-    IDS_SETTINGS_VALUE         "Значение"
-    IDS_SETTINGS_WINDOWED      "В окне"
+IDS_SETTINGS_CONSOLE       "Основные"
+IDS_SETTINGS_APPEARANCE    "Внешний вид"
+IDS_SETTINGS_STYLES        "Стили"
+IDS_SETTINGS_TRANSPARENCY  "Прозрачность"
+IDS_SETTINGS_FONT          "Шрифт"
+IDS_SETTINGS_FULLSCREEN    "Во весь экран"
+IDS_SETTINGS_BEHAVIOR      "Поведение"
+IDS_SETTINGS_MORE          "Еще..."
+IDS_SETTINGS_HOTKEYS       "Горячие клавиши"
+IDS_SETTINGS_MOUSE         "Мышь"
+IDS_SETTINGS_TABS          "Вкладки"
+IDS_SETTINGS_COMMAND       "Команда"
+IDS_SETTINGS_MOUSE_ACTION  "Кнопки мыши"
+IDS_SETTINGS_TAB_NAME      "Имя вкладки"
+IDS_SETTINGS_MAIN          "Главная"
+IDS_SETTINGS_BACKGROUND    "Фон"
+IDS_SETTINGS_COLORS_CURSOR "Цвета && Курсор"
+IDS_SETTINGS_ENVIRONMENT   "Окружение"
+IDS_SETTINGS_HOTKEY        "Клавиша"
+IDS_SETTINGS_VARIABLE      "Переменная"
+IDS_SETTINGS_VALUE         "Значение"
+IDS_SETTINGS_WINDOWED      "В окне"
 END
 
 STRINGTABLE
 BEGIN
-    IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
-    IDC_COMBO_DOCKING            "Нет;Сверху слева;Сверху справа;Внизу слева;Внизу справа;Сверху в центре;Внизу в центре;Слева в центре;Справа в центре;"
-    IDC_COMBO_ZORDER             "Обычный;Всегда сверху;Всегда внизу;Закрепить на десктопе;"
-    IDC_COMBO_SMOOTHING          "Обычный;Нет;ClearType;Natural ClearType;Сглаженный"
-    IDC_COMBO_BUTTONS            "Нет;Левая;Правая;Средняя;Четвертая;Пятая;"
-    IDC_COMBO_BK_POS             "По центру;Растянуть;Замостить;По размеру;Заполнение;"
-    IDC_COMBO_FULLSCREEN_MONITOR "Текущий;"
-    IDC_COMBO_BASE_PRIORITY      "Низкий;Ниже нормального;Нормальный;Выше нормального;Высокий;Реального времени;"
+IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
+IDC_COMBO_DOCKING            "Нет;Сверху слева;Сверху справа;Внизу слева;Внизу справа;Сверху в центре;Внизу в центре;Слева в центре;Справа в центре;"
+IDC_COMBO_ZORDER             "Обычный;Всегда сверху;Всегда внизу;Закрепить на десктопе;"
+IDC_COMBO_SMOOTHING          "Обычный;Нет;ClearType;Natural ClearType;Сглаженный"
+IDC_COMBO_BUTTONS            "Нет;Левая;Правая;Средняя;Четвертая;Пятая;"
+IDC_COMBO_BK_POS             "По центру;Растянуть;Замостить;По размеру;Заполнение;"
+IDC_COMBO_FULLSCREEN_MONITOR "Текущий;"
+IDC_COMBO_BASE_PRIORITY      "Низкий;Ниже нормального;Нормальный;Выше нормального;Высокий;Реального времени;"
+IDC_COMBO_STATE              "Normal window;Minimized;Maximized;Full screen;"
 END
 
 #endif    // English (United States) resources

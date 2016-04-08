@@ -141,6 +141,7 @@ class MainFrame
 			MESSAGE_HANDLER(WM_SIZE, OnSize)
 			MESSAGE_HANDLER(WM_SIZING, OnSizing)
 			MESSAGE_HANDLER(WM_WINDOWPOSCHANGING, OnWindowPosChanging)
+			MESSAGE_HANDLER(WM_INITMENUPOPUP, OnInitMenuPopup)
 
 #ifndef _USING_V110_SDK71_
 
@@ -253,15 +254,17 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_SEARCH_MATCH_WHOLE_WORD, OnSearchSettings)
 			COMMAND_ID_HANDLER(ID_FIND,                    OnFind)
 			COMMAND_ID_HANDLER(ID_SWITCH_TRANSPARENCY,     OnSwitchTransparency)
-			COMMAND_ID_HANDLER(ID_SHOW_CONTEXT_MENU_1,     OnShowContextMenu1)
-			COMMAND_ID_HANDLER(ID_SHOW_CONTEXT_MENU_2,     OnShowContextMenu2)
-			COMMAND_ID_HANDLER(ID_SHOW_CONTEXT_MENU_3,     OnShowContextMenu3)
+			COMMAND_ID_HANDLER(ID_SHOW_CONTEXT_MENU_1,        OnShowContextMenu)
+			COMMAND_ID_HANDLER(ID_SHOW_CONTEXT_MENU_2,        OnShowContextMenu)
+			COMMAND_ID_HANDLER(ID_SHOW_CONTEXT_MENU_3,        OnShowContextMenu)
+			COMMAND_ID_HANDLER(ID_SHOW_CONTEXT_MENU_SNIPPETS, OnShowContextMenu)
 			COMMAND_ID_HANDLER(ID_SEND_CTRL_C,             OnSendCtrlEvent)
 			COMMAND_ID_HANDLER(ID_FONT_INFO,               OnFontInfo)
 			COMMAND_ID_HANDLER(ID_DIAGNOSE,                OnDiagnose)
 			COMMAND_ID_HANDLER(ID_SPLIT_SWAP,              OnSwap)
 
 			COMMAND_RANGE_HANDLER(ID_EXTERNAL_COMMAND_1, (ID_EXTERNAL_COMMAND_1 + EXTERNAL_COMMANDS_COUNT - 1), OnExternalCommand)
+			COMMAND_RANGE_HANDLER(ID_SNIPPET_ID_FIRST, ID_SNIPPET_ID_LAST, OnSnippet)
 
 			CHAIN_MSG_MAP(CTabbedFrameImpl<MainFrame>)
 			REFLECT_NOTIFICATIONS()
@@ -285,6 +288,7 @@ class MainFrame
 		LRESULT OnSize(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 		LRESULT OnSizing(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& bHandled);
+		LRESULT OnInitMenuPopup(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 		LRESULT OnDpiChanged(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/);
 		LRESULT OnMouseButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled);
 		LRESULT OnExitSizeMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
@@ -360,9 +364,7 @@ class MainFrame
 		LRESULT OnSearchSettings(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnFind(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSwitchTransparency(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-		LRESULT OnShowContextMenu1(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-		LRESULT OnShowContextMenu2(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-		LRESULT OnShowContextMenu3(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnShowContextMenu(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSendCtrlEvent(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 		LRESULT OnHelp(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
@@ -372,6 +374,7 @@ class MainFrame
 		LRESULT OnDiagnose(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 		LRESULT OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnSnippet(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 	public:
 
@@ -396,8 +399,9 @@ class MainFrame
 		void CloseTab(CTabViewTabItem* pTabItem);
 
 		void UpdateTabTitle(std::shared_ptr<TabView> tabView);
-		void UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu);
-		void UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool bContextual);
+		void UpdateTabsMenu();
+		void UpdateOpenedTabsMenu(CMenu& tabsMenu, bool bContextual);
+		void UpdateSnippetsMenu();
 		void UpdateMenuHotKeys(void);
 		void UpdateStatusBar();
 		void SetWindowStyles(void);
@@ -465,6 +469,7 @@ class MainFrame
 		CMenu			m_tabsMenu;
 		CMenu			m_tabsRPopupMenu;
 		CMenu			m_openedTabsMenu;
+		CMenu			m_snippetsMenu;
 
 		CIcon			m_icon;
 		CIcon			m_smallIcon;
@@ -492,7 +497,6 @@ class MainFrame
 		CEdit               m_searchedit;
 #endif
 
-		//CSearchComboBox	m_cb;
 		CAccelerator	m_acceleratorTable;
 		UINT			m_uTaskbarRestart;
 		UINT			m_uReloadDesktopImages;
@@ -509,6 +513,8 @@ class MainFrame
 		HWND    m_hwndPreviousForeground;
 
 		CComPtr<ITaskbarList3> m_pTaskbarList;
+
+		SnippetCollection m_snippetCollection;
 };
 
 //////////////////////////////////////////////////////////////////////////////

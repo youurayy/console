@@ -11,6 +11,9 @@
 #include "MainFrame.h"
 #include "JumpList.h"
 
+#include "DynamicDialog.h"
+#include "DynamicSnippetDialog.h"
+
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -367,6 +370,10 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	tbi.fsStyle |= BTNS_DROPDOWN;
 	m_toolbar.SetButtonInfo(ID_FILE_NEW_TAB, &tbi);
 
+	m_toolbar.GetButtonInfo(ID_EDIT_INSERT_SNIPPET, &tbi);
+	tbi.fsStyle |= BTNS_WHOLEDROPDOWN;
+	m_toolbar.SetButtonInfo(ID_EDIT_INSERT_SNIPPET, &tbi);
+
 	m_toolbar.AddBitmap(1, Helpers::GetHighDefinitionResourceId(IDR_FULLSCREEN1_16));
 	m_nFullSreen1Bitmap = m_toolbar.GetImageList().GetImageCount() - 1;
 	m_nFullSreen2Bitmap = m_toolbar.GetBitmap(ID_VIEW_FULLSCREEN);
@@ -473,7 +480,7 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false, m_dwScreenDpi);
 
 	// initialize tabs
-	UpdateTabsMenu(m_CmdBar.GetMenu(), m_tabsMenu);
+	UpdateTabsMenu();
 	SetReflectNotifications(true);
 
 	DWORD dwTabStyles = CTCS_TOOLTIPS | CTCS_DRAGREARRANGE | CTCS_SCROLL | CTCS_CLOSEBUTTON | CTCS_HOTTRACK;
@@ -516,47 +523,13 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	UISetCheck(ID_SEARCH_MATCH_CASE, searchSettings.bMatchCase);
 	UISetCheck(ID_SEARCH_MATCH_WHOLE_WORD, searchSettings.bMatchWholeWord);
 
-	DWORD dwFlags	= SWP_NOSIZE|SWP_NOZORDER;
-
-	if( !positionSettings.bSavePosition &&
-	    (positionSettings.nX == -1 || positionSettings.nY == -1) )
-	{
-		// do not reposition the window
-		dwFlags |= SWP_NOMOVE;
-	}
-	else
-	{
-		// check we're not out of desktop bounds 
-		int	nDesktopLeft	= ::GetSystemMetrics(SM_XVIRTUALSCREEN);
-		int	nDesktopTop		= ::GetSystemMetrics(SM_YVIRTUALSCREEN);
-
-		int	nDesktopRight	= nDesktopLeft + ::GetSystemMetrics(SM_CXVIRTUALSCREEN);
-		int	nDesktopBottom	= nDesktopTop + ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
-
-		if ((positionSettings.nX < nDesktopLeft) || (positionSettings.nX > nDesktopRight)) positionSettings.nX = 50;
-		if ((positionSettings.nY < nDesktopTop) || (positionSettings.nY > nDesktopBottom)) positionSettings.nY = 50;
-	}
-
 	SetTransparency();
-	SetWindowPos(NULL, positionSettings.nX, positionSettings.nY, 0, 0, dwFlags);
-	DockWindow(positionSettings.dockPosition);
-	SetZOrder(positionSettings.zOrder);
 
 	if (g_settingsHandler->GetAppearanceSettings().stylesSettings.bTrayIcon) SetTrayIcon(NIM_ADD);
 	SetWindowIcons();
 
 	CreateAcceleratorTable();
 	RegisterGlobalHotkeys();
-
-	AdjustWindowSize(ADJUSTSIZE_NONE);
-
-	CRect rectWindow;
-	GetWindowRect(&rectWindow);
-
-	m_dwWindowWidth	= rectWindow.Width();
-	m_dwWindowHeight= rectWindow.Height();
-
-	TRACE(L"initial dims: %ix%i\n", m_dwWindowWidth, m_dwWindowHeight);
 
 	// register object for message filtering and idle updates
 	CMessageLoop* pLoop = _Module.GetMessageLoop();
@@ -568,18 +541,63 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	// if they're being called after OnCreate has finished
 	m_bOnCreateDone = true;
 
-	if( positionSettings.bSaveSize ||
-	    (positionSettings.nW != -1 && positionSettings.nH != -1) )
+	// by default the window size will be determinate from rows/cols (settings)
+	bool bDefaultSize = true;
+
+	WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+	if( GetWindowPlacement(&wndpl) )
 	{
-		// resize the window
-		SetWindowPos(NULL, 0, 0, positionSettings.nW, positionSettings.nH, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
-		AdjustWindowSize(ADJUSTSIZE_WINDOW);
+		bool bPlacement = false;
+
+		if( positionSettings.bSavePosition || (positionSettings.nX != -1 && positionSettings.nY != -1) )
+		{
+			// check we're not out of desktop bounds
+			int	nDesktopLeft = ::GetSystemMetrics(SM_XVIRTUALSCREEN);
+			int	nDesktopTop = ::GetSystemMetrics(SM_YVIRTUALSCREEN);
+
+			int	nDesktopRight = nDesktopLeft + ::GetSystemMetrics(SM_CXVIRTUALSCREEN);
+			int	nDesktopBottom = nDesktopTop + ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
+
+			if( (positionSettings.nX < nDesktopLeft) || (positionSettings.nX > nDesktopRight) ) positionSettings.nX = 50;
+			if( (positionSettings.nY < nDesktopTop) || (positionSettings.nY > nDesktopBottom) ) positionSettings.nY = 50;
+
+			CRect rect = wndpl.rcNormalPosition;
+			rect.MoveToXY(positionSettings.nX, positionSettings.nY);
+			wndpl.rcNormalPosition = rect;
+
+			bPlacement = true;
+		}
+
+		if( positionSettings.nW > 0 && positionSettings.nH > 0 )
+		{
+			wndpl.rcNormalPosition.right = wndpl.rcNormalPosition.left + positionSettings.nW;
+			wndpl.rcNormalPosition.bottom = wndpl.rcNormalPosition.top + positionSettings.nH;
+
+			bDefaultSize = false;
+			bPlacement = true;
+		}
+
+		if( bPlacement )
+			SetWindowPlacement(&wndpl);
 	}
 
-	if( g_settingsHandler->GetAppearanceSettings().fullScreenSettings.bStartInFullScreen )
-		ShowFullScreen(true);
+	DockWindow(positionSettings.dockPosition);
+	SetZOrder(positionSettings.zOrder);
 
-	//ShowHideWindow(m_visibility);
+	if( bDefaultSize )
+		AdjustWindowSize(ADJUSTSIZE_NONE);
+
+	CRect rectWindow;
+	GetWindowRect(&rectWindow);
+
+	m_dwWindowWidth	= rectWindow.Width();
+	m_dwWindowHeight= rectWindow.Height();
+
+	TRACE(L"initial dims: %ix%i\n", m_dwWindowWidth, m_dwWindowHeight);
+
+	if( g_settingsHandler->GetAppearanceSettings().fullScreenSettings.bStartInFullScreen ||
+	    g_settingsHandler->GetAppearanceSettings().positionSettings.nState == WindowState::stateFullScreen )
+		ShowFullScreen(true);
 
 	return 0;
 }
@@ -631,11 +649,27 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 		bSaveSettings = true;
 	}
 
-	if (positionSettings.bSavePosition || positionSettings.bSaveSize)
+	if (positionSettings.bSaveState || positionSettings.bSavePosition || positionSettings.bSaveSize)
 	{
-		// we store position and size of the non fullscreen window
+		// we store position and size of the restored window
 		if( !m_bFullScreen )
-			GetWindowRect(&m_rectWndNotFS);
+		{
+			WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+			GetWindowPlacement(&wndpl);
+			m_rectWndNotFS = wndpl.rcNormalPosition;
+		}
+
+		if (positionSettings.bSaveState)
+		{
+			if( m_bFullScreen )
+				positionSettings.nState = WindowState::stateFullScreen;
+			else if( IsIconic() || !IsWindowVisible() )
+				positionSettings.nState = WindowState::stateMinimized;
+			else if( IsZoomed() )
+				positionSettings.nState = WindowState::stateMaximized;
+			else
+				positionSettings.nState = WindowState::stateNormal;
+		}
 
 		if (positionSettings.bSavePosition)
 		{
@@ -1178,6 +1212,26 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnInitMenuPopup(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CMenuHandle menuPopup(reinterpret_cast<HMENU>(wParam));
+
+	TRACE(L"hMenu %p wParam %p lParam %p window menu ? %s relative position of the menu item %hu\n", m_CmdBar.GetMenu().m_hMenu, wParam, lParam, HIWORD(lParam) ? L"yes" : L"no", LOWORD(lParam));
+	if( LOWORD(lParam) == 1 && m_CmdBar.GetMenu().GetSubMenu(1) == menuPopup )
+	{
+		TRACE(L"must populate!\n");
+		UpdateSnippetsMenu();
+	}
+
+	bHandled = FALSE;
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 
 LRESULT MainFrame::OnDpiChanged(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/)
 {
@@ -1346,7 +1400,7 @@ LRESULT MainFrame::OnUpdateTitles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*
 			UpdateTabTitle(itView->second);
 	}
 
-	UpdateOpenedTabsMenu(m_CmdBar.GetMenu(), m_openedTabsMenu, false);
+	UpdateOpenedTabsMenu(m_openedTabsMenu, false);
 
 	return 0;
 }
@@ -1627,8 +1681,16 @@ LRESULT MainFrame::OnShowPopupMenu(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, 
 	case MouseSettings::cmdMenu3:
 		{
 			CMenu menu;
-			UpdateOpenedTabsMenu(m_CmdBar.GetMenu(), menu, true);
+			UpdateOpenedTabsMenu(menu, true);
 			m_CmdBar.TrackPopupMenu(menu, 0, point.x, point.y);
+		}
+		break;
+
+	case MouseSettings::cmdSnippets:
+		{
+			UpdateSnippetsMenu();
+			if( !m_snippetsMenu.IsNull() && m_snippetsMenu.GetMenuItemCount() )
+				m_CmdBar.TrackPopupMenu(m_snippetsMenu, 0, point.x, point.y);
 		}
 		break;
 	}
@@ -1944,6 +2006,8 @@ LRESULT MainFrame::OnTabRightClick(int idCtrl, LPNMHDR pnmh, BOOL& bHandled)
 		// this will update the menu UI
 		m_TabCtrl.SetCurSel(pTabItems->iItem);
 
+		UpdateSnippetsMenu();
+
 		CPoint point(pTabItems->pt.x, pTabItems->pt.y);
 		CPoint screenPoint(point);
 		this->m_TabCtrl.ClientToScreen(&screenPoint);
@@ -1971,16 +2035,31 @@ LRESULT MainFrame::OnRebarHeightChanged(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& 
 
 //////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnToolbarDropDown(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
+LRESULT MainFrame::OnToolbarDropDown(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*/)
 {
 	CPoint	cursorPos;
 	::GetCursorPos(&cursorPos);
 
-	CRect	buttonRect;
-	m_toolbar.GetItemRect(0, &buttonRect);
+	LPNMTOOLBAR pnmtb = reinterpret_cast<LPNMTOOLBAR>(pnmh);
+
+	CRect	buttonRect = pnmtb->rcButton;
 	m_toolbar.ClientToScreen(&buttonRect);
 
-	m_CmdBar.TrackPopupMenu(m_tabsMenu, 0, buttonRect.left, buttonRect.bottom);
+	switch( pnmtb->iItem )
+	{
+	case ID_FILE_NEW_TAB:
+		m_CmdBar.TrackPopupMenu(m_tabsMenu, 0, buttonRect.left, buttonRect.bottom);
+		break;
+
+	case ID_EDIT_INSERT_SNIPPET:
+		{
+			UpdateSnippetsMenu();
+			if( !m_snippetsMenu.IsNull() && m_snippetsMenu.GetMenuItemCount() )
+				m_CmdBar.TrackPopupMenu(m_snippetsMenu, 0, buttonRect.left, buttonRect.bottom);
+		}
+		break;
+	}
+
 	return 0;
 }
 
@@ -2690,7 +2769,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 
 	SetWindowStyles();
 
-	UpdateTabsMenu(m_CmdBar.GetMenu(), m_tabsMenu);
+	UpdateTabsMenu();
 	UpdateMenuHotKeys();
 
 	CreateAcceleratorTable();
@@ -3317,10 +3396,10 @@ void MainFrame::CloseTab(HWND hwndTabView)
 
 //////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
+void MainFrame::UpdateTabsMenu()
 {
-	if (!tabsMenu.IsNull()) tabsMenu.DestroyMenu();
-	tabsMenu.CreateMenu();
+	if (!m_tabsMenu.IsNull()) m_tabsMenu.DestroyMenu();
+	m_tabsMenu.CreateMenu();
 
 	// build tabs menu
 	TabDataVector&  tabDataVector = g_settingsHandler->GetTabSettings().tabDataVector;
@@ -3344,7 +3423,7 @@ void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
 		subMenuItem.dwTypeData  = const_cast<wchar_t*>(strTitle.c_str());
 		subMenuItem.cch         = static_cast<UINT>(strTitle.length());
 
-		tabsMenu.InsertMenuItem(wId-ID_NEW_TAB_1, TRUE, &subMenuItem);
+		m_tabsMenu.InsertMenuItem(wId-ID_NEW_TAB_1, TRUE, &subMenuItem);
 
 		m_CmdBar.RemoveImage(wId);
 		HICON hiconMenu = (*it)->GetMenuIcon();
@@ -3353,12 +3432,13 @@ void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
 	}
 
 	// set tabs menu as popup submenu
+	CMenuHandle mainMenu = m_CmdBar.GetMenu();
 	if (!mainMenu.IsNull())
 	{
 		CMenuItemInfo	menuItem;
 
 		menuItem.fMask    = MIIM_SUBMENU;
-		menuItem.hSubMenu = HMENU(tabsMenu);
+		menuItem.hSubMenu = m_tabsMenu;
 
 		mainMenu.SetMenuItemInfo(ID_FILE_NEW_TAB, FALSE, &menuItem);
 	}
@@ -3367,7 +3447,7 @@ void MainFrame::UpdateTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu)
 	JumpList::CreateList(g_settingsHandler->GetTabSettings().tabDataVector);
 }
 
-void MainFrame::UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool bContextual)
+void MainFrame::UpdateOpenedTabsMenu(CMenu& tabsMenu, bool bContextual)
 {
 	if (!tabsMenu.IsNull()) tabsMenu.DestroyMenu();
 	tabsMenu.CreatePopupMenu();
@@ -3445,6 +3525,7 @@ void MainFrame::UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool
 	if(!bContextual)
 	{
 		// set tabs menu as popup submenu
+		CMenuHandle mainMenu = m_CmdBar.GetMenu();
 		if(!mainMenu.IsNull())
 		{
 			mainMenu.ModifyMenu(mainMenu.GetMenuItemCount() - 2, MF_BYPOSITION | MF_POPUP, tabsMenu, Helpers::LoadStringW(IDS_SETTINGS_TABS).c_str());
@@ -3453,6 +3534,60 @@ void MainFrame::UpdateOpenedTabsMenu(CMenuHandle mainMenu, CMenu& tabsMenu, bool
 		{
 			m_contextMenu.ModifyMenu(m_contextMenu.GetMenuItemCount() - 2, MF_BYPOSITION | MF_POPUP, tabsMenu, Helpers::LoadStringW(IDS_SETTINGS_TABS).c_str());
 		}
+	}
+}
+
+void MainFrame::UpdateSnippetsMenu()
+{
+	if (!m_snippetsMenu.IsNull()) m_snippetsMenu.DestroyMenu();
+	m_snippetsMenu.CreatePopupMenu();
+
+	// reload snippets
+	m_snippetCollection.reset();
+	m_snippetCollection.load(
+		g_settingsHandler->GetSnippetSettings().strDir.empty()
+			?	g_settingsHandler->GetSettingsPath() + L"Snippets\\"
+			: g_settingsHandler->GetSnippetSettings().strDir);
+
+	WORD wID = ID_SNIPPET_ID_FIRST;
+	for( auto snippet = m_snippetCollection.snippets().begin();
+	     snippet != m_snippetCollection.snippets().end();
+	     ++snippet )
+	{
+		CMenuItemInfo	subMenuItem;
+
+		subMenuItem.fMask = MIIM_STRING | MIIM_ID;
+		subMenuItem.wID = wID;
+		subMenuItem.dwTypeData = const_cast<wchar_t *>(snippet->get()->header().title.c_str());
+		subMenuItem.cch = static_cast<UINT>(snippet->get()->header().title.length() + 1);
+
+		m_snippetsMenu.InsertMenuItem(wID, TRUE, &subMenuItem);
+
+		if( ++wID > ID_SNIPPET_ID_LAST ) break;
+	}
+
+#if 0
+	TBBUTTONINFO tbbi = {sizeof(TBBUTTONINFO), TBIF_STATE};
+	tbbi.fsState = ( m_snippetsMenu.IsNull() || m_snippetsMenu.GetMenuItemCount() == 0 ) ? TBSTATE_INDETERMINATE : TBSTATE_ENABLED;
+	m_toolbar.SetButtonInfo(ID_EDIT_INSERT_SNIPPET, &tbbi);
+#endif
+
+	CMenuItemInfo	menuItem;
+
+	menuItem.fMask    = MIIM_SUBMENU | MIIM_STATE;
+	menuItem.hSubMenu = m_snippetsMenu;
+	menuItem.fState   = ( m_snippetsMenu.IsNull() || m_snippetsMenu.GetMenuItemCount() == 0 ) ? MFS_DISABLED : MFS_ENABLED;
+
+	// set snippets menu as popup submenu
+	CMenuHandle mainMenu = m_CmdBar.GetMenu();
+	if (!mainMenu.IsNull())
+	{
+		mainMenu.SetMenuItemInfo(ID_EDIT_INSERT_SNIPPET, FALSE, &menuItem);
+	}
+
+	if( !m_tabsRPopupMenu.IsNull() )
+	{
+		m_tabsRPopupMenu.SetMenuItemInfo(ID_EDIT_INSERT_SNIPPET, FALSE, &menuItem);
 	}
 }
 
@@ -3932,6 +4067,9 @@ void MainFrame::ShowTabs(bool bShow)
 
 void MainFrame::ShowFullScreen(bool bShow)
 {
+	// can switch only if window is visible
+	ShowHideWindow(SHWA_SHOW_ONLY);
+
   m_bFullScreen = bShow;
 
   if( m_bFullScreen )
@@ -3939,9 +4077,10 @@ void MainFrame::ShowFullScreen(bool bShow)
     m_CmdBar.ReplaceBitmap(Helpers::GetHighDefinitionResourceId(IDR_FULLSCREEN1_16), ID_VIEW_FULLSCREEN);
     m_toolbar.ChangeBitmap(ID_VIEW_FULLSCREEN, m_nFullSreen1Bitmap);
 
-    // save the non fullscreen position and size
-    // normal or maximized
-    GetWindowRect(&m_rectWndNotFS);
+    // we store position and size of the restored window
+		WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+		GetWindowPlacement(&wndpl);
+		m_rectWndNotFS = wndpl.rcNormalPosition;
   }
   else
   {
@@ -4009,7 +4148,12 @@ void MainFrame::ShowFullScreen(bool bShow)
   {
     // restore the non fullscreen position
     // normal or maximized
-    SetWindowPos(NULL, m_rectWndNotFS, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
+		WINDOWPLACEMENT wndpl = { sizeof(WINDOWPLACEMENT) };
+		if( GetWindowPlacement(&wndpl) )
+		{
+			wndpl.rcNormalPosition = m_rectWndNotFS;
+			SetWindowPlacement(&wndpl);
+		}
   }
 
   AdjustWindowSize(ADJUSTSIZE_WINDOW);
@@ -4741,6 +4885,35 @@ LRESULT MainFrame::OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWnd
 
 /////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnSnippet(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	WORD wSnippetId = wID - ID_SNIPPET_ID_FIRST;
+	if( wSnippetId >= m_snippetCollection.snippets().size() ) return 0;
+
+  if (!m_activeTabView) return 0;
+  std::shared_ptr<ConsoleView> activeConsoleView = m_activeTabView->GetActiveConsole(_T(__FUNCTION__));
+  if( activeConsoleView )
+	{
+		CDynamicSnippetDialog dlgSnippet(m_snippetCollection.snippets()[wSnippetId]);
+		if( dlgSnippet.DoModal() == IDOK )
+		{
+			CString value = dlgSnippet.GetResult();
+
+			if( activeConsoleView->IsGrouped() )
+				SendTextToConsoles(value);
+			else
+				activeConsoleView->GetConsoleHandler().SendTextToConsole(value);
+		}
+	}
+
+	return 0;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnGetMinMaxInfo(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
 {
   if( g_settingsHandler->GetAppearanceSettings().stylesSettings.bCaption ) return 0;
@@ -4965,30 +5138,24 @@ LRESULT MainFrame::OnSwitchTransparency(WORD /*wNotifyCode*/, WORD /*wID*/, HWND
 
 /////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnShowContextMenu1(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT MainFrame::OnShowContextMenu(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	CPoint	screenPoint(0,0);
 	ClientToScreen(&screenPoint);
-	
-	SendMessage(UM_SHOW_POPUP_MENU, static_cast<WPARAM>(MouseSettings::cmdMenu1), MAKELPARAM(screenPoint.x, screenPoint.y));
-	return 0;
-}
 
-LRESULT MainFrame::OnShowContextMenu2(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-{
-	CPoint	screenPoint(0, 0);
-	ClientToScreen(&screenPoint);
+	WPARAM wparam;
+	switch( wID )
+	{
+		case ID_SHOW_CONTEXT_MENU_1       : wparam = static_cast<WPARAM>(MouseSettings::cmdMenu1);    break;
+		case ID_SHOW_CONTEXT_MENU_2       : wparam = static_cast<WPARAM>(MouseSettings::cmdMenu2);    break;
+		case ID_SHOW_CONTEXT_MENU_3       : wparam = static_cast<WPARAM>(MouseSettings::cmdMenu3);    break;
+		case ID_SHOW_CONTEXT_MENU_SNIPPETS: wparam = static_cast<WPARAM>(MouseSettings::cmdSnippets); break;
 
-	SendMessage(UM_SHOW_POPUP_MENU, static_cast<WPARAM>(MouseSettings::cmdMenu2), MAKELPARAM(screenPoint.x, screenPoint.y));
-	return 0;
-}
+		default: return  0;
+	}
 
-LRESULT MainFrame::OnShowContextMenu3(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-{
-	CPoint	screenPoint(0, 0);
-	ClientToScreen(&screenPoint);
+	SendMessage(UM_SHOW_POPUP_MENU, wparam, MAKELPARAM(screenPoint.x, screenPoint.y));
 
-	SendMessage(UM_SHOW_POPUP_MENU, static_cast<WPARAM>(MouseSettings::cmdMenu3), MAKELPARAM(screenPoint.x, screenPoint.y));
 	return 0;
 }
 

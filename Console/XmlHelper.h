@@ -32,6 +32,9 @@ class XmlHelper
 
 		static void GetRGBAttribute(const CComPtr<IXMLDOMElement>& pElement, COLORREF& crValue, COLORREF crDefaultValue);
 
+		static bool GetNodeText(const CComPtr<IXMLDOMElement>& pElement, std::wstring& strValue);
+		static bool GetChildNodeText(const CComPtr<IXMLDOMElement>& pElement, const CComBSTR& bstrChildName, std::wstring& strValue);
+
 		static void SetAttribute(const CComPtr<IXMLDOMElement>& pElement, const CComBSTR& bstrName, DWORD dwValue);
 		static void SetAttribute(const CComPtr<IXMLDOMElement>& pElement, const CComBSTR& bstrName, int nValue);
 		static void SetAttribute(const CComPtr<IXMLDOMElement>& pElement, const CComBSTR& bstrName, BYTE byValue);

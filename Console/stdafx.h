@@ -155,6 +155,7 @@ using namespace boost::multi_index;
 #include "ImageHandler.h"
 #include "SettingsHandler.h"
 #include "ConsoleHandler.h"
+#include "Snippet.h"
 
 //////////////////////////////////////////////////////////////////////////////
 

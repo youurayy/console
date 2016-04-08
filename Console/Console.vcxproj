@@ -596,6 +596,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClCompile Include="PageSettingsTabsEnv.cpp" />
     <ClCompile Include="SelectionHandler.cpp" />
     <ClCompile Include="SettingsHandler.cpp" />
+    <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Legacy|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -618,6 +619,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="..\wtl\wtl\include\multisplit.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AeroTabCtrl.h" />
+    <ClInclude Include="DynamicSnippetDialog.h" />
     <ClInclude Include="CFileNameEdit.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleException.h" />
@@ -651,10 +653,12 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="PageSettingsTabsColors.h" />
     <ClInclude Include="PageSettingsTabsEnv.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="DynamicDialog.h" />
     <ClInclude Include="SelectionHandler.h" />
     <ClInclude Include="SettingsHandler.h" />
     <ClInclude Include="..\shared\SharedMemNames.h" />
     <ClInclude Include="..\shared\SharedMemory.h" />
+    <ClInclude Include="Snippet.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\shared\Structures.h" />
     <ClInclude Include="TabView.h" />

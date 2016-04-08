@@ -250,7 +250,6 @@ FontSettings::FontSettings()
 {
 }
 
-
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -824,6 +823,8 @@ PositionSettings::PositionSettings()
 , zOrder(zorderNormal)
 , dockPosition(dockNone)
 , nSnapDistance(-1)
+, nState(WindowState::stateNone)
+, bSaveState(false)
 {
 }
 
@@ -847,6 +848,8 @@ bool PositionSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"z_order"), reinterpret_cast<int&>(zOrder), static_cast<int>(zorderNormal));
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"dock"), reinterpret_cast<int&>(dockPosition), static_cast<int>(dockNone));
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"snap"), nSnapDistance, -1);
+	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"save_state"), bSaveState, false);
+	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"state"), reinterpret_cast<int&>(nState), static_cast<int>(WindowState::stateNone));
 
 	return true;
 }
@@ -871,6 +874,8 @@ bool PositionSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"z_order"), static_cast<int>(zOrder));
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"dock"), static_cast<int>(dockPosition));
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"snap"), nSnapDistance);
+	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"save_state"), bSaveState);
+	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"state"), nState);
 
 	return true;
 }
@@ -882,6 +887,8 @@ bool PositionSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 PositionSettings& PositionSettings::operator=(const PositionSettings& other)
 {
+	bSaveState    = other.bSaveState;
+	nState        = other.nState;
 	nX            = other.nX;
 	nY            = other.nY;
 	bSavePosition = other.bSavePosition;
@@ -1869,9 +1876,10 @@ HotKeys::HotKeys()
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"dumpbuffer",         IDC_DUMP_BUFFER,         IDS_DUMP_BUFFER         )));
 
-	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdMenu1",           ID_SHOW_CONTEXT_MENU_1,  IDS_SHOW_CONTEXT_MENU_1 )));
-	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdMenu2",           ID_SHOW_CONTEXT_MENU_2,  IDS_SHOW_CONTEXT_MENU_2 )));
-	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdMenu3",           ID_SHOW_CONTEXT_MENU_3,  IDS_SHOW_CONTEXT_MENU_3 )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdMenu1",           ID_SHOW_CONTEXT_MENU_1,         IDS_SHOW_CONTEXT_MENU_1 )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdMenu2",           ID_SHOW_CONTEXT_MENU_2,         IDS_SHOW_CONTEXT_MENU_2 )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdMenu3",           ID_SHOW_CONTEXT_MENU_3,         IDS_SHOW_CONTEXT_MENU_3 )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdSnippets",        ID_SHOW_CONTEXT_MENU_SNIPPETS,  ID_SHOW_CONTEXT_MENU_SNIPPETS )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"ctrlC",              ID_SEND_CTRL_C,          IDS_SEND_CTRL_C         )));
 
@@ -2123,6 +2131,7 @@ MouseSettings::MouseSettings()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(cmdMenu1,        L"menu",          IDS_MOUSE_MENU1       )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(cmdMenu2,        L"menu2",         IDS_MOUSE_MENU2       )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(cmdMenu3,        L"menu3",         IDS_MOUSE_MENU3       )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(cmdSnippets,     L"snippets",      IDS_MOUSE_SNIPPETS    )));
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -2618,6 +2627,58 @@ void TabSettings::SetDefaults(const wstring& defaultShell, const wstring& defaul
 
 
 //////////////////////////////////////////////////////////////////////////////
+
+SnippetSettings::SnippetSettings()
+	: strDir()
+{
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool SnippetSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+{
+	CComPtr<IXMLDOMElement>	pSnippetsElement;
+	if (FAILED(XmlHelper::AddDomElementIfNotExist(pSettingsRoot, CComBSTR(L"snippets"), pSnippetsElement))) return false;
+
+	XmlHelper::GetAttribute(pSnippetsElement, CComBSTR(L"dir"), strDir, std::wstring(L""));
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool SnippetSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+{
+	CComPtr<IXMLDOMElement>	pSnippetsElement;
+	if (FAILED(XmlHelper::AddDomElementIfNotExist(pSettingsRoot, CComBSTR(L"snippets"), pSnippetsElement))) return false;
+
+	XmlHelper::SetAttribute(pSnippetsElement, CComBSTR(L"dir"), strDir);
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+SnippetSettings& SnippetSettings::operator=(const SnippetSettings& other)
+{
+	strDir = other.strDir;
+
+	return *this;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
@@ -2635,6 +2696,7 @@ SettingsHandler::SettingsHandler()
 , m_behaviorSettings2()
 , m_hotKeys()
 , m_mouseSettings()
+, m_snippetSettings()
 , m_tabSettings()
 {
 }
@@ -2736,6 +2798,7 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 	m_behaviorSettings2.Load(m_pSettingsRoot);
 	m_hotKeys.Load(m_pSettingsRoot);
 	m_mouseSettings.Load(m_pSettingsRoot);
+	m_snippetSettings.Load(m_pSettingsRoot);
 
 	m_tabSettings.SetDefaults(m_consoleSettings.strShell, m_consoleSettings.strInitialDir);
 	m_tabSettings.Load(m_pSettingsRoot);
@@ -2763,6 +2826,7 @@ bool SettingsHandler::SaveSettings()
 	m_behaviorSettings2.Save(m_pSettingsRoot);
 	m_hotKeys.Save(m_pSettingsRoot);
 	m_mouseSettings.Save(m_pSettingsRoot);
+	m_snippetSettings.Save(m_pSettingsRoot);
 	m_tabSettings.Save(m_pSettingsRoot);
 
 	HRESULT hr = m_pSettingsDocument->save(CComVariant(GetSettingsFileName().c_str()));

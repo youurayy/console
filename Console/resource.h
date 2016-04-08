@@ -306,6 +306,17 @@
 #define IDC_CHECK_HIDE_WHEN_INACTIVE    1232
 #define IDC_CHECK_LIGATURE              1233
 #define IDC_CHECK_PER_MONITOR_DPI       1234
+#define IDC_SNIPPET_RESULT              1235
+#define IDC_SNIPPET_INFORMATION         1236
+#define IDC_SNIPPET_AUTHOR_URL          1237
+#define IDC_SNIPPET_AUTHOR_EMAIL        1238
+#define IDC_SNIPPET_EDIT                1239
+#define IDC_CHECK_STATE                 1240
+#define IDC_COMBO_STATE                 1241
+#define IDC_CHECK_SAVE_STATE            1242
+
+#define ID_SNIPPET_ID_FIRST             1900
+#define ID_SNIPPET_ID_LAST              1999
 
 #define ID_NEW_TAB_1                    2000
 #define ID_SWITCH_TAB_1                 2100
@@ -366,6 +377,7 @@
 #define ID_SPLIT_SWAP                   2937
 #define ID_MOVE_TAB_LEFT                2938
 #define ID_MOVE_TAB_RIGHT               2939
+#define ID_SHOW_CONTEXT_MENU_SNIPPETS   2940
 
 #define IDC_DUMP_BUFFER                 3000
 
@@ -483,6 +495,7 @@
 #define IDS_MOUSE_MENU1                 7006
 #define IDS_MOUSE_MENU2                 7007
 #define IDS_MOUSE_MENU3                 7008
+#define IDS_MOUSE_SNIPPETS              7009
 
 #define IDS_SETTINGS_CONSOLE            8000
 #define IDS_SETTINGS_APPEARANCE         8001
@@ -506,6 +519,11 @@
 #define IDS_SETTINGS_VARIABLE           8019
 #define IDS_SETTINGS_VALUE              8020
 #define IDS_SETTINGS_WINDOWED           8021
+
+#define IDS_SNIPPET_AUTHOR              9000
+#define IDS_SNIPPET_DESCRIPTION         9001
+#define IDS_SNIPPET_CODE                9002
+#define IDS_SNIPPET_VERSION             9003
 
 #define MSG_SETTINGS_INVALID_BUFFER_ROWS 10000
 #define MSG_SETTINGS_INVALID_BUFFER_COLUMNS 10001
@@ -555,6 +573,7 @@
 #define ID_FILE_CLOSE_ALL_TABS_RIGHT    32799
 #define ID_VIEW_SEARCH_BAR              32800
 #define ID_EDIT_RESUME_SCROLLING        32801
+#define ID_EDIT_INSERT_SNIPPET          32802
 
 
 // Next default values for new objects
@@ -562,8 +581,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
-#define _APS_NEXT_COMMAND_VALUE         32802
-#define _APS_NEXT_CONTROL_VALUE         1234
+#define _APS_NEXT_COMMAND_VALUE         32803
+#define _APS_NEXT_CONTROL_VALUE         1243
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
