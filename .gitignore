@@ -9,6 +9,7 @@ help/xx*
 *.user
 *.opensdf
 *.sdf
+*.VC.db
 *.suo
 *.opendb
 *.log
