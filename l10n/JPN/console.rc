@@ -787,61 +787,61 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
-    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
-    ID_HELP                 "Open the help file\nHelp"
-    ID_DIAGNOSE             "Create a diagnostic's report\nDiagnose"
+    ID_APP_ABOUT            "プログラム情報、バージョン、コピーライトを表示\nAbout"
+    ID_APP_EXIT             "アプリケーションを終了; セーブを確認\n終了"
+    ID_HELP                 "ヘルプファイルを開く\nヘルプ"
+    ID_DIAGNOSE             "ダイアグレポートを作成\nダイアグ"
 END
 
 STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "スクリーンクリア\nクリア"
-    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
-    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
-    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
-    ID_EDIT_FIND            "Find the specified text\nFind"
-    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
-    ID_PASTE_SELECTION      "Insert selected text\nPaste Selection"
+    ID_EDIT_CLEAR_ALL       "全部消去\n全消去"
+    ID_EDIT_COPY            "せんたくをコピーして、クリップボードに置く\nコピー"
+    ID_EDIT_CUT             "選択を切り取り、クリップボードに置く\nカット"
+    ID_EDIT_FIND            "文字を検索\n検索"
+    ID_EDIT_PASTE           "クリップボードの中身を挿入\nペースト"
+    ID_PASTE_SELECTION      "選択文字を挿入\n文字をペースト"
     ID_EDIT_INSERT_SNIPPET  "Insert Snippet\nInsert Snippet"
-    ID_EDIT_STOP_SCROLLING  "Stop Scrolling\nStop Scrolling"
-    ID_EDIT_RESUME_SCROLLING "Resume Scrolling\nResume Scrolling"
-    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
-    ID_EDIT_RENAME_TAB      "Rename the active tab\nRename tab"
-    ID_EDIT_SETTINGS        "Open settings' dialog\nSettings..."
+    ID_EDIT_STOP_SCROLLING  "スクロールの停止\nスクロール停止"
+    ID_EDIT_RESUME_SCROLLING "スクロールのレジューム\nスクロールのレジューム"
+    ID_EDIT_SELECT_ALL      "全部を選択する\n全選択"
+    ID_EDIT_RENAME_TAB      "アクティブタブの名前を変更\nタブ名の変更"
+    ID_EDIT_SETTINGS        "設定の画面を開く\n設定..."
 END
 
 STRINGTABLE
 BEGIN
-    ID_FILE_NEW_TAB         "Open a new tab\nNew tab"
-    ID_VIEW_CONSOLE         "Show or hide the console"
-    ID_FILE_CLOSE_TAB       "Close the current tab\nClose Tab"
-    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Close all tabs but the current"
-    ID_FILE_CLOSE_ALL_TABS_LEFT     "Close all tabs to the left of the current"
-    ID_FILE_CLOSE_ALL_TABS_RIGHT    "Close all tabs to the right of the current"
-    ID_FONT_INFO            "Display font information of the hidden console"
-    ID_VIEW_MENU            "Show or hide the menu"
-    ID_VIEW_TABS            "Show or hide the tabs"
-    ID_VIEW_TOOLBAR         "Show or hide the toolbar"
-    ID_VIEW_SEARCH_BAR      "Show or hide the search bar"
-    ID_VIEW_STATUS_BAR      "Show or hide the status bar"
-    ID_SWITCH_TRANSPARENCY  "Turn on or off transparency"
+    ID_FILE_NEW_TAB         "新しいタブを開く\n新規タブ"
+    ID_VIEW_CONSOLE         "コンソールの表示、非表示"
+    ID_FILE_CLOSE_TAB       "利用中のタブをクローズ\nタブをクローズ"
+    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "利用中以外のタブをすべてクローズ"
+    ID_FILE_CLOSE_ALL_TABS_LEFT     "利用中のタブより左のタブをクローズ"
+    ID_FILE_CLOSE_ALL_TABS_RIGHT    "利用中のタブより右のタブをクローズ"
+    ID_FONT_INFO            "隠れたコンソールのフォント情報を表示"
+    ID_VIEW_MENU            "メニューの表示、非表示"
+    ID_VIEW_TABS            "タブの表示、非表示"
+    ID_VIEW_TOOLBAR         "ツールバーの表示、非表示"
+    ID_VIEW_SEARCH_BAR      "検索バーの表示、非表示"
+    ID_VIEW_STATUS_BAR      "ステータスバーの表示、非表示"
+    ID_SWITCH_TRANSPARENCY  "透過のON OFF"
 END
 
 STRINGTABLE
 BEGIN
-    ID_NEXT_TAB             "Switch to next tab\nNext tab"
-    ID_PREV_TAB             "Switch to previous tab\nPrevious tab"
-    ID_NEXT_VIEW            "Switch to the next view\nNext View"
-    ID_PREV_VIEW            "Switch to the previous view\nPrevious View"
-    ID_CLOSE_VIEW           "Close the current view\nClose View"
-    ID_DETACH_VIEW          "Detach the current view\nDetach View"
+    ID_NEXT_TAB             "次のタブに切り替え\n次のタブ"
+    ID_PREV_TAB             "前のタブに切り替え\n前のタブ"
+    ID_NEXT_VIEW            "次のビューに切り替え\n次のビュー"
+    ID_PREV_VIEW            "前のビューに切り替え\n前のビュー"
+    ID_CLOSE_VIEW           "利用中のビューをクローズ\nビューをクローズ"
+    ID_DETACH_VIEW          "現在のビューをデタッチ\nビューのデタッチ"
     ID_ATTACH_CONSOLES      "コンソールのアタッチ\nコンソールのアタッチ"
-    ID_SPLIT_HORIZ          "Split the current view horizontally\nSplit Horizontally"
-    ID_SPLIT_VERT           "Split the current view vertically\nSplit Vertically"
-    ID_SPLIT_SWAP           "Swap with the view that previously had focus\nSwap Views"
+    ID_SPLIT_HORIZ          "現在のビューを水平に分割\n水平分割"
+    ID_SPLIT_VERT           "現在のビューを垂直に分割\n垂直分割"
+    ID_SPLIT_SWAP           "前のフォーカス画面と交換\nビューのスワップ"
 
     ID_CLONE_IN_NEW_TAB     "現在のビューを新しいタブにクローン\n新しいタブにクローン"
-    ID_VIEW_FULLSCREEN      "Toggle full screen\nFull Screen"
+    ID_VIEW_FULLSCREEN      "フルスクリーンの切り替え\nフルスクリーン"
     ID_GROUP_ALL            "Group all terminals so that any input sent to one of them, goes to all of them\nGroup All"
     ID_UNGROUP_ALL          "Remove grouping from all terminals\nUngroup All"
     ID_GROUP_TAB            "Group all terminals in the current tab so that any input sent to one of them, goes to all of them\nGroup Tab"
@@ -853,9 +853,9 @@ BEGIN
     IDOK                    "OK"
     IDCANCEL                "キャンセル"
     IDS_SNIPPET_AUTHOR      "Author"
-    IDS_SNIPPET_DESCRIPTION "Description"
+    IDS_SNIPPET_DESCRIPTION "説明"
     IDS_SNIPPET_CODE        "Code"
-    IDS_SNIPPET_VERSION     "Version"
+    IDS_SNIPPET_VERSION     "バージョン"
     IDC_SNIPPET_INFORMATION "Show snippet information"
     IDC_SNIPPET_EDIT        "編集"
 END
@@ -879,40 +879,40 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CAPTION_ERROR "Error"
+    IDS_CAPTION_ERROR "エラー"
     IDS_ERR_CANT_START_SHELL "Unable to start %1% (reason:%2%)!"
     IDS_ERR_CANT_START_SHELL_AS_USER "Unable to start %1% as user %2% (reason:%3%)!"
-    IDS_ERR_DLL_INJECTION_FAILED "DLL injection has failed (reason:%1%)!"
-    IDS_ERR_DLL_HOOK_MISSING "DLL hook %1% is missing!"
-    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "Unable to create shared objects (reason:%1%)!"
+    IDS_ERR_DLL_INJECTION_FAILED "DLL インジェクションの失敗 (理由:%1%)!"
+    IDS_ERR_DLL_HOOK_MISSING "DLL フック %1% エラー!"
+    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "共有オブジェクトを作れません (reason:%1%)!"
     IDS_ERR_CANT_START_SHELL_AS_ADMIN "Unable to start %1% %2% as administrator (reason:%3%)!"
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (reason:%1%)!"
-    IDS_ERR_TAB_CREATE_FAILED "Failed to open %1% tab!\nThe process %2% could still be running (use the Task Manager to find it and end it)"
+    IDS_ERR_TAB_CREATE_FAILED "タブ %1%をオープンできません !\nプロセス　%2% がまだ動作してます　(タスクマネージャーで該当プロセスを終了してください)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% is not a Win32 console application!"
 END
 
 STRINGTABLE
 BEGIN
     MSG_SETTINGS_INVALID_BUFFER_ROWS
-                            "Invalid number of console buffer rows! Must be between %1% and %2%."
+                            "コンソールバッファ列数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_INVALID_BUFFER_COLUMNS
-                            "Invalid number of console buffer columns! Must be between %1% and %2%."
+                            "コンソールバッファ行数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_INVALID_ROWS
-                            "Invalid number of console rows! Must be between %1% and %2%."
+                            "コンソールの行数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_INVALID_COLUMNS
-                            "Invalid number of console columns! Must be between %1% and %2%."
+                            "コンソール列数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_HOTKEY_ALREADY_ASSIGNED
-                            "Hotkey is already assigned to '%1%' command!"
+                            "ホットキーはすでにコマンド '%1%' にアサインされています!"
     MSG_SETTINGS_HOTKEY_NONE
                             "None"
     MSG_SETTINGS_FULLSCREEN_CURRENT
-                            "current"
+                            "カレント"
     MSG_SETTINGS_DELETE_TAB
-                            "Delete selected tab?"
+                            "選択したタブを削除?"
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR
-                            "Configuration cannot be saved. Make sure you have write permission for %1%."
+                            "設定が保存できませんでした。ファイルのライトパーミッションを確認してください。 %1%."
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR_EXEDIR
-                            "It is recommended to save settings to user directory."
+                            "ユーザディレクトリに設定を保存のをお勧めします."
     MSG_SETTINGS_INIT_DIR
                             "初期ディレクトリの選択"
     MSG_SETTINGS_ICON_FILES
@@ -931,23 +931,23 @@ BEGIN
     MSG_MAINFRAME_CLOSE_ALL_VIEWS
                             "すべてのビューを閉じて閉じますか ?"
     MSG_MAINFRAME_SEARCH
-                            "Search..."
+                            "検索..."
     MSG_MAINFRAME_EXIT_FULLSCREEN
-                            "Exit Full Screen"
+                            "フルスクリーンを終了"
     MSG_MAINFRAME_SYNTAX_ERROR
-                            "syntax error at position %1%"
+                            "%1% にシンタックスエラー"
 
-    MSG_TABVIEW_RUNAS       "Run as different user"
+    MSG_TABVIEW_RUNAS       "違うユーザーとして実行"
 
     MSG_ABOUT               "\nConsoleZ %1%.%2%.%3%.%4%\nCopyright (c)\n2011-2016\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_EDIT_SETTINGS        "Settings dialog"
-    IDS_HELP                 "Help"
+    IDS_EDIT_SETTINGS        "設定画面"
+    IDS_HELP                 "ヘルプ"
 
-    IDS_APP_EXIT             "Exit ConsoleZ"
+    IDS_APP_EXIT             "ConsoleZを終了"
 
     IDS_NEW_TAB_1            "New Tab 1"
     IDS_NEW_TAB_2            "New Tab 2"
@@ -973,74 +973,74 @@ BEGIN
     IDS_SWITCH_TAB_9         "Switch to tab 9"
     IDS_SWITCH_TAB_10        "Switch to tab 10"
 
-    IDS_NEXT_TAB             "Switch to next tab"
-    IDS_PREV_TAB             "Switch to previous tab"
-    IDS_MOVE_TAB_LEFT        "Move tab in focus left"
-    IDS_MOVE_TAB_RIGHT       "Move tab in focus right"
+    IDS_NEXT_TAB             "次のタブに切り替え"
+    IDS_PREV_TAB             "前のタブに切り替え"
+    IDS_MOVE_TAB_LEFT        "タブのフォーカスを左に移動"
+    IDS_MOVE_TAB_RIGHT       "タブのフォーカスを右に移動"
 
-    IDS_FILE_CLOSE_TAB       "Close tab"
-    IDS_EDIT_RENAME_TAB      "Rename tab"
+    IDS_FILE_CLOSE_TAB       "タブをクローズ"
+    IDS_EDIT_RENAME_TAB      "タブ名を変更"
 
-    IDS_NEXT_VIEW            "Switch to next view"
-    IDS_PREV_VIEW            "Switch to previous view"
-    IDS_LEFT_VIEW            "Switch to left view"
-    IDS_RIGHT_VIEW           "Switch to right view"
-    IDS_TOP_VIEW             "Switch to top view"
-    IDS_BOTTOM_VIEW          "Switch to bottom view"
+    IDS_NEXT_VIEW            "次のビュー"
+    IDS_PREV_VIEW            "前のビューに切り替え"
+    IDS_LEFT_VIEW            "左ビューに切り替え"
+    IDS_RIGHT_VIEW           "右のビューに切り替え"
+    IDS_TOP_VIEW             "最上位のビューに切り替え"
+    IDS_BOTTOM_VIEW          "最下ビューに切り替え"
 
-    IDS_DEC_HORIZ_SIZE       "Decrease horizontal view size"
-    IDS_INC_HORIZ_SIZE       "Increase horizontal view size"
-    IDS_DEC_VERT_SIZE        "Decrease vertical view size"
-    IDS_INC_VERT_SIZE        "Increase vertical view size"
+    IDS_DEC_HORIZ_SIZE       "水平ビューサイズを縮小する"
+    IDS_INC_HORIZ_SIZE       "水平ビューサイズを縮小"
+    IDS_DEC_VERT_SIZE        "垂直ビューサイズを縮小する"
+    IDS_INC_VERT_SIZE        "垂直ビューサイズを縮小"
 
-    IDS_CLOSE_VIEW           "Close view"
-    IDS_DETACH_VIEW          "Detach view"
+    IDS_CLOSE_VIEW           "ビューをクローズ"
+    IDS_DETACH_VIEW          "ビューのデタッチ"
     IDS_ATTACH_CONSOLES      "コンソールのアタッチ"
-    IDS_SPLIT_HORIZ          "Split horizontally"
-    IDS_SPLIT_VERT           "Split vertically"
-    IDS_SPLIT_SWAP           "Swap with the view that previously had focus"
-    IDS_CLONE_IN_NEW_TAB     "Clone view in new tab"
+    IDS_SPLIT_HORIZ          "水平分割"
+    IDS_SPLIT_VERT           "垂直分割"
+    IDS_SPLIT_SWAP           "前のフォーカス画面と交換"
+    IDS_CLONE_IN_NEW_TAB     "新しいタブにビューを複製"
     IDS_VIEW_FULLSCREEN      "フルスクリーン"
     IDS_VIEW_ZOOM_100        "Zoom 100%"
-    IDS_VIEW_ZOOM_INC        "Zoom increment"
-    IDS_VIEW_ZOOM_DEC        "Zoom decrement"
+    IDS_VIEW_ZOOM_INC        "ズームアップ"
+    IDS_VIEW_ZOOM_DEC        "ズームダウン"
     IDS_GROUP_ALL            "Group all"
     IDS_UNGROUP_ALL          "Ungroup all"
     IDS_GROUP_TAB            "Group tab"
     IDS_UNGROUP_TAB          "Ungroup tab"
 
     IDS_EDIT_CLEAR           "スクリーンクリア"
-    IDS_EDIT_COPY            "Copy selection"
-    IDS_EDIT_SELECT_ALL      "Select all"
+    IDS_EDIT_COPY            "選択のコピー"
+    IDS_EDIT_SELECT_ALL      "全選択"
     IDS_EDIT_CLEAR_SELECTION "選択のクリア"
-    IDS_EDIT_PASTE           "Paste"
-    IDS_PASTE_SELECTION      "Paste selection"
-    IDS_EDIT_STOP_SCROLLING  "Stop scrolling"
-    IDS_EDIT_RESUME_SCROLLING "Resume scrolling"
+    IDS_EDIT_PASTE           "ペースト"
+    IDS_PASTE_SELECTION      "選択をペースト"
+    IDS_EDIT_STOP_SCROLLING  "スクロール停止"
+    IDS_EDIT_RESUME_SCROLLING "スクロールのレジューム"
 
-    IDS_SCROLL_UP            "Scroll buffer row up"
-    IDS_SCROLL_DOWN          "Scroll buffer row down"
-    IDS_SCROLL_PAGE_UP       "Scroll buffer page up"
-    IDS_SCROLL_PAGE_DOWN     "Scroll buffer page down"
-    IDS_SCROLL_LEFT          "Scroll buffer column left"
-IDS_SCROLL_RIGHT         "Scroll buffer column right"
-IDS_SCROLL_PAGE_LEFT     "Scroll buffer page left"
-IDS_SCROLL_PAGE_RIGHT    "Scroll buffer page right"
+    IDS_SCROLL_UP            "バッファを上にスクロール"
+    IDS_SCROLL_DOWN          "バッファを下にスクロール"
+    IDS_SCROLL_PAGE_UP       "バッファをページアップ"
+    IDS_SCROLL_PAGE_DOWN     "バッファをページダウン"
+    IDS_SCROLL_LEFT          "バッファを左にスクロール"
+IDS_SCROLL_RIGHT         "バッファを右にスクロール"
+IDS_SCROLL_PAGE_LEFT     "バッファをページレフト"
+IDS_SCROLL_PAGE_RIGHT    "バッファをページライト"
 
-IDS_FIND                 "Find text"
-IDS_SEARCH_NEXT          "Find next"
-IDS_SEARCH_PREV          "Find previous"
+IDS_FIND                 "検索"
+IDS_SEARCH_NEXT          "次を検索"
+IDS_SEARCH_PREV          "前を検索"
 
-IDS_SWITCH_TRANSPARENCY  "Turn on/off transparency"
+IDS_SWITCH_TRANSPARENCY  "透過のON OF"
 
-IDS_DUMP_BUFFER          "Dump screen buffer"
+IDS_DUMP_BUFFER          "スクリーンバッファーのダンプ"
 
 IDS_SHOW_CONTEXT_MENU_1  "Show Context menu #1"
 IDS_SHOW_CONTEXT_MENU_2  "Show Context menu #2"
 IDS_SHOW_CONTEXT_MENU_3  "Show Context menu #3"
 ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
 
-IDS_SEND_CTRL_C          "Send CTRL-C event"
+IDS_SEND_CTRL_C          "CTRL-C を送る"
 
 IDS_EXTERNAL_COMMAND_1   "External command 1"
 IDS_EXTERNAL_COMMAND_2   "External command 2"
@@ -1075,11 +1075,11 @@ END
 
 STRINGTABLE
 BEGIN
-IDS_MOUSE_COPY           "Copy/clear selection"
-IDS_MOUSE_SELECT         "Select text"
-IDS_MOUSE_COLUMNSELECT   "Select column"
-IDS_MOUSE_PASTE          "Paste text"
-IDS_MOUSE_DRAG           "Drag window"
+IDS_MOUSE_COPY           "コピー/選択をクリア"
+IDS_MOUSE_SELECT         "文字選択"
+IDS_MOUSE_COLUMNSELECT   "行選択"
+IDS_MOUSE_PASTE          "文字をペースト"
+IDS_MOUSE_DRAG           "ウィンドーのドラッグ"
 IDS_MOUSE_LINK           "リンクのクリック"
 IDS_MOUSE_MENU1          "Context menu #1"
 IDS_MOUSE_MENU2          "Context menu #2"
@@ -1092,24 +1092,24 @@ BEGIN
 IDS_SETTINGS_CONSOLE       "Console"
 IDS_SETTINGS_APPEARANCE    "外観"
 IDS_SETTINGS_STYLES        "スタイル"
-IDS_SETTINGS_TRANSPARENCY  "透明"
+IDS_SETTINGS_TRANSPARENCY  "透過"
 IDS_SETTINGS_FONT          "フォント"
 IDS_SETTINGS_FULLSCREEN    "フルスクリーン"
 IDS_SETTINGS_BEHAVIOR      "動作"
 IDS_SETTINGS_MORE          "More..."
-IDS_SETTINGS_HOTKEYS       "Hotkeys"
+IDS_SETTINGS_HOTKEYS       "ホットキー"
 IDS_SETTINGS_MOUSE         "マウス"
 IDS_SETTINGS_TABS          "タブ"
 IDS_SETTINGS_COMMAND       "コマンド"
-IDS_SETTINGS_MOUSE_ACTION  "Mouse action"
+IDS_SETTINGS_MOUSE_ACTION  "マウスアクション"
 IDS_SETTINGS_TAB_NAME      "タブ名"
-IDS_SETTINGS_MAIN          "Main"
+IDS_SETTINGS_MAIN          "メイン"
 IDS_SETTINGS_BACKGROUND    "背景"
-IDS_SETTINGS_COLORS_CURSOR "Colors && Cursor"
-IDS_SETTINGS_ENVIRONMENT   "Environment"
+IDS_SETTINGS_COLORS_CURSOR "色 && カーソル"
+IDS_SETTINGS_ENVIRONMENT   "環境変数"
 IDS_SETTINGS_HOTKEY        "ホットキー"
-IDS_SETTINGS_VARIABLE      "Variable"
-IDS_SETTINGS_VALUE         "Value"
+IDS_SETTINGS_VARIABLE      "変数"
+IDS_SETTINGS_VALUE         "値"
 IDS_SETTINGS_WINDOWED      "Windowed"
 END
 
@@ -1117,11 +1117,11 @@ STRINGTABLE
 BEGIN
 IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
 IDC_COMBO_DOCKING            "None;Top left;Top right;Bottom left;Bottom right;Top middle;Bottom middle;Left middle;Right middle;"
-IDC_COMBO_ZORDER             "Regular;Always on top;Always on bottom;Pinned to desktop;"
-IDC_COMBO_SMOOTHING          "Default;None;ClearType;Natural ClearType;Antialiased"
+IDC_COMBO_ZORDER             "普通;いつも上;いつも下;デスクトップにピン止め;"
+IDC_COMBO_SMOOTHING          "デフォルト;なし;クリアタイプ;標準クリアタイプ;アンチエイリアス"
 IDC_COMBO_BUTTONS            "None;Left;Right;Middle;Fourth;Fifth;"
 IDC_COMBO_BK_POS             "Center;Stretch;Tile;Fit;Fill;"
-IDC_COMBO_FULLSCREEN_MONITOR "Current;"
+IDC_COMBO_FULLSCREEN_MONITOR "カレント;"
 IDC_COMBO_BASE_PRIORITY      "Idle;Below normal;Normal;Above normal;High;Realtime;"
 IDC_COMBO_STATE              "Normal window;Minimized;Maximized;Full screen;"
 END
