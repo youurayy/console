@@ -889,6 +889,7 @@ BEGIN
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Невозможно получить повышенный уровень (причина:%1%)!"
     IDS_ERR_TAB_CREATE_FAILED "Ошибка при открытии вкладки %1%!\nПроцесс %2% может быть всё ещё запущен (используйте Диспетчер задач для завершения его)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% is not a Win32 console application!"
+    IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
 END
 
 STRINGTABLE

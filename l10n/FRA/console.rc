@@ -889,6 +889,7 @@ BEGIN
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Impossible d'obtenir le niveau d'élévation (la raison : %1%) !"
     IDS_ERR_TAB_CREATE_FAILED "L'ouverture de l'onglet %1% a échoué !\nLe processus %2% est peut être en cours d'exécution (utilisez le gestionnaire des tâches pour le terminer)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% n'est pas une application console Win32 !"
+    IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
 END
 
 STRINGTABLE
