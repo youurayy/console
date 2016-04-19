@@ -889,6 +889,7 @@ BEGIN
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (reason:%1%)!"
     IDS_ERR_TAB_CREATE_FAILED "Failed to open %1% tab!\nThe process %2% could still be running (use the Task Manager to find it and end it)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% is not a Win32 console application!"
+    IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
 END
 
 STRINGTABLE

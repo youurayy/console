@@ -727,6 +727,69 @@ std::wstring Helpers::GetUACPrefix(void)
 
 //////////////////////////////////////////////////////////////////////////////
 
+void Helpers::GetCurrentUserAndDomain(std::wstring& strUser, std::wstring& strDomain)
+{
+	std::unique_ptr<void, CloseHandleHelper> hToken(nullptr);
+
+	{
+		HANDLE _hToken = nullptr;
+
+		if ( !::OpenProcessToken(
+			::GetCurrentProcess(),
+			TOKEN_QUERY,
+			&_hToken) )
+		{
+			Win32Exception::ThrowFromLastError("OpenProcessToken");
+		}
+
+		hToken.reset(_hToken);
+	}
+
+	DWORD dwReturnLength = 0;
+
+	if ( !::GetTokenInformation(
+		hToken.get(),
+		TokenUser,
+		nullptr,
+		0,
+		&dwReturnLength ) )
+	{
+		if( GetLastError() != ERROR_INSUFFICIENT_BUFFER )
+			Win32Exception::ThrowFromLastError("GetTokenInformation");
+	}
+
+	std::unique_ptr<BYTE[]> tu(new BYTE[dwReturnLength]);
+
+	if ( !::GetTokenInformation(
+		hToken.get(),
+		TokenUser,
+		tu.get(),
+		dwReturnLength,
+		&dwReturnLength ) )
+	{
+			Win32Exception::ThrowFromLastError("GetTokenInformation");
+	}
+
+	wchar_t szUser[CRED_MAX_STRING_LENGTH + 1] = L"";
+	wchar_t szDomain[CRED_MAX_STRING_LENGTH + 1] = L"";
+	DWORD dwUserLen = static_cast<DWORD>(ARRAYSIZE(szUser));
+	DWORD dwDomainLen = static_cast<DWORD>(ARRAYSIZE(szDomain));
+	SID_NAME_USE snu;
+
+	// Retrieve user name and domain name based on user's SID.
+	if( !LookupAccountSid(NULL, reinterpret_cast<TOKEN_USER*>(tu.get())->User.Sid, szUser, &dwUserLen, szDomain, &dwDomainLen, &snu) )
+	{
+		Win32Exception::ThrowFromLastError("LookupAccountSid");
+	}
+
+	strUser = szUser;
+	strDomain = szDomain;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////
+
 #ifndef _USING_V110_SDK71_
 
 bool Helpers::GetDpiForMonitor(HMONITOR hmonitor, MONITOR_DPI_TYPE dpiType, UINT *dpiX, UINT *dpiY)

@@ -200,8 +200,13 @@ class ConsoleHandler
 
 		void RunAsAdministrator
 		(
-			const ConsoleOptions& consoleOptions,
-			const wstring& strSyncName
+			const wstring& strCommandLineParams
+		);
+
+		void RunAsUser
+		(
+			const wstring& strCommandLineParams,
+			const UserCredentials& userCredentials
 		);
 
 	private:
