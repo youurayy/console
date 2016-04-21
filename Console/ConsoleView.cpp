@@ -3009,6 +3009,10 @@ void ConsoleView::BitBltOffscreen(bool bOnlyCursor /*= false*/)
 	}
 
 	InvalidateRect(&rectBlit, FALSE);
+	// The InvalidateRect or InvalidateRgn function can indirectly generate WM_PAINT messages for your windows.
+	// If you do not want the application to wait until the application's message queue has no other messages,
+	// use the UpdateWindow function to force the WM_PAINT message to be sent immediately.
+	if( !bOnlyCursor ) UpdateWindow();
 }
 
 /////////////////////////////////////////////////////////////////////////////
