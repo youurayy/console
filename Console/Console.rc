@@ -656,7 +656,7 @@ BEGIN
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
         MENUITEM "Swap Views",                  ID_SPLIT_SWAP
-        MENUITEM "Clone in new &Tab",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Clone in New &Tab",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Settings...",                ID_EDIT_SETTINGS
     END
@@ -706,7 +706,7 @@ BEGIN
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
         MENUITEM "Swap Views",                  ID_SPLIT_SWAP
-        MENUITEM "Clone in new &Tab",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Clone in New &Tab",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Console Window",             ID_VIEW_CONSOLE
     END
@@ -840,7 +840,7 @@ BEGIN
     ID_SPLIT_VERT           "Split the current view vertically\nSplit Vertically"
     ID_SPLIT_SWAP           "Swap with the view that previously had focus\nSwap Views"
 
-    ID_CLONE_IN_NEW_TAB     "Clone the current view in a new tab\nClone in new tab"
+    ID_CLONE_IN_NEW_TAB     "Clone the current view in a new tab\nClone in New Tab"
     ID_VIEW_FULLSCREEN      "Toggle full screen\nFull Screen"
     ID_GROUP_ALL            "Group all terminals so that any input sent to one of them, goes to all of them\nGroup All"
     ID_UNGROUP_ALL          "Remove grouping from all terminals\nUngroup All"
