@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Include="DEU\console.ini" />
     <None Include="FRA\console.ini" />
+    <None Include="JPN\console.ini" />
     <None Include="makefile" />
     <None Include="RUS\console.ini" />
   </ItemGroup>
