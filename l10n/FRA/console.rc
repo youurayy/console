@@ -940,7 +940,7 @@ BEGIN
 
     MSG_TABVIEW_RUNAS       "Lancer en tant qu'un autre utilisateur"
 
-    MSG_ABOUT               "\nConsoleZ %1%.%2%.%3%.%4%\nCopyright (C) 2011-2016\nChristophe Bucher\n\nversion modifiée de\nConsole 2\nécrit par\nMarko Bozikovic"
+    MSG_ABOUT               "\nConsoleZ %1%\n\nCopyright (C) 2011-2016\nChristophe Bucher\n\nversion modifiée de\nConsole 2\nécrit par\nMarko Bozikovic"
 END
 
 STRINGTABLE

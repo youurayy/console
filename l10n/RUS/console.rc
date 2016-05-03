@@ -940,7 +940,7 @@ BEGIN
 
     MSG_TABVIEW_RUNAS       "Запустить от имени другого пользователя"
 
-    MSG_ABOUT               "\nConsoleZ %1%.%2%.%3%.%4%\nCopyright (c)\n2011-2016\nChristophe Bucher\n\nмодифицированная\nверсия\nConsole 2\nMarko Bozikovic\nперевод koros aka ya158\nkoros@ya.ru"
+    MSG_ABOUT               "\nConsoleZ %1%\n\nCopyright (c) 2011-2016\nChristophe Bucher\n\nмодифицированная\nверсия\nConsole 2\nMarko Bozikovic\nперевод koros aka ya158\nkoros@ya.ru"
 END
 
 STRINGTABLE

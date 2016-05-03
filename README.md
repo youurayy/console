@@ -45,7 +45,7 @@ Changes in 1.17.0 (29 apr 2016)
       (DBCS code page requires a specific font)
     + Snippets manager.
     + "Resume scrolling" command.
-    + Configure initial window state (appearence settings).
+    + Configure initial window state (appearance settings).
     + Japanese localization (thanks to rosolino).
     * Mono-instance is no longer forced in jump lists.
     * User profile is fully created when running a shell with another user credentials.
