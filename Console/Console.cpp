@@ -153,13 +153,13 @@ static bool HandleReuse(LPCTSTR lpstrCmdLine)
 	return false;
 }
 
+void LoadLocalizedResources(const std::wstring& language);
+
 int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 {
   try
   {
-    CMessageLoop theLoop;
-    _Module.AddMessageLoop(&theLoop);
-
+		// parse command line
 		std::wstring         strConfigFile(L"");
 		bool                 bReuse = false;
 		std::wstring         strSyncName;
@@ -177,6 +177,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
       strConfigFile = wstring(L"console.xml");
     }
 
+		// load settings
     if (!g_settingsHandler->LoadSettings(Helpers::ExpandEnvironmentStrings(strConfigFile)))
     {
       throw std::exception("Unable to load settings!");
@@ -186,6 +187,11 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 		{
 			bReuse = !g_settingsHandler->GetBehaviorSettings2().instanceSettings.bAllowMultipleInstances;
 		}
+
+		LoadLocalizedResources(g_settingsHandler->GetLanguage());
+
+		CMessageLoop theLoop;
+		_Module.AddMessageLoop(&theLoop);
 
 		if (!strSyncName.empty())
 		{
@@ -358,7 +364,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
 //////////////////////////////////////////////////////////////////////////////
 
-HMODULE LoadLocalizedResources(const wchar_t * szLang)
+HMODULE LoadLocalizedResourcesDll(const wchar_t * szLang)
 {
 	HMODULE hResources = nullptr;
 
@@ -443,9 +449,11 @@ struct {
 	LANGID language;
 	wchar_t *iso639;
 } languages[] = {
-	{ LANG_ENGLISH, L"eng" },
-	{ LANG_FRENCH,  L"fra" },
-	{ LANG_RUSSIAN, L"rus" },
+	{ LANG_GERMAN,   L"deu" },
+	{ LANG_ENGLISH,  L"eng" },
+	{ LANG_FRENCH,   L"fra" },
+	{ LANG_JAPANESE, L"jap" },
+	{ LANG_RUSSIAN,  L"rus" },
 };
 
 HMODULE LoadLocalizedResourcesXP(LANGID langid)
@@ -456,7 +464,7 @@ HMODULE LoadLocalizedResourcesXP(LANGID langid)
 	{
 		if( languages[i].language == langid )
 		{
-			hResources = LoadLocalizedResources(languages[i].iso639);
+			hResources = LoadLocalizedResourcesDll(languages[i].iso639);
 			break;
 		}
 	}
@@ -465,7 +473,7 @@ HMODULE LoadLocalizedResourcesXP(LANGID langid)
 }
 #endif
 
-void LoadLocalizedResources()
+HMODULE LoadLocalizedResourcesAuto()
 {
 	HMODULE hResources = nullptr;
 
@@ -488,7 +496,7 @@ void LoadLocalizedResources()
 		if( ::GetLocaleInfo(LOCALE_CUSTOM_UI_DEFAULT, LOCALE_SISO639LANGNAME2, szLang, 9) > 0 )
 		{
 			TRACE(L"LOCALE_CUSTOM_UI_DEFAULT ");
-			hResources = LoadLocalizedResources(szLang);
+			hResources = LoadLocalizedResourcesDll(szLang);
 		}
 		else
 		{
@@ -497,13 +505,13 @@ void LoadLocalizedResources()
 		}
 
 		// default resources are in english
-		if( !hResources && ::_wcsicmp(szLang, L"eng") == 0 ) return;
+		if( !hResources && ::_wcsicmp(szLang, L"eng") == 0 ) return nullptr;
 
 		// system language
 		if( !hResources && ::GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_SISO639LANGNAME2, szLang, 9) > 0 )
 		{
 			TRACE(L"LOCALE_SYSTEM_DEFAULT ");
-			hResources = LoadLocalizedResources(szLang);
+			hResources = LoadLocalizedResourcesDll(szLang);
 		}
 		else
 		{
@@ -514,6 +522,22 @@ void LoadLocalizedResources()
 #ifdef _USING_V110_SDK71_
 	}
 #endif
+
+	return hResources;
+}
+
+void LoadLocalizedResources(const std::wstring& language)
+{
+	HMODULE hResources = nullptr;
+
+	if( language == std::wstring(L"auto") )
+	{
+		hResources = LoadLocalizedResourcesAuto();
+	}
+	else
+	{
+		hResources = LoadLocalizedResourcesDll(language.c_str());
+	}
 
 	if(hResources)
 	{
@@ -549,8 +573,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
 	hRes = _Module.Init(NULL, hInstance);
 	ATLASSERT(SUCCEEDED(hRes));
-
-	LoadLocalizedResources();
 
 	int nRet = Run(lpstrCmdLine, nCmdShow);
 

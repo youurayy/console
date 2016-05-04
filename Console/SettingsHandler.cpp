@@ -2698,6 +2698,7 @@ SettingsHandler::SettingsHandler()
 , m_mouseSettings()
 , m_snippetSettings()
 , m_tabSettings()
+, m_strLanguage(L"auto")
 {
 }
 
@@ -2792,6 +2793,8 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 	}
 
 	// load settings' sections
+	XmlHelper::GetAttribute(m_pSettingsRoot, CComBSTR(L"lang"), m_strLanguage, std::wstring(L"auto"));
+
 	m_consoleSettings.Load(m_pSettingsRoot);
 	m_appearanceSettings.Load(m_pSettingsRoot);
 	m_behaviorSettings.Load(m_pSettingsRoot);
@@ -2820,6 +2823,8 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 
 bool SettingsHandler::SaveSettings()
 {
+	XmlHelper::SetAttribute(m_pSettingsRoot, CComBSTR(L"lang"), m_strLanguage);
+
 	m_consoleSettings.Save(m_pSettingsRoot);
 	m_appearanceSettings.Save(m_pSettingsRoot);
 	m_behaviorSettings.Save(m_pSettingsRoot);
