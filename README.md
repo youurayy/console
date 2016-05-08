@@ -38,7 +38,7 @@ Changelog
     + added
     * fixed
 
-Changes in 1.17.0 (29 apr 2016)
+Changes in 1.17.0 (08 may 2016)
 
     ! Rebuild FreeImage 3.17.0 (static link without OpenMP)
     - ConsoleZ sets the current Windows console font to "Lucidia Console" size 5.

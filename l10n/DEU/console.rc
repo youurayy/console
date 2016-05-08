@@ -255,7 +255,7 @@ BEGIN
 
     CONTROL         "",IDC_TABS_CONTROLS,"SysTabControl32",TCS_BUTTONS | TCS_FLATBUTTONS | WS_TABSTOP,5,165,225,95
 
-    CONTROL         "Menu anzeigen",IDC_CHECK_SHOW_MENU,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,178,100,16
+    CONTROL         "Menü anzeigen",IDC_CHECK_SHOW_MENU,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,178,100,16
     CONTROL         "Toolbar anzeigen",IDC_CHECK_SHOW_TOOLBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,194,100,16
     CONTROL         "Suchfeld anzeigen",IDC_CHECK_SHOW_SEARCH_BAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,210,100,16
     CONTROL         "Statusbalken anzeigen",IDC_CHECK_SHOW_STATUS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,226,100,16
@@ -625,14 +625,14 @@ IDR_MAINFRAME MENU
 BEGIN
     POPUP "Datei"
     BEGIN
-        MENUITEM "Neuer Tab",                    ID_FILE_NEW_TAB
-        MENUITEM "Tab schliessen",                  ID_FILE_CLOSE_TAB
+        MENUITEM "&Neuer Tab",                    ID_FILE_NEW_TAB
+        MENUITEM "&Tab schliessen",                  ID_FILE_CLOSE_TAB
         MENUITEM "Alle Tabs ausser diesem schliessen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
         MENUITEM "Alle Tabs nach links schliessen",  ID_FILE_CLOSE_ALL_TABS_LEFT
         MENUITEM "All Tabs nach rechts schliessen", ID_FILE_CLOSE_ALL_TABS_RIGHT
         MENUITEM SEPARATOR
-        MENUITEM "Ansicht schliessen",                 ID_CLOSE_VIEW
-        MENUITEM "Ansicht trennen",                ID_DETACH_VIEW
+        MENUITEM "&Ansicht schliessen",                 ID_CLOSE_VIEW
+        MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Konsole anhängen",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
@@ -640,10 +640,10 @@ BEGIN
     END
     POPUP "Editieren"
     BEGIN
-        MENUITEM "Kopieren",                       ID_EDIT_COPY
+        MENUITEM "&Kopieren",                       ID_EDIT_COPY
         MENUITEM "Alles auswählen",                 ID_EDIT_SELECT_ALL
         MENUITEM "Auswahl aufheben",            ID_EDIT_CLEAR_SELECTION
-        MENUITEM "Einfügen",                      ID_EDIT_PASTE
+        MENUITEM "&Einfügen",                      ID_EDIT_PASTE
         MENUITEM "Auswahl einfügen",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
         MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
@@ -651,7 +651,7 @@ BEGIN
         MENUITEM "Scroll-stop",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Tab umbenennen",                 ID_EDIT_RENAME_TAB
+        MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
         MENUITEM "Horizontal splitten",         ID_SPLIT_HORIZ
         MENUITEM "Vertikal splitten",           ID_SPLIT_VERT
@@ -665,7 +665,7 @@ BEGIN
         MENUITEM "Konsolen Fenster",             ID_VIEW_CONSOLE
         MENUITEM "Font Information...",         ID_FONT_INFO
         MENUITEM SEPARATOR
-        MENUITEM "&Menu",                       ID_VIEW_MENU
+        MENUITEM "&Menü",                       ID_VIEW_MENU
         MENUITEM "Werkzeugleiste",                    ID_VIEW_TOOLBAR
         MENUITEM "Suchfeld",                  ID_VIEW_SEARCH_BAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
@@ -688,20 +688,20 @@ BEGIN
 
     POPUP "Tab"
     BEGIN
-        MENUITEM "Tab schliessen",                  ID_FILE_CLOSE_TAB
+        MENUITEM "&Tab schliessen",                  ID_FILE_CLOSE_TAB
         MENUITEM "Alle Tabs ausser diesem schliessen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
         MENUITEM "Alle Tabs nach links schliessen",  ID_FILE_CLOSE_ALL_TABS_LEFT
         MENUITEM "All Tabs nach rechts schliessen", ID_FILE_CLOSE_ALL_TABS_RIGHT
         MENUITEM SEPARATOR
-        MENUITEM "Ansicht schliessen",                 ID_CLOSE_VIEW
-        MENUITEM "Ansicht trennen",                ID_DETACH_VIEW
+        MENUITEM "&Ansicht schliessen",                 ID_CLOSE_VIEW
+        MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Scroll-stop",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Tab umbenennen",                 ID_EDIT_RENAME_TAB
+        MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
         MENUITEM "Horizontal splitten",         ID_SPLIT_HORIZ
         MENUITEM "Vertikal splitten",           ID_SPLIT_VERT
@@ -797,8 +797,8 @@ STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Fenster leeren\nleeren"
     ID_EDIT_CLEAR_ALL       "Alles löschen\nAlles löschen"
-    ID_EDIT_COPY            "Auswahl zum Clipboard kopieren"
-    ID_EDIT_CUT             "Auswahl ausschneiden und auf Clipboard legen\nAusschneiden"
+    ID_EDIT_COPY            "Auswahl in die Zwischenablage kopieren"
+    ID_EDIT_CUT             "Auswahl ausschneiden und auf Clipboard legen\nausschneiden"
     ID_EDIT_FIND            "Finde angegebenen Text\nFinde"
     ID_EDIT_PASTE           "Ins Clipboard schreiben\nEinfügen"
     ID_PASTE_SELECTION      "Ausgewählter Text einfügen\nAuswahl einfügen"
@@ -819,7 +819,7 @@ BEGIN
     ID_FILE_CLOSE_ALL_TABS_LEFT     "Alle Tabs nach links schliessen"
     ID_FILE_CLOSE_ALL_TABS_RIGHT    "Alle Tabs nach rechts schliessen"
     ID_FONT_INFO            "Font information von versteckter Konsole anzeigen"
-    ID_VIEW_MENU            "Menu anzeigen oder verstecken"
+    ID_VIEW_MENU            "Menü anzeigen oder verstecken"
     ID_VIEW_TABS            "Tabs anzeigen oder verstecken"
     ID_VIEW_TOOLBAR         "Werkzeugleiste anzeigen oder verstecken" ----
     ID_VIEW_SEARCH_BAR      "Suchfeld anzeigen oder verstecken"
@@ -835,12 +835,12 @@ BEGIN
     ID_PREV_VIEW            "Zur vorherigen Ansicht wechseln\nVorherige Ansicht"
     ID_CLOSE_VIEW           "Jetztige Ansicht schlissen\nAnsicht schliessen"
     ID_DETACH_VIEW          "Aktuelle Ansicht abhängen\nAnsicht abhängen"
-    ID_ATTACH_CONSOLES      "Konsole anhängen\nKonsole anhängen"
+    ID_ATTACH_CONSOLES      "Konsole anhängen\nKonsolen anhängen"
     ID_SPLIT_HORIZ          "Aktuelle Ansicht horizontal spalten\nHorizontal spalten"
     ID_SPLIT_VERT           "Aktuelle Ansicht vertikal spalten\nVertikal spalten"
     ID_SPLIT_SWAP           "Mit vorheriger Ansicht mit Fokus austauschen\nAnsicht austauschen"
 
-    ID_CLONE_IN_NEW_TAB     "Ansicht in neuem Tab Klonen\nIn neuem tab Klonen"
+    ID_CLONE_IN_NEW_TAB     "Ansicht in neuem Tab klonen\nIn neuem Tab klonen"
     ID_VIEW_FULLSCREEN      "Full screen ein-/ausschalten\nFull Screen"
     ID_GROUP_ALL            "All Konsolen so grupieren, dass Eingaben auf jedem Tab auf allen anderen ausgeführt wird.\nTab Gruppe"
     ID_UNGROUP_ALL          "Alle Gruppierungen aufheben\nGruppierungen aufheben"
@@ -928,7 +928,7 @@ BEGIN
                             "Konfig Dateien (*.xml)|*.xml|Alle Dateien (*.*)|*.*||"
 
     MSG_MAINFRAME_CLOSE_ALL_TABS
-                            "Wirklick alle tabs schliessen?"
+                            "Wirklich alle Tabs schliessen?"
     MSG_MAINFRAME_CLOSE_ALL_VIEWS
                             "Wirklich alle Ansichten schliessen?"
     MSG_MAINFRAME_SEARCH
@@ -976,8 +976,8 @@ BEGIN
 
     IDS_NEXT_TAB             "Zum nächsten Tab wechseln"
     IDS_PREV_TAB             "Zur vorhärigen Ansicht wechseln"
-    IDS_MOVE_TAB_LEFT        "Bewege tab Fokus nach links"
-    IDS_MOVE_TAB_RIGHT       "Bewege tab Fokus nach rechts"
+    IDS_MOVE_TAB_LEFT        "Bewege Tab Fokus nach links"
+    IDS_MOVE_TAB_RIGHT       "Bewege Tab Fokus nach rechts"
 
     IDS_FILE_CLOSE_TAB       "Tab schliessen"
     IDS_EDIT_RENAME_TAB      "Tab umbenennen"
@@ -1028,7 +1028,7 @@ IDS_SCROLL_RIGHT         "Scroll Puffer Spalte rechts"
 IDS_SCROLL_PAGE_LEFT     "Scroll Puffer Seite nach-links"
 IDS_SCROLL_PAGE_RIGHT    "Scroll Puffer Seite nach-rechts"
 
-IDS_FIND                 "Finde text"
+IDS_FIND                 "Finde Text"
 IDS_SEARCH_NEXT          "Finde nächstes"
 IDS_SEARCH_PREV          "Finde vorheriges"
 
@@ -1039,7 +1039,7 @@ IDS_DUMP_BUFFER          "Fenster Puffer ausgeben"
 IDS_SHOW_CONTEXT_MENU_1  "Kontextmenu #1 anzeigen"
 IDS_SHOW_CONTEXT_MENU_2  "Kontextmenu #2 anzeigen"
 IDS_SHOW_CONTEXT_MENU_3  "Kontextmenu #3 anzeigen"
-ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
+ID_SHOW_CONTEXT_MENU_SNIPPETS "Snippets-Menü anzeigen"
 
 IDS_SEND_CTRL_C          "Sende CTRL-C Event"
 
@@ -1081,11 +1081,11 @@ IDS_MOUSE_SELECT         "Text auswählen"
 IDS_MOUSE_COLUMNSELECT   "Spalte auswählen"
 IDS_MOUSE_PASTE          "Text einfügen"
 IDS_MOUSE_DRAG           "Fenster verschieben"
-IDS_MOUSE_LINK           "Link ancklicken"
+IDS_MOUSE_LINK           "Link anklicken"
 IDS_MOUSE_MENU1          "Kontext menu #1"
 IDS_MOUSE_MENU2          "Kontext menu #2"
 IDS_MOUSE_MENU3          "Kontext menu #3"
-IDS_MOUSE_SNIPPETS       "Snippets context menu"
+IDS_MOUSE_SNIPPETS       "Snippets Kontext Menü"
 END
 
 STRINGTABLE
@@ -1121,7 +1121,7 @@ IDC_COMBO_DOCKING            "Leer;Oben Links;Oben rechts;Unten links;Unten rech
 IDC_COMBO_ZORDER             "Regulär;Immer oben;Immer unten;am desktop befestigt;"
 IDC_COMBO_SMOOTHING          "Default;None;ClearType;Natural ClearType;Antialiased"
 IDC_COMBO_BUTTONS            "Leer;Links;Rechts;Mitte;Viertes;Fünftes;"
-IDC_COMBO_BK_POS             "Zentrum;Strecken,Titel,Passend,Füllend"
+IDC_COMBO_BK_POS             "Zentrieren;Strecken,Titel,Passend,Füllen"
 IDC_COMBO_FULLSCREEN_MONITOR "Aktuell;"
 IDC_COMBO_BASE_PRIORITY      "Warten;Niedrig;Normal;Höher;Hoch;Echtzeit;"
 IDC_COMBO_STATE              "Normal window;Minimized;Maximized;Full screen;"
