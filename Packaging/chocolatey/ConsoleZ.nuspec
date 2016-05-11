@@ -3,7 +3,7 @@
   <metadata>
     <id>ConsoleZ</id>
     <title>ConsoleZ (Install)</title>
-    <version>1.16.1.16068</version>
+    <version>1.17.0.16129</version>
     <authors>cbucher</authors>
     <owners>cbucher</owners>
     <licenseUrl>http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html</licenseUrl>
@@ -24,7 +24,7 @@ This fork supports:
 * Splitting Tabs into views (horizontally and vertically)
 * Grouping views (so input sent to one goes to all of them)
 * Windows Vista aero glass theme
-* Windows 7 jumplist
+* Windows 7 jump list
 * Windows 7 wallpaper positions and slideshow
 * Windows 8 wallpapers on dual screen
 * Zooming with Ctrl-Mouse
@@ -34,22 +34,20 @@ This fork supports:
 * Full screen
 * High DPI (per monitor)
 * Localization
+* Snippets
 * and more...</description>
     <summary>This is a modified version of Console 2 for a better experience under Windows Vista/7/8/10 and a better visual rendering.</summary>
     <releaseNotes>
-! Upgrade FreeImage version from 3.15.4 to 3.17.0.
-! Show BMP/DIB/GIF/JPEG/PNG files in Browse background image dialog.
-+ Detect new docking positions with "snap to desktop edges" (top/bottom/left/right middle).
-+ ConsoleZ sets the current Windows console font to "Lucidia Console" size 5. Windows console should support UNICODE characters. Number of rows/columns should not be limited.
-+ Support UNICODE picture filename.
-+ German localization (thanks to cruzzer).
-* Fix placement problem with "snap to desktop edges" when cursor is in another monitor.
-* Fix crash when wallpaper picture loading fails.
-* When you configured a background with relative picture then wallpaper was drawn.
-* Fix the word selection: right delimiters was not used.
-* "Click Link" does no longer launch an empty string. This was launching explorer in the current working directory.
-* Fix highlighting color setting saving.
-* Fix wallpaper display.
+! Rebuild FreeImage 3.17.0 (static link without OpenMP)
+- ConsoleZ sets the current Windows console font to "Lucidia Console" size 5.
+  (DBCS code page requires a specific font)
++ Snippets manager.
++ "Resume scrolling" command.
++ Configure initial window state (appearance settings).
++ Japanese localization (thanks to rosolino).
+* Mono-instance is no longer forced in jump lists.
+* User profile is fully created when running a shell with another user credentials.
+* Scrolling during selection does not properly refresh.
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>shell console tabs split glass fullscreen</tags>
