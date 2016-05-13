@@ -1022,14 +1022,11 @@ bool ConsoleHandler::SearchText(CString& text, bool bNext, const COORD& coordCur
 
 void ConsoleHandler::UpdateCurrentUserEnvironmentBlock()
 {
-	void*	pEnvironment	= NULL;
-	HANDLE	hProcessToken	= NULL;
+	LPTCH 	pEnvironment = NULL;
 
-	::OpenProcessToken(::GetCurrentProcess(), TOKEN_ALL_ACCESS, &hProcessToken);
-	::CreateEnvironmentBlock(&pEnvironment, hProcessToken, TRUE);
-	::CloseHandle(hProcessToken);
+	pEnvironment = GetEnvironmentStrings();
 
-	s_environmentBlock.reset(pEnvironment, ::DestroyEnvironmentBlock);
+	s_environmentBlock.reset(pEnvironment, FreeEnvironmentStrings);
 }
 
 //////////////////////////////////////////////////////////////////////////////
