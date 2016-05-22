@@ -129,10 +129,12 @@ bool SnippetCollection::load(const std::wstring& folder)
 {
 	try
 	{
+		std::wstring folderex = Helpers::ExpandEnvironmentStrings(folder);
+
 		// parse all files with extension xml
 		WIN32_FIND_DATA findData;
 
-		std::unique_ptr<void, FindCloseHelper> hFind(::FindFirstFile((folder + L"\\*.xml").c_str(), &findData));
+		std::unique_ptr<void, FindCloseHelper> hFind(::FindFirstFile((folderex + L"\\*.xml").c_str(), &findData));
 		if( hFind.get() == INVALID_HANDLE_VALUE )
 		{
 			// If the function fails because no matching files can be found,
@@ -150,7 +152,7 @@ bool SnippetCollection::load(const std::wstring& folder)
 
 			std::wstring fileName = findData.cFileName;
 
-			loadSnippets(folder + std::wstring(L"\\") + fileName);
+			loadSnippets(folderex + std::wstring(L"\\") + fileName);
 		}
 		while( ::FindNextFile(hFind.get(), &findData) );
 
