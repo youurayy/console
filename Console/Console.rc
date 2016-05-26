@@ -673,6 +673,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Full Screen",                ID_VIEW_FULLSCREEN
         MENUITEM "Switch On/Off Transparency",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "Always On Top",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Help"
     BEGIN
@@ -842,6 +843,7 @@ BEGIN
 
     ID_CLONE_IN_NEW_TAB     "Clone the current view in a new tab\nClone in New Tab"
     ID_VIEW_FULLSCREEN      "Toggle full screen\nFull Screen"
+    ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
     ID_GROUP_ALL            "Group all terminals so that any input sent to one of them, goes to all of them\nGroup All"
     ID_UNGROUP_ALL          "Remove grouping from all terminals\nUngroup All"
     ID_GROUP_TAB            "Group all terminals in the current tab so that any input sent to one of them, goes to all of them\nGroup Tab"
@@ -1002,6 +1004,7 @@ BEGIN
     IDS_SPLIT_SWAP           "Swap with the view that previously had focus"
     IDS_CLONE_IN_NEW_TAB     "Clone view in new tab"
     IDS_VIEW_FULLSCREEN      "Full Screen"
+    IDS_VIEW_ALWAYS_ON_TOP   "Always on top"
     IDS_VIEW_ZOOM_100        "Zoom 100%"
     IDS_VIEW_ZOOM_INC        "Zoom increment"
     IDS_VIEW_ZOOM_DEC        "Zoom decrement"

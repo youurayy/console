@@ -1873,6 +1873,7 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"findprev",           ID_SEARCH_PREV,          IDS_SEARCH_PREV         )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"switchtransparency", ID_SWITCH_TRANSPARENCY,  IDS_SWITCH_TRANSPARENCY )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"alwaysontop",        ID_VIEW_ALWAYS_ON_TOP,   IDS_VIEW_ALWAYS_ON_TOP  )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"dumpbuffer",         IDC_DUMP_BUFFER,         IDS_DUMP_BUFFER         )));
 

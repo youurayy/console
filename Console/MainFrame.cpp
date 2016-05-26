@@ -1100,7 +1100,7 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 		m_bRestoringWindow? L"true" : L"false",
 		pWinPos->flags);
 
-	if (positionSettings.zOrder == zorderOnBottom) pWinPos->hwndInsertAfter = HWND_BOTTOM;
+	if (m_zOrder == zorderOnBottom) pWinPos->hwndInsertAfter = HWND_BOTTOM;
 
 	if (!(pWinPos->flags & SWP_NOMOVE) && GetKeyState(VK_LWIN) >= 0 && GetKeyState(VK_RWIN) >= 0)
 	{
@@ -2964,6 +2964,35 @@ LRESULT MainFrame::OnViewConsole(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWnd
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnAlwaysOnTop(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	ZOrder newOrder;
+	if( m_zOrder == ZOrder::zorderOnTop )
+	{
+		if( g_settingsHandler->GetAppearanceSettings().positionSettings.zOrder == ZOrder::zorderOnTop )
+		{
+			// user wants to disable AlwaysOnTop setting
+			newOrder = ZOrder::zorderNormal;
+		}
+		else
+		{
+			// returns to configured mode
+			newOrder = g_settingsHandler->GetAppearanceSettings().positionSettings.zOrder;
+		}
+	}
+	else
+	{
+		newOrder = ZOrder::zorderOnTop;
+	}
+	SetZOrder(newOrder);
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnFullScreen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	ShowFullScreen(!m_bFullScreen);
@@ -3863,6 +3892,8 @@ void MainFrame::SetZOrder(ZOrder zOrder)
 {
 	if (zOrder == m_zOrder) return;
 
+	UISetCheck(ID_VIEW_ALWAYS_ON_TOP, zOrder == zorderOnTop);
+
 	HWND hwndZ = HWND_NOTOPMOST;
 
 	m_zOrder = zOrder;
@@ -3911,6 +3942,7 @@ void MainFrame::SetZOrder(ZOrder zOrder)
 	else
 	{
 		SetParent(NULL);
+		::SetForegroundWindow(m_hWnd);
 	}
 	SetWindowPos(hwndZ, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 }
