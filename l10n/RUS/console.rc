@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 #include "version.h"
@@ -146,32 +146,32 @@ IDD_SETTINGS_APPEARANCE DIALOGEX 0, 0, 235, 265
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    RTEXT           "&Заголовок:",IDC_STATIC,10,15,43,8
-    EDITTEXT        IDC_WINDOW_TITLE,55,13,105,14,ES_AUTOHSCROLL
-    CONTROL         "Ис&пользовать заголовок вкладки",IDC_CHECK_USE_TAB_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,14,58,10
+RTEXT           "&Заголовок:", IDC_STATIC, 10, 15, 43, 8
+EDITTEXT        IDC_WINDOW_TITLE, 55, 13, 85, 14, ES_AUTOHSCROLL
+CONTROL         "Ис&пользовать заголовок вкладки", IDC_CHECK_USE_TAB_TITLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP | BS_MULTILINE, 150, 13, 78, 16
 
-    RTEXT           "Формат заголовка основного окна:",IDC_STATIC,10,35,43,8
-    EDITTEXT        IDC_MAIN_TITLE_FORMAT,55,33,170,14,ES_AUTOHSCROLL
-    RTEXT           "Формат заголовка вкладки:",IDC_STATIC,10,55,43,8
-    EDITTEXT        IDC_TAB_TITLE_FORMAT,55,53,170,14,ES_AUTOHSCROLL
+RTEXT           "Формат заголовка основного окна:", IDC_STATIC, 10, 31, 63, 16
+EDITTEXT        IDC_MAIN_TITLE_FORMAT, 75, 33, 150, 14, ES_AUTOHSCROLL
+RTEXT           "Формат заголовка вкладки:", IDC_STATIC, 10, 51, 63, 16
+EDITTEXT        IDC_TAB_TITLE_FORMAT, 75, 53, 150, 14, ES_AUTOHSCROLL
 
-    CONTROL         "Ограничить заголовок вкладки",IDC_CHECK_TRIM_TAB_TITLES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,215,10
-    RTEXT           "",IDC_STATIC_TRIM_CHARS,22,90,30,8
-    EDITTEXT        IDC_TRIM_TAB_TITLES,55,88,31,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    CONTROL         "",IDC_SPIN_TRIM_TAB_TITLES,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,15,88,11,14
-    LTEXT           "символами",IDC_STATIC_TRIM_CHARS2,88,90,137,8
-    RTEXT           "из них",IDC_STATIC_TRIM_CHARS3,22,110,30,8
-    EDITTEXT        IDC_TRIM_TAB_TITLES_RIGHT,55,108,31,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    CONTROL         "",IDC_SPIN_TRIM_TAB_TITLES_RIGHT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,199,88,11,14
-    LTEXT           "символов в конце",IDC_STATIC_TRIM_CHARS_RIGHT,88,110,137,8
+CONTROL         "Ограничить заголовок вкладки", IDC_CHECK_TRIM_TAB_TITLES, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 75, 215, 10
+RTEXT           "", IDC_STATIC_TRIM_CHARS, 22, 90, 30, 8
+EDITTEXT        IDC_TRIM_TAB_TITLES, 55, 88, 31, 14, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_RIGHT
+CONTROL         "", IDC_SPIN_TRIM_TAB_TITLES, "msctls_updown32", UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS, 15, 88, 11, 14
+LTEXT           "символами", IDC_STATIC_TRIM_CHARS2, 88, 90, 137, 8
+RTEXT           "из них", IDC_STATIC_TRIM_CHARS3, 22, 110, 30, 8
+EDITTEXT        IDC_TRIM_TAB_TITLES_RIGHT, 55, 108, 31, 14, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_RIGHT
+CONTROL         "", IDC_SPIN_TRIM_TAB_TITLES_RIGHT, "msctls_updown32", UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS, 199, 88, 11, 14
+LTEXT           "символов в конце", IDC_STATIC_TRIM_CHARS_RIGHT, 88, 110, 137, 8
 
-    RTEXT           "&Иконка:",IDC_STATIC,10,130,43,8
-    EDITTEXT        IDC_WINDOW_ICON,55,128,150,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON,210,128,16,14
-    CONTROL         "И&спользовать иконки вкладок",IDC_CHECK_USE_TAB_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,55,145,170,16
-    GROUPBOX        "Заголовок && иконка",IDC_STATIC,0,0,235,163
+RTEXT           "&Иконка:", IDC_STATIC, 10, 130, 43, 8
+EDITTEXT        IDC_WINDOW_ICON, 55, 128, 150, 14, ES_AUTOHSCROLL
+PUSHBUTTON      "...", IDC_BTN_BROWSE_ICON, 210, 128, 16, 14
+CONTROL         "И&спользовать иконки вкладок", IDC_CHECK_USE_TAB_ICON, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 55, 145, 170, 16
+GROUPBOX        "Заголовок && иконка", IDC_STATIC, 0, 0, 235, 165
 
-    CONTROL         "Initial state*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
+    CONTROL         "Размер окна*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
     COMBOBOX        IDC_COMBO_STATE,85,179,88,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Сохранять",IDC_CHECK_SAVE_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,177,52,16
 
@@ -193,16 +193,16 @@ BEGIN
     CONTROL         "",IDC_SPIN_H,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,196,11,14
     CONTROL         "Сохранять",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
 
-    CONTROL         "&Клеить к краю",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,225,89,16
-    RTEXT           "&Расстояние:",IDC_STATIC,104,229,31,8
+    CONTROL         "&Клеить к краю",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,225,74,16
+    RTEXT           "&Расстояние:",IDC_STATIC,89,229,45,8
     EDITTEXT        IDC_SNAP,136,227,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SNAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,166,231,11,14
     LTEXT           "пиксел",IDC_STATIC,179,229,52,8
 
     RTEXT           "Привязка:",IDC_STATIC,10,245,37,8
-    COMBOBOX        IDC_COMBO_DOCKING,48,243,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Z порядок:",IDC_STATIC,120,245,37,8
-    COMBOBOX        IDC_COMBO_ZORDER,158,243,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_DOCKING,48,243,60,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Z порядок:",IDC_STATIC,110,245,37,8
+    COMBOBOX        IDC_COMBO_ZORDER,148,243,83,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Размещение",IDC_STATIC,0,165,235,100
 END
 
@@ -236,7 +236,7 @@ BEGIN
     CONTROL         "Иконк&у в трее",IDC_CHECK_STYLE_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,27,100,16
     CONTROL         "Списо&к часто используемых (Win7)",IDC_CHECK_USE_JUMPLIST,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,43,100,16
     CONTROL         "Интеграция IME",IDC_CHECK_INTEGRATED_IME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,59,100,16
-    CONTROL         "Per-monitor DPI*",IDC_CHECK_PER_MONITOR_DPI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,75,100,16
+    CONTROL         "Мониторное DPI*",IDC_CHECK_PER_MONITOR_DPI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,75,100,16
 
     LTEXT           "Время анимации:",IDC_STATIC_QUAKE_1,22,94,55,8
     EDITTEXT        IDC_QUAKE_ANIMATION_TIME,80,91,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
@@ -452,7 +452,7 @@ BEGIN
     COMBOBOX        IDC_COMBO_BK_POS,140,61,63,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     RTEXT           "Ц&вет оттенка:",IDC_STATIC_TINT_COLOR,23,103,50,8,NOT WS_GROUP
     CONTROL         "",IDC_TINT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,78,100,16,14,WS_EX_DLGMODALFRAME
-    RTEXT           "Прозрачность:",IDC_STATIC_TINT_OPACITY, 23, 118, 185, 8,NOT WS_GROUP
+    LTEXT           "Прозрачность:",IDC_STATIC_TINT_OPACITY, 23, 118, 185, 8,NOT WS_GROUP
     CONTROL         "",IDC_TINT_OPACITY,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP, 20, 127, 188, 20
     LTEXT           "255",IDC_TINT_OPACITY_VAL,207,129,14,8,0,WS_EX_RIGHT
 
@@ -534,10 +534,10 @@ BEGIN
     PUSHBUTTON      "Установить по умолчанию",IDC_BTN_SET_AS_DEFAULT_COLORS,10,101,95,14
     GROUPBOX        "Палитра цветов",IDC_STATIC,0,3,221,116,0,WS_EX_TRANSPARENT
 
-    RTEXT           "Вид:",IDC_STATIC,10,135,30,8
-    COMBOBOX        IDC_COMBO_CURSOR,43,133,82,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "&Цвет:",IDC_STATIC_COLOR,133,135,30,8
-    CONTROL         "",IDC_CURSOR_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,165,132,16,14,WS_EX_DLGMODALFRAME
+    RTEXT           "Вид:",IDC_STATIC,10,135,15,8
+    COMBOBOX        IDC_COMBO_CURSOR,28,133,118,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "&Цвет:",IDC_STATIC_COLOR,146,135,22,8
+    CONTROL         "",IDC_CURSOR_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,169,132,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "",IDC_CURSOR_ANIM,"Static",SS_BLACKRECT | SS_REALSIZEIMAGE | SS_SUNKEN,187,130,30,18
     CONTROL         "&Наследовать",IDC_BTN_INHERIT_CURSOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,152,60,10
     PUSHBUTTON      "Установить по умолчанию",IDC_BTN_SET_AS_DEFAULT_CURSOR,70,150,95,14
@@ -646,10 +646,10 @@ BEGIN
         MENUITEM "&Вставить",                      ID_EDIT_PASTE
         MENUITEM "Вставить выделенное",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
-        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Вставить сниппет",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
-        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM "Возобновить прокрутку",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -696,10 +696,10 @@ BEGIN
         MENUITEM "З&акрыть  активную вкладку",                 ID_CLOSE_VIEW
         MENUITEM "&Выделить вкладку в отдельное окно",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Вставить сниппет",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
-        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM "Возобновить прокрутку",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -802,9 +802,9 @@ BEGIN
     ID_EDIT_FIND            "Найти определенный текст\nНайти"
     ID_EDIT_PASTE           "Вставить содержимое Буфера обмена\nВставить"
     ID_PASTE_SELECTION      "Вставить выделенный текст\nВставить выделение"
-    ID_EDIT_INSERT_SNIPPET  "Insert Snippet\nInsert Snippet"
+    ID_EDIT_INSERT_SNIPPET  "Вставить сниппет\nВставить сниппет"
     ID_EDIT_STOP_SCROLLING  "Остановить прокрутку\nОстановить прокрутку"
-    ID_EDIT_RESUME_SCROLLING "Resume Scrolling\nResume Scrolling"
+    ID_EDIT_RESUME_SCROLLING "Возобновить прокрутку\nВозобновить прокрутку"
     ID_EDIT_SELECT_ALL      "Выделить весь документ\nВыделить все"
     ID_EDIT_RENAME_TAB      "Переименовать активную вкладку\nПереименовать вкладку"
     ID_EDIT_SETTINGS        "Открыть диалог настроек\nНастройки..."
@@ -852,12 +852,12 @@ STRINGTABLE
 BEGIN
     IDOK                    "OK"
     IDCANCEL                "Отмена"
-    IDS_SNIPPET_AUTHOR      "Author"
-    IDS_SNIPPET_DESCRIPTION "Description"
-    IDS_SNIPPET_CODE        "Code"
-    IDS_SNIPPET_VERSION     "Version"
-    IDC_SNIPPET_INFORMATION "Show snippet information"
-    IDC_SNIPPET_EDIT        "Edit"
+    IDS_SNIPPET_AUTHOR      "Автор"
+    IDS_SNIPPET_DESCRIPTION "Описание"
+    IDS_SNIPPET_CODE        "Код"
+    IDS_SNIPPET_VERSION     "Версия"
+    IDC_SNIPPET_INFORMATION "Подробно"
+    IDC_SNIPPET_EDIT        "Правка"
 END
 
 STRINGTABLE
@@ -888,8 +888,8 @@ BEGIN
     IDS_ERR_CANT_START_SHELL_AS_ADMIN "Невозможно запустить %1% %2% от администратора (причина:%3%)!"
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Невозможно получить повышенный уровень (причина:%1%)!"
     IDS_ERR_TAB_CREATE_FAILED "Ошибка при открытии вкладки %1%!\nПроцесс %2% может быть всё ещё запущен (используйте Диспетчер задач для завершения его)"
-    IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% is not a Win32 console application!"
-    IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
+    IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% не является консольным приложением Win32!"
+    IDS_ERR_CANT_GET_USER "Невозможно определить текущего пользователя (причина: %1%)!"
 END
 
 STRINGTABLE
@@ -923,14 +923,14 @@ BEGIN
     MSG_SETTINGS_EXECUTABLE_FILES_AND_LINKS
                             "Исполнительные файлы (*.exe)|*.exe|Ярлыки (*.lnk)|*.lnk|Командные файлы (*.bat;*.cmd)|*.bat;*.cmd|Все файлы (*.*)|*.*||"
     MSG_SETTINGS_IMAGE_FILES
-                            "All Image Files|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Bitmap Files (*.bmp;*.dib)|*.bmp;*.dib|Graphics Interchange Format (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|Portable Network Graphics (*.png)|*.png|All Files (*.*)|*.*||"
+                            "Все файлы рисунков|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Точечные рисункиs (*.bmp;*.dib)|*.bmp;*.dib|GIF (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|PNG (*.png)|*.png|Все файлы (*.*)|*.*||"
     MSG_SETTINGS_CONFIG_FILES
                             "Конфигурационные файлы (*.xml)|*.xml|Все файлы (*.*)|*.*||"
 
     MSG_MAINFRAME_CLOSE_ALL_TABS
                             "Вы действительно хотите закрыть все вкладки?"
     MSG_MAINFRAME_CLOSE_ALL_VIEWS
-                            "ы действительно хотите закрыть все  окна?"
+                            "Вы действительно хотите закрыть все  окна?"
     MSG_MAINFRAME_SEARCH
                             "Поиск..."
     MSG_MAINFRAME_EXIT_FULLSCREEN
@@ -1017,7 +1017,7 @@ BEGIN
     IDS_EDIT_PASTE           "Вставка"
     IDS_PASTE_SELECTION      "Вставить выделенное"
     IDS_EDIT_STOP_SCROLLING  "Остановить прокрутку"
-    IDS_EDIT_RESUME_SCROLLING "Resume scrolling"
+    IDS_EDIT_RESUME_SCROLLING "Возобновить прокрутку"
 
     IDS_SCROLL_UP            "Прокрутить на строку вверх"
     IDS_SCROLL_DOWN          "Прокрутить на строку вниз"
@@ -1039,7 +1039,7 @@ IDS_DUMP_BUFFER          "Дамп буфера экрана"
 IDS_SHOW_CONTEXT_MENU_1  "Показать контекстное меню №1"
 IDS_SHOW_CONTEXT_MENU_2  "Показать контекстное меню №2"
 IDS_SHOW_CONTEXT_MENU_3  "Показать контекстное меню №3"
-ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
+ID_SHOW_CONTEXT_MENU_SNIPPETS "Показать контекстное меню сниппетов"
 
 IDS_SEND_CTRL_C          "Отправить CTRL-C"
 
@@ -1085,7 +1085,7 @@ IDS_MOUSE_LINK           "Открыть ссылку"
 IDS_MOUSE_MENU1          "Контекстное меню №1"
 IDS_MOUSE_MENU2          "Контекстное меню №2"
 IDS_MOUSE_MENU3          "Контекстное меню №3"
-IDS_MOUSE_SNIPPETS       "Snippets context menu"
+IDS_MOUSE_SNIPPETS       "Контекстное меню сниппетов"
 END
 
 STRINGTABLE
@@ -1107,7 +1107,7 @@ IDS_SETTINGS_TAB_NAME      "Имя вкладки"
 IDS_SETTINGS_MAIN          "Главная"
 IDS_SETTINGS_BACKGROUND    "Фон"
 IDS_SETTINGS_COLORS_CURSOR "Цвета && Курсор"
-IDS_SETTINGS_ENVIRONMENT   "Окружение"
+IDS_SETTINGS_ENVIRONMENT   "Переменные окружения"
 IDS_SETTINGS_HOTKEY        "Клавиша"
 IDS_SETTINGS_VARIABLE      "Переменная"
 IDS_SETTINGS_VALUE         "Значение"
@@ -1116,7 +1116,7 @@ END
 
 STRINGTABLE
 BEGIN
-IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
+IDC_COMBO_CURSOR             "XTerm;Мигающий прямоугольник;Прямоугольник;Пульсирующий прямоугольник;Мигающая верт. линия;Горизонтальная линия;Перемещающаяся гориз. линия;Перемещающаяся верт. линия;Мигающая рамка;Рамка;Пульсирующая рамка;Исчезающий прямоугольник;Подчеркивание;XTerm2;Мигающая гориз. линия;"
 IDC_COMBO_DOCKING            "Нет;Сверху слева;Сверху справа;Внизу слева;Внизу справа;Сверху в центре;Внизу в центре;Слева в центре;Справа в центре;"
 IDC_COMBO_ZORDER             "Обычный;Всегда сверху;Всегда внизу;Закрепить на десктопе;"
 IDC_COMBO_SMOOTHING          "Обычный;Нет;ClearType;Natural ClearType;Сглаженный"
@@ -1124,7 +1124,7 @@ IDC_COMBO_BUTTONS            "Нет;Левая;Правая;Средняя;Че
 IDC_COMBO_BK_POS             "По центру;Растянуть;Замостить;По размеру;Заполнение;"
 IDC_COMBO_FULLSCREEN_MONITOR "Текущий;"
 IDC_COMBO_BASE_PRIORITY      "Низкий;Ниже нормального;Нормальный;Выше нормального;Высокий;Реального времени;"
-IDC_COMBO_STATE              "Normal window;Minimized;Maximized;Full screen;"
+IDC_COMBO_STATE              "Нормальное окно;Свернутое;Развернутое;Во весь экран;"
 END
 
 #endif    // English (United States) resources
