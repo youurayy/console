@@ -1221,28 +1221,10 @@ LRESULT ConsoleView::OnUpdateConsoleView(UINT /*uMsg*/, WPARAM wParam, LPARAM /*
 		m_mainFrame.SendMessage(UM_CONSOLE_RESIZED, 0, 0);
 	}
 
-	// if the view is not visible, don't repaint
-	if (!m_bActive)
-	{
-		if 
-		(
-			textChanged &&
-			!bResize && 
-			(g_settingsHandler->GetBehaviorSettings().tabHighlightSettings.dwFlashes > 0) && 
-			(!m_bFlashTimerRunning)
-		)
-		{
-			m_dwFlashes = 0;
-			m_bFlashTimerRunning = true;
-			SetTimer(FLASH_TAB_TIMER, 500);
-		}
-		
-		return 0;
-	}
-
 	SharedMemory<ConsoleInfo>& consoleInfo = m_consoleHandler.GetConsoleInfo();
 
 	m_dwVScrollMax = max(m_dwVScrollMax, static_cast<DWORD>(consoleInfo->csbi.srWindow.Bottom));
+	TRACE(L"OnUpdateConsoleView m_dwVScrollMax=%lu\n", m_dwVScrollMax);
 
 	if (m_bShowVScroll)
 	{
@@ -1254,10 +1236,8 @@ LRESULT ConsoleView::OnUpdateConsoleView(UINT /*uMsg*/, WPARAM wParam, LPARAM /*
 		si.nMin   = 0;
 		SetScrollInfo(SB_VERT, &si, TRUE);
 
-/*
-		TRACE(L"----------------------------------------------------------------\n");
-		TRACE(L"VScroll pos: %i\n", consoleInfo->csbi.srWindow.Top);
-*/
+		//TRACE(L"----------------------------------------------------------------\n");
+		//TRACE(L"VScroll pos: %i\n", consoleInfo->csbi.srWindow.Top);
 	}
 
 	if (m_bShowHScroll)
@@ -1267,6 +1247,25 @@ LRESULT ConsoleView::OnUpdateConsoleView(UINT /*uMsg*/, WPARAM wParam, LPARAM /*
 		si.fMask  = SIF_POS | SIF_DISABLENOSCROLL;
 		si.nPos   = consoleInfo->csbi.srWindow.Left; 
 		SetScrollInfo(SB_HORZ, &si, TRUE);
+	}
+
+	// if the view is not visible, don't repaint
+	if (!m_bActive)
+	{
+		if
+		(
+			textChanged &&
+			!bResize &&
+			(g_settingsHandler->GetBehaviorSettings().tabHighlightSettings.dwFlashes > 0) &&
+			(!m_bFlashTimerRunning)
+		)
+		{
+			m_dwFlashes = 0;
+			m_bFlashTimerRunning = true;
+			SetTimer(FLASH_TAB_TIMER, 500);
+		}
+
+		return 0;
 	}
 
 	if ((m_selectionHandler->GetState() == SelectionHandler::selstateStartedSelecting) ||
