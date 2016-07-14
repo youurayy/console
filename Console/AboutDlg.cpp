@@ -11,8 +11,7 @@ LRESULT CAboutDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
 {
 #ifdef _USE_AERO
   AERO_CONTROL(CButton, m_Ok, IDOK)
-  //AERO_CONTROL(CStatic, staticMessage, IDC_STATIC_VERSION)
-  //AERO_CONTROL(CStatic, m_Label, IDC_APPTEXT)
+
   CWindow groupBox(GetDlgItem(IDC_STATIC));
   groupBox.ShowWindow(SW_HIDE);
 
@@ -37,11 +36,10 @@ LRESULT CAboutDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
 
 	SetTimer(42, 40);
 #else
-  CString strMsg;
-  strMsg.Format(L"\nConsoleZ %i.%i.%i.%i\n", VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, VERSION_BUILD2);
+	std::wstring strMsgVersion = boost::str(boost::wformat(Helpers::LoadStringW(MSG_ABOUT)) % _T(VERSION_PRODUCT));
 
   CWindow staticMessage(GetDlgItem(IDC_STATIC_VERSION));
-  staticMessage.SetWindowText(strMsg);
+  staticMessage.SetWindowText(strMsgVersion.c_str());
 #endif
 
 	CenterWindow(GetParent());

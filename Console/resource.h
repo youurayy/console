@@ -246,7 +246,6 @@
 #define IDC_PASSWORD                    1176
 #define IDC_STATIC_TRIM_CHARS_RIGHT     1176
 #define IDC_CHECK_RUN_AS_USER           1177
-#define IDC_APPTEXT                     1177
 #define IDC_STATIC_USER                 1177
 #define IDC_APPICON                     1178
 #define IDC_STATIC_PASSWORD             1178
@@ -314,6 +313,7 @@
 #define IDC_CHECK_STATE                 1240
 #define IDC_COMBO_STATE                 1241
 #define IDC_CHECK_SAVE_STATE            1242
+#define IDC_STATIC_HOME_PAGE            1243
 
 #define ID_SNIPPET_ID_FIRST             1900
 #define ID_SNIPPET_ID_LAST              1999
@@ -586,7 +586,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1243
+#define _APS_NEXT_CONTROL_VALUE         1244
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
