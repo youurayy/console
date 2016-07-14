@@ -308,6 +308,9 @@ LRESULT MainFrame::CreateInitialTabs
 		}
 	}
 
+	if( !bAtLeastOneStarted )
+		bAtLeastOneStarted = CreateSafeConsole();
+
 	return bAtLeastOneStarted ? 0 : -1;
 }
 
@@ -3315,6 +3318,19 @@ bool MainFrame::CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& console
 	consoleViewCreate.u.userCredentials = nullptr;
 
 	std::shared_ptr<TabData> tabData = g_settingsHandler->GetTabSettings().tabDataVector[dwTabIndex];
+
+	return CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
+}
+
+bool MainFrame::CreateSafeConsole()
+{
+	ConsoleViewCreate consoleViewCreate;
+	consoleViewCreate.type = ConsoleViewCreate::CREATE;
+	consoleViewCreate.u.userCredentials = nullptr;
+
+	ConsoleOptions consoleOptions;
+
+	std::shared_ptr<TabData> tabData(new TabData(L"", L""));
 
 	return CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
 }

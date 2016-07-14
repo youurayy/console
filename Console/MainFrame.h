@@ -399,6 +399,7 @@ class MainFrame
 		void ActivateApp(void);
 		bool CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& consoleOptions = ConsoleOptions());
 		bool CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData, const ConsoleOptions& consoleOptions = ConsoleOptions());
+		bool CreateSafeConsole();
 		void CloseTab(CTabViewTabItem* pTabItem);
 
 		void UpdateTabTitle(std::shared_ptr<TabView> tabView);
