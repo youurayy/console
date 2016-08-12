@@ -140,7 +140,7 @@ LRESULT DlgSettingsTabs::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndC
 {
 	if (wID == IDOK)
 	{
-		for each (PageSettingsTab *page in m_pages)
+		for(PageSettingsTab *page : m_pages)
 		{
 			page->Save();
 		}
@@ -192,8 +192,10 @@ LRESULT DlgSettingsTabs::OnClone(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWnd
 {
 	int nItem = m_listCtrl.GetSelectedIndex();
 
-	m_page1.Save();
-	m_page2.Save();
+	for(PageSettingsTab *page : m_pages)
+	{
+		page->Save();
+	}
 
 	std::shared_ptr<TabData>	tabData(new TabData(*(m_tabSettings.tabDataVector[nItem].get())));
 	tabData->strTitle += L" (2)";
@@ -270,7 +272,7 @@ LRESULT DlgSettingsTabs::OnListItemChanged(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /
 	if (pnmv->uNewState & LVIS_SELECTED)
 	{
 		// selecting new item
-		for each (PageSettingsTab *page in m_pages)
+		for(PageSettingsTab *page : m_pages)
 		{
 			page->Load(m_tabSettings.tabDataVector[m_listCtrl.GetSelectedIndex()]);
 		}
@@ -278,7 +280,7 @@ LRESULT DlgSettingsTabs::OnListItemChanged(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /
 	else if (pnmv->uOldState & LVIS_SELECTED)
 	{
 		// deselecting item
-		for each (PageSettingsTab *page in m_pages)
+		for(PageSettingsTab *page : m_pages)
 		{
 			page->Save();
 		}
