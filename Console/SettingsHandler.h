@@ -1082,6 +1082,7 @@ class SettingsHandler
 
 		bool LoadSettings(const wstring& strSettingsFileName);
 		bool SaveSettings();
+		bool SerializeSettings(CComPtr<IXMLDOMElement>& pSettingsRoot);
 
 		wstring	GetSettingsFileName() const { return m_strSettingsPath+m_strSettingsFileName; }
 		wstring	GetSettingsPath() const { return m_strSettingsPath; }

@@ -47,14 +47,17 @@ DlgSettingsMain::DlgSettingsMain()
 
 LRESULT DlgSettingsMain::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	g_settingsHandler->SaveSettings();
+	HRESULT hr = m_pSettingsDocument.CoCreateInstance(__uuidof(DOMDocument));
+	if (FAILED(hr) || (m_pSettingsDocument.p == nullptr)) return FALSE;
 
-	HRESULT hr = XmlHelper::OpenXmlDocument(
-						g_settingsHandler->GetSettingsFileName(), 
-						m_pSettingsDocument, 
-						m_pSettingsRoot);
+	VARIANT_BOOL bLoadSuccess = VARIANT_FALSE;
+	hr = m_pSettingsDocument->loadXML(CComBSTR(L"<?xml version='1.0' encoding='UTF-8' standalone='yes'?>\r\n<settings/>"), &bLoadSuccess);
+	if (FAILED(hr) || (!bLoadSuccess)) return E_FAIL;
 
+	hr = m_pSettingsDocument->get_documentElement(&m_pSettingsRoot);
 	if (FAILED(hr)) return FALSE;
+
+	if( g_settingsHandler->SerializeSettings(m_pSettingsRoot) == false ) return FALSE;
 
 	m_treeCtrl.Attach(GetDlgItem(IDC_TREE_SECTIONS));
 	m_checkUserDataDir.Attach(GetDlgItem(IDC_CHECK_USER_DATA_DIR));

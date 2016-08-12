@@ -2713,20 +2713,32 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 
 bool SettingsHandler::SaveSettings()
 {
-	XmlHelper::SetAttribute(m_pSettingsRoot, CComBSTR(L"lang"), m_strLanguage);
-
-	if( m_consoleSettings   .Save(m_pSettingsRoot) == false ) return false;
-	if( m_appearanceSettings.Save(m_pSettingsRoot) == false ) return false;
-	if( m_behaviorSettings  .Save(m_pSettingsRoot) == false ) return false;
-	if( m_behaviorSettings2 .Save(m_pSettingsRoot) == false ) return false;
-	if( m_hotKeys           .Save(m_pSettingsRoot) == false ) return false;
-	if( m_mouseSettings     .Save(m_pSettingsRoot) == false ) return false;
-	if( m_snippetSettings   .Save(m_pSettingsRoot) == false ) return false;
-	if( m_tabSettings       .Save(m_pSettingsRoot) == false ) return false;
+	if( SerializeSettings(m_pSettingsRoot) == false ) return false;
 
 	HRESULT hr = m_pSettingsDocument->save(CComVariant(GetSettingsFileName().c_str()));
 
 	return SUCCEEDED(hr) ? true : false;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool SettingsHandler::SerializeSettings(CComPtr<IXMLDOMElement>& pSettingsRoot)
+{
+	XmlHelper::SetAttribute(pSettingsRoot, CComBSTR(L"lang"), m_strLanguage);
+
+	if( m_consoleSettings   .Save(pSettingsRoot) == false ) return false;
+	if( m_appearanceSettings.Save(pSettingsRoot) == false ) return false;
+	if( m_behaviorSettings  .Save(pSettingsRoot) == false ) return false;
+	if( m_behaviorSettings2 .Save(pSettingsRoot) == false ) return false;
+	if( m_hotKeys           .Save(pSettingsRoot) == false ) return false;
+	if( m_mouseSettings     .Save(pSettingsRoot) == false ) return false;
+	if( m_snippetSettings   .Save(pSettingsRoot) == false ) return false;
+	if( m_tabSettings       .Save(pSettingsRoot) == false ) return false;
+
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////
