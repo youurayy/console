@@ -1,18 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>ConsoleZ</id>
+    <version>1.17.0.16227</version>
     <title>ConsoleZ (Install)</title>
-    <version>1.17.0.16129</version>
     <authors>cbucher</authors>
     <owners>cbucher</owners>
-    <licenseUrl>http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html</licenseUrl>
+    <licenseUrl>https://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseUrl>
     <projectUrl>https://github.com/cbucher/console</projectUrl>
-    <packageSourceUrl>https://github.com/cbucher/console/tree/master/Packaging/chocolatey</packageSourceUrl>
-    <projectSourceUrl>https://github.com/cbucher/console</projectSourceUrl>
-    <docsUrl>https://github.com/cbucher/console/wiki</docsUrl>
-    <!--<mailingListUrl></mailingListUrl>-->
-    <bugTrackerUrl>https://github.com/cbucher/console/issues</bugTrackerUrl>
     <iconUrl>https://raw.github.com/wiki/cbucher/console/ConsoleZ_128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>![screenshot005](https://github.com/cbucher/console/wiki/screenshot001.png)
@@ -37,7 +32,7 @@ This fork supports:
 * Snippets
 * and more...</description>
     <summary>This is a modified version of Console 2 for a better experience under Windows Vista/7/8/10 and a better visual rendering.</summary>
-    <releaseNotes>
+    <releaseNotes>[Chocolatey] Repackaging of 1.17.0.16129 version to add checksum verification.
 ! Rebuild FreeImage 3.17.0 (static link without OpenMP)
 - ConsoleZ sets the current Windows console font to "Lucidia Console" size 5.
   (DBCS code page requires a specific font)
@@ -47,12 +42,12 @@ This fork supports:
 + Japanese localization (thanks to rosolino).
 * Mono-instance is no longer forced in jump lists.
 * User profile is fully created when running a shell with another user credentials.
-* Scrolling during selection does not properly refresh.
-    </releaseNotes>
+* Scrolling during selection does not properly refresh.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>shell console tabs split glass fullscreen</tags>
+    <projectSourceUrl>https://github.com/cbucher/console</projectSourceUrl>
+    <packageSourceUrl>https://github.com/cbucher/console/tree/master/Packaging/chocolatey</packageSourceUrl>
+    <docsUrl>https://github.com/cbucher/console/wiki</docsUrl>
+    <bugTrackerUrl>https://github.com/cbucher/console/issues</bugTrackerUrl>
   </metadata>
-  <files>
-    <file src="tools\**" target="tools" />
-  </files>
 </package>
