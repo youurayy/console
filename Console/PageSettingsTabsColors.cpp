@@ -122,10 +122,18 @@ LRESULT PageSettingsTabsColors::OnClickedBtnImportColors(WORD /*wNotifyCode*/, W
   {
     CComPtr<IXMLDOMDocument> pSettingsDocument;
     CComPtr<IXMLDOMElement>  pSettingsRoot;
-    if(FAILED(XmlHelper::OpenXmlDocument(
-      fileDialog.m_szFileName,
-      pSettingsDocument,
-      pSettingsRoot))) return 0;
+		std::wstring strParseError;
+		HRESULT hr = XmlHelper::OpenXmlDocument(
+			fileDialog.m_szFileName,
+			pSettingsDocument,
+			pSettingsRoot,
+			strParseError);
+		if( FAILED(hr) ) return 0;
+		if( hr == S_FALSE )
+		{
+			MessageBox(strParseError.c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR | MB_OK);
+			return 0;
+		}
 
     CComPtr<IXMLDOMElement>	pConsoleElement;
     if (FAILED(XmlHelper::GetDomElement(pSettingsRoot, CComBSTR(L"console"), pConsoleElement))) return false;

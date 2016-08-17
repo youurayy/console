@@ -2610,6 +2610,7 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 {
 	HRESULT hr = S_OK;
 
+	std::wstring strParseError;
 	size_t pos = strSettingsFileName.rfind(L'\\');
 
 	if (pos == wstring::npos)
@@ -2621,20 +2622,51 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 		{
 			SetUserDataDir(dirTypeUser);
 
-			hr = XmlHelper::OpenXmlDocument(
-								GetSettingsFileName(), 
-								m_pSettingsDocument, 
-								m_pSettingsRoot);
+			int res = IDOK;
+			do
+			{
+				hr = XmlHelper::OpenXmlDocument(
+					GetSettingsFileName(),
+					m_pSettingsDocument,
+					m_pSettingsRoot,
+					strParseError);
+
+				if( hr == S_FALSE )
+				{
+					res = ::MessageBox(NULL, strParseError.c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR | MB_CANCELTRYCONTINUE);
+					switch( res )
+					{
+					case IDCANCEL: return false;
+					case IDCONTINUE: hr = E_FAIL; break;
+					}
+				}
+			}
+			while( res == IDTRYAGAIN );
 		}
 
 		if (FAILED(hr))
 		{
 			SetUserDataDir(dirTypeExe);
 
-			hr = XmlHelper::OpenXmlDocument(
-								GetSettingsFileName(), 
-								m_pSettingsDocument, 
-								m_pSettingsRoot);
+			int res = IDOK;
+			do
+			{
+				hr = XmlHelper::OpenXmlDocument(
+					GetSettingsFileName(),
+					m_pSettingsDocument,
+					m_pSettingsRoot,
+					strParseError);
+				if( hr == S_FALSE )
+				{
+					res = ::MessageBox(NULL, strParseError.c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR | MB_CANCELTRYCONTINUE);
+					switch( res )
+					{
+					case IDCANCEL: return false;
+					case IDCONTINUE: hr = E_FAIL; break;
+					}
+				}
+			}
+			while( res == IDTRYAGAIN );
 		}
 
 		if (FAILED(hr))
@@ -2674,10 +2706,25 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 			m_settingsDirType = dirTypeCustom;
 		}
 
-		hr = XmlHelper::OpenXmlDocument(
-							strSettingsFileName, 
-							m_pSettingsDocument, 
-							m_pSettingsRoot);
+		int res = IDOK;
+		do
+		{
+			hr = XmlHelper::OpenXmlDocument(
+				strSettingsFileName,
+				m_pSettingsDocument,
+				m_pSettingsRoot,
+				strParseError);
+			if( hr == S_FALSE )
+			{
+				res = ::MessageBox(NULL, strParseError.c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR | MB_CANCELTRYCONTINUE);
+				switch( res )
+				{
+				case IDCANCEL: return false;
+				case IDCONTINUE: hr = E_FAIL; break;
+				}
+			}
+		}
+		while( res == IDTRYAGAIN );
 
 		if (FAILED(hr)) return false;
 	}

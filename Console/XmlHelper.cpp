@@ -11,23 +11,52 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
-HRESULT XmlHelper::OpenXmlDocument(const wstring& strFilename, CComPtr<IXMLDOMDocument>& pXmlDocument, CComPtr<IXMLDOMElement>& pRootElement)
+HRESULT XmlHelper::OpenXmlDocument(const std::wstring& strFilename, CComPtr<IXMLDOMDocument>& pXmlDocument, CComPtr<IXMLDOMElement>& pRootElement, std::wstring& strParseError)
 {
 	VARIANT_BOOL bLoadSuccess	= 0; // FALSE
 
 	pXmlDocument.Release();
 	pRootElement.Release();
-	
+
 	HRESULT hr = pXmlDocument.CoCreateInstance(__uuidof(DOMDocument));
-	if (FAILED(hr) || (pXmlDocument.p == NULL)) return E_FAIL;
+	if( pXmlDocument.p == nullptr ) return E_FAIL;
+	if (FAILED(hr)) return hr;
 
 	hr = pXmlDocument->load(CComVariant(strFilename.c_str()), &bLoadSuccess);
-	if (FAILED(hr) || (!bLoadSuccess)) return E_FAIL;
+	if( bLoadSuccess == VARIANT_FALSE )
+	{
+		CComPtr<IXMLDOMParseError> pParseError;
+		hr = pXmlDocument->get_parseError(&pParseError);
+		if (FAILED(hr)) return hr;
+
+		long errorCode;
+		hr = pParseError->get_errorCode(&errorCode);
+		if (FAILED(hr)) return hr;
+
+		// file not found
+		if( errorCode == INET_E_RESOURCE_NOT_FOUND ) return E_FAIL;
+
+		long line;
+		hr = pParseError->get_line(&line);
+		if (FAILED(hr)) return hr;
+
+		long linepos;
+		hr = pParseError->get_linepos(&linepos);
+		if (FAILED(hr)) return hr;
+
+		CComBSTR reason;
+		hr = pParseError->get_reason(&reason);
+		if (FAILED(hr)) return hr;
+
+		strParseError = boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_XML_PARSING)) % errorCode % strFilename % line % linepos % reason.m_str);
+
+		return S_FALSE;
+	}
+	if (FAILED(hr)) return hr;
 
 	hr = pXmlDocument->get_documentElement(&pRootElement);
-	if (FAILED(hr)) return E_FAIL;
 
-	return S_OK;
+	return hr;
 }
 
 HRESULT XmlHelper::OpenXmlDocumentFromResource(const wstring& strFilename, CComPtr<IXMLDOMDocument>& pXmlDocument, CComPtr<IXMLDOMElement>& pRootElement)

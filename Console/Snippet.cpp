@@ -87,10 +87,18 @@ bool SnippetCollection::loadSnippets(const std::wstring& fullSnippetsFileName)
 	// load the xml file
 	CComPtr<IXMLDOMDocument> xmlDocumentSnippets;
 	CComPtr<IXMLDOMElement>  xmlElementSnippets;
-	if( FAILED(XmlHelper::OpenXmlDocument(
+	std::wstring strParseError;
+	HRESULT hr = XmlHelper::OpenXmlDocument(
 		fullSnippetsFileName,
 		xmlDocumentSnippets,
-		xmlElementSnippets)) ) return false;
+		xmlElementSnippets,
+		strParseError);
+	if( FAILED(hr) ) return false;
+	if( hr == S_FALSE )
+	{
+		::MessageBox(NULL, strParseError.c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR | MB_OK);
+		return false;
+	}
 
 	std::shared_ptr<SnippetsFile> snippetsFile(new SnippetsFile(fullSnippetsFileName));
 	if( !snippetsFile->load(xmlElementSnippets) ) return false;
