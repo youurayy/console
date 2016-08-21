@@ -69,10 +69,10 @@ CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,130,50,14
+    PUSHBUTTON      "website",IDC_STATIC_HOME_PAGE,130,110,50,14
 #ifndef _USE_AERO
-    CTEXT           "\nConsoleZ",IDC_STATIC_VERSION,25,41,78,25
+    CTEXT           "",IDC_STATIC_VERSION,15,41,100,96
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
-    CTEXT           "\nCopyright (C) 2011-2016\nChristophe Bucher\n\na modified version of\nConsole 2\nfrom\nMarko Bozikovic",IDC_APPTEXT,14,64,103,70,,WS_EX_TRANSPARENT
 #endif
     GROUPBOX        "",IDC_STATIC,7,7,115,137
 END
@@ -95,7 +95,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_TREE_SECTIONS,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_NOSCROLL | WS_BORDER | WS_TABSTOP,7,7,98,265
     CONTROL         "",IDC_CHILD_PLACEHOLDER,"Static",SS_BLACKFRAME,112,7,235,265
-    CONTROL         "設定をユーザディレクトリに保存",IDC_CHECK_USER_DATA_DIR,
+    CONTROL         "設定をユーザディレクトリに保存する",IDC_CHECK_USER_DATA_DIR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,280,300,10
     LTEXT           "Settings marked with * will take effect after restart",IDC_STATIC,7,296,230,8
     PUSHBUTTON      "OK",IDOK,241,300,50,14
@@ -131,7 +131,7 @@ BEGIN
     RTEXT           "列:",IDC_STATIC,10,115,43,8
     EDITTEXT        IDC_COLUMNS,55,112,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_COLUMNS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,74,116,11,14
-    GROUPBOX        "ウィンドーサイズ *",IDC_STATIC,0,85,115,48
+    GROUPBOX        "ウィンドウサイズ *",IDC_STATIC,0,85,115,48
 
     RTEXT           "行:",IDC_STATIC,130,100,43,8
     EDITTEXT        IDC_BUFFER_ROWS,175,97,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
@@ -173,7 +173,7 @@ BEGIN
 
     CONTROL         "初期状態*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
     COMBOBOX        IDC_COMBO_STATE,85,179,88,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "セーブして終了",IDC_CHECK_SAVE_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,177,52,16
+    CONTROL         "終了時に保存",IDC_CHECK_SAVE_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,177,52,16
 
     CONTROL         "初期位置*",IDC_CHECK_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,193,60,16
     RTEXT           "X:",IDC_STATIC,73,197,10,10
@@ -182,7 +182,7 @@ BEGIN
     RTEXT           "Y:",IDC_STATIC,124,197,10,8
     EDITTEXT        IDC_POS_Y,136,195,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_Y,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,178,11,14
-    CONTROL         "セーブして終了",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,193,52,16
+    CONTROL         "終了時に保存",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,193,52,16
 
     CONTROL         "初期サイズ*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,209,60,16
     RTEXT           "W:",IDC_STATIC,73,213,10,8
@@ -191,7 +191,7 @@ BEGIN
     RTEXT           "H:",IDC_STATIC,124,213,10,8
     EDITTEXT        IDC_POS_H,136,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_H,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,196,11,14
-    CONTROL         "セーブして終了",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
+    CONTROL         "終了時に保存",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
 
     CONTROL         "&デスクトップの端にスナップ",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,225,89,16
     RTEXT           "&Distance:",IDC_STATIC,104,229,31,8
@@ -215,7 +215,7 @@ BEGIN
     EDITTEXT        IDC_EDIT_COMMAND,50,207,173,14,ES_AUTOHSCROLL | WS_DISABLED
     RTEXT           "&ホットキー:",IDC_STATIC,3,230,44,8
     EDITTEXT        IDC_EDIT_HOTKEY,50,227,77,14,ES_AUTOHSCROLL | ES_WANTRETURN
-    PUSHBUTTON      "&Assign",IDC_BTN_ASSIGN,133,227,42,14
+    PUSHBUTTON      "&割り当て",IDC_BTN_ASSIGN,133,227,42,14
     PUSHBUTTON      "クリア",IDC_BTN_CLEAR,181,227,42,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,0,250,235,1
     CONTROL         "Use Scroll Lock for scrolling",IDC_CHECK_USE_SCROLL_LOCK,
@@ -226,7 +226,7 @@ IDD_SETTINGS_STYLES DIALOGEX 0, 0, 235, 265
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "&Caption",IDC_CHECK_STYLE_CAPTION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
+    CONTROL         "&キャプション",IDC_CHECK_STYLE_CAPTION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
     CONTROL         "リサイズ可能",IDC_CHECK_STYLE_RESIZABLE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,27,100,16
     CONTROL         "ボーダー",IDC_CHECK_STYLE_BORDER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
     CONTROL         "非アクティブの時隠す",IDC_CHECK_HIDE_WHEN_INACTIVE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,59,100,16
@@ -257,12 +257,12 @@ BEGIN
 
     CONTROL         "メニューを表示",IDC_CHECK_SHOW_MENU,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,178,100,16
     CONTROL         "ツールバーを表示",IDC_CHECK_SHOW_TOOLBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,194,100,16
-    CONTROL         "サーチバーを表示",IDC_CHECK_SHOW_SEARCH_BAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,210,100,16
+    CONTROL         "検索バーを表示",IDC_CHECK_SHOW_SEARCH_BAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,210,100,16
     CONTROL         "ステータスバーを表示",IDC_CHECK_SHOW_STATUS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,226,100,16
 
     CONTROL         "タブを表示",IDC_CHECK_SHOW_TABS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,178,95,16
-    CONTROL         "単一タブを隠す",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,194,85,16
-    CONTROL         "下にタブ",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,210,85,16
+    CONTROL         "単一のタブを隠す",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,194,85,16
+    CONTROL         "タブを下に表示",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,210,85,16
     CONTROL         "アイコンを隠す*",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,226,85,16
 
     CONTROL         "スクロールバーを表示",IDC_CHECK_SHOW_SCROLLBARS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,242,100,16
@@ -282,11 +282,11 @@ BEGIN
 #endif
     CONTROL         "Alpha and color key",IDC_TRANSPARENCY_TYPE5,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,27,100,16
 
-    LTEXT           "アクティブウィンドー",IDC_STATIC_ACTIVE_WINDOW,22,61,240,8
+    LTEXT           "アクティブウィンドウ",IDC_STATIC_ACTIVE_WINDOW,22,61,240,8
     CONTROL         "",IDC_ACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,71,192,20
     LTEXT           "255",IDC_STATIC_ACTIVE_ALPHA,215,73,14,8,0,WS_EX_RIGHT
     
-    LTEXT           "&非アクティブウィンドー",IDC_STATIC_INACTIVE_WINDOW,22,91,240,8
+    LTEXT           "&非アクティブウィンドウ",IDC_STATIC_INACTIVE_WINDOW,22,91,240,8
     CONTROL         "",IDC_INACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,101,192,20
     LTEXT           "255",IDC_STATIC_INACTIVE_ALPHA,215,103,14,8,0,WS_EX_RIGHT
 
@@ -298,7 +298,7 @@ IDD_SETTINGS_FONT DIALOGEX 0, 0, 235, 265
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | DS_3DLOOK
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    RTEXT           "Name:",IDC_STATIC,10,17,37,8
+    RTEXT           "名前:",IDC_STATIC,10,17,37,8
     EDITTEXT        IDC_FONT,50,14,93,14,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "...",IDC_BTN_BROWSE_FONT,145,14,16,14
     RTEXT           "サイズ:",IDC_STATIC,163,17,30,8
@@ -330,7 +330,7 @@ BEGIN
     CONTROL         "",IDC_LIST_TABS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,0,0,128,75
     PUSHBUTTON      "追加",IDC_BTN_ADD,135,0,100,14
     PUSHBUTTON      "クローン",IDC_BTN_CLONE,135,15,100,14
-    PUSHBUTTON      "消す",IDC_BTN_DELETE,135,30,100,14
+    PUSHBUTTON      "消去",IDC_BTN_DELETE,135,30,100,14
     PUSHBUTTON      "上に移動",IDC_BTN_UP,135,45,100,14
     PUSHBUTTON      "下に移動",IDC_BTN_DOWN,135,60,100,14
     CONTROL         "",IDC_TABS,"SysTabControl32",WS_TABSTOP,0,80,235,185
@@ -340,7 +340,7 @@ IDD_SETTINGS_BEHAVIOR DIALOGEX 0, 0, 235, 265
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "選択をコピー",IDC_CHECK_COPY_ON_SELECT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
+    CONTROL         "選択範囲をコピー",IDC_CHECK_COPY_ON_SELECT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
     CONTROL         "長い行を折り返さない",IDC_CHECK_NO_WRAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
     LTEXT           "EOL:",IDC_STATIC_EOL_SPACES_1,140,31,18,8
     EDITTEXT        IDC_EOL_SPACES,158,28,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
@@ -351,7 +351,7 @@ BEGIN
     CONTROL         "Position-sensitive copy",IDC_CHECK_SENSITIVE_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
     CONTROL         "Trim trailing spaces",IDC_CHECK_TRIM_SPACES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,43,100,16
     CONTROL         "Rich Text Format",IDC_CHECK_RTF,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,59,100,16
-    GROUPBOX        "コピー&&ペースト",IDC_STATIC,0,0,235,78
+    GROUPBOX        "コピー && 貼り付け",IDC_STATIC,0,0,235,78
 
     CONTROL         "Windows (CR+LF)",IDC_RADIO_COPY_NEWLINE_CHAR,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,10,91,100,16
     CONTROL         "Unix (LF)",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,10,107,100,16
@@ -379,8 +379,8 @@ BEGIN
     LTEXT           "行",IDC_STATIC_ROWS,209,160,26,8
     GROUPBOX        "ページスクロール",IDC_STATIC,120,130,115,63
 
-    CONTROL         "閉じるを許可/最後のタブをデタッチ/ビュー",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,206,220,16
-    CONTROL         "複数のタブ/ビューを閉じる前に確認",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,222,220,16
+    CONTROL         "タブが1つのとき'ビューを閉じる/ビューのデタッチ'を許可する",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,206,220,16
+    CONTROL         "複数のタブ/ビューを閉じる前に確認する",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,222,220,16
     GROUPBOX        "閉じる/デタッチ",IDC_STATIC,0,195,235,48,WS_GROUP
 END
 
@@ -441,7 +441,7 @@ BEGIN
     CONTROL         "ソリッド",IDC_RADIO_BK_TYPE,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,5,3,215,16
     CONTROL         "イメージ",IDC_RADIO_BK_TYPE2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,35,215,16
     CONTROL         "壁紙",IDC_RADIO_BK_TYPE3,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,99,215,16
-    RTEXT           "カラー:",IDC_STATIC_BK_COLOR,17,23,41,8
+    RTEXT           "色:",IDC_STATIC_BK_COLOR,17,23,41,8
     CONTROL         "",IDC_BK_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,60,20,16,14,WS_EX_DLGMODALFRAME
     RTEXT           "ファイル:",IDC_STATIC_BK_IMAGE,17,55,41,8,NOT WS_GROUP
     EDITTEXT        IDC_BK_IMAGE,60,52,143,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
@@ -457,7 +457,7 @@ BEGIN
     LTEXT           "255",IDC_TINT_OPACITY_VAL,207,133,14,8,0,WS_EX_RIGHT
 
     CONTROL         "継承",IDC_BTN_INHERIT_BACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,152,37,10
-    PUSHBUTTON      "既定とする",IDC_BTN_SET_AS_DEFAULT_BACKGROUND,45,150,70,14
+    PUSHBUTTON      "既定にする",IDC_BTN_SET_AS_DEFAULT_BACKGROUND,45,150,70,14
 END
 
 IDD_SETTINGS_MOUSE DIALOGEX 0, 0, 235, 265
@@ -470,10 +470,10 @@ BEGIN
     RTEXT           "&ボタン:",IDC_STATIC,3,230,44,8
     COMBOBOX        IDC_COMBO_BUTTONS,50,228,67,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     RTEXT           "&Modifiers:",IDC_STATIC,3,250,44,8
-    CONTROL         "コントロール",IDC_CHECK_CTRL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,249,40,10
+    CONTROL         "Control",IDC_CHECK_CTRL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,249,40,10
     CONTROL         "&Shift",IDC_CHECK_SHIFT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,95,249,40,10
     CONTROL         "Al&t",IDC_CHECK_ALT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,249,40,10
-    PUSHBUTTON      "&Assign",IDC_BTN_ASSIGN,133,227,42,14
+    PUSHBUTTON      "&割り当て",IDC_BTN_ASSIGN,133,227,42,14
     PUSHBUTTON      "クリア",IDC_BTN_CLEAR,181,227,42,14
 END
 
@@ -531,16 +531,16 @@ BEGIN
     PUSHBUTTON      "インポート...",IDC_BTN_IMPORT_COLORS,127,96,40,14
     PUSHBUTTON      "リセット",IDC_BTN_RESET_COLORS,172,96,40,14
     CONTROL         "継承",IDC_BTN_INHERIT_COLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,98,37,10
-    PUSHBUTTON      "既定とする",IDC_BTN_SET_AS_DEFAULT_COLORS,50,96,70,14
+    PUSHBUTTON      "既定にする",IDC_BTN_SET_AS_DEFAULT_COLORS,50,96,70,14
     GROUPBOX        "カラーマップ",IDC_STATIC,0,3,221,111,0,WS_EX_TRANSPARENT
 
     RTEXT           "スタイル:",IDC_STATIC,10,130,30,8
     COMBOBOX        IDC_COMBO_CURSOR,43,128,82,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "カラー:",IDC_STATIC_COLOR,133,130,30,8
+    RTEXT           "色:",IDC_STATIC_COLOR,133,130,30,8
     CONTROL         "",IDC_CURSOR_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,165,127,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "",IDC_CURSOR_ANIM,"Static",SS_BLACKRECT | SS_REALSIZEIMAGE | SS_SUNKEN,187,125,30,18
     CONTROL         "継承",IDC_BTN_INHERIT_CURSOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,147,37,10
-    PUSHBUTTON      "既定とする",IDC_BTN_SET_AS_DEFAULT_CURSOR,50,145,70,14
+    PUSHBUTTON      "既定にする",IDC_BTN_SET_AS_DEFAULT_CURSOR,50,145,70,14
     GROUPBOX        "カーソル",IDC_STATIC,0,116,221,47,0,WS_EX_TRANSPARENT
 END
 
@@ -551,12 +551,12 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_LIST_ENV,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,0,3,221,105,WS_EX_CLIENTEDGE
 
-    PUSHBUTTON      "消す",IDC_BTN_ENV_DELETE,57,112,48,14
+    PUSHBUTTON      "消去",IDC_BTN_ENV_DELETE,57,112,48,14
     PUSHBUTTON      "編集",IDC_BTN_ENV_EDIT,110,112,48,14
 
-    RTEXT           "Variable:",IDC_STATIC,3,135,40,8
+    RTEXT           "値:",IDC_STATIC,3,135,40,8
     EDITTEXT        IDC_ENV_VARIABLE,45,132,145,14,ES_AUTOHSCROLL | ES_UPPERCASE
-    RTEXT           "Value:",IDC_STATIC,3,150,40,8
+    RTEXT           "変数:",IDC_STATIC,3,150,40,8
     EDITTEXT        IDC_ENV_VALUE,45,147,175,14,ES_AUTOHSCROLL
     PUSHBUTTON      "追加",IDC_BTN_ENV_ADD,192,132,28,14
 END
@@ -627,59 +627,60 @@ BEGIN
     BEGIN
         MENUITEM "新しいタブ",                    ID_FILE_NEW_TAB
         MENUITEM "タブを閉じる",                  ID_FILE_CLOSE_TAB
-        MENUITEM "アクティブタブ以外のタブをクローズ",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "左方向にタブをクローズ",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "右方向にタブをクローズ", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "他のタブをすべて閉じる",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
+        MENUITEM "左側のタブをすべて閉じる",  ID_FILE_CLOSE_ALL_TABS_LEFT
+        MENUITEM "右側のタブをすべて閉じる", ID_FILE_CLOSE_ALL_TABS_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "ビューを閉じる",                 ID_CLOSE_VIEW
         MENUITEM "ビューをデタッチ",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
         MENUITEM "コンソールのアタッチ",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
-        MENUITEM "Exit",                       ID_APP_EXIT
+        MENUITEM "終了",                       ID_APP_EXIT
     END
     POPUP "編集"
     BEGIN
         MENUITEM "コピー",                       ID_EDIT_COPY
-        MENUITEM "全選択",                 ID_EDIT_SELECT_ALL
-        MENUITEM "現在の選択をクリア",            ID_EDIT_CLEAR_SELECTION
-        MENUITEM "ペースト",                      ID_EDIT_PASTE
-        MENUITEM "Paste Selection",             ID_PASTE_SELECTION
+        MENUITEM "すべて選択",                 ID_EDIT_SELECT_ALL
+        MENUITEM "現在の選択範囲をクリア",            ID_EDIT_CLEAR_SELECTION
+        MENUITEM "貼り付け",                      ID_EDIT_PASTE
+        MENUITEM "選択範囲を貼り付け",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
-        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "スニペットの挿入",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "スクロールの停止",             ID_EDIT_STOP_SCROLLING
-        MENUITEM "スクロールのレジューム",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM "スクロールの再開",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "タブ名の変更",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
-        MENUITEM "水平分割",         ID_SPLIT_HORIZ
-        MENUITEM "垂直分割",           ID_SPLIT_VERT
-        MENUITEM "ビューをスワップ",                  ID_SPLIT_SWAP
+        MENUITEM "水平方向に分割",         ID_SPLIT_HORIZ
+        MENUITEM "垂直方向に分割",           ID_SPLIT_VERT
+        MENUITEM "ビューの入れ替え",                  ID_SPLIT_SWAP
         MENUITEM "新しいタブにクローンを作成",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "設定",                ID_EDIT_SETTINGS
     END
     POPUP "表示"
     BEGIN
-        MENUITEM "コンソール ウィンドー",             ID_VIEW_CONSOLE
+        MENUITEM "コンソール ウィンドウ",             ID_VIEW_CONSOLE
         MENUITEM "フォント情報...",         ID_FONT_INFO
         MENUITEM SEPARATOR
-        MENUITEM "メニュ",                       ID_VIEW_MENU
+        MENUITEM "メニュー",                       ID_VIEW_MENU
         MENUITEM "ツールバー",                    ID_VIEW_TOOLBAR
-        MENUITEM "サーチバー",                  ID_VIEW_SEARCH_BAR
+        MENUITEM "検索バー",                  ID_VIEW_SEARCH_BAR
         MENUITEM "ステータスバー",                 ID_VIEW_STATUS_BAR
         MENUITEM "タブ",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
         MENUITEM "フルスクリーン",                ID_VIEW_FULLSCREEN
         MENUITEM "透過のON/OFF",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "常に前面に表示",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "ヘルプ"
     BEGIN
         MENUITEM "ヘルプ",                       ID_HELP
-        MENUITEM "ダイアグ",                    ID_DIAGNOSE
+        MENUITEM "診断",                    ID_DIAGNOSE
         MENUITEM SEPARATOR
-        MENUITEM "&About ConsoleZ...",          ID_APP_ABOUT
+        MENUITEM "ConsoleZについて...",          ID_APP_ABOUT
     END
 END
 
@@ -689,26 +690,26 @@ BEGIN
     POPUP "タブ"
     BEGIN
         MENUITEM "タブを閉じる",                  ID_FILE_CLOSE_TAB
-        MENUITEM "アクティブタブ以外のタブをクローズ",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "左方向にタブをクローズ",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "右方向にタブをクローズ", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "他のタブをすべて閉じる",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
+        MENUITEM "左側のタブをすべて閉じる",  ID_FILE_CLOSE_ALL_TABS_LEFT
+        MENUITEM "右側のタブをすべて閉じる", ID_FILE_CLOSE_ALL_TABS_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "ビューを閉じる",                 ID_CLOSE_VIEW
         MENUITEM "ビューをデタッチ",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "スニペットの挿入",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "スクロールの停止",             ID_EDIT_STOP_SCROLLING
-        MENUITEM "スクロールのレジューム",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM "スクロールの再開",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "タブ名の変更",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
-        MENUITEM "水平分割",         ID_SPLIT_HORIZ
-        MENUITEM "垂直分割",           ID_SPLIT_VERT
-        MENUITEM "ビューをスワップ",                  ID_SPLIT_SWAP
+        MENUITEM "水平方向に分割",         ID_SPLIT_HORIZ
+        MENUITEM "垂直方向に分割",           ID_SPLIT_VERT
+        MENUITEM "ビューの入れ替え",                  ID_SPLIT_SWAP
         MENUITEM "新しいタブにクローンを作成",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
-        MENUITEM "コンソール ウィンドー",             ID_VIEW_CONSOLE
+        MENUITEM "コンソール ウィンドウ",             ID_VIEW_CONSOLE
     END
 END
 
@@ -782,49 +783,49 @@ BEGIN
     ID_SEARCH_PREV             "\n前を検索"
     ID_SEARCH_NEXT             "\n次を検索"
     ID_SEARCH_MATCH_CASE       "\n大文字小文字を区別"
-    ID_SEARCH_MATCH_WHOLE_WORD "\nMatch whole word"
+    ID_SEARCH_MATCH_WHOLE_WORD "\n単語単位で一致"
 END
 
 STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "プログラム情報、バージョン、コピーライトを表示\nAbout"
-    ID_APP_EXIT             "アプリケーションを終了; セーブを確認\n終了"
+    ID_APP_EXIT             "アプリケーションを終了; 保存を確認\n終了"
     ID_HELP                 "ヘルプファイルを開く\nヘルプ"
-    ID_DIAGNOSE             "ダイアグレポートを作成\nダイアグ"
+    ID_DIAGNOSE             "診断レポートを作成\n診断"
 END
 
 STRINGTABLE
 BEGIN
-    ID_EDIT_CLEAR           "スクリーンクリア\nクリア"
-    ID_EDIT_CLEAR_ALL       "全部消去\n全消去"
-    ID_EDIT_COPY            "せんたくをコピーして、クリップボードに置く\nコピー"
-    ID_EDIT_CUT             "選択を切り取り、クリップボードに置く\nカット"
-    ID_EDIT_FIND            "文字を検索\n検索"
+    ID_EDIT_CLEAR           "スクリーンのクリア\nクリア"
+    ID_EDIT_CLEAR_ALL       "すべて消去\n全消去"
+    ID_EDIT_COPY            "選択範囲をクリップボードにコピーする\nコピー"
+    ID_EDIT_CUT             "選択範囲をクリップボードに切り取り\n切り取り"
+    ID_EDIT_FIND            "文字列を検索\n検索"
     ID_EDIT_PASTE           "クリップボードの中身を挿入\nペースト"
     ID_PASTE_SELECTION      "選択文字を挿入\n文字をペースト"
-    ID_EDIT_INSERT_SNIPPET  "Insert Snippet\nInsert Snippet"
+    ID_EDIT_INSERT_SNIPPET  "スニペットの挿入\nスニペットの挿入"
     ID_EDIT_STOP_SCROLLING  "スクロールの停止\nスクロール停止"
-    ID_EDIT_RESUME_SCROLLING "スクロールのレジューム\nスクロールのレジューム"
-    ID_EDIT_SELECT_ALL      "全部を選択する\n全選択"
+    ID_EDIT_RESUME_SCROLLING "スクロールの再開\nスクロールの再開"
+    ID_EDIT_SELECT_ALL      "すべて選択する\nすべて選択"
     ID_EDIT_RENAME_TAB      "アクティブタブの名前を変更\nタブ名の変更"
-    ID_EDIT_SETTINGS        "設定の画面を開く\n設定..."
+    ID_EDIT_SETTINGS        "設定画面を開く\n設定..."
 END
 
 STRINGTABLE
 BEGIN
     ID_FILE_NEW_TAB         "新しいタブを開く\n新規タブ"
-    ID_VIEW_CONSOLE         "コンソールの表示、非表示"
-    ID_FILE_CLOSE_TAB       "利用中のタブをクローズ\nタブをクローズ"
-    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "利用中以外のタブをすべてクローズ"
-    ID_FILE_CLOSE_ALL_TABS_LEFT     "利用中のタブより左のタブをクローズ"
-    ID_FILE_CLOSE_ALL_TABS_RIGHT    "利用中のタブより右のタブをクローズ"
+    ID_VIEW_CONSOLE         "コンソールの表示/非表示"
+    ID_FILE_CLOSE_TAB       "現在のタブを閉じる\nタブを閉じる"
+    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "利用中以外のタブをすべて閉じる"
+    ID_FILE_CLOSE_ALL_TABS_LEFT     "利用中のタブより左のタブを閉じる"
+    ID_FILE_CLOSE_ALL_TABS_RIGHT    "利用中のタブより右のタブを閉じる"
     ID_FONT_INFO            "隠れたコンソールのフォント情報を表示"
-    ID_VIEW_MENU            "メニューの表示、非表示"
-    ID_VIEW_TABS            "タブの表示、非表示"
-    ID_VIEW_TOOLBAR         "ツールバーの表示、非表示"
-    ID_VIEW_SEARCH_BAR      "検索バーの表示、非表示"
-    ID_VIEW_STATUS_BAR      "ステータスバーの表示、非表示"
-    ID_SWITCH_TRANSPARENCY  "透過のON OFF"
+    ID_VIEW_MENU            "メニューの表示/非表示"
+    ID_VIEW_TABS            "タブの表示/非表示"
+    ID_VIEW_TOOLBAR         "ツールバーの表示/非表示"
+    ID_VIEW_SEARCH_BAR      "検索バーの表示/非表示"
+    ID_VIEW_STATUS_BAR      "ステータスバーの表示/非表示"
+    ID_SWITCH_TRANSPARENCY  "透過のON/OFF"
 END
 
 STRINGTABLE
@@ -833,7 +834,7 @@ BEGIN
     ID_PREV_TAB             "前のタブに切り替え\n前のタブ"
     ID_NEXT_VIEW            "次のビューに切り替え\n次のビュー"
     ID_PREV_VIEW            "前のビューに切り替え\n前のビュー"
-    ID_CLOSE_VIEW           "利用中のビューをクローズ\nビューをクローズ"
+    ID_CLOSE_VIEW           "現在のビューを閉じる\nビューを閉じる"
     ID_DETACH_VIEW          "現在のビューをデタッチ\nビューのデタッチ"
     ID_ATTACH_CONSOLES      "コンソールのアタッチ\nコンソールのアタッチ"
     ID_SPLIT_HORIZ          "現在のビューを水平に分割\n水平分割"
@@ -842,6 +843,7 @@ BEGIN
 
     ID_CLONE_IN_NEW_TAB     "現在のビューを新しいタブにクローン\n新しいタブにクローン"
     ID_VIEW_FULLSCREEN      "フルスクリーンの切り替え\nフルスクリーン"
+    ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
     ID_GROUP_ALL            "Group all terminals so that any input sent to one of them, goes to all of them\nGroup All"
     ID_UNGROUP_ALL          "Remove grouping from all terminals\nUngroup All"
     ID_GROUP_TAB            "Group all terminals in the current tab so that any input sent to one of them, goes to all of them\nGroup Tab"
@@ -856,7 +858,7 @@ BEGIN
     IDS_SNIPPET_DESCRIPTION "説明"
     IDS_SNIPPET_CODE        "Code"
     IDS_SNIPPET_VERSION     "バージョン"
-    IDC_SNIPPET_INFORMATION "Show snippet information"
+    IDC_SNIPPET_INFORMATION "スニペットの情報を表示"
     IDC_SNIPPET_EDIT        "編集"
 END
 
@@ -882,28 +884,28 @@ BEGIN
     IDS_CAPTION_ERROR "エラー"
     IDS_ERR_CANT_START_SHELL "Unable to start %1% (reason: %2%)!"
     IDS_ERR_CANT_START_SHELL_AS_USER "Unable to start %1% as user %2% (reason: %3%)!"
-    IDS_ERR_DLL_INJECTION_FAILED "DLL インジェクションの失敗 (理由:%1%)!"
+    IDS_ERR_DLL_INJECTION_FAILED "DLL インジェクションに失敗しました (理由:%1%)!"
     IDS_ERR_DLL_HOOK_MISSING "DLL フック %1% エラー!"
-    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "共有オブジェクトを作れません (reason:%1%)!"
+    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "共有オブジェクトを作成できません (reason:%1%)!"
     IDS_ERR_CANT_START_SHELL_AS_ADMIN "Unable to start %1% %2% as administrator (reason: %3%)!"
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (reason: %1%)!"
-    IDS_ERR_TAB_CREATE_FAILED "タブ %1%をオープンできません !\nプロセス　%2% がまだ動作してます　(タスクマネージャーで該当プロセスを終了してください)"
-    IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% is not a Win32 console application!"
+    IDS_ERR_TAB_CREATE_FAILED "タブ %1%を開くことができません!\nプロセス %2% が動作中です (タスクマネージャーで該当プロセスを終了してください)"
+    IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% はWin32コンソールアプリケーションではありません!"
     IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
 END
 
 STRINGTABLE
 BEGIN
     MSG_SETTINGS_INVALID_BUFFER_ROWS
-                            "コンソールバッファ行数がおかしいです!  %1% と %2%の間で設定してください."
+                            "コンソールバッファの行数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_INVALID_BUFFER_COLUMNS
-                            "コンソールバッファ列数がおかしいです!  %1% と %2%の間で設定してください."
+                            "コンソールバッファの列数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_INVALID_ROWS
                             "コンソールの行数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_INVALID_COLUMNS
-                            "コンソール列数がおかしいです!  %1% と %2%の間で設定してください."
+                            "コンソールの列数がおかしいです!  %1% と %2%の間で設定してください."
     MSG_SETTINGS_HOTKEY_ALREADY_ASSIGNED
-                            "ホットキーはすでにコマンド '%1%' にアサインされています!"
+                            "ホットキーはすでにコマンド '%1%' に割り当てられています!"
     MSG_SETTINGS_HOTKEY_NONE
                             "None"
     MSG_SETTINGS_FULLSCREEN_CURRENT
@@ -911,26 +913,26 @@ BEGIN
     MSG_SETTINGS_DELETE_TAB
                             "選択したタブを削除?"
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR
-                            "設定が保存できませんでした。ファイルのライトパーミッションを確認してください。 %1%."
+                            "設定の保存に失敗しました。ファイル %1% のパーミションを確認してください。"
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR_EXEDIR
-                            "ユーザディレクトリに設定を保存のをお勧めします."
+                            "ユーザディレクトリに設定を保存することを推奨します."
     MSG_SETTINGS_INIT_DIR
                             "初期ディレクトリの選択"
     MSG_SETTINGS_ICON_FILES
-                            "Icon Files (*.ico)|*.ico||"
+                            "アイコンファイル (*.ico)|*.ico||"
     MSG_SETTINGS_EXECUTABLE_FILES
-                            "Executable Files (*.exe)|*.exe|Batch Files (*.bat;*.cmd)|*.bat;*.cmd|All Files (*.*)|*.*||"
+                            "実行可能ファイル (*.exe)|*.exe|バッチファイル (*.bat;*.cmd)|*.bat;*.cmd|すべてのファイル (*.*)|*.*||"
     MSG_SETTINGS_EXECUTABLE_FILES_AND_LINKS
-                            "Executable Files (*.exe)|*.exe|Shell Links (*.lnk)|*.lnk|Batch Files (*.bat;*.cmd)|*.bat;*.cmd|All Files (*.*)|*.*||"
+                            "実行可能ファイル (*.exe)|*.exe|ショートカット (*.lnk)|*.lnk|バッチファイル (*.bat;*.cmd)|*.bat;*.cmd|すべてのファイル (*.*)|*.*||"
     MSG_SETTINGS_IMAGE_FILES
-                            "All Image Files|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Bitmap Files (*.bmp;*.dib)|*.bmp;*.dib|Graphics Interchange Format (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|Portable Network Graphics (*.png)|*.png|All Files (*.*)|*.*||"
+                            "すべての画像ファイル|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Bitmap Files (*.bmp;*.dib)|*.bmp;*.dib|Graphics Interchange Format (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|Portable Network Graphics (*.png)|*.png|すべてのファイル (*.*)|*.*||"
     MSG_SETTINGS_CONFIG_FILES
-                            "Config Files (*.xml)|*.xml|All Files (*.*)|*.*||"
+                            "設定ファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*||"
 
     MSG_MAINFRAME_CLOSE_ALL_TABS
                             "すべてのタブを閉じますか?"
     MSG_MAINFRAME_CLOSE_ALL_VIEWS
-                            "すべてのビューを閉じて閉じますか ?"
+                            "すべてのビューを閉じますか?"
     MSG_MAINFRAME_SEARCH
                             "検索..."
     MSG_MAINFRAME_EXIT_FULLSCREEN
@@ -938,7 +940,7 @@ BEGIN
     MSG_MAINFRAME_SYNTAX_ERROR
                             "%1% にシンタックスエラー"
 
-    MSG_TABVIEW_RUNAS       "違うユーザーとして実行"
+    MSG_TABVIEW_RUNAS       "別のユーザーとして実行"
 
     MSG_ABOUT               "\nConsoleZ %1%\n\nCopyright (c) 2011-2016\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
 END
@@ -950,74 +952,75 @@ BEGIN
 
     IDS_APP_EXIT             "ConsoleZを終了"
 
-    IDS_NEW_TAB_1            "New Tab 1"
-    IDS_NEW_TAB_2            "New Tab 2"
-    IDS_NEW_TAB_3            "New Tab 3"
-    IDS_NEW_TAB_4            "New Tab 4"
-    IDS_NEW_TAB_5            "New Tab 5"
-    IDS_NEW_TAB_6            "New Tab 6"
-    IDS_NEW_TAB_7            "New Tab 7"
-    IDS_NEW_TAB_8            "New Tab 8"
-    IDS_NEW_TAB_9            "New Tab 9"
-    IDS_NEW_TAB_10           "New Tab 10"
-    IDS_NEW_TAB_11           "New Tab 11"
-    IDS_NEW_TAB_12           "New Tab 12"
+    IDS_NEW_TAB_1            "新規タブ1"
+    IDS_NEW_TAB_2            "新規タブ2"
+    IDS_NEW_TAB_3            "新規タブ3"
+    IDS_NEW_TAB_4            "新規タブ4"
+    IDS_NEW_TAB_5            "新規タブ5"
+    IDS_NEW_TAB_6            "新規タブ6"
+    IDS_NEW_TAB_7            "新規タブ7"
+    IDS_NEW_TAB_8            "新規タブ8"
+    IDS_NEW_TAB_9            "新規タブ9"
+    IDS_NEW_TAB_10           "新規タブ10"
+    IDS_NEW_TAB_11           "新規タブ11"
+    IDS_NEW_TAB_12           "新規タブ12"
 
-    IDS_SWITCH_TAB_1         "Switch to tab 1"
-    IDS_SWITCH_TAB_2         "Switch to tab 2"
-    IDS_SWITCH_TAB_3         "Switch to tab 3"
-    IDS_SWITCH_TAB_4         "Switch to tab 4"
-    IDS_SWITCH_TAB_5         "Switch to tab 5"
-    IDS_SWITCH_TAB_6         "Switch to tab 6"
-    IDS_SWITCH_TAB_7         "Switch to tab 7"
-    IDS_SWITCH_TAB_8         "Switch to tab 8"
-    IDS_SWITCH_TAB_9         "Switch to tab 9"
-    IDS_SWITCH_TAB_10        "Switch to tab 10"
+    IDS_SWITCH_TAB_1         "タブ1に切り替え"
+    IDS_SWITCH_TAB_2         "タブ2に切り替え"
+    IDS_SWITCH_TAB_3         "タブ3に切り替え"
+    IDS_SWITCH_TAB_4         "タブ4に切り替え"
+    IDS_SWITCH_TAB_5         "タブ5に切り替え"
+    IDS_SWITCH_TAB_6         "タブ6に切り替え"
+    IDS_SWITCH_TAB_7         "タブ7に切り替え"
+    IDS_SWITCH_TAB_8         "タブ8に切り替え"
+    IDS_SWITCH_TAB_9         "タブ9に切り替え"
+    IDS_SWITCH_TAB_10        "タブ10に切り替え"
 
     IDS_NEXT_TAB             "次のタブに切り替え"
     IDS_PREV_TAB             "前のタブに切り替え"
-    IDS_MOVE_TAB_LEFT        "タブのフォーカスを左に移動"
-    IDS_MOVE_TAB_RIGHT       "タブのフォーカスを右に移動"
+    IDS_MOVE_TAB_LEFT        "左のタブにフォーカスを移動"
+    IDS_MOVE_TAB_RIGHT       "右のタブにフォーカスを移動"
 
-    IDS_FILE_CLOSE_TAB       "タブをクローズ"
+    IDS_FILE_CLOSE_TAB       "タブを閉じる"
     IDS_EDIT_RENAME_TAB      "タブ名を変更"
 
-    IDS_NEXT_VIEW            "次のビュー"
+    IDS_NEXT_VIEW            "次のビューに切り替え"
     IDS_PREV_VIEW            "前のビューに切り替え"
-    IDS_LEFT_VIEW            "左ビューに切り替え"
+    IDS_LEFT_VIEW            "左のビューに切り替え"
     IDS_RIGHT_VIEW           "右のビューに切り替え"
     IDS_TOP_VIEW             "最上位のビューに切り替え"
-    IDS_BOTTOM_VIEW          "最下ビューに切り替え"
+    IDS_BOTTOM_VIEW          "最下位のビューに切り替え"
 
-    IDS_DEC_HORIZ_SIZE       "水平ビューサイズを縮小する"
+    IDS_DEC_HORIZ_SIZE       "水平ビューのサイズを縮小"
     IDS_INC_HORIZ_SIZE       "水平ビューサイズを縮小"
-    IDS_DEC_VERT_SIZE        "垂直ビューサイズを縮小する"
+    IDS_DEC_VERT_SIZE        "垂直ビューのサイズを縮小"
     IDS_INC_VERT_SIZE        "垂直ビューサイズを縮小"
 
-    IDS_CLOSE_VIEW           "ビューをクローズ"
+    IDS_CLOSE_VIEW           "ビューを閉じる"
     IDS_DETACH_VIEW          "ビューのデタッチ"
     IDS_ATTACH_CONSOLES      "コンソールのアタッチ"
-    IDS_SPLIT_HORIZ          "水平分割"
-    IDS_SPLIT_VERT           "垂直分割"
+    IDS_SPLIT_HORIZ          "水平方向に分割"
+    IDS_SPLIT_VERT           "垂直方向に分割"
     IDS_SPLIT_SWAP           "前のフォーカス画面と交換"
     IDS_CLONE_IN_NEW_TAB     "新しいタブにビューを複製"
     IDS_VIEW_FULLSCREEN      "フルスクリーン"
-    IDS_VIEW_ZOOM_100        "Zoom 100%"
-    IDS_VIEW_ZOOM_INC        "ズームアップ"
-    IDS_VIEW_ZOOM_DEC        "ズームダウン"
-    IDS_GROUP_ALL            "Group all"
-    IDS_UNGROUP_ALL          "Ungroup all"
-    IDS_GROUP_TAB            "Group tab"
-    IDS_UNGROUP_TAB          "Ungroup tab"
+    IDS_VIEW_ALWAYS_ON_TOP   "常に前面に表示"
+    IDS_VIEW_ZOOM_100        "ズームのリセット"
+    IDS_VIEW_ZOOM_INC        "拡大"
+    IDS_VIEW_ZOOM_DEC        "縮小"
+    IDS_GROUP_ALL            "すべてグループ化"
+    IDS_UNGROUP_ALL          "すべてのグループ化を解除"
+    IDS_GROUP_TAB            "タブをグループ化"
+    IDS_UNGROUP_TAB          "タブのグループ化を解除"
 
-    IDS_EDIT_CLEAR           "スクリーンクリア"
-    IDS_EDIT_COPY            "選択のコピー"
-    IDS_EDIT_SELECT_ALL      "全選択"
-    IDS_EDIT_CLEAR_SELECTION "選択のクリア"
-    IDS_EDIT_PASTE           "ペースト"
-    IDS_PASTE_SELECTION      "選択をペースト"
-    IDS_EDIT_STOP_SCROLLING  "スクロール停止"
-    IDS_EDIT_RESUME_SCROLLING "スクロールのレジューム"
+    IDS_EDIT_CLEAR           "スクリーンのクリア"
+    IDS_EDIT_COPY            "選択範囲のコピー"
+    IDS_EDIT_SELECT_ALL      "すべて選択"
+    IDS_EDIT_CLEAR_SELECTION "選択範囲のクリア"
+    IDS_EDIT_PASTE           "貼り付け"
+    IDS_PASTE_SELECTION      "選択範囲を貼り付け"
+    IDS_EDIT_STOP_SCROLLING  "スクロールの停止"
+    IDS_EDIT_RESUME_SCROLLING "スクロールの再開"
 
     IDS_SCROLL_UP            "バッファを上にスクロール"
     IDS_SCROLL_DOWN          "バッファを下にスクロール"
@@ -1032,29 +1035,29 @@ IDS_FIND                 "検索"
 IDS_SEARCH_NEXT          "次を検索"
 IDS_SEARCH_PREV          "前を検索"
 
-IDS_SWITCH_TRANSPARENCY  "透過のON OF"
+IDS_SWITCH_TRANSPARENCY  "透過のON/OF"
 
 IDS_DUMP_BUFFER          "スクリーンバッファーのダンプ"
 
-IDS_SHOW_CONTEXT_MENU_1  "Show Context menu #1"
-IDS_SHOW_CONTEXT_MENU_2  "Show Context menu #2"
-IDS_SHOW_CONTEXT_MENU_3  "Show Context menu #3"
-ID_SHOW_CONTEXT_MENU_SNIPPETS "Show Snippets context menu"
+IDS_SHOW_CONTEXT_MENU_1  "コンテキストメニュー#1を表示"
+IDS_SHOW_CONTEXT_MENU_2  "コンテキストメニュー#2を表示"
+IDS_SHOW_CONTEXT_MENU_3  "コンテキストメニュー#3を表示"
+ID_SHOW_CONTEXT_MENU_SNIPPETS "スニペットのコンテキストメニューを表示"
 
-IDS_SEND_CTRL_C          "CTRL-C を送る"
+IDS_SEND_CTRL_C          "CTRL-C を送信"
 
-IDS_EXTERNAL_COMMAND_1   "External command 1"
-IDS_EXTERNAL_COMMAND_2   "External command 2"
-IDS_EXTERNAL_COMMAND_3   "External command 3"
-IDS_EXTERNAL_COMMAND_4   "External command 4"
-IDS_EXTERNAL_COMMAND_5   "External command 5"
-IDS_EXTERNAL_COMMAND_6   "External command 6"
-IDS_EXTERNAL_COMMAND_7   "External command 7"
-IDS_EXTERNAL_COMMAND_8   "External command 8"
-IDS_EXTERNAL_COMMAND_9   "External command 9"
-IDS_EXTERNAL_COMMAND_10  "External command 10"
+IDS_EXTERNAL_COMMAND_1   "外部コマンド1"
+IDS_EXTERNAL_COMMAND_2   "外部コマンド2"
+IDS_EXTERNAL_COMMAND_3   "外部コマンド3"
+IDS_EXTERNAL_COMMAND_4   "外部コマンド4"
+IDS_EXTERNAL_COMMAND_5   "外部コマンド5"
+IDS_EXTERNAL_COMMAND_6   "外部コマンド6"
+IDS_EXTERNAL_COMMAND_7   "外部コマンド7"
+IDS_EXTERNAL_COMMAND_8   "外部コマンド8"
+IDS_EXTERNAL_COMMAND_9   "外部コマンド9"
+IDS_EXTERNAL_COMMAND_10  "外部コマンド10"
 
-IDS_GLOBAL_ACTIVATE      "Activate ConsoleZ (global)"
+IDS_GLOBAL_ACTIVATE      "ConsoleZのアクティブ化 (global)"
 
 ID_TEXT_SELECTION_LEFT_KEY        "Text selection left key"
 ID_TEXT_SELECTION_RIGHT_KEY       "Text selection right key"
@@ -1076,21 +1079,21 @@ END
 
 STRINGTABLE
 BEGIN
-IDS_MOUSE_COPY           "コピー/選択をクリア"
-IDS_MOUSE_SELECT         "文字選択"
-IDS_MOUSE_COLUMNSELECT   "列選択"
-IDS_MOUSE_PASTE          "文字をペースト"
-IDS_MOUSE_DRAG           "ウィンドーのドラッグ"
+IDS_MOUSE_COPY           "コピー/選択解除"
+IDS_MOUSE_SELECT         "文字を選択"
+IDS_MOUSE_COLUMNSELECT   "列を選択"
+IDS_MOUSE_PASTE          "文字列を貼り付け"
+IDS_MOUSE_DRAG           "ウィンドウのドラッグ"
 IDS_MOUSE_LINK           "リンクのクリック"
-IDS_MOUSE_MENU1          "Context menu #1"
-IDS_MOUSE_MENU2          "Context menu #2"
-IDS_MOUSE_MENU3          "Context menu #3"
-IDS_MOUSE_SNIPPETS       "Snippets context menu"
+IDS_MOUSE_MENU1          "コンテキストメニュー#1"
+IDS_MOUSE_MENU2          "コンテキストメニュー#2"
+IDS_MOUSE_MENU3          "コンテキストメニュー#3"
+IDS_MOUSE_SNIPPETS       "スニペットのコンテキストメニュー"
 END
 
 STRINGTABLE
 BEGIN
-IDS_SETTINGS_CONSOLE       "Console"
+IDS_SETTINGS_CONSOLE       "コンソール"
 IDS_SETTINGS_APPEARANCE    "外観"
 IDS_SETTINGS_STYLES        "スタイル"
 IDS_SETTINGS_TRANSPARENCY  "透過"
@@ -1118,13 +1121,13 @@ STRINGTABLE
 BEGIN
 IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
 IDC_COMBO_DOCKING            "None;Top left;Top right;Bottom left;Bottom right;Top middle;Bottom middle;Left middle;Right middle;"
-IDC_COMBO_ZORDER             "普通;いつも上;いつも下;デスクトップにピン止め;"
+IDC_COMBO_ZORDER             "通常;常に前面;常に背面;デスクトップにピン止め;"
 IDC_COMBO_SMOOTHING          "デフォルト;なし;クリアタイプ;標準クリアタイプ;アンチエイリアス"
 IDC_COMBO_BUTTONS            "None;Left;Right;Middle;Fourth;Fifth;"
 IDC_COMBO_BK_POS             "Center;Stretch;Tile;Fit;Fill;"
 IDC_COMBO_FULLSCREEN_MONITOR "カレント;"
-IDC_COMBO_BASE_PRIORITY      "Idle;Below normal;Normal;Above normal;High;Realtime;"
-IDC_COMBO_STATE              "Normal window;Minimized;Maximized;Full screen;"
+IDC_COMBO_BASE_PRIORITY      "待機;通常以下;通常;通常以上;高;リアルタイム;"
+IDC_COMBO_STATE              "通常ウィンドウ;最小化;最大化;フルスクリーン;"
 END
 
 #endif    // English (United States) resources
