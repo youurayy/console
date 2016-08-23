@@ -703,12 +703,15 @@ inline void CToolBarCtrl::CtrlPaint(HDC hdc, RECT& /*rCtrl*/, RECT& rPaint)
 				GetThemeBackgroundContentRect(hdc, TP_BUTTON, state, &rBtn, &rbmp);
 			}
 
-			int x = rbmp.left + (rbmp.right  - rbmp.left - cx) / 2;
-			int y = rbmp.top  + (rbmp.bottom - rbmp.top  - cy) / 2;
+			if( tbbi.iImage != I_IMAGENONE )
+			{
+				int x = rbmp.left + (rbmp.right - rbmp.left - cx) / 2;
+				int y = rbmp.top + (rbmp.bottom - rbmp.top - cy) / 2;
 
-			if( (tbbi.fsState & TBSTATE_PRESSED) || (tbbi.fsState & TBSTATE_CHECKED) ) x += 1;
+				if( (tbbi.fsState & TBSTATE_PRESSED) || (tbbi.fsState & TBSTATE_CHECKED) ) x += 1;
 
-			img.DrawEx(tbbi.iImage, hdc, x, y, cx, cy, CLR_NONE, CLR_NONE, (state == TS_DISABLED)? ILS_SATURATE : ILS_NORMAL);
+				img.DrawEx(tbbi.iImage, hdc, x, y, cx, cy, CLR_NONE, CLR_NONE, (state == TS_DISABLED) ? ILS_SATURATE : ILS_NORMAL);
+			}
 		}
 
 	}

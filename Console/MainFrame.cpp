@@ -408,12 +408,13 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 #endif
 
 	tbi.cbSize = sizeof(TBBUTTONINFO);
-	tbi.dwMask = TBIF_SIZE | TBIF_STATE | TBIF_STYLE;
+	tbi.dwMask = TBIF_SIZE | TBIF_STATE | TBIF_STYLE | TBIF_IMAGE;
 
 	// Make sure the underlying button is disabled
 	tbi.fsState = 0;
 	// BTNS_SHOWTEXT will allow the button size to be altered
 	tbi.fsStyle = BTNS_SHOWTEXT;
+	tbi.iImage  = I_IMAGENONE;
 	tbi.cx = static_cast<WORD>(7 * ::GetSystemMetrics(SM_CXSMICON));
 
 	m_searchbar.SetButtonInfo(ID_SEARCH_COMBO, &tbi);
