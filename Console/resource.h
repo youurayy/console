@@ -54,6 +54,26 @@
 #define IDR_FULLSCREEN2_32              332
 #define IDR_SEARCH_32                   333
 
+#define IDR_TOOLBAR_40                  340
+#define IDR_FULLSCREEN1_40              341
+#define IDR_FULLSCREEN2_40              342
+#define IDR_SEARCH_40                   343
+
+#define IDR_TOOLBAR_48                  350
+#define IDR_FULLSCREEN1_48              351
+#define IDR_FULLSCREEN2_48              352
+#define IDR_SEARCH_48                   353
+
+#define IDR_TOOLBAR_64                  360
+#define IDR_FULLSCREEN1_64              361
+#define IDR_FULLSCREEN2_64              362
+#define IDR_SEARCH_64                   363
+
+#define IDR_TOOLBAR_80                  370
+#define IDR_FULLSCREEN1_80              371
+#define IDR_FULLSCREEN2_80              372
+#define IDR_SEARCH_80                   373
+
 #define IDC_TAB_NAME                    1000
 #define IDC_APPLY                       1001
 #define IDC_TREE_SECTIONS               1002

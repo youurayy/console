@@ -677,22 +677,42 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ResourceCompile Include="Console.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\fullscreen1_128.bmp" />
     <Image Include="res\fullscreen1_16.bmp" />
     <Image Include="res\fullscreen1_20.bmp" />
     <Image Include="res\fullscreen1_24.bmp" />
     <Image Include="res\fullscreen1_32.bmp" />
+    <Image Include="res\fullscreen1_40.bmp" />
+    <Image Include="res\fullscreen1_48.bmp" />
+    <Image Include="res\fullscreen1_64.bmp" />
+    <Image Include="res\fullscreen1_80.bmp" />
+    <Image Include="res\fullscreen2_128.bmp" />
     <Image Include="res\fullscreen2_16.bmp" />
     <Image Include="res\fullscreen2_20.bmp" />
     <Image Include="res\fullscreen2_24.bmp" />
     <Image Include="res\fullscreen2_32.bmp" />
+    <Image Include="res\fullscreen2_40.bmp" />
+    <Image Include="res\fullscreen2_48.bmp" />
+    <Image Include="res\fullscreen2_64.bmp" />
+    <Image Include="res\fullscreen2_80.bmp" />
+    <Image Include="res\search_128.bmp" />
     <Image Include="res\search_16.bmp" />
     <Image Include="res\search_20.bmp" />
     <Image Include="res\search_24.bmp" />
     <Image Include="res\search_32.bmp" />
+    <Image Include="res\search_40.bmp" />
+    <Image Include="res\search_48.bmp" />
+    <Image Include="res\search_64.bmp" />
+    <Image Include="res\search_80.bmp" />
+    <Image Include="res\toolbar_128.bmp" />
     <Image Include="res\toolbar_16.bmp" />
     <Image Include="res\toolbar_20.bmp" />
     <Image Include="res\toolbar_24.bmp" />
     <Image Include="res\toolbar_32.bmp" />
+    <Image Include="res\toolbar_40.bmp" />
+    <Image Include="res\toolbar_48.bmp" />
+    <Image Include="res\toolbar_64.bmp" />
+    <Image Include="res\toolbar_80.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

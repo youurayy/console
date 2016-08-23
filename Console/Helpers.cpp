@@ -624,13 +624,15 @@ bool Helpers::CheckOSVersion(DWORD dwMinMajorVersion, DWORD dwMinMinorVersion)
 
 int Helpers::GetHighDefinitionResourceId(int nId)
 {
-	switch( ::GetSystemMetrics(SM_CYSMICON) )
-	{
-	case 16: return nId;
-	case 20: return nId + 10;
-	case 24: return nId + 20;
-	default: return nId + 30;
-	}
+	int size = ::GetSystemMetrics(SM_CYSMICON);
+	if( size <= 16 ) return nId;
+	if( size <= 20 ) return nId + 10;
+	if( size <= 24 ) return nId + 20;
+	if( size <= 32 ) return nId + 30;
+	if( size <= 40 ) return nId + 40;
+	if( size <= 48 ) return nId + 50;
+	if( size <= 64 ) return nId + 60;
+	return nId + 70;
 }
 
 //////////////////////////////////////////////////////////////////////////////

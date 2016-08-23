@@ -356,5 +356,65 @@
     <Image Include="res\toolbar_32.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\fullscreen1_48.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen1_64.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen2_48.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen2_64.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\search_48.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\search_64.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_48.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_64.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen1_40.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen1_80.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen1_128.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen2_40.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen2_80.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\fullscreen2_128.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\search_40.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\search_80.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\search_128.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_40.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_80.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_128.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
