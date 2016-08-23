@@ -69,10 +69,10 @@ CAPTION "À propos"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,130,50,14
+    PUSHBUTTON      "website",IDC_BTN_HOME_PAGE,130,110,50,14
 #ifndef _USE_AERO
-    CTEXT           "\nConsoleZ",IDC_STATIC_VERSION,25,41,78,25
+    CTEXT           "",IDC_STATIC_VERSION,15,41,100,96
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
-    CTEXT           "\nCopyright (C) 2011-2016\nChristophe Bucher\n\nversion modifiée de\nConsole 2\nécrit par\nMarko Bozikovic",IDC_APPTEXT,14,64,103,70,,WS_EX_TRANSPARENT
 #endif
     GROUPBOX        "",IDC_STATIC,7,7,115,137
 END
@@ -578,6 +578,18 @@ IDR_TOOLBAR_24 TOOLBAR 24, 24
 IDR_TOOLBAR_32 TOOLBAR 32, 32
 #include "res/Toolbar.rc2"
 
+IDR_TOOLBAR_40 TOOLBAR 40, 40
+#include "res/Toolbar.rc2"
+
+IDR_TOOLBAR_48 TOOLBAR 48, 48
+#include "res/Toolbar.rc2"
+
+IDR_TOOLBAR_64 TOOLBAR 64, 64
+#include "res/Toolbar.rc2"
+
+IDR_TOOLBAR_80 TOOLBAR 80, 80
+#include "res/Toolbar.rc2"
+
 IDR_SEARCH_16 TOOLBAR 16, 16
 #include "res/SearchBar.rc2"
 
@@ -588,6 +600,18 @@ IDR_SEARCH_24 TOOLBAR 24, 24
 #include "res/SearchBar.rc2"
 
 IDR_SEARCH_32 TOOLBAR 32, 32
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_40 TOOLBAR 40, 40
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_48 TOOLBAR 48, 48
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_64 TOOLBAR 64, 64
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_80 TOOLBAR 80, 80
 #include "res/SearchBar.rc2"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -615,6 +639,25 @@ IDR_FULLSCREEN1_32      BITMAP                  "res\\fullscreen1_32.bmp"
 IDR_FULLSCREEN2_32      BITMAP                  "res\\fullscreen2_32.bmp"
 IDR_SEARCH_32           BITMAP                  "res\\search_32.bmp"
 
+IDR_TOOLBAR_40          BITMAP                  "res\\toolbar_40.bmp"
+IDR_FULLSCREEN1_40      BITMAP                  "res\\fullscreen1_40.bmp"
+IDR_FULLSCREEN2_40      BITMAP                  "res\\fullscreen2_40.bmp"
+IDR_SEARCH_40           BITMAP                  "res\\search_40.bmp"
+
+IDR_TOOLBAR_48          BITMAP                  "res\\toolbar_48.bmp"
+IDR_FULLSCREEN1_48      BITMAP                  "res\\fullscreen1_48.bmp"
+IDR_FULLSCREEN2_48      BITMAP                  "res\\fullscreen2_48.bmp"
+IDR_SEARCH_48           BITMAP                  "res\\search_48.bmp"
+
+IDR_TOOLBAR_64          BITMAP                  "res\\toolbar_64.bmp"
+IDR_FULLSCREEN1_64      BITMAP                  "res\\fullscreen1_64.bmp"
+IDR_FULLSCREEN2_64      BITMAP                  "res\\fullscreen2_64.bmp"
+IDR_SEARCH_64           BITMAP                  "res\\search_64.bmp"
+
+IDR_TOOLBAR_80          BITMAP                  "res\\toolbar_80.bmp"
+IDR_FULLSCREEN1_80      BITMAP                  "res\\fullscreen1_80.bmp"
+IDR_FULLSCREEN2_80      BITMAP                  "res\\fullscreen2_80.bmp"
+IDR_SEARCH_80           BITMAP                  "res\\search_80.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -673,6 +716,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Mode Plein Écran",                ID_VIEW_FULLSCREEN
         MENUITEM "Allumer/Éteindre la Transparence",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "Always On Top",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Aide"
     BEGIN
@@ -842,6 +886,7 @@ BEGIN
 
     ID_CLONE_IN_NEW_TAB     "Cloner la vue courante dans un nouvel onglet\nCloner dans un nouvel onglet"
     ID_VIEW_FULLSCREEN      "Basculer en plein écran\nPlein Écran"
+    ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
     ID_GROUP_ALL            "Groupe tous les terminaux (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper Tous les Terminaux"
     ID_UNGROUP_ALL          "Supprime le regroupement pour tous les terminaux\nGrouper Tous les Terminaux"
     ID_GROUP_TAB            "Groupe tous les terminaux de l'onglet courant (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper les Terminaux de l'Onglet"
@@ -890,6 +935,7 @@ BEGIN
     IDS_ERR_TAB_CREATE_FAILED "L'ouverture de l'onglet %1% a échoué !\nLe processus %2% est peut être en cours d'exécution (utilisez le gestionnaire des tâches pour le terminer)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% n'est pas une application console Win32 !"
     IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
+    IDS_ERR_XML_PARSING "Erreur d’analyse XML (%1$#x) dans le fichier %2% à la ligne %3% colonne %4%: %5%"
 END
 
 STRINGTABLE
@@ -1002,6 +1048,7 @@ BEGIN
     IDS_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus."
     IDS_CLONE_IN_NEW_TAB     "Cloner la vue dans un nouvel onglet"
     IDS_VIEW_FULLSCREEN      "Plein Écran"
+    IDS_VIEW_ALWAYS_ON_TOP   "Always on top"
     IDS_VIEW_ZOOM_100        "Zoom 100%"
     IDS_VIEW_ZOOM_INC        "Augmenter le zoom"
     IDS_VIEW_ZOOM_DEC        "Diminuer le zoom"

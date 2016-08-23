@@ -69,7 +69,7 @@ CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,130,50,14
-    PUSHBUTTON      "website",IDC_STATIC_HOME_PAGE,130,110,50,14
+    PUSHBUTTON      "website",IDC_BTN_HOME_PAGE,130,110,50,14
 #ifndef _USE_AERO
     CTEXT           "",IDC_STATIC_VERSION,15,41,100,96
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
@@ -578,6 +578,18 @@ IDR_TOOLBAR_24 TOOLBAR 24, 24
 IDR_TOOLBAR_32 TOOLBAR 32, 32
 #include "res/Toolbar.rc2"
 
+IDR_TOOLBAR_40 TOOLBAR 40, 40
+#include "res/Toolbar.rc2"
+
+IDR_TOOLBAR_48 TOOLBAR 48, 48
+#include "res/Toolbar.rc2"
+
+IDR_TOOLBAR_64 TOOLBAR 64, 64
+#include "res/Toolbar.rc2"
+
+IDR_TOOLBAR_80 TOOLBAR 80, 80
+#include "res/Toolbar.rc2"
+
 IDR_SEARCH_16 TOOLBAR 16, 16
 #include "res/SearchBar.rc2"
 
@@ -588,6 +600,18 @@ IDR_SEARCH_24 TOOLBAR 24, 24
 #include "res/SearchBar.rc2"
 
 IDR_SEARCH_32 TOOLBAR 32, 32
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_40 TOOLBAR 40, 40
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_48 TOOLBAR 48, 48
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_64 TOOLBAR 64, 64
+#include "res/SearchBar.rc2"
+
+IDR_SEARCH_80 TOOLBAR 80, 80
 #include "res/SearchBar.rc2"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -615,6 +639,25 @@ IDR_FULLSCREEN1_32      BITMAP                  "res\\fullscreen1_32.bmp"
 IDR_FULLSCREEN2_32      BITMAP                  "res\\fullscreen2_32.bmp"
 IDR_SEARCH_32           BITMAP                  "res\\search_32.bmp"
 
+IDR_TOOLBAR_40          BITMAP                  "res\\toolbar_40.bmp"
+IDR_FULLSCREEN1_40      BITMAP                  "res\\fullscreen1_40.bmp"
+IDR_FULLSCREEN2_40      BITMAP                  "res\\fullscreen2_40.bmp"
+IDR_SEARCH_40           BITMAP                  "res\\search_40.bmp"
+
+IDR_TOOLBAR_48          BITMAP                  "res\\toolbar_48.bmp"
+IDR_FULLSCREEN1_48      BITMAP                  "res\\fullscreen1_48.bmp"
+IDR_FULLSCREEN2_48      BITMAP                  "res\\fullscreen2_48.bmp"
+IDR_SEARCH_48           BITMAP                  "res\\search_48.bmp"
+
+IDR_TOOLBAR_64          BITMAP                  "res\\toolbar_64.bmp"
+IDR_FULLSCREEN1_64      BITMAP                  "res\\fullscreen1_64.bmp"
+IDR_FULLSCREEN2_64      BITMAP                  "res\\fullscreen2_64.bmp"
+IDR_SEARCH_64           BITMAP                  "res\\search_64.bmp"
+
+IDR_TOOLBAR_80          BITMAP                  "res\\toolbar_80.bmp"
+IDR_FULLSCREEN1_80      BITMAP                  "res\\fullscreen1_80.bmp"
+IDR_FULLSCREEN2_80      BITMAP                  "res\\fullscreen2_80.bmp"
+IDR_SEARCH_80           BITMAP                  "res\\search_80.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -892,6 +935,7 @@ BEGIN
     IDS_ERR_TAB_CREATE_FAILED "タブ %1%を開くことができません!\nプロセス %2% が動作中です (タスクマネージャーで該当プロセスを終了してください)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% はWin32コンソールアプリケーションではありません!"
     IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
+    IDS_ERR_XML_PARSING "XML parsing error (%1$#x) in file %2% on line %3% at column %4%: %5%"
 END
 
 STRINGTABLE
