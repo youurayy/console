@@ -22,6 +22,7 @@ public:
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		COMMAND_ID_HANDLER(IDOK, OnCloseCmd)
 		COMMAND_ID_HANDLER(IDCANCEL, OnCloseCmd)
+		COMMAND_HANDLER(IDC_BTN_HOME_PAGE, BN_CLICKED, OnClickedBtnHomePage)
 	END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
@@ -31,6 +32,12 @@ public:
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnClickedBtnHomePage(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+	{
+		::ShellExecute(NULL, L"open", L"https://github.com/cbucher/console", NULL, NULL, SW_SHOWNORMAL);
+		return 0;
+	}
+
 #ifdef _USE_AERO
 	LRESULT OnTimer(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 	{

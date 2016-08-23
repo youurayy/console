@@ -333,7 +333,7 @@
 #define IDC_CHECK_STATE                 1240
 #define IDC_COMBO_STATE                 1241
 #define IDC_CHECK_SAVE_STATE            1242
-#define IDC_STATIC_HOME_PAGE            1243
+#define IDC_BTN_HOME_PAGE               1243
 
 #define ID_SNIPPET_ID_FIRST             1900
 #define ID_SNIPPET_ID_LAST              1999

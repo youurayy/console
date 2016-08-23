@@ -11,6 +11,7 @@ LRESULT CAboutDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
 {
 #ifdef _USE_AERO
   AERO_CONTROL(CButton, m_Ok, IDOK)
+  AERO_CONTROL(CButton, m_WebSite, IDC_BTN_HOME_PAGE)
 
   CWindow groupBox(GetDlgItem(IDC_STATIC));
   groupBox.ShowWindow(SW_HIDE);
