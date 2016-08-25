@@ -163,6 +163,42 @@ std::shared_ptr<BackgroundImage> ImageHandler::GetDesktopImage(ImageData& imageD
 
 //////////////////////////////////////////////////////////////////////////////
 
+std::shared_ptr<BackgroundImage> ImageHandler::GetBingImage(ImageData& imageData)
+{
+	if (!GetBingImageData(imageData)) return std::shared_ptr<BackgroundImage>();
+
+	// now, find the image
+	Images::iterator itImage = m_images.begin();
+
+	for (; itImage != m_images.end(); ++itImage) if ((*itImage)->imageData == imageData) break;
+
+	// found image, return
+	if (itImage != m_images.end()) return *itImage;
+
+	// else, try to load image
+	std::shared_ptr<BackgroundImage> bkImage(new BackgroundImage(imageData));
+
+	try
+	{
+		std::vector<char> content;
+		Helpers::GetUrlContent(imageData.strFilename, content);
+
+		LoadImageFromContent(bkImage, content);
+	}
+	catch( std::exception& ex )
+	{
+	}
+
+	m_images.push_back(bkImage);
+
+	return bkImage;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 void ImageHandler::ReloadDesktopImages()
 {
 	Images::iterator itImage = m_images.begin();
@@ -323,9 +359,68 @@ bool ImageHandler::GetDesktopImageData(ImageData& imageData)
 
 //////////////////////////////////////////////////////////////////////////////
 
+bool ImageHandler::GetBingImageData(ImageData& imageData)
+{
+	try
+	{
+		std::vector<char> content;
+		Helpers::GetUrlContent(L"http://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=1&mkt=en-US", content);
+
+		CComPtr<IXMLDOMDocument> pBingDocument;
+		CComPtr<IXMLDOMElement>  pBingRoot;
+
+		if( SUCCEEDED(XmlHelper::OpenXmlDocumentFromContent(content, pBingDocument, pBingRoot)) )
+		{
+			/*
+			CComPtr<IXMLDOMNodeList> pUrlBaseNodes;
+			if( FAILED(pBingRoot->selectNodes(CComBSTR(L"/images/image/urlBase"), &pUrlBaseNodes)) ) return false;
+
+			long lListLength;
+			if( FAILED(pUrlBaseNodes->get_length(&lListLength)) ) return false;
+
+			for( long i = 0; i < lListLength; ++i )
+			{
+				CComPtr<IXMLDOMNode>    pUrlBaseNode;
+				CComPtr<IXMLDOMElement> pUrlBaseElement;
+
+				if( FAILED(pUrlBaseNodes->get_item(i, &pUrlBaseNode)) ) return false;
+				if( FAILED(pUrlBaseNode.QueryInterface(&pUrlBaseElement)) ) return false;
+
+				CComBSTR bstrUrlBase;
+				if( FAILED(pUrlBaseElement->get_text(&bstrUrlBase)) ) return false;
+			}
+			*/
+
+			CComPtr<IXMLDOMNode> pUrlBaseNode;
+			if( FAILED(pBingRoot->selectSingleNode(CComBSTR(L"/images/image/urlBase"), &pUrlBaseNode)) ) return false;
+
+			CComPtr<IXMLDOMElement> pUrlBaseElement;
+			if( FAILED(pUrlBaseNode.QueryInterface(&pUrlBaseElement)) ) return false;
+
+			CComBSTR bstrUrlBase;
+			if( FAILED(pUrlBaseElement->get_text(&bstrUrlBase)) ) return false;
+
+			imageData.strFilename = std::wstring(L"http://www.bing.com");
+			imageData.strFilename += bstrUrlBase;
+			imageData.strFilename += L"_1920x1080.jpg";
+		}
+	}
+	catch( std::exception& )
+	{
+		return false;
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 bool ImageHandler::LoadImage(std::shared_ptr<BackgroundImage>& bkImage)
 {
-	CriticalSectionLock	lock(bkImage->updateCritSec);
+	CriticalSectionLock lock(bkImage->updateCritSec);
 
 	if (!bkImage) return false;
 
@@ -343,6 +438,45 @@ bool ImageHandler::LoadImage(std::shared_ptr<BackgroundImage>& bkImage)
 
 	// load background image
 	if (!bkImage->originalImage->loadU(Helpers::ExpandEnvironmentStrings(bkImage->imageData.strFilename).c_str()))
+	{
+		bkImage->originalImage.reset();
+		return false;
+	}
+
+	bkImage->dwOriginalImageWidth	= bkImage->originalImage->getWidth();
+	bkImage->dwOriginalImageHeight	= bkImage->originalImage->getHeight();
+
+	bkImage->originalImage->convertTo32Bits();
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool ImageHandler::LoadImageFromContent(std::shared_ptr<BackgroundImage>& bkImage, const std::vector<char>& content)
+{
+	CriticalSectionLock lock(bkImage->updateCritSec);
+
+	if (!bkImage) return false;
+
+		// if we're reloading, delete old bitmap and DC
+	if (!bkImage->dcImage.IsNull())
+	{
+		bkImage->dcImage.SelectBitmap(NULL);
+		bkImage->dcImage.DeleteDC();
+	}
+
+	if (!bkImage->image.IsNull()) bkImage->image.DeleteObject();
+
+	// create new original image
+	bkImage->originalImage.reset(new fipImage());
+
+	// load background image
+	fipMemoryIO memIO(reinterpret_cast<BYTE*>(const_cast<char*>(&content[0])), static_cast<DWORD>(content.size()));
+	if (!bkImage->originalImage->loadFromMemory(memIO))
 	{
 		bkImage->originalImage.reset();
 		return false;

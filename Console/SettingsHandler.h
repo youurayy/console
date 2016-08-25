@@ -27,9 +27,10 @@ struct SettingsBase
 
 enum BackgroundImageType
 {
-	bktypeNone		= 0,
-	bktypeImage		= 1,
-	bktypeDesktop	= 2,
+	bktypeNone    = 0,
+	bktypeImage   = 1,
+	bktypeDesktop = 2,
+	bktypeBing    = 3,
 };
 
 //////////////////////////////////////////////////////////////////////////////

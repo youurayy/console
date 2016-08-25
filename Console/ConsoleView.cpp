@@ -109,13 +109,19 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 						fastdelegate::MakeDelegate(this, &ConsoleView::OnConsoleClose));
 
 	// load background image
-	if (m_tabData->backgroundImageType == bktypeImage)
+	switch( m_tabData->backgroundImageType )
 	{
+	case bktypeImage:
 		m_background = g_imageHandler->GetImage(m_tabData->imageData);
-	}
-	else if (m_tabData->backgroundImageType == bktypeDesktop)
-	{
+		break;
+
+	case bktypeDesktop:
 		m_background = g_imageHandler->GetDesktopImage(m_tabData->imageData);
+		break;
+
+	case bktypeBing:
+		m_background = g_imageHandler->GetBingImage(m_tabData->imageData);
+		break;
 	}
 
 	if (!m_background) m_tabData->backgroundImageType = bktypeNone;

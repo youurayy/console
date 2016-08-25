@@ -173,6 +173,7 @@ class ImageHandler
 
 		std::shared_ptr<BackgroundImage> GetImage(const ImageData& imageData);
 		std::shared_ptr<BackgroundImage> GetDesktopImage(ImageData& imageData);
+		std::shared_ptr<BackgroundImage> GetBingImage(ImageData& imageData);
 		void ReloadDesktopImages();
 
 		void UpdateImageBitmap(const CDC& dc, const CRect& clientRect, std::shared_ptr<BackgroundImage>& bkImage);
@@ -181,7 +182,9 @@ class ImageHandler
 	private:
 
 		static bool GetDesktopImageData(ImageData& imageData);
+		static bool GetBingImageData(ImageData& imageData);
 		static bool LoadImage(std::shared_ptr<BackgroundImage>& bkImage);
+		static bool LoadImageFromContent(std::shared_ptr<BackgroundImage>& bkImage, const std::vector<char>& content);
 
 		static void CalcRescale(DWORD& dwNewWidth, DWORD& dwNewHeight, std::shared_ptr<BackgroundImage>& bkImage);
 		static void PaintRelativeImage(const CDC& dc, CBitmap&	bmpTemplate, std::shared_ptr<BackgroundImage>& bkImage, DWORD& dwDisplayWidth, DWORD& dwDisplayHeight);

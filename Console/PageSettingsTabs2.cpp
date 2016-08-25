@@ -305,46 +305,23 @@ void PageSettingsTabs2::UpdateSliderText()
 
 void PageSettingsTabs2::EnableControls()
 {
-	GetDlgItem(IDC_STATIC_BK_COLOR).EnableWindow(FALSE);
-	GetDlgItem(IDC_BK_COLOR).EnableWindow(FALSE);
-	GetDlgItem(IDC_STATIC_BK_IMAGE).EnableWindow(FALSE);
-	GetDlgItem(IDC_BK_IMAGE).EnableWindow(FALSE);
-	GetDlgItem(IDC_BTN_BROWSE_BK).EnableWindow(FALSE);
-	GetDlgItem(IDC_CHECK_BK_RELATIVE).EnableWindow(FALSE);
-	GetDlgItem(IDC_CHECK_BK_EXTEND).EnableWindow(FALSE);
-	GetDlgItem(IDC_STATIC_BK_POS).EnableWindow(FALSE);
-	GetDlgItem(IDC_COMBO_BK_POS).EnableWindow(FALSE);
+	GetDlgItem(IDC_STATIC_BK_COLOR).EnableWindow(m_tabData->backgroundImageType == bktypeNone);
+	GetDlgItem(IDC_BK_COLOR)       .EnableWindow(m_tabData->backgroundImageType == bktypeNone);
 
-	GetDlgItem(IDC_STATIC_TINT_COLOR).EnableWindow(FALSE);
-	GetDlgItem(IDC_TINT_COLOR).EnableWindow(FALSE);
-	GetDlgItem(IDC_STATIC_TINT_OPACITY).EnableWindow(FALSE);
-	GetDlgItem(IDC_TINT_OPACITY).EnableWindow(FALSE);
-	GetDlgItem(IDC_TINT_OPACITY_VAL).EnableWindow(FALSE);
+	GetDlgItem(IDC_STATIC_BK_IMAGE).EnableWindow(m_tabData->backgroundImageType == bktypeImage);
+	GetDlgItem(IDC_BK_IMAGE)       .EnableWindow(m_tabData->backgroundImageType == bktypeImage);
+	GetDlgItem(IDC_BTN_BROWSE_BK)  .EnableWindow(m_tabData->backgroundImageType == bktypeImage);
 
-	if (m_tabData->backgroundImageType == bktypeNone)
-	{
-		GetDlgItem(IDC_STATIC_BK_COLOR).EnableWindow();
-		GetDlgItem(IDC_BK_COLOR).EnableWindow();
-	}
-	else if (m_tabData->backgroundImageType == bktypeImage)
-	{
-		GetDlgItem(IDC_STATIC_BK_IMAGE).EnableWindow();
-		GetDlgItem(IDC_BK_IMAGE).EnableWindow();
-		GetDlgItem(IDC_BTN_BROWSE_BK).EnableWindow();
-		GetDlgItem(IDC_CHECK_BK_RELATIVE).EnableWindow();
-		GetDlgItem(IDC_CHECK_BK_EXTEND).EnableWindow();
-		GetDlgItem(IDC_STATIC_BK_POS).EnableWindow();
-		GetDlgItem(IDC_COMBO_BK_POS).EnableWindow();
-	}
+	GetDlgItem(IDC_CHECK_BK_RELATIVE).EnableWindow(m_tabData->backgroundImageType == bktypeImage || m_tabData->backgroundImageType == bktypeBing);
+	GetDlgItem(IDC_CHECK_BK_EXTEND)  .EnableWindow(m_tabData->backgroundImageType == bktypeImage || m_tabData->backgroundImageType == bktypeBing);
+	GetDlgItem(IDC_STATIC_BK_POS)    .EnableWindow(m_tabData->backgroundImageType == bktypeImage || m_tabData->backgroundImageType == bktypeBing);
+	GetDlgItem(IDC_COMBO_BK_POS)     .EnableWindow(m_tabData->backgroundImageType == bktypeImage || m_tabData->backgroundImageType == bktypeBing);
 
-	if (m_tabData->backgroundImageType != bktypeNone)
-	{
-		GetDlgItem(IDC_STATIC_TINT_COLOR).EnableWindow();
-		GetDlgItem(IDC_TINT_COLOR).EnableWindow();
-		GetDlgItem(IDC_STATIC_TINT_OPACITY).EnableWindow();
-		GetDlgItem(IDC_TINT_OPACITY).EnableWindow();
-		GetDlgItem(IDC_TINT_OPACITY_VAL).EnableWindow();
-	}
+	GetDlgItem(IDC_STATIC_TINT_COLOR)  .EnableWindow(m_tabData->backgroundImageType != bktypeNone);
+	GetDlgItem(IDC_TINT_COLOR)         .EnableWindow(m_tabData->backgroundImageType != bktypeNone);
+	GetDlgItem(IDC_STATIC_TINT_OPACITY).EnableWindow(m_tabData->backgroundImageType != bktypeNone);
+	GetDlgItem(IDC_TINT_OPACITY)       .EnableWindow(m_tabData->backgroundImageType != bktypeNone);
+	GetDlgItem(IDC_TINT_OPACITY_VAL)   .EnableWindow(m_tabData->backgroundImageType != bktypeNone);
 }
 
 //////////////////////////////////////////////////////////////////////////////

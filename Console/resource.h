@@ -198,10 +198,7 @@
 #define IDC_TAB_INIT_DIR                1120
 #define IDC_COMBO_CURSOR                1121
 #define IDC_CURSOR_COLOR                1122
-#define IDC_RADIO_BK_TYPE               1123
 #define IDC_CURSOR_ANIM                 1123
-#define IDC_RADIO_BK_TYPE2              1124
-#define IDC_RADIO_BK_TYPE3              1125
 #define IDC_BK_COLOR                    1126
 #define IDC_BK_IMAGE                    1127
 #define IDC_CHECK_BK_RELATIVE           1128
@@ -334,6 +331,10 @@
 #define IDC_COMBO_STATE                 1241
 #define IDC_CHECK_SAVE_STATE            1242
 #define IDC_BTN_HOME_PAGE               1243
+#define IDC_RADIO_BK_TYPE               1244
+#define IDC_RADIO_BK_TYPE2              1245
+#define IDC_RADIO_BK_TYPE3              1246
+#define IDC_RADIO_BK_TYPE4              1247
 
 #define ID_SNIPPET_ID_FIRST             1900
 #define ID_SNIPPET_ID_LAST              1999
@@ -607,7 +608,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1244
+#define _APS_NEXT_CONTROL_VALUE         1248
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
