@@ -439,8 +439,9 @@ EXSTYLE WS_EX_TRANSPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Couleur unie",IDC_RADIO_BK_TYPE,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,5,3,215,16
-    CONTROL         "Image",IDC_RADIO_BK_TYPE2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,35,215,16
+    CONTROL         "Image",IDC_RADIO_BK_TYPE2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,35,105,16
     CONTROL         "Fond d'écran",IDC_RADIO_BK_TYPE3,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,99,215,16
+    CONTROL         "Bing", IDC_RADIO_BK_TYPE4, "Button", BS_AUTORADIOBUTTON | BS_MULTILINE, 115, 35, 105, 16
     RTEXT           "Couleur :",IDC_STATIC_BK_COLOR,17,23,41,8
     CONTROL         "",IDC_BK_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,60,20,16,14,WS_EX_DLGMODALFRAME
     RTEXT           "Fichier :",IDC_STATIC_BK_IMAGE,17,55,41,8,NOT WS_GROUP
@@ -450,9 +451,9 @@ BEGIN
     CONTROL         "Étendre sur les moniteurs",IDC_CHECK_BK_EXTEND,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,23,83,195,16
     RTEXT           "Position :",IDC_STATIC_BK_POS,105,70,33,8,NOT WS_GROUP
     COMBOBOX        IDC_COMBO_BK_POS,140,68,63,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Couleur de la teinte :",IDC_STATIC_TINT_COLOR,17,115,41,16,NOT WS_GROUP
+    RTEXT           "Couleur de la teinte :",IDC_STATIC_TINT_COLOR,17,119,41,8,NOT WS_GROUP
     CONTROL         "",IDC_TINT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,60,116,16,14,WS_EX_DLGMODALFRAME
-    RTEXT           "Opacité de la teinte :",IDC_STATIC_TINT_OPACITY,17,132,41,16,NOT WS_GROUP
+    RTEXT           "Opacité de la teinte :",IDC_STATIC_TINT_OPACITY,17,133,41,8,NOT WS_GROUP
     CONTROL         "",IDC_TINT_OPACITY,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,60,131,148,20
     LTEXT           "255",IDC_TINT_OPACITY_VAL,207,133,14,8,0,WS_EX_RIGHT
 
@@ -1168,7 +1169,7 @@ IDC_COMBO_DOCKING            "Aucun;Coin haut gauche;Coin haut droit;Coin bas ga
 IDC_COMBO_ZORDER             "Normal;Toujours au dessus;Toujours en dessous;Épinglé au bureau;"
 IDC_COMBO_SMOOTHING          "Default;None;ClearType;Natural ClearType;Antialiased"
 IDC_COMBO_BUTTONS            "Aucun;Gauche;Droit;Milieu;Quatrième;Cinquième;"
-IDC_COMBO_BK_POS             "Center;Stretch;Tile;Fit;Fill;"
+IDC_COMBO_BK_POS             "Centrer;Étirer;Mosaïque;Ajuster;Remplissage;"
 IDC_COMBO_FULLSCREEN_MONITOR "Courant;"
 IDC_COMBO_BASE_PRIORITY      "Au repos;En dessous de la normale;Normale;Au dessus de la normale;Haute;Temps réel;"
 IDC_COMBO_STATE              "Fenêtre normale;Réduite;Agrandie;Plein écran;"
