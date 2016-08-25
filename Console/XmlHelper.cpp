@@ -23,6 +23,7 @@ HRESULT XmlHelper::OpenXmlDocument(const std::wstring& strFilename, CComPtr<IXML
 	if (FAILED(hr)) return hr;
 
 	hr = pXmlDocument->load(CComVariant(strFilename.c_str()), &bLoadSuccess);
+	if (FAILED(hr)) return hr;
 	if( bLoadSuccess == VARIANT_FALSE )
 	{
 		CComPtr<IXMLDOMParseError> pParseError;
@@ -52,7 +53,6 @@ HRESULT XmlHelper::OpenXmlDocument(const std::wstring& strFilename, CComPtr<IXML
 
 		return S_FALSE;
 	}
-	if (FAILED(hr)) return hr;
 
 	hr = pXmlDocument->get_documentElement(&pRootElement);
 
@@ -92,6 +92,65 @@ HRESULT XmlHelper::OpenXmlDocumentFromResource(const wstring& strFilename, CComP
 	}
 
 	return E_FAIL;
+}
+
+HRESULT XmlHelper::OpenXmlDocumentFromContent(const std::vector<char>& content, CComPtr<IXMLDOMDocument>& pXmlDocument, CComPtr<IXMLDOMElement>& pRootElement)
+{
+	VARIANT_BOOL bLoadSuccess = 0; // FALSE
+
+	pXmlDocument.Release();
+	pRootElement.Release();
+
+	HRESULT hr = pXmlDocument.CoCreateInstance(__uuidof(DOMDocument));
+	if( pXmlDocument.p == nullptr ) return E_FAIL;
+	if (FAILED(hr)) return hr;
+
+  int rc = ::MultiByteToWideChar(CP_UTF8,
+                                 0,
+                                 &content[0], static_cast<int>(content.size()),
+                                 nullptr, 0);
+
+  if( rc == 0 ) return E_FAIL;
+
+  CComBSTR xml(rc);
+
+  rc = ::MultiByteToWideChar(CP_UTF8,
+                             0,
+                             &content[0], static_cast<int>(content.size()),
+                             xml.m_str, rc + 1);
+
+  if( rc == 0 ) return E_FAIL;
+
+	hr = pXmlDocument->loadXML(CComBSTR(xml), &bLoadSuccess);
+	if (FAILED(hr)) return hr;
+	if( bLoadSuccess == VARIANT_FALSE )
+	{
+		CComPtr<IXMLDOMParseError> pParseError;
+		hr = pXmlDocument->get_parseError(&pParseError);
+		if (FAILED(hr)) return hr;
+
+		long errorCode;
+		hr = pParseError->get_errorCode(&errorCode);
+		if (FAILED(hr)) return hr;
+
+		long line;
+		hr = pParseError->get_line(&line);
+		if (FAILED(hr)) return hr;
+
+		long linepos;
+		hr = pParseError->get_linepos(&linepos);
+		if (FAILED(hr)) return hr;
+
+		CComBSTR reason;
+		hr = pParseError->get_reason(&reason);
+		if (FAILED(hr)) return hr;
+
+		return E_FAIL;
+	}
+
+	hr = pXmlDocument->get_documentElement(&pRootElement);
+
+	return hr;
 }
 
 //////////////////////////////////////////////////////////////////////////////
