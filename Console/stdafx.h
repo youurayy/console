@@ -143,6 +143,8 @@ using namespace std;
 using namespace boost::multi_index;
 #pragma warning(pop)
 
+#include <WinInet.h>
+
 #include "../shared/SharedMemory.h"
 #include "../shared/Structures.h"
 

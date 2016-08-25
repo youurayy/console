@@ -72,6 +72,8 @@ class Helpers
 		static bool SetProcessDpiAwareness(PROCESS_DPI_AWARENESS value);
 #endif
 
+		static bool GetUrlContent(const std::wstring& strUrl, std::vector<char>& content);
+
 	private:
 
 		static bool GetMonitorRect(HMONITOR hMonitor, bool bIgnoreTaskbar, CRect& rectDesktop);

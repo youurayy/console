@@ -175,3 +175,14 @@ struct FreeMUILibraryHelper
 	};
 };
 #endif
+
+#ifdef _WININET_
+struct InternetCloseHandleHelper
+{
+	void operator()(HINTERNET toFree)
+	{
+		if( toFree != NULL )
+			::InternetCloseHandle(toFree);
+	};
+};
+#endif
