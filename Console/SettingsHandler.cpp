@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "resource.h"
 
-#include "XmlHelper.h"
-#include "SettingsHandler.h"
-
 using namespace boost::algorithm;
 
 //////////////////////////////////////////////////////////////////////////////

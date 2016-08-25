@@ -150,6 +150,7 @@ using namespace boost::multi_index;
 #include "../shared/Cpp11Helpers.h"
 #include "../shared/NamedPipe.h"
 #include "Helpers.h"
+#include "XmlHelper.h"
 #include "ImageHandler.h"
 #include "SettingsHandler.h"
 #include "ConsoleHandler.h"

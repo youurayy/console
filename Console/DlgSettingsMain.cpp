@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "resource.h"
 
-#include "XmlHelper.h"
-
 #include "DlgSettingsConsole.h"
 #include "DlgSettingsAppearance.h"
 #include "DlgSettingsStyles.h"

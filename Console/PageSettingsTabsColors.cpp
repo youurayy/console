@@ -2,7 +2,6 @@
 #include "resource.h"
 
 #include "PageSettingsTabsColors.h"
-#include "XmlHelper.h"
 
 extern std::shared_ptr<SettingsHandler>	g_settingsHandler;
 

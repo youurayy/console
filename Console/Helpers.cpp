@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "Helpers.h"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -835,5 +834,98 @@ bool Helpers::SetProcessDpiAwareness(PROCESS_DPI_AWARENESS value)
 }
 
 #endif
+
+//////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool Helpers::GetUrlContent(const std::wstring& strUrl, std::vector<char>& content)
+{
+	content.resize(0);
+
+	wchar_t szHostName[256];
+	wchar_t szUrlPath[1024];
+	wchar_t szUserName[256];
+	wchar_t szPassword[256];
+
+	URL_COMPONENTS urlComponents = { sizeof(URL_COMPONENTS) };
+	urlComponents.lpszHostName = szHostName;
+	urlComponents.dwHostNameLength = static_cast<DWORD>(_countof(szHostName));
+	urlComponents.lpszUrlPath = szUrlPath;
+	urlComponents.dwUrlPathLength = static_cast<DWORD>(_countof(szUrlPath));
+	urlComponents.lpszUserName = szUserName;
+	urlComponents.dwUserNameLength = static_cast<DWORD>(_countof(szUserName));
+	urlComponents.lpszPassword = szPassword;
+	urlComponents.dwPasswordLength = static_cast<DWORD>(_countof(szPassword));
+
+	if( !::InternetCrackUrl(strUrl.c_str(), static_cast<DWORD>(strUrl.length()),
+	                        0,
+	                        &urlComponents) )
+		Win32Exception::ThrowFromLastError("InternetCrackUrl");
+
+	std::unique_ptr<void, InternetCloseHandleHelper> hSession;
+	std::unique_ptr<void, InternetCloseHandleHelper> hConnect;
+	std::unique_ptr<void, InternetCloseHandleHelper> hRequest;
+
+	hSession.reset(::InternetOpen(L"ConsoleZ",
+	                              INTERNET_OPEN_TYPE_PRECONFIG,
+	                              nullptr,
+	                              nullptr,
+	                              0));
+	if( hSession.get() == nullptr )
+		Win32Exception::ThrowFromLastError("InternetOpen");
+
+	hConnect.reset(::InternetConnect(hSession.get(),
+	                                 urlComponents.lpszHostName,
+	                                 urlComponents.nPort,
+	                                 urlComponents.lpszUserName,
+	                                 urlComponents.lpszPassword,
+	                                 INTERNET_SERVICE_HTTP,
+	                                 urlComponents.nScheme == INTERNET_SCHEME_HTTPS ? INTERNET_FLAG_SECURE : 0,
+	                                 0));
+	if( hConnect.get() == nullptr )
+		Win32Exception::ThrowFromLastError("InternetConnect");
+
+	PCWSTR pszAcceptTypes[] = { L"*/*", nullptr };
+	hRequest.reset(::HttpOpenRequest(hConnect.get(),
+	                                 L"GET",
+	                                 urlComponents.lpszUrlPath,
+	                                 nullptr,
+	                                 nullptr,
+	                                 pszAcceptTypes,
+	                                 INTERNET_FLAG_NO_UI,
+	                                 0));
+	if( hRequest.get() == nullptr )
+		Win32Exception::ThrowFromLastError("HttpOpenRequest");
+
+	if( !::HttpSendRequest(hRequest.get(),
+	                       nullptr, 0,
+	                       nullptr, 0) )
+		Win32Exception::ThrowFromLastError("HttpSendRequest");
+
+	for( ; ; )
+	{
+		DWORD dwAvailable = 0;
+		if( !::InternetQueryDataAvailable(hRequest.get(),
+		                                  &dwAvailable,
+		                                  0,
+		                                  0) )
+			Win32Exception::ThrowFromLastError("InternetQueryDataAvailable");
+
+		if( dwAvailable == 0 ) break;
+
+		size_t offset = content.size();
+		content.resize(offset + dwAvailable);
+
+		DWORD dwDownloaded = 0;
+		if( !::InternetReadFile(hRequest.get(),
+		                        &content[offset],
+		                        dwAvailable,
+		                        &dwDownloaded) )
+			Win32Exception::ThrowFromLastError("InternetReadFile");
+	}
+
+  return true;
+}
 
 //////////////////////////////////////////////////////////////////////////////
