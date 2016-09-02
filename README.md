@@ -38,11 +38,12 @@ Changelog
     + added
     * fixed
 
-Changes in 1.17.1-experimental (23 Aug 2016)
+Changes in 1.17.1-beta (02 Sep 2016)
 
     ! Handle XML parsing errors (configuration file and snippets).
-    + Add "Toggle always on top" hotkey command .
-    + New high dpi icons (250%, 300%, 4000% and 500%).
+    + "Toggle always on top" hotkey command.
+    + New high dpi icons (250%, 300%, 400% and 500%).
+    + Bing image of the day as background.
     * ConsoleZ no longer closes without explanation on bad config.
     * Start a safe console when no console started.
     * Fix scroll bars position in hidden tabs.
