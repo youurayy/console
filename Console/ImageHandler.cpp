@@ -185,7 +185,7 @@ std::shared_ptr<BackgroundImage> ImageHandler::GetBingImage(ImageData& imageData
 
 		LoadImageFromContent(bkImage, content);
 	}
-	catch( std::exception& ex )
+	catch( std::exception& )
 	{
 	}
 
