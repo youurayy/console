@@ -65,6 +65,8 @@ class Helpers
 
 		static std::wstring GetUACPrefix(void);
 
+		static void GetCurrentUserAndDomain(std::wstring& strUser, std::wstring& strDomain);
+
 #ifndef _USING_V110_SDK71_
 		static bool GetDpiForMonitor(HMONITOR hmonitor, MONITOR_DPI_TYPE dpiType, UINT *dpiX, UINT *dpiY);
 		static bool SetProcessDpiAwareness(PROCESS_DPI_AWARENESS value);

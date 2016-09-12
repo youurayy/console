@@ -2,6 +2,7 @@
 #pragma once
 
 #include "DlgSettingsBase.h"
+#include "CNegativeNumberEdit.h"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -96,6 +97,9 @@ class DlgSettingsAppearance
 		CComboBox					m_comboDocking;
 		CComboBox					m_comboZOrder;
 		CComboBox					m_comboState;
+
+		CNegativeNumberEdit m_editPosX;
+		CNegativeNumberEdit m_editPosY;
 };
 
 //////////////////////////////////////////////////////////////////////////////

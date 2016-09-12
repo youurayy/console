@@ -38,7 +38,7 @@ Changelog
     + added
     * fixed
 
-Changes in 1.17.0 experimental (06 apr 2016)
+Changes in 1.17.0 (29 apr 2016)
 
     ! Rebuild FreeImage 3.17.0 (static link without OpenMP)
     - ConsoleZ sets the current Windows console font to "Lucidia Console" size 5.
@@ -46,7 +46,10 @@ Changes in 1.17.0 experimental (06 apr 2016)
     + Snippets manager.
     + "Resume scrolling" command.
     + Configure initial window state (appearence settings).
+    + Japanese localization (thanks to rosolino).
     * Mono-instance is no longer forced in jump lists.
+    * User profile is fully created when running a shell with another user credentials.
+    * Scrolling during selection does not properly refresh.
 
 Changes in 1.16.1 (08 mar 2016)
 

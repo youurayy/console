@@ -880,15 +880,16 @@ END
 STRINGTABLE
 BEGIN
     IDS_CAPTION_ERROR "エラー"
-    IDS_ERR_CANT_START_SHELL "Unable to start %1% (reason:%2%)!"
-    IDS_ERR_CANT_START_SHELL_AS_USER "Unable to start %1% as user %2% (reason:%3%)!"
+    IDS_ERR_CANT_START_SHELL "Unable to start %1% (reason: %2%)!"
+    IDS_ERR_CANT_START_SHELL_AS_USER "Unable to start %1% as user %2% (reason: %3%)!"
     IDS_ERR_DLL_INJECTION_FAILED "DLL インジェクションの失敗 (理由:%1%)!"
     IDS_ERR_DLL_HOOK_MISSING "DLL フック %1% エラー!"
     IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "共有オブジェクトを作れません (reason:%1%)!"
-    IDS_ERR_CANT_START_SHELL_AS_ADMIN "Unable to start %1% %2% as administrator (reason:%3%)!"
-    IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (reason:%1%)!"
+    IDS_ERR_CANT_START_SHELL_AS_ADMIN "Unable to start %1% %2% as administrator (reason: %3%)!"
+    IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (reason: %1%)!"
     IDS_ERR_TAB_CREATE_FAILED "タブ %1%をオープンできません !\nプロセス　%2% がまだ動作してます　(タスクマネージャーで該当プロセスを終了してください)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% is not a Win32 console application!"
+    IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
 END
 
 STRINGTABLE

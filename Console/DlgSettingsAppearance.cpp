@@ -56,6 +56,9 @@ LRESULT DlgSettingsAppearance::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LP
 	m_bTrimTabTitles = (m_windowSettings.dwTrimTabTitles > 0);
 	m_strWindowIcon  = m_windowSettings.strIcon.c_str();
 
+	m_editPosX.SubclassWindow(GetDlgItem(IDC_POS_X));
+	m_editPosY.SubclassWindow(GetDlgItem(IDC_POS_Y));
+
 	m_bUsePosition   = ((m_positionSettings.nX == -1) && (m_positionSettings.nY == -1)) ? false : true;
 	m_nX             = m_bUsePosition ? m_positionSettings.nX : 0;
 	m_nY             = m_bUsePosition ? m_positionSettings.nY : 0;
@@ -98,30 +101,30 @@ LRESULT DlgSettingsAppearance::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LP
 	spin.Detach();
 
 	spin.Attach(GetDlgItem(IDC_SPIN_X));
-	spin.SetRange(-2048, 2048);
+	spin.SetRange(-32000, 32000);
 	udAccel.nSec = 0;
-	udAccel.nInc = 5;
+	udAccel.nInc = 10;
 	spin.SetAccel(1, &udAccel);
 	spin.Detach();
 
 	spin.Attach(GetDlgItem(IDC_SPIN_Y));
-	spin.SetRange(-2048, 2048);
+	spin.SetRange(-32000, 32000);
 	udAccel.nSec = 0;
-	udAccel.nInc = 5;
+	udAccel.nInc = 10;
 	spin.SetAccel(1, &udAccel);
 	spin.Detach();
 
 	spin.Attach(GetDlgItem(IDC_SPIN_W));
-	spin.SetRange(-2048, 2048);
+	spin.SetRange(0, 32000);
 	udAccel.nSec = 0;
-	udAccel.nInc = 5;
+	udAccel.nInc = 10;
 	spin.SetAccel(1, &udAccel);
 	spin.Detach();
 
 	spin.Attach(GetDlgItem(IDC_SPIN_H));
-	spin.SetRange(-2048, 2048);
+	spin.SetRange(0, 32000);
 	udAccel.nSec = 0;
-	udAccel.nInc = 5;
+	udAccel.nInc = 10;
 	spin.SetAccel(1, &udAccel);
 	spin.Detach();
 

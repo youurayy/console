@@ -86,9 +86,7 @@ extern CAppModule _Module;
 #include <tlhelp32.h>
 #include <Psapi.h>
 #include <winuser.h>
-#ifdef _USE_AERO
 #include <WinCred.h>
-#endif
 #include <Muiload.h>
 #if _MSC_VER >= 1900
 /*

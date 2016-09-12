@@ -97,39 +97,9 @@ void ConsoleHandler::SetupDelegates(ConsoleChangeDelegate consoleChangeDelegate,
 
 //////////////////////////////////////////////////////////////////////////////
 
-void ConsoleHandler::RunAsAdministrator
-(
-	const ConsoleOptions& consoleOptions,
-	const wstring& strSyncName
-)
+void ConsoleHandler::RunAsAdministrator(const wstring& strCommandLineParams)
 {
 	std::wstring strFile = Helpers::GetModuleFileName(nullptr);
-
-	std::wstring strParams;
-	// admin sync name
-	strParams += L"-a ";
-	strParams += Helpers::EscapeCommandLineArg(strSyncName);
-	// config file
-	strParams += L" -c ";
-	strParams += Helpers::EscapeCommandLineArg(g_settingsHandler->GetSettingsFileName());
-	// tab name
-	strParams += L" -t ";
-	strParams += Helpers::EscapeCommandLineArg(consoleOptions.strTitle);
-	// directory
-	if (!consoleOptions.strInitialDir.empty())
-	{
-		strParams += L" -d ";
-		strParams += Helpers::EscapeCommandLineArg(consoleOptions.strInitialDir);
-	}
-	// startup shell command
-	if (!consoleOptions.strInitialCmd.empty())
-	{
-		strParams += L" -r ";
-		strParams += Helpers::EscapeCommandLineArg(consoleOptions.strInitialCmd);
-	}
-	// priority
-	strParams += L" -p ";
-	strParams += TabData::PriorityToString(consoleOptions.dwBasePriority);
 
 	SHELLEXECUTEINFO sei = {sizeof(sei)};
 
@@ -137,15 +107,55 @@ void ConsoleHandler::RunAsAdministrator
 	sei.fMask = /*SEE_MASK_NOCLOSEPROCESS|*/SEE_MASK_NOASYNC;
 	sei.lpVerb = L"runas";
 	sei.lpFile = strFile.c_str();
-	sei.lpParameters = strParams.length() > 0 ? strParams.c_str() : nullptr;
+	sei.lpParameters = strCommandLineParams.length() > 0 ? strCommandLineParams.c_str() : nullptr;
 	sei.lpDirectory = nullptr,
 	sei.nShow = SW_SHOWMINIMIZED;
 
 	if(!::ShellExecuteEx(&sei))
 	{
 		Win32Exception err("ShellExecuteEx", ::GetLastError());
-		throw ConsoleException(boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_CANT_START_SHELL_AS_ADMIN)) % strFile % strParams % err.what()));
+		throw ConsoleException(boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_CANT_START_SHELL_AS_ADMIN)) % strFile % strCommandLineParams % err.what()));
 	}
+}
+
+void ConsoleHandler::RunAsUser
+(
+	const wstring& strCommandLineParams,
+	const UserCredentials& userCredentials
+)
+{
+	std::wstring cmdLine = Helpers::GetModuleFileName(nullptr);
+	cmdLine += strCommandLineParams;
+
+	PROCESS_INFORMATION pi = {0, 0, 0, 0};
+
+	// setup the startup info struct
+	STARTUPINFO si;
+	::ZeroMemory(&si, sizeof(STARTUPINFO));
+
+	si.cb      = sizeof(STARTUPINFO);
+	si.lpTitle = DEFAULT_CONSOLE_COMMAND;
+
+	if( !::CreateProcessWithLogonW(
+		userCredentials.strUsername.c_str(),
+		userCredentials.strDomain.length() > 0 ? userCredentials.strDomain.c_str() : NULL,
+		userCredentials.password.c_str(),
+		LOGON_WITH_PROFILE,
+		nullptr,
+		const_cast<wchar_t*>(cmdLine.c_str()),
+		CREATE_UNICODE_ENVIRONMENT,
+		nullptr,
+		nullptr,
+		&si,
+		&pi))
+	{
+		Win32Exception err("CreateProcessWithLogonW", ::GetLastError());
+		throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % cmdLine % userCredentials.user % err.what()));
+	}
+
+	// Handles in PROCESS_INFORMATION must be closed with the CloseHandle function when they are not needed.
+	::CloseHandle(pi.hThread);
+	::CloseHandle(pi.hProcess);
 }
 
 std::wstring MergeEnvironmentVariables(
@@ -229,160 +239,89 @@ void ConsoleHandler::CreateShellProcess
 	std::unique_ptr<void, DestroyEnvironmentBlockHelper> userEnvironment;
 	std::unique_ptr<void, CloseHandleHelper>             userToken;
 	std::shared_ptr<void>                                userProfileKey;
-	RevertToSelfHelper                                   revertToSelfHelper;
 	std::vector<std::shared_ptr<VarEnv>>                 embededEnv = extraEnv;
 
-	if (userCredentials.strUsername.length() > 0)
+	if( !userCredentials.strUsername.empty() && !userCredentials.netOnly )
 	{
-		if (!userCredentials.netOnly)
+		NET_API_STATUS nStatus;
+		LPWSTR pszComputerName = nullptr;
+		if(userCredentials.strDomain != Helpers::GetComputerName())
 		{
-			// logon user
-			HANDLE hUserToken = NULL;
-			if( !::LogonUser(
-				userCredentials.strUsername.c_str(),
-				userCredentials.strDomain.length() > 0 ? userCredentials.strDomain.c_str() : NULL,
-				userCredentials.password.c_str(),
-				LOGON32_LOGON_INTERACTIVE,
-				LOGON32_PROVIDER_DEFAULT,
-				&hUserToken) )
+			nStatus = ::NetGetDCName(NULL, userCredentials.strDomain.c_str(), reinterpret_cast<LPBYTE *>(&pszComputerName));
+			if(nStatus != NERR_Success && nStatus != NERR_DCNotFound)
 			{
-				Win32Exception err("LogonUser", ::GetLastError());
+				Win32Exception err("NetGetDCName", nStatus);
 				throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
 			}
-			userToken.reset(hUserToken);
+		}
+		std::unique_ptr<void, NetApiBufferFreeHelper> dcName(pszComputerName);
 
-			if( !::ImpersonateLoggedOnUser(userToken.get()) )
+		LPUSER_INFO_3 pBuf3 = nullptr;
+		nStatus = ::NetUserGetInfo(pszComputerName, userCredentials.strUsername.c_str(), 3, reinterpret_cast<LPBYTE *>(&pBuf3));
+		if( nStatus != NERR_Success )
+		{
+			Win32Exception err("NetUserGetInfo", nStatus);
+			throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
+		}
+		std::unique_ptr<void, NetApiBufferFreeHelper> buf3(pBuf3);
+
+		std::wstring strHomeShare;
+		std::wstring strHomeDrive;
+		std::wstring strHomePath;
+		if( pBuf3->usri3_home_dir_drive && *pBuf3->usri3_home_dir_drive )
+		{
+			// home is on a net share
+			strHomeShare = pBuf3->usri3_home_dir;
+			strHomeDrive = pBuf3->usri3_home_dir_drive;
+			strHomePath  = L"\\";
+		}
+		else
+		{
+			std::wstring strHomeDir;
+
+			// local
+			if( pBuf3->usri3_home_dir && *pBuf3->usri3_home_dir )
 			{
-				Win32Exception err("ImpersonateLoggedOnUser", ::GetLastError());
-				throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
-			}
-			revertToSelfHelper.on();
-
-#if 0
-			// load user's profile
-			// seems to be necessary on WinXP for environment strings' expainsion to work properly
-			// only administrators or LOCALSYSTEM can load a profile since Windows XP SP2
-			PROFILEINFO userProfile;
-			::ZeroMemory(&userProfile, sizeof(PROFILEINFO));
-			userProfile.dwSize = sizeof(PROFILEINFO);
-			userProfile.lpUserName = const_cast<wchar_t*>(userCredentials.strUsername.c_str());
-
-			if( !::LoadUserProfile(userToken.get(), &userProfile) )
-			{
-				Win32Exception err("LoadUserProfile", ::GetLastError());
-				throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
-			}
-			userProfileKey.reset(userProfile.hProfile, std::bind<BOOL>(::UnloadUserProfile, userToken.get(), std::placeholders::_1));
-#endif
-
-			// load user's environment
-			void* pEnvironment = nullptr;
-			if( !::CreateEnvironmentBlock(&pEnvironment, userToken.get(), FALSE) )
-			{
-				Win32Exception err("CreateEnvironmentBlock", ::GetLastError());
-				throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
-			}
-			userEnvironment.reset(pEnvironment);
-
-#if 0
-			BYTE dummy[1024];
-			PSID psid = reinterpret_cast<PSID>(dummy);
-			DWORD cbSid = sizeof(dummy);
-			wchar_t szReferencedDomainName[DNLEN + 1] = L"";
-			DWORD cchReferencedDomainName = ARRAYSIZE(szReferencedDomainName);
-			SID_NAME_USE eUse;
-			if(!::LookupAccountName(
-				userCredentials.strDomain.c_str(),
-				userCredentials.strUsername.c_str(),
-				psid, &cbSid,
-				szReferencedDomainName, &cchReferencedDomainName,
-				&eUse))
-			{
-				Win32Exception err("LookupAccountName", ::GetLastError());
-				throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
-			}
-#endif
-
-			NET_API_STATUS nStatus;
-			LPWSTR pszComputerName = nullptr;
-			if(userCredentials.strDomain != Helpers::GetComputerName())
-			{
-				nStatus = ::NetGetDCName(NULL, userCredentials.strDomain.c_str(), reinterpret_cast<LPBYTE *>(&pszComputerName));
-				if(nStatus != NERR_Success && nStatus != NERR_DCNotFound)
-				{
-					Win32Exception err("NetGetDCName", nStatus);
-					throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
-				}
-			}
-			std::unique_ptr<void, NetApiBufferFreeHelper> dcName(pszComputerName);
-
-			LPUSER_INFO_3 pBuf3 = nullptr;
-			nStatus = ::NetUserGetInfo(pszComputerName, userCredentials.strUsername.c_str(), 3, reinterpret_cast<LPBYTE *>(&pBuf3));
-			if( nStatus != NERR_Success )
-			{
-				Win32Exception err("NetUserGetInfo", nStatus);
-				throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
-			}
-			std::unique_ptr<void, NetApiBufferFreeHelper> buf3(pBuf3);
-
-			std::wstring strHomeShare;
-			std::wstring strHomeDrive;
-			std::wstring strHomePath;
-			if( pBuf3->usri3_home_dir_drive && *pBuf3->usri3_home_dir_drive )
-			{
-				// home is on a net share
-				strHomeShare = pBuf3->usri3_home_dir;
-				strHomeDrive = pBuf3->usri3_home_dir_drive;
-				strHomePath  = L"\\";
+				// defined
+				strHomeDir = pBuf3->usri3_home_dir;
 			}
 			else
 			{
-				std::wstring strHomeDir;
-
-				// local
-				if( pBuf3->usri3_home_dir && *pBuf3->usri3_home_dir )
+				// undefined
+				// same as profile
+				wchar_t szUserProfileDirectory[_MAX_PATH] = L"";
+				DWORD   dwUserProfileDirectoryLen         = ARRAYSIZE(szUserProfileDirectory);
+				if( !::GetUserProfileDirectory(userToken.get(), szUserProfileDirectory, &dwUserProfileDirectoryLen) )
 				{
-					// defined
-					strHomeDir = pBuf3->usri3_home_dir;
-				}
-				else
-				{
-					// undefined
-					// same as profile
-					wchar_t szUserProfileDirectory[_MAX_PATH] = L"";
-					DWORD   dwUserProfileDirectoryLen         = ARRAYSIZE(szUserProfileDirectory);
-					if( !::GetUserProfileDirectory(userToken.get(), szUserProfileDirectory, &dwUserProfileDirectoryLen) )
-					{
-						Win32Exception err("GetUserProfileDirectory", ::GetLastError());
-						throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
-					}
-
-					strHomeDir = szUserProfileDirectory;
+					Win32Exception err("GetUserProfileDirectory", ::GetLastError());
+					throw ConsoleException(boost::str(boost::wformat(Helpers::LoadStringW(IDS_ERR_CANT_START_SHELL_AS_USER)) % L"?" % userCredentials.user % err.what()));
 				}
 
-				strHomeDrive = strHomeDir.substr(0, 2);
-				strHomePath  = strHomeDir.substr(2);
+				strHomeDir = szUserProfileDirectory;
 			}
 
-			TRACE(
-				L"HOMESHARE=%s\nHOMEDRIVE=%s\nHOMEPATH=%s\n",
-				strHomeShare.c_str(),
-				strHomeDrive.c_str(),
-				strHomePath.c_str());
-
-			if( !strHomeShare.empty() )
-				embededEnv.push_back(
-					std::shared_ptr<VarEnv>(
-						new VarEnv(std::wstring(L"HOMESHARE"), strHomeShare)));
-			if( !strHomeDrive.empty() )
-				embededEnv.push_back(
-					std::shared_ptr<VarEnv>(
-						new VarEnv(std::wstring(L"HOMEDRIVE"), strHomeDrive)));
-			if( !strHomePath.empty() )
-				embededEnv.push_back(
-					std::shared_ptr<VarEnv>(
-						new VarEnv(std::wstring(L"HOMEPATH"), strHomePath)));
+			strHomeDrive = strHomeDir.substr(0, 2);
+			strHomePath  = strHomeDir.substr(2);
 		}
+
+		TRACE(
+			L"HOMESHARE=%s\nHOMEDRIVE=%s\nHOMEPATH=%s\n",
+			strHomeShare.c_str(),
+			strHomeDrive.c_str(),
+			strHomePath.c_str());
+
+		if( !strHomeShare.empty() )
+			embededEnv.push_back(
+				std::shared_ptr<VarEnv>(
+					new VarEnv(std::wstring(L"HOMESHARE"), strHomeShare)));
+		if( !strHomeDrive.empty() )
+			embededEnv.push_back(
+				std::shared_ptr<VarEnv>(
+					new VarEnv(std::wstring(L"HOMEDRIVE"), strHomeDrive)));
+		if( !strHomePath.empty() )
+			embededEnv.push_back(
+				std::shared_ptr<VarEnv>(
+					new VarEnv(std::wstring(L"HOMEPATH"), strHomePath)));
 	}
 
 	// load environment block
@@ -458,8 +397,6 @@ void ConsoleHandler::CreateShellProcess
 	}
 
 	wstring strCmdLine = Helpers::ExpandEnvironmentStrings(strNewEnvironment.c_str(), strShellCmdLine);
-
-	revertToSelfHelper.off();
 
 	// setup the startup info struct
 	STARTUPINFO si;
@@ -544,16 +481,16 @@ void ConsoleHandler::StartShellProcess
 	const std::vector<std::shared_ptr<VarEnv>>& extraEnv,
 	DWORD dwStartupRows,
 	DWORD dwStartupColumns
-)
+	)
 {
-	PROCESS_INFORMATION pi = {0, 0, 0, 0};
+	PROCESS_INFORMATION pi = { 0, 0, 0, 0 };
 
 	bool runAsAdministrator = userCredentials.runAsAdministrator;
 	bool isElevated = false;
 
 	try
 	{
-		if (Helpers::CheckOSVersion(6, 0))
+		if( Helpers::CheckOSVersion(6, 0) )
 		{
 			if( Helpers::IsElevated() )
 			{
@@ -568,26 +505,74 @@ void ConsoleHandler::StartShellProcess
 			runAsAdministrator = false;
 		}
 	}
-	catch(std::exception& err)
+	catch( std::exception& err )
 	{
-		if (runAsAdministrator)
+		if( runAsAdministrator )
 			throw ConsoleException(boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_CANT_GET_ELEVATION_TYPE)) % err.what()));
 	}
 
 	m_boolIsElevated = isElevated || runAsAdministrator;
 
+	bool runAsUser = !userCredentials.strUsername.empty() && !userCredentials.netOnly;
+
+	if( runAsUser )
+	{
+		try
+		{
+			std::wstring strCurrentUser;
+			std::wstring strCurrentDomain;
+
+			Helpers::GetCurrentUserAndDomain(strCurrentUser, strCurrentDomain);
+
+			if( boost::iequals(strCurrentUser, userCredentials.strUsername) && boost::iequals(strCurrentDomain, userCredentials.strDomain) )
+				runAsUser = false;
+		}
+		catch( std::exception& err )
+		{
+			throw ConsoleException(boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_CANT_GET_USER)) % err.what()));
+		}
+	}
+
 	SharedMemory<DWORD> pid;
 
-	if (runAsAdministrator)
+	if (runAsAdministrator || runAsUser)
 	{
 		std::wstring strSyncName = (SharedMemNames::formatAdmin % ::GetCurrentProcessId()).str();
 
-		pid.Create(strSyncName, 1, syncObjBoth, L"");
+		pid.Create(strSyncName, 1, syncObjBoth, runAsUser? userCredentials.strAccountName : L"");
 
-		RunAsAdministrator(
-			consoleOptions,
-			strSyncName
-		);
+		std::wstring strFile = Helpers::GetModuleFileName(nullptr);
+
+		std::wstring strParams;
+		// admin sync name
+		strParams += L" -a ";
+		strParams += Helpers::EscapeCommandLineArg(strSyncName);
+		// config file
+		strParams += L" -c ";
+		strParams += Helpers::EscapeCommandLineArg(g_settingsHandler->GetSettingsFileName());
+		// tab name
+		strParams += L" -t ";
+		strParams += Helpers::EscapeCommandLineArg(consoleOptions.strTitle);
+		// directory
+		if (!consoleOptions.strInitialDir.empty())
+		{
+			strParams += L" -d ";
+			strParams += Helpers::EscapeCommandLineArg(consoleOptions.strInitialDir);
+		}
+		// startup shell command
+		if (!consoleOptions.strInitialCmd.empty())
+		{
+			strParams += L" -r ";
+			strParams += Helpers::EscapeCommandLineArg(consoleOptions.strInitialCmd);
+		}
+		// priority
+		strParams += L" -p ";
+		strParams += TabData::PriorityToString(consoleOptions.dwBasePriority);
+
+		if( runAsAdministrator )
+			RunAsAdministrator(strParams);
+		else
+			RunAsUser(strParams, userCredentials);
 
 		// wait for PID of shell launched in admin ConsoleZ
 		if (::WaitForSingleObject(pid.GetReqEvent(), 10000) == WAIT_TIMEOUT)
@@ -635,7 +620,7 @@ void ConsoleHandler::StartShellProcess
 	m_hConsoleProcess.reset(pi.hProcess);
 	m_dwConsolePid    = pi.dwProcessId;
 
-	if (runAsAdministrator)
+	if (runAsAdministrator || runAsUser)
 	{
 		::SetEvent(pid.GetRespEvent());
 	}
