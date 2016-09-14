@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 #include "version.h"
@@ -69,7 +69,7 @@ CAPTION "О программе"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,130,50,14
-    PUSHBUTTON      "website",IDC_BTN_HOME_PAGE,130,110,50,14
+    PUSHBUTTON      "Веб-сайт",IDC_BTN_HOME_PAGE,130,110,50,14
 #ifndef _USE_AERO
     CTEXT           "",IDC_STATIC_VERSION,15,41,100,96
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
@@ -717,7 +717,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Во весь &экран",                ID_VIEW_FULLSCREEN
         MENUITEM "Прозрачность",  ID_SWITCH_TRANSPARENCY
-        MENUITEM "Always On Top",               ID_VIEW_ALWAYS_ON_TOP
+        MENUITEM "Поверх всех окон",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Справка"
     BEGIN
@@ -887,7 +887,7 @@ BEGIN
 
     ID_CLONE_IN_NEW_TAB     "Клонировать текущее окно в новую вкладку\nКлонировать в новую вкладку"
     ID_VIEW_FULLSCREEN      "Переключиться в полноэкранный режим\nВо весь экран"
-    ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
+    ID_VIEW_ALWAYS_ON_TOP   "Переключиться в режим Поверх всех окон\nПоверх всех окон"
     ID_GROUP_ALL            "Объединить все терминалы так, что входные данные одного из них направлялись всем\nГруппировать все"
     ID_UNGROUP_ALL          "Удалить объединение всех терминалов\nРазгруппировать все"
     ID_GROUP_TAB            "Объединить все терминалы вкладки так, что входные данные одного из них направлялись всем\nГруппировать вкладку"
@@ -936,7 +936,7 @@ BEGIN
     IDS_ERR_TAB_CREATE_FAILED "Ошибка при открытии вкладки %1%!\nПроцесс %2% может быть всё ещё запущен (используйте Диспетчер задач для завершения его)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% не является консольным приложением Win32!"
     IDS_ERR_CANT_GET_USER "Невозможно определить текущего пользователя (причина: %1%)!"
-    IDS_ERR_XML_PARSING "XML parsing error (%1$#x) in file %2% on line %3% at column %4%: %5%"
+    IDS_ERR_XML_PARSING "Ошибка парсинга XML (%1$#x) в файле %2% в строке %3% в колонке %4%: %5%"
 END
 
 STRINGTABLE
@@ -1049,7 +1049,7 @@ BEGIN
     IDS_SPLIT_SWAP           "Поменять местами с предыдущим"
     IDS_CLONE_IN_NEW_TAB     "Клонировать окно в новую вкладку"
     IDS_VIEW_FULLSCREEN      "Во весь экран"
-    IDS_VIEW_ALWAYS_ON_TOP   "Always on top"
+    IDS_VIEW_ALWAYS_ON_TOP   "Поверх всех окон"
     IDS_VIEW_ZOOM_100        "Масштаб 100%"
     IDS_VIEW_ZOOM_INC        "Увеличить масштаб"
     IDS_VIEW_ZOOM_DEC        "Уменьшить масштаб"
@@ -1166,7 +1166,7 @@ STRINGTABLE
 BEGIN
 IDC_COMBO_CURSOR             "XTerm;Мигающий прямоугольник;Прямоугольник;Пульсирующий прямоугольник;Мигающая верт. линия;Горизонтальная линия;Перемещающаяся гориз. линия;Перемещающаяся верт. линия;Мигающая рамка;Рамка;Пульсирующая рамка;Исчезающий прямоугольник;Подчеркивание;XTerm2;Мигающая гориз. линия;"
 IDC_COMBO_DOCKING            "Нет;Сверху слева;Сверху справа;Внизу слева;Внизу справа;Сверху в центре;Внизу в центре;Слева в центре;Справа в центре;"
-IDC_COMBO_ZORDER             "Обычный;Всегда сверху;Всегда внизу;Закрепить на десктопе;"
+IDC_COMBO_ZORDER             "Обычный;Поверх всех окон;Всегда внизу;Закрепить на десктопе;"
 IDC_COMBO_SMOOTHING          "Обычный;Нет;ClearType;Natural ClearType;Сглаженный"
 IDC_COMBO_BUTTONS            "Нет;Левая;Правая;Средняя;Четвертая;Пятая;"
 IDC_COMBO_BK_POS             "По центру;Растянуть;Замостить;По размеру;Заполнение;"
