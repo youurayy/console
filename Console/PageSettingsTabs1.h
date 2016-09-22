@@ -62,6 +62,7 @@ class PageSettingsTabs1
 			COMMAND_ID_HANDLER(IDC_CHECK_RUN_AS_CURRENT_USER, OnCheckboxClicked)
 			COMMAND_ID_HANDLER(IDC_CHECK_RUN_AS_ADMIN, OnCheckboxClicked)
 			COMMAND_ID_HANDLER(IDC_CHECK_RUN_AS_USER, OnCheckboxClicked)
+			COMMAND_CODE_HANDLER(EN_KILLFOCUS, OnTabKillFocus)
 		END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
@@ -78,6 +79,8 @@ class PageSettingsTabs1
 		LRESULT OnClickedBtnBrowseShell(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnClickedBtnBrowseDir(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnCheckboxClicked(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+
+		LRESULT OnTabKillFocus(WORD /*wCommandCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 		void EnableControls();
 

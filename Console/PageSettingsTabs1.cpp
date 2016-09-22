@@ -171,6 +171,21 @@ LRESULT PageSettingsTabs1::OnCheckboxClicked(WORD /*wNotifyCode*/, WORD /*wID*/,
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT PageSettingsTabs1::OnTabKillFocus(WORD /*wCommandCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	if( wID == IDC_TAB_SHELL )
+	{
+		CString strShell(L"");
+		this->ConvertShellLink(strShell);
+	}
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 void PageSettingsTabs1::EnableControls()
 {
 	GetDlgItem(IDC_TAB_ICON).EnableWindow(m_bUseDefaultIcon == false);
@@ -238,16 +253,38 @@ void PageSettingsTabs1::ConvertShellLink(CString& strShell)
 {
 	DoDataExchange(DDX_SAVE);
 
-	m_strShell = strShell;
+	CString strLink;
 
-	if( m_strShell.Right(4).CompareNoCase(L".lnk") == 0 )
+	if( strShell.IsEmpty() )
 	{
+		// text modified in shell text box
+		// this text can contain spaces or quotes
+		strLink = m_strShell.Trim();
+		while( strLink.GetLength() > 0 && strLink.GetAt(0) == L'"' )
+			strLink = strLink.Right(strLink.GetLength() - 1);
+		while( strLink.GetLength() > 0 && strLink.GetAt(strLink.GetLength() - 1) == L'"' )
+			strLink = strLink.Left(strLink.GetLength() - 1);
+	}
+	else
+	{
+		// strShell from drag and drop or select file dialog
+		strLink = strShell;
 
+		m_strShell = strShell;
+		if( m_strShell.Find(L' ') != -1 && m_strShell.Find(L'"') == -1 )
+		{
+			m_strShell.Insert(0, L'"');
+			m_strShell.Insert(m_strShell.GetLength(), L'"');
+		}
+	}
+
+	if( strLink.Right(4).CompareNoCase(L".lnk") == 0 )
+	{
 		// set title
 		wchar_t szTitle[_MAX_PATH];
 
 		if( _wsplitpath_s(
-			m_strShell.GetString(),
+			strLink.GetString(),
 			nullptr, 0,
 			nullptr, 0,
 			szTitle, ARRAYSIZE(szTitle),
@@ -262,7 +299,7 @@ void PageSettingsTabs1::ConvertShellLink(CString& strShell)
 			CComPtr<IPersistFile> persistFile;
 			if( SUCCEEDED(shellLink.QueryInterface(&persistFile)) )
 			{
-				if( SUCCEEDED(persistFile->Load(m_strShell, STGM_READ)) &&
+				if( SUCCEEDED(persistFile->Load(strLink, STGM_READ)) &&
 					  SUCCEEDED(shellLink->Resolve(m_hWnd, 0)) )
 				{
 					WCHAR szBuffer[MAX_PATH];
@@ -280,9 +317,11 @@ void PageSettingsTabs1::ConvertShellLink(CString& strShell)
 							m_strShell.Insert(m_strShell.GetLength(), L'"');
 						}
 
-						m_strShell += L" ";
-						m_strShell += szBuffer2;
-
+						if( szBuffer2[0] )
+						{
+							m_strShell += L" ";
+							m_strShell += szBuffer2;
+						}
 					}
 
 					if( SUCCEEDED(shellLink->GetWorkingDirectory(szBuffer, MAX_PATH)) )
@@ -311,14 +350,6 @@ void PageSettingsTabs1::ConvertShellLink(CString& strShell)
 					}
 				}
 			}
-		}
-	}
-	else
-	{
-		if( m_strShell.Find(L' ') != -1 )
-		{
-			m_strShell.Insert(0, L'"');
-			m_strShell.Insert(m_strShell.GetLength(), L'"');
 		}
 	}
 
