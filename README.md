@@ -38,7 +38,7 @@ Changelog
     + added
     * fixed
 
-Changes in 1.17.1-beta (02 Sep 2016)
+Changes in 1.17.1 (22 Sep 2016)
 
     ! Handle XML parsing errors (configuration file and snippets).
     + "Toggle always on top" hotkey command.
@@ -49,6 +49,7 @@ Changes in 1.17.1-beta (02 Sep 2016)
     * Fix scroll bars position in hidden tabs.
     * System environment variables no longer override local environment variables.
     * Japanese localization (thanks to ys-nuem).
+    * Link files are also resolved when text is copied in shell text box.
 
 Changes in 1.17.0 (08 may 2016)
 

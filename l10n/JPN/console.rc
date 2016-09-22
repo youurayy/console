@@ -926,16 +926,16 @@ END
 STRINGTABLE
 BEGIN
     IDS_CAPTION_ERROR "エラー"
-    IDS_ERR_CANT_START_SHELL "Unable to start %1% (reason: %2%)!"
-    IDS_ERR_CANT_START_SHELL_AS_USER "Unable to start %1% as user %2% (reason: %3%)!"
+    IDS_ERR_CANT_START_SHELL "開始できません %1% (理由: %2%)!"
+    IDS_ERR_CANT_START_SHELL_AS_USER "ユーザ %2%　として %1% を開始できません (理由: %3%)!"
     IDS_ERR_DLL_INJECTION_FAILED "DLL インジェクションに失敗しました (理由:%1%)!"
     IDS_ERR_DLL_HOOK_MISSING "DLL フック %1% エラー!"
-    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "共有オブジェクトを作成できません (reason:%1%)!"
-    IDS_ERR_CANT_START_SHELL_AS_ADMIN "Unable to start %1% %2% as administrator (reason: %3%)!"
-    IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (reason: %1%)!"
+    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "共有オブジェクトを作れません (理由: %1%)!"
+    IDS_ERR_CANT_START_SHELL_AS_ADMIN "ユーザ　%2%　を管理者として %1% を実行できません (理由: %3%)!"
+    IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (理由: %1%)!"
     IDS_ERR_TAB_CREATE_FAILED "タブ %1%を開くことができません!\nプロセス %2% が動作中です (タスクマネージャーで該当プロセスを終了してください)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% はWin32コンソールアプリケーションではありません!"
-    IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
+    IDS_ERR_CANT_GET_USER "現在のユーザ情報が得られません (理由: %1%)!"
     IDS_ERR_XML_PARSING "XML parsing error (%1$#x) in file %2% on line %3% at column %4%: %5%"
 END
 
