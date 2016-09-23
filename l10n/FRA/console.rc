@@ -983,7 +983,7 @@ BEGIN
     MSG_MAINFRAME_EXIT_FULLSCREEN
                             "Quitter le Mode Plein Écran"
     MSG_MAINFRAME_SYNTAX_ERROR
-                            "erreur de syntax à la position %1%"
+                            "erreur de syntaxe à la position %1%"
 
     MSG_TABVIEW_RUNAS       "Lancer en tant qu'un autre utilisateur"
 
