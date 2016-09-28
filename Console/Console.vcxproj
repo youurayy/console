@@ -674,6 +674,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <None Include="res\Toolbar.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="config.rc" />
     <ResourceCompile Include="Console.rc" />
   </ItemGroup>
   <ItemGroup>

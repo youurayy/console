@@ -765,14 +765,14 @@ END
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, VERSION_BUILD2
  PRODUCTVERSION VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, VERSION_BUILD2
- FILEFLAGSMASK 0x3fL
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
- FILEFLAGS 0x1L
+ FILEFLAGS VS_FF_DEBUG
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x1L
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
@@ -796,7 +796,6 @@ BEGIN
     END
 END
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -806,14 +805,6 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\console.ico"
 //IDR_MAINFRAME           ICON                    "res\\testHighDPI.ico"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// HTML
-//
-
-CONSOLE.XML             HTML                    "..\\setup\\config\\console.xml"
 
 /////////////////////////////////////////////////////////////////////////////
 //
