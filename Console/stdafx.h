@@ -104,6 +104,7 @@ an alternative solution is to add an additional library to your linker input, le
 #endif
 
 #include <shobjidl.h>
+#include <CommonControls.h>
 
 #ifndef _USING_V110_SDK71_
 #include <ShellScalingAPI.h>

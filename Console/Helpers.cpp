@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 
+extern int g_nIconSize;
+
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -437,17 +439,51 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
 
       if ( argv && argc > 0 )
       {
-        SHFILEINFO info;
-        memset(&info, 0, sizeof(info));
-        if( ::SHGetFileInfo(
-          argv[0],
-          0,
-          &info,
-          sizeof(info),
-          SHGFI_ICON | (( bBigIcon )? SHGFI_LARGEICON : SHGFI_SMALLICON)) != 0 )
-        {
-          return info.hIcon;
-        }
+				SHFILEINFO info;
+				memset(&info, 0, sizeof(info));
+				if( bBigIcon || g_nIconSize == 0 )
+				{
+					if( ::SHGetFileInfo(
+						argv[0],
+						0,
+						&info,
+						sizeof(info),
+						SHGFI_ICON | ((bBigIcon) ? SHGFI_LARGEICON : SHGFI_SMALLICON)) != 0 )
+					{
+						return info.hIcon;
+					}
+				}
+				else
+				{
+					if( ::SHGetFileInfo(
+						argv[0],
+						0,
+						&info,
+						sizeof(info),
+						SHGFI_SYSICONINDEX) != 0 )
+					{
+						// Retrieve the system image list.
+						// To get the 48x48 icons, use SHIL_EXTRALARGE
+						// To get the 256x256 icons (Vista only), use SHIL_JUMBO
+						HIMAGELIST* imageList;
+
+						HRESULT hResult = ::SHGetImageList(SHIL_EXTRALARGE, IID_IImageList, (void**)&imageList);
+
+						if( hResult == S_OK )
+						{
+							// Get the icon we need from the list. Note that the HIMAGELIST we retrieved
+							// earlier needs to be casted to the IImageList interface before use.
+
+							HICON hIcon;
+							hResult = ((IImageList*)imageList)->GetIcon(info.iIcon, ILD_TRANSPARENT, &hIcon);
+
+							if( hResult == S_OK )
+							{
+								return hIcon;
+							}
+						}
+					}
+				}
       }
     }
   }
@@ -502,12 +538,25 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
       }
       else
       {
-        ::ExtractIconEx(
-          Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
-          index,
-          nullptr,
-          &hIcon,
-          1);
+				if( g_nIconSize == 0 )
+				{
+					::ExtractIconEx(
+						Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
+						index,
+						nullptr,
+						&hIcon,
+						1);
+				}
+				else
+				{
+					::SHDefExtractIcon(
+						Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
+						index,
+						0,
+						&hIcon,
+						nullptr,
+						g_nIconSize);
+				}
       }
 
       if( hIcon )
@@ -523,8 +572,8 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
         ::GetModuleHandle(NULL),
         MAKEINTRESOURCE(IDR_MAINFRAME),
         IMAGE_ICON,
-		::GetSystemMetrics(SM_CXICON),
-		::GetSystemMetrics(SM_CYICON),
+        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CXICON),
+        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYICON),
         LR_DEFAULTCOLOR));
   }
   else
@@ -534,8 +583,8 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
         ::GetModuleHandle(NULL),
         MAKEINTRESOURCE(IDR_MAINFRAME),
         IMAGE_ICON,
-		::GetSystemMetrics(SM_CXSMICON),
-		::GetSystemMetrics(SM_CYSMICON),
+        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CXSMICON),
+        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYSMICON),
         LR_DEFAULTCOLOR));
   }
 }
@@ -621,9 +670,11 @@ bool Helpers::CheckOSVersion(DWORD dwMinMajorVersion, DWORD dwMinMinorVersion)
 
 //////////////////////////////////////////////////////////////////////////////
 
+int g_nIconSize = 0;
+
 int Helpers::GetHighDefinitionResourceId(int nId)
 {
-	int size = ::GetSystemMetrics(SM_CYSMICON);
+	int size = g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYSMICON);
 	if( size <= 16 ) return nId;
 	if( size <= 20 ) return nId + 10;
 	if( size <= 24 ) return nId + 20;

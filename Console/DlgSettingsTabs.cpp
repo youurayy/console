@@ -4,6 +4,8 @@
 #include "Cursors.h"
 #include "DlgSettingsTabs.h"
 
+extern int g_nIconSize;
+
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,10 +44,10 @@ DlgSettingsTabs::DlgSettingsTabs(CComPtr<IXMLDOMElement>& pOptionsRoot, ConsoleS
 LRESULT DlgSettingsTabs::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
 	m_tabSettings.Load(m_pOptionsRoot);
-  m_ImageList.Create(
-    ::GetSystemMetrics(SM_CXSMICON),
-    ::GetSystemMetrics(SM_CYSMICON),
-    ILC_COLOR32 | ILC_MASK, 4, 4);
+	m_ImageList.Create(
+		g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CXSMICON),
+		g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYSMICON),
+		ILC_COLOR32 | ILC_MASK, 4, 4);
 	m_listCtrl.Attach(GetDlgItem(IDC_LIST_TABS));
 
 	m_listCtrl.SetExtendedListViewStyle(m_listCtrl.GetExtendedListViewStyle()|LVS_EX_FULLROWSELECT);

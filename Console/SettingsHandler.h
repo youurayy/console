@@ -1100,7 +1100,8 @@ class SettingsHandler
 		MouseSettings& GetMouseSettings() { return m_mouseSettings; }
 		TabSettings& GetTabSettings() { return m_tabSettings; }
 		const SnippetSettings& GetSnippetSettings(void) const { return m_snippetSettings; }
-		const std::wstring& GetLanguage(void) const { return m_strLanguage;  }
+		const std::wstring& GetLanguage(void) const { return m_strLanguage; }
+		int GetSmallIconSize(void) const { return m_nSmallIconSize; }
 
 	private:
 
@@ -1115,6 +1116,7 @@ class SettingsHandler
 		SettingsDirType		m_settingsDirType;
 
 		std::wstring m_strLanguage;
+		int          m_nSmallIconSize;
 
 		ConsoleSettings		m_consoleSettings;
 		AppearanceSettings	m_appearanceSettings;

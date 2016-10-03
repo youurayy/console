@@ -6,6 +6,7 @@ using namespace boost::algorithm;
 //////////////////////////////////////////////////////////////////////////////
 
 extern std::shared_ptr<ImageHandler>		g_imageHandler;
+extern int g_nIconSize;
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -2728,6 +2729,7 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 
 	// load settings' sections
 	XmlHelper::GetAttribute(m_pSettingsRoot, CComBSTR(L"lang"), m_strLanguage, std::wstring(L"auto"));
+	XmlHelper::GetAttribute(m_pSettingsRoot, CComBSTR(L"icon_size"), g_nIconSize, 0);
 
 	if( m_consoleSettings   .Load(m_pSettingsRoot) == false ) return false;
 	if( m_appearanceSettings.Load(m_pSettingsRoot) == false ) return false;
@@ -2772,6 +2774,7 @@ bool SettingsHandler::SaveSettings()
 bool SettingsHandler::SerializeSettings(CComPtr<IXMLDOMElement>& pSettingsRoot)
 {
 	XmlHelper::SetAttribute(pSettingsRoot, CComBSTR(L"lang"), m_strLanguage);
+	XmlHelper::SetAttribute(pSettingsRoot, CComBSTR(L"icon_size"), g_nIconSize);
 
 	if( m_consoleSettings   .Save(pSettingsRoot) == false ) return false;
 	if( m_appearanceSettings.Save(pSettingsRoot) == false ) return false;
