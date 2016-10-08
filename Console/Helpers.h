@@ -54,6 +54,7 @@ class Helpers
 		static void LoadCombo(CComboBox& cb, UINT uID);
 
 		static HICON LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& strIcon, const wstring& strShell);
+		static HICON LoadIcon(bool bBigIcon, const wstring& strIcon);
 
 		static bool IsElevated(void);
 		static bool CheckOSVersion(DWORD dwMinMajorVersion, DWORD dwMinMinorVersion);

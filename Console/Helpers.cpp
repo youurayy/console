@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 
+#include "Console.h"
 extern int g_nIconSize;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -427,18 +428,91 @@ void Helpers::LoadCombo(CComboBox& cb, UINT uID)
 
 //////////////////////////////////////////////////////////////////////////////
 
+HICON Helpers::LoadIcon(bool bBigIcon, const wstring& strIcon)
+{
+	int index = 0;
+
+	// check strIcon ends with ,<integer>
+	bool ok = false;
+
+	size_t pos = strIcon.find_last_of(L',');
+	if( pos != wstring::npos )
+	{
+		bool negative = false;
+		size_t i = pos + 1;
+		if( i < strIcon.length() && strIcon.at(i) == L'-' )
+		{
+			i++;
+			negative = true;
+		}
+		for( ; i < strIcon.length(); ++i )
+		{
+			if( strIcon.at(i) >= L'0' && strIcon.at(i) <= L'9' )
+			{
+				ok = true;
+				index = index * 10 + (strIcon.at(i) - L'0');
+			}
+			else
+			{
+				ok = false;
+				break;
+			}
+		}
+		if( negative )
+			index = -index;
+	}
+
+	wstring strIconPath = ok ? strIcon.substr(0, pos) : strIcon;
+
+	HICON hIcon = nullptr;
+
+	if( bBigIcon )
+	{
+		::ExtractIconEx(
+			Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
+			index,
+			&hIcon,
+			nullptr,
+			1);
+	}
+	else
+	{
+		if( g_nIconSize == 0 )
+		{
+			::ExtractIconEx(
+				Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
+				index,
+				nullptr,
+				&hIcon,
+				1);
+		}
+		else
+		{
+			::SHDefExtractIcon(
+				Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
+				index,
+				0,
+				&hIcon,
+				nullptr,
+				g_nIconSize);
+		}
+	}
+
+	return hIcon;
+}
+
 HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& strIcon, const wstring& strShell)
 {
-  if (bUseDefaultIcon)
-  {
-    if ( !strShell.empty() )
-    {
-      wstring strCommandLine = Helpers::ExpandEnvironmentStrings(strShell);
-      int argc = 0;
-      std::unique_ptr<LPWSTR[], LocalFreeHelper> argv(::CommandLineToArgvW(strCommandLine.c_str(), &argc));
+	if( bUseDefaultIcon )
+	{
+		if( !strShell.empty() )
+		{
+			wstring strCommandLine = Helpers::ExpandEnvironmentStrings(strShell);
+			int argc = 0;
+			std::unique_ptr<LPWSTR[], LocalFreeHelper> argv(::CommandLineToArgvW(strCommandLine.c_str(), &argc));
 
-      if ( argv && argc > 0 )
-      {
+			if( argv && argc > 0 )
+			{
 				SHFILEINFO info;
 				memset(&info, 0, sizeof(info));
 				if( bBigIcon || g_nIconSize == 0 )
@@ -484,109 +558,53 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
 						}
 					}
 				}
-      }
-    }
-  }
-  else
-  {
-    if (!strIcon.empty())
-    {
-      int index = 0;
+			}
+		}
+	}
+	else
+	{
+		if( !strIcon.empty() )
+		{
+			HICON hIcon = Helpers::LoadIcon(bBigIcon, strIcon);
 
-      // check strIcon ends with ,<integer>
-      bool ok = false;
+			if( hIcon )
+				return hIcon;
+		}
+	}
 
-      size_t pos = strIcon.find_last_of(L',');
-      if( pos != wstring::npos )
-      {
-        bool negative = false;
-        size_t i = pos + 1;
-        if( i < strIcon.length() && strIcon.at(i) == L'-' )
-        {
-          i ++;
-          negative = true;
-        }
-        for(; i < strIcon.length(); ++i)
-        {
-          if( strIcon.at(i) >= L'0' && strIcon.at(i) <= L'9' )
-          {
-            ok = true;
-            index = index * 10 + (strIcon.at(i) - L'0');
-          }
-          else
-          {
-            ok = false;
-            break;
-          }
-        }
-        if( negative )
-          index = -index;
-      }
+	// window icon
+	WindowSettings& windowSettings = g_settingsHandler->GetAppearanceSettings().windowSettings;
+	if( !windowSettings.strIcon.empty() )
+	{
+		HICON hIcon = Helpers::LoadIcon(bBigIcon, windowSettings.strIcon);
 
-      wstring strIconPath = ok ? strIcon.substr(0, pos) : strIcon;
+		if( hIcon )
+			return hIcon;
+	}
 
-      HICON hIcon = nullptr;
-
-      if ( bBigIcon )
-      {
-        ::ExtractIconEx(
-          Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
-          index,
-          &hIcon,
-          nullptr,
-          1);
-      }
-      else
-      {
-				if( g_nIconSize == 0 )
-				{
-					::ExtractIconEx(
-						Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
-						index,
-						nullptr,
-						&hIcon,
-						1);
-				}
-				else
-				{
-					::SHDefExtractIcon(
-						Helpers::ExpandEnvironmentStrings(strIconPath).c_str(),
-						index,
-						0,
-						&hIcon,
-						nullptr,
-						g_nIconSize);
-				}
-      }
-
-      if( hIcon )
-        return hIcon;
-    }
-  }
-
-
-  if ( bBigIcon )
-  {
-    return static_cast<HICON>(
-      ::LoadImage(
-        ::GetModuleHandle(NULL),
-        MAKEINTRESOURCE(IDR_MAINFRAME),
-        IMAGE_ICON,
-        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CXICON),
-        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYICON),
-        LR_DEFAULTCOLOR));
-  }
-  else
-  {
-    return static_cast<HICON>(
-      ::LoadImage(
-        ::GetModuleHandle(NULL),
-        MAKEINTRESOURCE(IDR_MAINFRAME),
-        IMAGE_ICON,
-        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CXSMICON),
-        g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYSMICON),
-        LR_DEFAULTCOLOR));
-  }
+	// icon in ConsoleZ resources
+	if( bBigIcon )
+	{
+		return static_cast<HICON>(
+			::LoadImage(
+				::GetModuleHandle(NULL),
+				MAKEINTRESOURCE(IDR_MAINFRAME),
+				IMAGE_ICON,
+				g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CXICON),
+				g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYICON),
+				LR_DEFAULTCOLOR));
+	}
+	else
+	{
+		return static_cast<HICON>(
+			::LoadImage(
+				::GetModuleHandle(NULL),
+				MAKEINTRESOURCE(IDR_MAINFRAME),
+				IMAGE_ICON,
+				g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CXSMICON),
+				g_nIconSize ? g_nIconSize : ::GetSystemMetrics(SM_CYSMICON),
+				LR_DEFAULTCOLOR));
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////
