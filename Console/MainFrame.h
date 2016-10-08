@@ -402,6 +402,7 @@ class MainFrame
 		bool CreateSafeConsole();
 		void CloseTab(CTabViewTabItem* pTabItem);
 
+		void UpdateTabIcons();
 		void UpdateTabTitle(std::shared_ptr<TabView> tabView);
 		void UpdateTabsMenu();
 		void UpdateOpenedTabsMenu(CMenu& tabsMenu, bool bContextual);

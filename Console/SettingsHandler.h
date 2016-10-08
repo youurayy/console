@@ -857,6 +857,7 @@ struct TabData
 	, bInheritedColors(true)
 	, backgroundTextOpacity(255)
 	, nIndex(0)
+	, nImageIndex(-1)
 	{
 		consoleColors[0]  = 0x000000;
 		consoleColors[1]  = 0x800000;
@@ -901,6 +902,7 @@ struct TabData
 	ImageData						imageData;
 
 	CIcon							iconMenu;
+	int               nImageIndex;
 
 	bool							bInheritedColors;
 	COLORREF						consoleColors[16];

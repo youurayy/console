@@ -465,6 +465,11 @@ public:
 		return hIcon ? m_ImageList.AddIcon(hIcon) : -1;
 	}
 
+	int ReplaceIcon(int nImage, HICON hIcon)
+	{
+		return m_ImageList.ReplaceIcon(nImage, hIcon);
+	}
+
 	// AddTabWithBitmap (with a couple of overloaded versions)
 	int AddTabWithBitmap(HWND hWnd, LPCTSTR sTabText, HBITMAP hBitmap, HBITMAP hBitmapMask = NULL)
 	{

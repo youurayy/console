@@ -2773,6 +2773,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 
 	SetWindowStyles();
 
+	UpdateTabIcons();
 	UpdateTabsMenu();
 	UpdateMenuHotKeys();
 
@@ -3367,10 +3368,20 @@ bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shar
 		tabView->SetTitle(std::wstring(cstrTabTitle));
 	}
 
-	if( g_settingsHandler->GetAppearanceSettings().controlsSettings.HideTabIcons() )
-		AddTab(hwndTabView, cstrTabTitle);
-	else
-		AddTabWithIcon(hwndTabView, cstrTabTitle, tabView->GetIcon(false));
+	int nImageIndex = -1;
+
+	if( !g_settingsHandler->GetAppearanceSettings().controlsSettings.HideTabIcons() )
+	{
+		// is the icon already in tab bar image list?
+		if( tabData->nImageIndex == -1 )
+			// no so we add this new icon
+			tabData->nImageIndex = AddIcon(tabView->GetIcon(false));
+
+		nImageIndex = tabData->nImageIndex;
+	}
+
+	AddTab(hwndTabView, cstrTabTitle, nImageIndex);
+
 	DisplayTab(hwndTabView, FALSE);
 	::SetForegroundWindow(m_hWnd);
 
@@ -3394,6 +3405,31 @@ bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shar
 	UpdateUI();
 
 	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+void MainFrame::UpdateTabIcons()
+{
+	MutexLock lock(m_tabsMutex);
+	for (TabViewMap::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
+	{
+		it->second->UpdateIcons();
+		int nImageIndex = -1;
+		if( !g_settingsHandler->GetAppearanceSettings().controlsSettings.HideTabIcons() )
+		{
+			// replace with new icon or append
+			nImageIndex = it->second->GetTabData()->nImageIndex = ReplaceIcon(it->second->GetTabData()->nImageIndex, it->second->GetIcon(false));
+		}
+
+		// update index
+		// from -1 to tab data image index: show icon
+		// from tab data image index to -1: hide icon
+		UpdateTabImage(it->first, nImageIndex);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////

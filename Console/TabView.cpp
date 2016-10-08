@@ -86,8 +86,7 @@ BOOL TabView::PreTranslateMessage(MSG* pMsg)
 LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
   // load icon
-  m_bigIcon.Attach(m_tabData->GetBigIcon());
-  m_smallIcon.Attach(m_tabData->GetSmallIcon());
+	UpdateIcons();
 
   LRESULT result = -1;
 
@@ -374,6 +373,12 @@ std::shared_ptr<ConsoleView> TabView::GetActiveConsole(const TCHAR* /*szFrom*/)
 void TabView::GetRect(CRect& clientRect)
 {
   clientRect = this->visibleRect;
+}
+
+void TabView::UpdateIcons()
+{
+  m_bigIcon.Attach(m_tabData->GetBigIcon());
+  m_smallIcon.Attach(m_tabData->GetSmallIcon());
 }
 
 void TabView::InitializeScrollbars()

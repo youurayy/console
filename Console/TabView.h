@@ -65,6 +65,7 @@ public:
   void InitializeScrollbars();
   void AdjustRectAndResize(ADJUSTSIZE as, CRect& clientRect, DWORD dwResizeWindowEdge);
   void GetRect(CRect& clientRect);
+	void UpdateIcons();
 
   void Split(CMultiSplitPane::SPLITTYPE);
   bool CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed);
