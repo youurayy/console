@@ -2789,6 +2789,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 	{
 		SetTrayIcon(NIM_DELETE);
 	}
+	SetWindowIcons();
 
 	MutexLock	tabMapLock(m_tabsMutex);
 
