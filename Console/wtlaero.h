@@ -1153,11 +1153,13 @@ public:
 			::GetWindowRect(m_hWndToolBar, &rectTB);
 			if(bResizeBars)
 			{
-        // we move bars 2 pixels left to remove a stupid border drawed by the rebar
-				::SetWindowPos(m_hWndToolBar, NULL, rect.left - 2, rect.top,
-					rect.right - rect.left + 2, rectTB.bottom - rectTB.top,
+				::SetWindowPos(m_hWndToolBar, NULL, rect.left, rect.top,
+					rect.right - rect.left, rectTB.bottom - rectTB.top,
 					SWP_NOZORDER | SWP_NOACTIVATE);
 				::InvalidateRect(m_hWndToolBar, NULL, FALSE);
+
+				// rebar's height can change during SetWindowPos
+				::GetWindowRect(m_hWndToolBar, &rectTB);
 			}
 			rect.top += rectTB.bottom - rectTB.top;
 		}
