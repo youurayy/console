@@ -486,6 +486,7 @@ class MainFrame
 		DWORD			m_dwResizeWindowEdge;
 		DWORD			m_dwScreenDpi;
 
+		bool                m_bUseCursorPosition;
 		bool			m_bAppActive;
 		bool			m_bShowingHidingWindow;
 		bool			m_bRestoringWindow;

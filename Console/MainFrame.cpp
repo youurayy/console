@@ -156,7 +156,7 @@ MainFrame::MainFrame
 	LPCTSTR lpstrCmdLine
 )
 : m_bOnCreateDone(false)
-
+, m_bUseCursorPosition(false)
 , m_activeTabView()
 , m_bMenuVisible     (true)
 , m_bMenuChecked     (true)
@@ -598,6 +598,8 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	m_dwWindowHeight= rectWindow.Height();
 
 	TRACE(L"initial dims: %ix%i\n", m_dwWindowWidth, m_dwWindowHeight);
+
+	m_bUseCursorPosition = true;
 
 	if( g_settingsHandler->GetAppearanceSettings().fullScreenSettings.bStartInFullScreen ||
 	    g_settingsHandler->GetAppearanceSettings().positionSettings.nState == WindowState::stateFullScreen )
@@ -1106,39 +1108,71 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 
 	if (m_zOrder == zorderOnBottom) pWinPos->hwndInsertAfter = HWND_BOTTOM;
 
-	if (!(pWinPos->flags & SWP_NOMOVE) && GetKeyState(VK_LWIN) >= 0 && GetKeyState(VK_RWIN) >= 0)
+	if ((pWinPos->flags & SWP_NOMOVE) == 0 && GetKeyState(VK_LWIN) >= 0 && GetKeyState(VK_RWIN) >= 0)
 	{
 		// no docking for minimized or maximized or fullscreen windows or restoring
 		bool bNoDocking = IsIconic() || IsZoomed() || m_bFullScreen || m_bRestoringWindow;
 
 		if( !bNoDocking && positionSettings.nSnapDistance >= 0 )
 		{
-			CRect	rectMonitor;
 			CRect	rectDesktop;
+
 			CRect	rectWindow;
-			CPoint	pointCursor;
+			if( (pWinPos->flags & SWP_NOSIZE) == 0 )
+			{
+				rectWindow.SetRect(
+					pWinPos->x, pWinPos->y,
+					pWinPos->x + pWinPos->cx, pWinPos->y + pWinPos->cy);
+			}
+			else
+			{
+				GetWindowRect(&rectWindow);
+				rectWindow.MoveToXY(pWinPos->x, pWinPos->y);
+			}
 
 			// we'll snap ConsoleZ window to the desktop edges
 
-			// WM_WINDOWPOSCHANGING will be called when locking a computer
-			// GetCursorPos will fail in that case; in that case we return and prevent invalid window position after unlock
-			if (!::GetCursorPos(&pointCursor)) return 0;
-			GetWindowRect(&rectWindow);
-			Helpers::GetDesktopRect(pointCursor, rectDesktop);
-			Helpers::GetMonitorRect(m_hWnd, rectMonitor);
-
-			TRACE(
-				L"MainFrame::OnWindowPosChanging snap 1 winpos(%ix%i,%ix%i) desktop(%ix%i-%ix%i) monitor(%ix%i-%ix%i) pointCursor(%ix%i)\n",
-				pWinPos->x,  pWinPos->y,
-				pWinPos->cx, pWinPos->cy,
-				rectDesktop.left, rectDesktop.top, rectDesktop.right, rectDesktop.bottom,
-				rectMonitor.left, rectMonitor.top, rectMonitor.right, rectMonitor.bottom,
-				pointCursor.x, pointCursor.y);
-
-			if (!rectMonitor.PtInRect(pointCursor))
+			if( m_bUseCursorPosition )
 			{
-				pWinPos->x = pointCursor.x;
-				pWinPos->y = pointCursor.y;
+				// WM_WINDOWPOSCHANGING will be called when locking a computer
+				// GetCursorPos will fail in that case; in that case we return and prevent invalid window position after unlock
+				CPoint pointCursor;
+				if( !::GetCursorPos(&pointCursor) ) return 0;
+				Helpers::GetDesktopRect(pointCursor, rectDesktop);
+
+				CRect	rectMonitor;
+				Helpers::GetMonitorRect(m_hWnd, rectMonitor);
+
+				TRACE(
+					L"MainFrame::OnWindowPosChanging snap 1\n"
+					L"\t\twinpos(%ix%i,%ix%i) window(%ix%i,%ix%i)\n"
+					L"\t\tdesktop(%ix%i-%ix%i) monitor(%ix%i-%ix%i)\n"
+					L"\t\tpointCursor(%ix%i)\n",
+					pWinPos->x, pWinPos->y,
+					pWinPos->cx, pWinPos->cy,
+					rectWindow.left, rectWindow.top, rectWindow.Width(), rectWindow.Height(),
+					rectDesktop.left, rectDesktop.top, rectDesktop.right, rectDesktop.bottom,
+					rectMonitor.left, rectMonitor.top, rectMonitor.right, rectMonitor.bottom,
+					pointCursor.x, pointCursor.y);
+
+				if( !rectMonitor.PtInRect(pointCursor) )
+				{
+					pWinPos->x = pointCursor.x;
+					pWinPos->y = pointCursor.y;
+				}
+			}
+			else
+			{
+				// we choose the monitor in whitch application is launched
+				Helpers::GetDesktopRect(rectWindow, rectDesktop);
+
+				TRACE(
+					L"MainFrame::OnWindowPosChanging snap 1bis\n"
+					L"\t\twinpos(%ix%i,%ix%i) window(%ix%i,%ix%i)\n",
+					pWinPos->x, pWinPos->y,
+					pWinPos->cx, pWinPos->cy,
+					rectWindow.left, rectWindow.top, rectWindow.Width(), rectWindow.Height(),
+					rectDesktop.left, rectDesktop.top, rectDesktop.right, rectDesktop.bottom);
 			}
 
 			int	nLR = -1;
@@ -1187,9 +1221,13 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 			}
 
 			TRACE(
-				L"MainFrame::OnWindowPosChanging snap 2 nLR=%i nTB=%i m_dockPosition=%i\n",
+				L"MainFrame::OnWindowPosChanging snap 2\n"
+				L"\t\tnLR=%i nTB=%i m_dockPosition=%i\n"
+				L"\t\twinpos(%ix%i,%ix%i)\n",
 				nLR, nTB,
-				m_dockPosition);
+				m_dockPosition,
+				pWinPos->x, pWinPos->y,
+				pWinPos->cx, pWinPos->cy);
 		}
 
 		if (m_activeTabView)
@@ -3923,6 +3961,8 @@ void MainFrame::DockWindow(DockPosition dockPosition)
 		default : return;
 	}
 
+	TRACE(L"MainFrame::DockWindow -> %ix%i\n", nX, nY);
+
 	// Don't send WM_WINDOWPOSCHANGING
 	// ONWindowPosChanging is not called
 	// That's fixing placement problem
@@ -4153,6 +4193,8 @@ void MainFrame::ShowTabs(bool bShow)
 
 void MainFrame::ShowFullScreen(bool bShow)
 {
+	m_bUseCursorPosition = false;
+
 	// can switch only if window is visible
 	ShowHideWindow(SHWA_SHOW_ONLY);
 
@@ -4243,6 +4285,8 @@ void MainFrame::ShowFullScreen(bool bShow)
   }
 
   AdjustWindowSize(ADJUSTSIZE_WINDOW);
+
+	m_bUseCursorPosition = true;
 }
 
 BOOL CALLBACK MainFrame::MonitorEnumProc(HMONITOR /*hMonitor*/, HDC /*hdcMonitor*/, LPRECT lprcMonitor, LPARAM lpData)

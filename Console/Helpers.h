@@ -46,6 +46,7 @@ class Helpers
 		static bool GetMonitorRect(HWND hWnd, CRect& rectMonitor);
 		static bool GetDesktopRect(HWND hWnd, CRect& rectDesktop);
 		static bool GetDesktopRect(const CPoint& point, CRect& rectDesktop);
+		static bool GetDesktopRect(const CRect& rect, CRect& rectDesktop);
 
 		static HBITMAP CreateBitmap(HDC dc, DWORD dwWidth, DWORD dwHeight, CBitmap& bitmap);
 
