@@ -41,6 +41,10 @@
 			<param name="Local" value="html\text_formatting.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Snippets">
+			<param name="Local" value="html\snippets.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Settings">
 			</OBJECT>
 		<UL>

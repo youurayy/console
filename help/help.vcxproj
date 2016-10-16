@@ -35,6 +35,7 @@
     <None Include="html\settings_tabs_colors.html" />
     <None Include="html\settings_tabs_environment.html" />
     <None Include="html\settings_tabs_main.html" />
+    <None Include="html\snippets.html" />
     <None Include="html\text_formatting.html" />
     <None Include="html\tips_tricks.html" />
     <None Include="makefile" />

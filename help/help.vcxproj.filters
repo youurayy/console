@@ -93,6 +93,9 @@
     <None Include="styles\help.css">
       <Filter>Help Files\styles</Filter>
     </None>
+    <None Include="html\snippets.html">
+      <Filter>Help Files\html</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Help Files">
