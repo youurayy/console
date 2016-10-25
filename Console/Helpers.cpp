@@ -516,9 +516,7 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
 {
 	if( bUseDefaultIcon )
 	{
-		if( !strShell.empty() )
-		{
-			wstring strCommandLine = Helpers::ExpandEnvironmentStrings(strShell);
+			wstring strCommandLine = Helpers::ExpandEnvironmentStrings(strShell.empty() ? L"%ComSpec%" : strShell);
 			int argc = 0;
 			std::unique_ptr<LPWSTR[], LocalFreeHelper> argv(::CommandLineToArgvW(strCommandLine.c_str(), &argc));
 
@@ -569,7 +567,6 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
 						}
 					}
 				}
-			}
 		}
 	}
 	else
