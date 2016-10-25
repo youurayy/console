@@ -1345,6 +1345,14 @@ LRESULT MainFrame::OnTimer(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL
 
 LRESULT MainFrame::OnSettingChange(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
 {
+#if 0
+	if( wParam == SPI_SETWORKAREA )
+	{
+		DockWindow(m_dockPosition);
+		return 0;
+	}
+#endif
+
 	if (lParam == 0) return 0;
 
 	wstring strArea(reinterpret_cast<wchar_t*>(lParam));
@@ -4103,7 +4111,6 @@ void MainFrame::ShowMenu(bool bShow)
 
 	UpdateLayout();
 	AdjustWindowSize(ADJUSTSIZE_WINDOW);
-	DockWindow(m_dockPosition);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4122,7 +4129,6 @@ void MainFrame::ShowToolbar(bool bShow)
 
 	UpdateLayout();
 	AdjustWindowSize(ADJUSTSIZE_WINDOW);
-	DockWindow(m_dockPosition);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4141,7 +4147,6 @@ void MainFrame::ShowSearchBar(bool bShow)
 
 	UpdateLayout();
 	AdjustWindowSize(ADJUSTSIZE_WINDOW);
-	DockWindow(m_dockPosition);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4158,7 +4163,6 @@ void MainFrame::ShowStatusbar(bool bShow)
 
 	UpdateLayout();
 	AdjustWindowSize(ADJUSTSIZE_WINDOW);
-	DockWindow(m_dockPosition);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4183,7 +4187,6 @@ void MainFrame::ShowTabs(bool bShow)
 
 	UpdateLayout();
 	AdjustWindowSize(ADJUSTSIZE_WINDOW);
-	DockWindow(m_dockPosition);
 }
 
 //////////////////////////////////////////////////////////////////////////////
