@@ -69,7 +69,7 @@ CAPTION "Über"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,130,50,14
-    PUSHBUTTON      "website",IDC_BTN_HOME_PAGE,130,110,50,14
+    PUSHBUTTON      "Webseite",IDC_BTN_HOME_PAGE,130,110,50,14
 #ifndef _USE_AERO
     CTEXT           "",IDC_STATIC_VERSION,15,41,100,96
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
@@ -97,7 +97,7 @@ BEGIN
     CONTROL         "",IDC_CHILD_PLACEHOLDER,"Static",SS_BLACKFRAME,112,7,235,265
     CONTROL         "Einstellungen im Benutzerverzeichnis ablegen",IDC_CHECK_USER_DATA_DIR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,280,300,10
-    LTEXT           "Einstellungen mit *, erst nach Neustart aktiv",IDC_STATIC,7,296,230,8
+    LTEXT           "Einstellungen mit * sind erst nach Neustart aktiv",IDC_STATIC,7,296,230,8
     PUSHBUTTON      "OK",IDOK,241,300,50,14
     PUSHBUTTON      "Abbrechen",IDCANCEL,297,300,50,14
 END
@@ -123,7 +123,7 @@ BEGIN
     EDITTEXT        IDC_REFRESH,175,62,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_REFRESH,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,190,56,11,14
     LTEXT           "ms",IDC_STATIC,219,65,10,8
-    GROUPBOX        "Update timeouts *",IDC_STATIC,0,50,235,33
+    GROUPBOX        "Update Verzögerung *",IDC_STATIC,0,50,235,33
 
     RTEXT           "&Zeilen:",IDC_STATIC,10,100,43,8
     EDITTEXT        IDC_ROWS,55,97,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
@@ -131,7 +131,7 @@ BEGIN
     RTEXT           "Spalten:",IDC_STATIC,10,115,43,8
     EDITTEXT        IDC_COLUMNS,55,112,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_COLUMNS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,74,116,11,14
-    GROUPBOX        "Fenster Grösse *",IDC_STATIC,0,85,115,48
+    GROUPBOX        "Fenster Größe *",IDC_STATIC,0,85,115,48
 
     RTEXT           "Reihe:",IDC_STATIC,130,100,43,8
     EDITTEXT        IDC_BUFFER_ROWS,175,97,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
@@ -139,7 +139,7 @@ BEGIN
     RTEXT           "Spalten:",IDC_STATIC,130,115,43,8
     EDITTEXT        IDC_BUFFER_COLUMNS,175,112,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_BUFFER_COLUMNS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,184,116,11,14
-    GROUPBOX        "Puffer Grösse *",IDC_STATIC,120,85,115,48
+    GROUPBOX        "Puffer Größe *",IDC_STATIC,120,85,115,48
 END
 
 IDD_SETTINGS_APPEARANCE DIALOGEX 0, 0, 235, 265
@@ -148,7 +148,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     RTEXT           "Titel:",IDC_STATIC,10,15,43,8
     EDITTEXT        IDC_WINDOW_TITLE,55,13,105,14,ES_AUTOHSCROLL
-    CONTROL         "Titel nutzen",IDC_CHECK_USE_TAB_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,14,58,10
+    CONTROL         "Titel nutzen",IDC_CHECK_USE_TAB_TITLE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,170,11,58,16
 
     RTEXT           "Format:",IDC_STATIC,10,35,43,8
     EDITTEXT        IDC_MAIN_TITLE_FORMAT,55,33,170,14,ES_AUTOHSCROLL
@@ -171,9 +171,9 @@ BEGIN
     CONTROL         "Tab Symbol nutzen",IDC_CHECK_USE_TAB_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,55,145,170,16
     GROUPBOX        "Titel && Symbol",IDC_STATIC,0,0,235,163
 
-    CONTROL         "Initial state*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
+    CONTROL         "Initialer Status*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
     COMBOBOX        IDC_COMBO_STATE,85,179,88,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Schliessen&& Speichern",IDC_CHECK_SAVE_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,177,52,16
+    CONTROL         "Schließen&& Speichern",IDC_CHECK_SAVE_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,177,52,16
 
     CONTROL         "Initiale Position*",IDC_CHECK_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,193,60,16
     RTEXT           "X:",IDC_STATIC,73,197,10,10
@@ -182,18 +182,18 @@ BEGIN
     RTEXT           "Y:",IDC_STATIC,124,197,10,8
     EDITTEXT        IDC_POS_Y,136,195,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_Y,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,178,11,14
-    CONTROL         "Schliessen&& Speichern",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,193,52,16
+    CONTROL         "Schließen&& Speichern",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,193,52,16
 
-    CONTROL         "Initiale Grösse*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,209,60,16
+    CONTROL         "Initiale Größe*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,209,60,16
     RTEXT           "W:",IDC_STATIC,73,213,10,8
     EDITTEXT        IDC_POS_W,85,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_W,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,107,196,11,14
     RTEXT           "H:",IDC_STATIC,124,213,10,8
     EDITTEXT        IDC_POS_H,136,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_H,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,196,11,14
-    CONTROL         "Schliessen&& Speichern",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
+    CONTROL         "Schließen&& Speichern",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
 
-    CONTROL         "&Snap to desktop edges",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,225,89,16
+    CONTROL         "&Am Bildschirmrand ausrichten",IDC_CHECK_SNAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,225,89,16
     RTEXT           "&Distanz:",IDC_STATIC,104,229,31,8
     EDITTEXT        IDC_SNAP,136,227,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SNAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,166,231,11,14
@@ -227,12 +227,12 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "&Überschrift",IDC_CHECK_STYLE_CAPTION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
-    CONTROL         "Vergrösserbar",IDC_CHECK_STYLE_RESIZABLE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,27,100,16
+    CONTROL         "Vergrößerbar",IDC_CHECK_STYLE_RESIZABLE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,27,100,16
     CONTROL         "Rahmen",IDC_CHECK_STYLE_BORDER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
     CONTROL         "Verstecken wenn inaktiv",IDC_CHECK_HIDE_WHEN_INACTIVE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,59,100,16
     CONTROL         "&Quake ähnlich",IDC_CHECK_STYLE_QUAKE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,75,100,16
 
-    CONTROL         "Tas&kbar knopf",IDC_CHECK_STYLE_TASKBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
+    CONTROL         "Tas&kbar Knopf",IDC_CHECK_STYLE_TASKBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
     CONTROL         "Ablage Symbol",IDC_CHECK_STYLE_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,27,100,16
     CONTROL         "&Sprungliste (Win7)",IDC_CHECK_USE_JUMPLIST,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,43,100,16
     CONTROL         "Integrierter IME",IDC_CHECK_INTEGRATED_IME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,59,100,16
@@ -249,7 +249,7 @@ BEGIN
     LTEXT           "Pixel",IDC_STATIC,125,120,105,8
     RTEXT           "Auswahl-Farbe:",IDC_STATIC,10,135,80,8
     CONTROL         "",IDC_SELECTION_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,91,132,16,14,WS_EX_DLGMODALFRAME
-    RTEXT           "Markier-Farbe:",IDC_STATIC,130,135,80,8
+    RTEXT           "Hervorhebungs-Farbe:",IDC_STATIC,130,135,80,8
     CONTROL         "",IDC_HIGHLIGHT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,211,132,16,14,WS_EX_DLGMODALFRAME
     GROUPBOX        "Stile",IDC_STATIC,0,0,235,153
 
@@ -261,9 +261,9 @@ BEGIN
     CONTROL         "Statusbalken anzeigen",IDC_CHECK_SHOW_STATUS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,226,100,16
 
     CONTROL         "Tabs anzeigen",IDC_CHECK_SHOW_TABS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,178,95,16
-    CONTROL         "Einzelner Tab verstecken",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,194,85,16
+    CONTROL         "Einzelnen Tab verstecken",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,194,85,16
     CONTROL         "Tabs unten",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,210,85,16
-    CONTROL         "Symbole verstecken*",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,226,85,16
+    CONTROL         "Symbole verstecken",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,226,85,16
 
     CONTROL         "Scrollbalken anzeigen",IDC_CHECK_SHOW_SCROLLBARS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,242,100,16
     GROUPBOX        "Steuerung",IDC_STATIC,0,155,235,110
@@ -301,7 +301,7 @@ BEGIN
     RTEXT           "Name:",IDC_STATIC,10,17,37,8
     EDITTEXT        IDC_FONT,50,14,93,14,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "...",IDC_BTN_BROWSE_FONT,145,14,16,14
-    RTEXT           "Grösse:",IDC_STATIC,163,17,30,8
+    RTEXT           "Größe:",IDC_STATIC,163,17,30,8
     EDITTEXT        IDC_FONT_SIZE,196,14,30,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_FONT_SIZE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,218,14,11,14
     CONTROL         "&Fett",IDC_CHECK_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,36,50,10
@@ -315,11 +315,11 @@ BEGIN
     COMBOBOX        IDC_COMBO_SMOOTHING,50,53,93,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Andere Farbe:",IDC_CHECK_USE_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,56,16
     CONTROL         "",IDC_FONT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,69,76,16,14,WS_EX_DLGMODALFRAME
-    CONTROL         "Intesivierte Farbe Fett anzeigen",IDC_CHECK_BOLD_INTENSIFIED,
+    CONTROL         "Intensive Farbe fett anzeigen",IDC_CHECK_BOLD_INTENSIFIED,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,95,240,16
-    CONTROL         "Intesivierte Farbe kursiv anzeigen ",IDC_CHECK_ITALIC_INTENSIFIED,
+    CONTROL         "Intensive Farbe kursiv anzeigen ",IDC_CHECK_ITALIC_INTENSIFIED,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,115,240,16
-    CONTROL         "Aktiviere typographische Ligator",IDC_CHECK_LIGATURE,
+    CONTROL         "Aktiviere typographische Ligatur",IDC_CHECK_LIGATURE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,135,240,16
 END
 
@@ -329,7 +329,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_LIST_TABS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,0,0,128,75
     PUSHBUTTON      "Hinzufügen",IDC_BTN_ADD,135,0,100,14
-    PUSHBUTTON      "Klonen",IDC_BTN_CLONE,135,15,100,14
+    PUSHBUTTON      "Duplizieren",IDC_BTN_CLONE,135,15,100,14
     PUSHBUTTON      "Löschen",IDC_BTN_DELETE,135,30,100,14
     PUSHBUTTON      "Nach oben",IDC_BTN_UP,135,45,100,14
     PUSHBUTTON      "Nach unten",IDC_BTN_DOWN,135,60,100,14
@@ -341,21 +341,21 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Auswahl kopieren",IDC_CHECK_COPY_ON_SELECT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
-    CONTROL         "Keinen Zeilenumbruch",IDC_CHECK_NO_WRAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
+    CONTROL         "Kein Zeilenumbruch bei langen Zeilen",IDC_CHECK_NO_WRAP,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
     LTEXT           "EOL:",IDC_STATIC_EOL_SPACES_1,140,31,18,8
     EDITTEXT        IDC_EOL_SPACES,158,28,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_EOL_SPACES,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,175,27,11,14
-    LTEXT           "Leerschlag",IDC_STATIC_EOL_SPACES_2,195,31,35,8
+    LTEXT           "Leerzeichen",IDC_STATIC_EOL_SPACES_2,195,31,35,8
 
     CONTROL         "Lösche Auswahl beim Kopieren",IDC_CHECK_CLEAR_ON_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,27,100,16
-    CONTROL         "Position-sensitiv kopieren",IDC_CHECK_SENSITIVE_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
-    CONTROL         "Anschliessende Leerschläge kürzen",IDC_CHECK_TRIM_SPACES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,43,100,16
+    CONTROL         "Positionsabhängig kopieren",IDC_CHECK_SENSITIVE_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
+    CONTROL         "Abschließende Leerzeichen kürzen",IDC_CHECK_TRIM_SPACES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,43,100,16
     CONTROL         "Rich Text Format",IDC_CHECK_RTF,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,59,100,16
     GROUPBOX        "Copy && Paste",IDC_STATIC,0,0,235,78
 
     CONTROL         "Windows (CR+LF)",IDC_RADIO_COPY_NEWLINE_CHAR,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,10,91,100,16
     CONTROL         "Unix (LF)",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,10,107,100,16
-    GROUPBOX        "Neuzeilen Charakter Kopieren",IDC_STATIC,0,80,115,48,WS_GROUP
+    GROUPBOX        "Zeilenumbruch Kopieren",IDC_STATIC,0,80,115,48,WS_GROUP
 
     RTEXT           "Links:",IDC_STATIC,130,95,30,8
     EDITTEXT        IDC_LEFT_DELIMITERS,161,92,29,14,ES_LEFT | ES_NOHIDESEL | ES_AUTOHSCROLL
@@ -363,14 +363,14 @@ BEGIN
     RTEXT           "Rechts:",IDC_STATIC,130,110,30,8
     EDITTEXT        IDC_RIGHT_DELIMITERS,161,107,29,14,ES_LEFT | ES_NOHIDESEL | ES_AUTOHSCROLL
     CONTROL         "Inkl.",IDC_CHECK_INC_RIGHT_DELIMITER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,193,107,40,16
-    GROUPBOX        "Wort Auswahl Terminierer",IDC_STATIC,120,80,115,48
+    GROUPBOX        "Wort Auswahl Begrenzer",IDC_STATIC,120,80,115,48
 
-    CONTROL         "Inactive Fenster blinken",IDC_CHECK_FLASH_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,141,100,16
+    CONTROL         "Inaktive Fenster blinken",IDC_CHECK_FLASH_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,141,100,16
     LTEXT           "Blinken",IDC_STATIC_FLASHES,55,160,55,8
     EDITTEXT        IDC_TAB_FLASHES,20,158,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_TAB_FLASHES,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,75,158,11,14
     CONTROL         "hervorgehoben lassen",IDC_CHECK_LEAVE_HIGHLIGHTED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,19,173,90,16
-    GROUPBOX        "Inaktiver tab blinkt",IDC_STATIC,0,130,115,63,WS_GROUP
+    GROUPBOX        "Inaktiver Tab blinkt",IDC_STATIC,0,130,115,63,WS_GROUP
 
     CONTROL         "Eine Seite Scrollen",IDC_PAGE_SCROLL,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,130,141,100,16
     CONTROL         "Scrollen",IDC_PAGE_SCROLL2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,130,157,40,16
@@ -379,9 +379,9 @@ BEGIN
     LTEXT           "Spalte",IDC_STATIC_ROWS,209,160,26,8
     GROUPBOX        "Seiten Scrollen",IDC_STATIC,120,130,115,63
 
-    CONTROL         "Erlaube schliessen/entkoppeln vom letzten Tab/sicht",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,206,220,16
-    CONTROL         "Schliessen mehrerer fenster/tabs bestätigen",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,222,220,16
-    GROUPBOX        "Schliessen/entkoppeln",IDC_STATIC,0,195,235,48,WS_GROUP
+    CONTROL         "Erlaube schließen/lösen des letzten Tabs/Sicht",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,206,220,16
+    CONTROL         "Schließen mehrerer Fenster/Tabs bestätigen",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,222,220,16
+    GROUPBOX        "Schließen/lösen",IDC_STATIC,0,195,235,48,WS_GROUP
 END
 
 IDD_SETTINGS_BEHAVIOR_2 DIALOGEX 0, 0, 235, 265
@@ -394,8 +394,8 @@ BEGIN
     CONTROL         "Erlaube mehrere Instanzen",IDC_CHECK_MULTI_INSTANCES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
     GROUPBOX        "Instanz(en)",IDC_STATIC,120,0,115,33,WS_GROUP
 
-    CONTROL         "Öffne Konsole im jetztigen Verzeichnis",IDC_CHECK_OPEN_CURRENT_DIR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,46,220,16
-    GROUPBOX        "Spalten/Klonen",IDC_STATIC,0,35,235,33
+    CONTROL         "Öffne Konsole im aktuellem Verzeichnis",IDC_CHECK_OPEN_CURRENT_DIR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,46,220,16
+    GROUPBOX        "Teilen/Duplizieren",IDC_STATIC,0,35,235,33
 
     CONTROL         "Identitätsanbieter nutzen",IDC_CHECK_USE_CREDPROV,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,220,16
     GROUPBOX        "Als Benutzer ausführen",IDC_STATIC,0,70,235,33
@@ -411,7 +411,7 @@ BEGIN
     RTEXT           "Symbol:",IDC_STATIC,8,34,45,8
     EDITTEXT        IDC_TAB_ICON,55,31,90,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON,147,31,15,14
-    CONTROL         "Standard nutzen",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,167,31,48,16
+    CONTROL         "Use shell icon",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,167,31,48,16
     GROUPBOX        "Titel && Symbol",IDC_STATIC,0,3,221,50,0,WS_EX_TRANSPARENT
 
     RTEXT           "Konsole:",IDC_STATIC,8,71,45,8
@@ -424,7 +424,7 @@ BEGIN
     COMBOBOX        IDC_COMBO_BASE_PRIORITY,55,99,63,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     RTEXT           "Ausführen als",IDC_STATIC,8,116,45,8
-    CONTROL         "Jetztiger Benutzer",IDC_CHECK_RUN_AS_CURRENT_USER,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,55,113,160,16
+    CONTROL         "Aktueller Benutzer",IDC_CHECK_RUN_AS_CURRENT_USER,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,55,113,160,16
     CONTROL         "&Administrator",IDC_CHECK_RUN_AS_ADMIN,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,55,129,160,16
     CONTROL         "&Benutzer:",IDC_CHECK_RUN_AS_USER,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,55,145,48,16
     EDITTEXT        IDC_TAB_USER,105,145,70,14,ES_AUTOHSCROLL
@@ -440,7 +440,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Solide",IDC_RADIO_BK_TYPE,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,5,3,215,16
     CONTROL         "Bild",IDC_RADIO_BK_TYPE2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,35,105,16
-    CONTROL         "Wallpaper",IDC_RADIO_BK_TYPE3,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,99,215,16
+    CONTROL         "Hintergrundbild",IDC_RADIO_BK_TYPE3,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,99,215,16
     CONTROL         "Bing", IDC_RADIO_BK_TYPE4, "Button", BS_AUTORADIOBUTTON | BS_MULTILINE, 115, 35, 105, 16
     RTEXT           "Farbe:",IDC_STATIC_BK_COLOR,17,23,41,8
     CONTROL         "",IDC_BK_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,60,20,16,14,WS_EX_DLGMODALFRAME
@@ -458,7 +458,7 @@ BEGIN
     LTEXT           "255",IDC_TINT_OPACITY_VAL,207,133,14,8,0,WS_EX_RIGHT
 
     CONTROL         "Erben",IDC_BTN_INHERIT_BACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,152,37,10
-    PUSHBUTTON      "Als standard setzen",IDC_BTN_SET_AS_DEFAULT_BACKGROUND,45,150,70,14
+    PUSHBUTTON      "Als Standard setzen",IDC_BTN_SET_AS_DEFAULT_BACKGROUND,45,150,70,14
 END
 
 IDD_SETTINGS_MOUSE DIALOGEX 0, 0, 235, 265
@@ -482,8 +482,8 @@ IDD_SETTINGS_FULLSCREEN DIALOGEX 0, 0, 235, 265
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Fullscreen starten",IDC_CHECK_START_IN_FULLSCREEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,15,206,10
-    LTEXT           "Full screen Monitore:",IDC_STATIC,10,30,206,10
+    CONTROL         "Vollbild starten",IDC_CHECK_START_IN_FULLSCREEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,15,206,10
+    LTEXT           "Vollbild Monitore:",IDC_STATIC,10,30,206,10
     COMBOBOX        IDC_COMBO_FULLSCREEN_MONITOR,10,40,216,10,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -530,9 +530,9 @@ BEGIN
     LTEXT           "255",IDC_BGTEXT_OPACITY_VAL,195,78,14,8,0,WS_EX_RIGHT
 #endif
     PUSHBUTTON      "Import",IDC_BTN_IMPORT_COLORS,127,96,40,14
-    PUSHBUTTON      "Re&set",IDC_BTN_RESET_COLORS,172,96,40,14
+    PUSHBUTTON      "Zurück&setzen",IDC_BTN_RESET_COLORS,172,96,40,14
     CONTROL         "Erben",IDC_BTN_INHERIT_COLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,98,37,10
-    PUSHBUTTON      "Als standard setzen",IDC_BTN_SET_AS_DEFAULT_COLORS,50,96,70,14
+    PUSHBUTTON      "Als Standard setzen",IDC_BTN_SET_AS_DEFAULT_COLORS,50,96,70,14
     GROUPBOX        "Farbpalette",IDC_STATIC,0,3,221,111,0,WS_EX_TRANSPARENT
 
     RTEXT           "Stil:",IDC_STATIC,10,130,30,8
@@ -541,7 +541,7 @@ BEGIN
     CONTROL         "",IDC_CURSOR_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,165,127,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "",IDC_CURSOR_ANIM,"Static",SS_BLACKRECT | SS_REALSIZEIMAGE | SS_SUNKEN,187,125,30,18
     CONTROL         "Erben",IDC_BTN_INHERIT_CURSOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,147,37,10
-    PUSHBUTTON      "Als standard setzen",IDC_BTN_SET_AS_DEFAULT_CURSOR,50,145,70,14
+    PUSHBUTTON      "Als Standard setzen",IDC_BTN_SET_AS_DEFAULT_CURSOR,50,145,70,14
     GROUPBOX        "Mauszeiger",IDC_STATIC,0,116,221,47,0,WS_EX_TRANSPARENT
 END
 
@@ -553,7 +553,7 @@ BEGIN
     CONTROL         "",IDC_LIST_ENV,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,0,3,221,105,WS_EX_CLIENTEDGE
 
     PUSHBUTTON      "Löschen",IDC_BTN_ENV_DELETE,57,112,48,14
-    PUSHBUTTON      "Editieren",IDC_BTN_ENV_EDIT,110,112,48,14
+    PUSHBUTTON      "Bearbeiten",IDC_BTN_ENV_EDIT,110,112,48,14
 
     RTEXT           "Variable:",IDC_STATIC,3,135,40,8
     EDITTEXT        IDC_ENV_VARIABLE,45,132,130,14,ES_AUTOHSCROLL | ES_UPPERCASE
@@ -670,19 +670,19 @@ BEGIN
     POPUP "Datei"
     BEGIN
         MENUITEM "&Neuer Tab",                    ID_FILE_NEW_TAB
-        MENUITEM "&Tab schliessen",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Alle Tabs ausser diesem schliessen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Alle Tabs nach links schliessen",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "All Tabs nach rechts schliessen", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "&Tab schließen",                  ID_FILE_CLOSE_TAB
+        MENUITEM "Alle Tabs außer diesem schließen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
+        MENUITEM "Alle Tabs links schließen",  ID_FILE_CLOSE_ALL_TABS_LEFT
+        MENUITEM "Alle Tabs rechts schließen", ID_FILE_CLOSE_ALL_TABS_RIGHT
         MENUITEM SEPARATOR
-        MENUITEM "&Ansicht schliessen",                 ID_CLOSE_VIEW
+        MENUITEM "&Ansicht schließen",                 ID_CLOSE_VIEW
         MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Konsole anhängen",             ID_ATTACH_CONSOLES
+        MENUITEM "Konsolen anhängen",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
-        MENUITEM "Schliessen",                       ID_APP_EXIT
+        MENUITEM "Schließen",                       ID_APP_EXIT
     END
-    POPUP "Editieren"
+    POPUP "Bearbeiten"
     BEGIN
         MENUITEM "&Kopieren",                       ID_EDIT_COPY
         MENUITEM "Alles auswählen",                 ID_EDIT_SELECT_ALL
@@ -692,22 +692,22 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
-        MENUITEM "Scroll-stop",             ID_EDIT_STOP_SCROLLING
-        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM "Scrollen anhalten",             ID_EDIT_STOP_SCROLLING
+        MENUITEM "Scrollen fortsetzen",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
         MENUITEM "Horizontal splitten",         ID_SPLIT_HORIZ
         MENUITEM "Vertikal splitten",           ID_SPLIT_VERT
-        MENUITEM "Anzeige auswächseln",                  ID_SPLIT_SWAP
-        MENUITEM "In neuem Tab klonen",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Anzeige auswechseln",                  ID_SPLIT_SWAP
+        MENUITEM "In neuen Tab duplizieren",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "Einstellungen...",                ID_EDIT_SETTINGS
     END
     POPUP "Ansicht"
     BEGIN
         MENUITEM "Konsolen Fenster",             ID_VIEW_CONSOLE
-        MENUITEM "Font Information...",         ID_FONT_INFO
+        MENUITEM "Schriftart-Information...",         ID_FONT_INFO
         MENUITEM SEPARATOR
         MENUITEM "&Menü",                       ID_VIEW_MENU
         MENUITEM "Werkzeugleiste",                    ID_VIEW_TOOLBAR
@@ -715,9 +715,9 @@ BEGIN
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
         MENUITEM "Tabs",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
-        MENUITEM "&Full Screen",                ID_VIEW_FULLSCREEN
-        MENUITEM "Transparaent An/Aus",  ID_SWITCH_TRANSPARENCY
-        MENUITEM "Always On Top",               ID_VIEW_ALWAYS_ON_TOP
+        MENUITEM "&Vollbild",                ID_VIEW_FULLSCREEN
+        MENUITEM "Transparenz An/Aus",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "Immer oben",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Hilfe"
     BEGIN
@@ -733,25 +733,25 @@ BEGIN
 
     POPUP "Tab"
     BEGIN
-        MENUITEM "&Tab schliessen",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Alle Tabs ausser diesem schliessen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Alle Tabs nach links schliessen",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "All Tabs nach rechts schliessen", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "&Tab schließen",                  ID_FILE_CLOSE_TAB
+        MENUITEM "Alle Tabs außer diesem schließen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
+        MENUITEM "Alle Tabs links schließen",  ID_FILE_CLOSE_ALL_TABS_LEFT
+        MENUITEM "Alle Tabs rechts schließen", ID_FILE_CLOSE_ALL_TABS_RIGHT
         MENUITEM SEPARATOR
-        MENUITEM "&Ansicht schliessen",                 ID_CLOSE_VIEW
+        MENUITEM "&Ansicht schließen",                 ID_CLOSE_VIEW
         MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
-        MENUITEM "Scroll-stop",             ID_EDIT_STOP_SCROLLING
-        MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM "Scrollen anhalten",             ID_EDIT_STOP_SCROLLING
+        MENUITEM "Scrollen fortsetzen",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
         MENUITEM "Horizontal splitten",         ID_SPLIT_HORIZ
         MENUITEM "Vertikal splitten",           ID_SPLIT_VERT
-        MENUITEM "Anzeige auswächseln",                  ID_SPLIT_SWAP
-        MENUITEM "In neuem Tab klonen",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Anzeige auswechseln",                  ID_SPLIT_SWAP
+        MENUITEM "In neuen Tab duplizieren",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "Konsolen Fenster",             ID_VIEW_CONSOLE
     END
@@ -818,14 +818,14 @@ BEGIN
     ID_SEARCH_PREV             "\nFinde vorheriges"
     ID_SEARCH_NEXT             "\nFinde nächstes"
     ID_SEARCH_MATCH_CASE       "\nCase-Sensitiv"
-    ID_SEARCH_MATCH_WHOLE_WORD "\nGanzen Wort"
+    ID_SEARCH_MATCH_WHOLE_WORD "\nGanzes Wort"
 END
 
 STRINGTABLE
 BEGIN
-    ID_APP_ABOUT            "Program Informationen anzeigen, versions Nummer und Copyright\nÜber"
-    ID_APP_EXIT             "Anwendung schliessen; fordert zum speichern auf \nSchliessen"
-    ID_HELP                 "Hilfe Datei öffenen\nHilfe"
+    ID_APP_ABOUT            "Programm Informationen anzeigen, Versionsnummer und Copyright\nÜber"
+    ID_APP_EXIT             "Anwendung schließen; fordert zum Speichern auf \nSchließen"
+    ID_HELP                 "Hilfe Datei öffnen\nHilfe"
     ID_DIAGNOSE             "Diagnose Bericht erstellen\nDiagnose"
 END
 
@@ -834,15 +834,15 @@ BEGIN
     ID_EDIT_CLEAR           "Fenster leeren\nleeren"
     ID_EDIT_CLEAR_ALL       "Alles löschen\nAlles löschen"
     ID_EDIT_COPY            "Auswahl in die Zwischenablage kopieren"
-    ID_EDIT_CUT             "Auswahl ausschneiden und auf Clipboard legen\nausschneiden"
+    ID_EDIT_CUT             "Auswahl ausschneiden und in Zwischenablage legen\nausschneiden"
     ID_EDIT_FIND            "Finde angegebenen Text\nFinde"
-    ID_EDIT_PASTE           "Ins Clipboard schreiben\nEinfügen"
+    ID_EDIT_PASTE           "In Zwischenablage schreiben\nEinfügen"
     ID_PASTE_SELECTION      "Ausgewählter Text einfügen\nAuswahl einfügen"
     ID_EDIT_INSERT_SNIPPET  "Insert Snippet\nInsert Snippet"
-    ID_EDIT_STOP_SCROLLING  "Skrollen stoppen\nSkrollen stoppen"
-    ID_EDIT_RESUME_SCROLLING "Resume Scrolling\nResume Scrolling"
-    ID_EDIT_SELECT_ALL      "Ganzen Dokument auswählen\nAlles auswählen"
-    ID_EDIT_RENAME_TAB      "Aktiver Tab umbenennen\nTab umbenennen"
+    ID_EDIT_STOP_SCROLLING  "Scrollen anhalten\nScrollen anhalten"
+    ID_EDIT_RESUME_SCROLLING "Scrolling fortsetzen\nScrolling fortsetzen"
+    ID_EDIT_SELECT_ALL      "Ganzes Dokument auswählen\nAlles auswählen"
+    ID_EDIT_RENAME_TAB      "Aktiven Tab umbenennen\nTab umbenennen"
     ID_EDIT_SETTINGS        "Öffne Einstellungen\nEinstellungen..."
 END
 
@@ -850,11 +850,11 @@ STRINGTABLE
 BEGIN
     ID_FILE_NEW_TAB         "Neuen Tab öffen\nNeuer Tab"
     ID_VIEW_CONSOLE         "Konsole anzeigen oder verstecken"
-    ID_FILE_CLOSE_TAB       "Jetztigen Tab schliessen\nTab schliessen"
-    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Alle Tabs ausser diesem schliessen"
-    ID_FILE_CLOSE_ALL_TABS_LEFT     "Alle Tabs nach links schliessen"
-    ID_FILE_CLOSE_ALL_TABS_RIGHT    "Alle Tabs nach rechts schliessen"
-    ID_FONT_INFO            "Font information von versteckter Konsole anzeigen"
+    ID_FILE_CLOSE_TAB       "Aktuellen Tab schließen\nTab schließen"
+    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Alle Tabs außer diesem schließen"
+    ID_FILE_CLOSE_ALL_TABS_LEFT     "Alle Tabs links schließen"
+    ID_FILE_CLOSE_ALL_TABS_RIGHT    "Alle Tabs rechts schließen"
+    ID_FONT_INFO            "Schriftart-Information der versteckten Konsole anzeigen"
     ID_VIEW_MENU            "Menü anzeigen oder verstecken"
     ID_VIEW_TABS            "Tabs anzeigen oder verstecken"
     ID_VIEW_TOOLBAR         "Werkzeugleiste anzeigen oder verstecken" ----
@@ -866,22 +866,22 @@ END
 STRINGTABLE
 BEGIN
     ID_NEXT_TAB             "Zum nächsten Tab wechseln\nNächster Tab"
-    ID_PREV_TAB             "Zum vorherigen Tab wechseln\nPrevious tab"
-    ID_NEXT_VIEW            "Zur nächsten Ansicht wechseln\nNechste Ansicht"
+    ID_PREV_TAB             "Zum vorherigen Tab wechseln\nVorheriger Tab"
+    ID_NEXT_VIEW            "Zur nächsten Ansicht wechseln\nNächste Ansicht"
     ID_PREV_VIEW            "Zur vorherigen Ansicht wechseln\nVorherige Ansicht"
-    ID_CLOSE_VIEW           "Jetztige Ansicht schlissen\nAnsicht schliessen"
+    ID_CLOSE_VIEW           "Aktuelle Ansicht schließen\nAnsicht schließen"
     ID_DETACH_VIEW          "Aktuelle Ansicht abhängen\nAnsicht abhängen"
     ID_ATTACH_CONSOLES      "Konsole anhängen\nKonsolen anhängen"
-    ID_SPLIT_HORIZ          "Aktuelle Ansicht horizontal spalten\nHorizontal spalten"
-    ID_SPLIT_VERT           "Aktuelle Ansicht vertikal spalten\nVertikal spalten"
+    ID_SPLIT_HORIZ          "Aktuelle Ansicht horizontal teilen\nHorizontal teilen"
+    ID_SPLIT_VERT           "Aktuelle Ansicht vertikal teilen\nVertikal teilen"
     ID_SPLIT_SWAP           "Mit vorheriger Ansicht mit Fokus austauschen\nAnsicht austauschen"
 
     ID_CLONE_IN_NEW_TAB     "Ansicht in neuem Tab klonen\nIn neuem Tab klonen"
-    ID_VIEW_FULLSCREEN      "Full screen ein-/ausschalten\nFull Screen"
-    ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
-    ID_GROUP_ALL            "All Konsolen so grupieren, dass Eingaben auf jedem Tab auf allen anderen ausgeführt wird.\nTab Gruppe"
+    ID_VIEW_FULLSCREEN      "Vollbild ein-/ausschalten\nVollbild"
+    ID_VIEW_ALWAYS_ON_TOP   "Fenster immer oben ein-/ausschalten\nImmer oben"
+    ID_GROUP_ALL            "Alle Konsolen gruppieren, so dass Eingaben auf einem Tab auf allen anderen ausgeführt werden.\nTab Gruppe"
     ID_UNGROUP_ALL          "Alle Gruppierungen aufheben\nGruppierungen aufheben"
-    ID_GROUP_TAB            "All Konsolen so grupieren, dass Eingaben in diesem Tab an allen ausgeführt wird.\nTab Gruppe"
+    ID_GROUP_TAB            "Alle Konsolen im aktuellen Tab gruppieren, so dass Eingaben in diesem Tab an allen ausgeführt werden.\nTab Gruppe"
     ID_UNGROUP_TAB          "Gruppierung von aktuellen Tab aufheben\nGruppierungen aufheben"
 END
 
@@ -890,10 +890,10 @@ BEGIN
     IDOK                    "OK"
     IDCANCEL                "Abbrechen"
     IDS_SNIPPET_AUTHOR      "Author"
-    IDS_SNIPPET_DESCRIPTION "Description"
+    IDS_SNIPPET_DESCRIPTION "Beschreibung"
     IDS_SNIPPET_CODE        "Code"
     IDS_SNIPPET_VERSION     "Version"
-    IDC_SNIPPET_INFORMATION "Show snippet information"
+    IDC_SNIPPET_INFORMATION "Zeige Snippets Information"
     IDC_SNIPPET_EDIT        "Edit"
 END
 
@@ -923,9 +923,9 @@ BEGIN
     IDS_ERR_DLL_HOOK_MISSING "DLL hook %1% fehlt!"
     IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "Shared object erstellen schlug fehl (Grund: %1%)!"
     IDS_ERR_CANT_START_SHELL_AS_ADMIN "Starten von %1% %2% as Administrator schlug fehl (Grund: %3%)!"
-    IDS_ERR_CANT_GET_ELEVATION_TYPE "Erhöhte Rechte schluf fehl (Grund: %1%)!"
-    IDS_ERR_TAB_CREATE_FAILED "Tab %1% Öffnen fehlgeschlagen!\nProzess %2% läuft vielleicht noch (Den Prozess mit dem Task Manager finden und schliessen)"
-    IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% dies ist keine Win32 konsolen Applikation"
+    IDS_ERR_CANT_GET_ELEVATION_TYPE "Erhöhte Rechte schlug fehl (Grund: %1%)!"
+    IDS_ERR_TAB_CREATE_FAILED "Tab %1% Öffnen fehlgeschlagen!\nProzess %2% läuft vielleicht noch (Den Prozess mit dem Task Manager finden und schließen)"
+    IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% dies ist keine Win32 Konsolen Applikation"
     IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
     IDS_ERR_XML_PARSING "XML parsing error (%1$#x) in file %2% on line %3% at column %4%: %5%"
 END
@@ -933,13 +933,13 @@ END
 STRINGTABLE
 BEGIN
     MSG_SETTINGS_INVALID_BUFFER_ROWS
-                            "Ungültig Anazahl an Puffer Zeilen! Muss zwischen %1% und %2%. sein."
+                            "Ungültig Anazahl an Puffer Zeilen! Muss zwischen %1% und %2%. liegen."
     MSG_SETTINGS_INVALID_BUFFER_COLUMNS
-                            "Ungültige Anzahl an Puffer Spalten! Muss zwischen %1% und %2% sein."
+                            "Ungültige Anzahl an Puffer Spalten! Muss zwischen %1% und %2% liegen."
     MSG_SETTINGS_INVALID_ROWS
-                            "Ungülte Zeilen-Anzahl! Muss zwischen %1% und %2% sein."
+                            "Ungülite Zeilen-Anzahl! Muss zwischen %1% und %2% liegen."
     MSG_SETTINGS_INVALID_COLUMNS
-                            "Ungültige Spalten-Anzahl! Muss zwischen %1% und %2% sein."
+                            "Ungültige Spalten-Anzahl! Muss zwischen %1% und %2% liegen."
     MSG_SETTINGS_HOTKEY_ALREADY_ASSIGNED
                             "Hotkey is bereits and '%1%' zugewiesen!"
     MSG_SETTINGS_HOTKEY_NONE
@@ -949,7 +949,7 @@ BEGIN
     MSG_SETTINGS_DELETE_TAB
                             "Ausgewählte Tab löschen?"
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR
-                            "Konfiguration konnte nicht gespeichert werden. Stellen Sie sicher Sie haben Berechtigung für %1% haben."
+                            "Konfiguration konnte nicht gespeichert werden. Stellen Sie sicher, dass sie die Berechtigung für %1% haben."
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR_EXEDIR
                             "Es ist empfohlen Einstellungen im Benutzerverzeichnis abzulegen."
     MSG_SETTINGS_INIT_DIR
@@ -966,13 +966,13 @@ BEGIN
                             "Konfig Dateien (*.xml)|*.xml|Alle Dateien (*.*)|*.*||"
 
     MSG_MAINFRAME_CLOSE_ALL_TABS
-                            "Wirklich alle Tabs schliessen?"
+                            "Wirklich alle Tabs schließen?"
     MSG_MAINFRAME_CLOSE_ALL_VIEWS
-                            "Wirklich alle Ansichten schliessen?"
+                            "Wirklich alle Ansichten schließen?"
     MSG_MAINFRAME_SEARCH
                             "Suche..."
     MSG_MAINFRAME_EXIT_FULLSCREEN
-                            "Full Screen schliessen"
+                            "Vollbild beenden"
     MSG_MAINFRAME_SYNTAX_ERROR
                             "Syntax error bei Position %1%"
 
@@ -983,10 +983,10 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_EDIT_SETTINGS        "Einstellungs Fenster"
+    IDS_EDIT_SETTINGS        "Einstellungen Fenster"
     IDS_HELP                 "Hilfe"
 
-    IDS_APP_EXIT             "ConsoleZ schliessen"
+    IDS_APP_EXIT             "ConsoleZ schließen"
 
     IDS_NEW_TAB_1            "Neuer Tab 1"
     IDS_NEW_TAB_2            "Neuer Tab 2"
@@ -1013,34 +1013,34 @@ BEGIN
     IDS_SWITCH_TAB_10        "Zu Tab 10 wechseln"
 
     IDS_NEXT_TAB             "Zum nächsten Tab wechseln"
-    IDS_PREV_TAB             "Zur vorhärigen Ansicht wechseln"
-    IDS_MOVE_TAB_LEFT        "Bewege Tab Fokus nach links"
-    IDS_MOVE_TAB_RIGHT       "Bewege Tab Fokus nach rechts"
+    IDS_PREV_TAB             "Zum vorherigen Tab wechseln"
+    IDS_MOVE_TAB_LEFT        "Bewege Tab im Fokus nach links"
+    IDS_MOVE_TAB_RIGHT       "Bewege Tab im Fokus nach rechts"
 
-    IDS_FILE_CLOSE_TAB       "Tab schliessen"
+    IDS_FILE_CLOSE_TAB       "Tab schließen"
     IDS_EDIT_RENAME_TAB      "Tab umbenennen"
 
     IDS_NEXT_VIEW            "Zur nächsten Ansicht wechseln"
     IDS_PREV_VIEW            "Zur vorherigen Ansicht wechseln"
     IDS_LEFT_VIEW            "Zur linken Ansicht wechseln"
     IDS_RIGHT_VIEW           "Zur rechten Ansicht wechseln"
-    IDS_TOP_VIEW             "Oberste Anischt wechseln"
+    IDS_TOP_VIEW             "Zur obersten Ansicht wechseln"
     IDS_BOTTOM_VIEW          "Zur unteren Ansicht wechseln"
 
     IDS_DEC_HORIZ_SIZE       "Horizontale Ansicht reduzieren"
-    IDS_INC_HORIZ_SIZE       "Horizontale Ansicht vergrössern"
+    IDS_INC_HORIZ_SIZE       "Horizontale Ansicht vergrößern"
     IDS_DEC_VERT_SIZE        "Vertikale Ansicht reduzieren"
-    IDS_INC_VERT_SIZE        "Vertikale Ansicht vergrössern"
+    IDS_INC_VERT_SIZE        "Vertikale Ansicht vergrößern"
 
-    IDS_CLOSE_VIEW           "Ansicht schliessen"
+    IDS_CLOSE_VIEW           "Ansicht schließen"
     IDS_DETACH_VIEW          "Ansicht abhängen"
     IDS_ATTACH_CONSOLES      "Konsole anhängen"
-    IDS_SPLIT_HORIZ          "Horizontal spalten"
-    IDS_SPLIT_VERT           "Vertikal spalten"
+    IDS_SPLIT_HORIZ          "Horizontal teilen"
+    IDS_SPLIT_VERT           "Vertikal teilen"
     IDS_SPLIT_SWAP           "Mit vorheriger Fokus-Ansicht austauschen"
     IDS_CLONE_IN_NEW_TAB     "Ansicht in neuem Tab klonen"
-    IDS_VIEW_FULLSCREEN      "Full Screen"
-    IDS_VIEW_ALWAYS_ON_TOP   "Always on top"
+    IDS_VIEW_FULLSCREEN      "Vollbild"
+    IDS_VIEW_ALWAYS_ON_TOP   "Immer oben"
     IDS_VIEW_ZOOM_100        "Zoom 100%"
     IDS_VIEW_ZOOM_INC        "Zoom Inkrement"
     IDS_VIEW_ZOOM_DEC        "Zoom Dekrement"
@@ -1055,17 +1055,17 @@ BEGIN
     IDS_EDIT_CLEAR_SELECTION "Auswahl leeren"
     IDS_EDIT_PASTE           "Einfügen"
     IDS_PASTE_SELECTION      "Auswahl einfügen"
-    IDS_EDIT_STOP_SCROLLING  "Skrollen stoppen"
-    IDS_EDIT_RESUME_SCROLLING "Resume scrolling"
+    IDS_EDIT_STOP_SCROLLING  "Scrollen anhalten"
+    IDS_EDIT_RESUME_SCROLLING "Scrolling fortsetzen"
 
-    IDS_SCROLL_UP            "Scroll Puffer Reihe nach-oben"
-    IDS_SCROLL_DOWN          "Scroll Puffer Reihe nach-unten"
-    IDS_SCROLL_PAGE_UP       "Scroll Puffer Seite nach-oben"
-    IDS_SCROLL_PAGE_DOWN     "Scroll Puffer Seite nach-unten"
-    IDS_SCROLL_LEFT          "Scroll Puffer Spalte linkt"
-IDS_SCROLL_RIGHT         "Scroll Puffer Spalte rechts"
-IDS_SCROLL_PAGE_LEFT     "Scroll Puffer Seite nach-links"
-IDS_SCROLL_PAGE_RIGHT    "Scroll Puffer Seite nach-rechts"
+    IDS_SCROLL_UP            "Scroll Puffer Zeile-Oben"
+    IDS_SCROLL_DOWN          "Scroll Puffer Zeile-Unten"
+    IDS_SCROLL_PAGE_UP       "Scroll Puffer Seite-Oben"
+    IDS_SCROLL_PAGE_DOWN     "Scroll Puffer Seite-Unten"
+    IDS_SCROLL_LEFT          "Scroll Puffer Spalte-Links"
+IDS_SCROLL_RIGHT         "Scroll Puffer Spalte-Rechts"
+IDS_SCROLL_PAGE_LEFT     "Scroll Puffer Seite-Links"
+IDS_SCROLL_PAGE_RIGHT    "Scroll Puffer Seite-Rechts"
 
 IDS_FIND                 "Finde Text"
 IDS_SEARCH_NEXT          "Finde nächstes"
@@ -1095,22 +1095,22 @@ IDS_EXTERNAL_COMMAND_10  "Externer Befehl 10"
 
 IDS_GLOBAL_ACTIVATE      "ConsoleZ aktivieren (global)"
 
-ID_TEXT_SELECTION_LEFT_KEY        "Text Auswahl nach-links Taste"
-ID_TEXT_SELECTION_RIGHT_KEY       "Text Auswahl nacht-rechts Taste"
-ID_TEXT_SELECTION_TOP_KEY         "Text Auswahl nach-oben Taste"
-ID_TEXT_SELECTION_BOTTOM_KEY      "Text Auswahl nach-unten Taste"
-ID_TEXT_SELECTION_HOME_KEY        "Text Auswahl home Taste"
-ID_TEXT_SELECTION_END_KEY         "Text Auswahl end Taste"
-ID_TEXT_SELECTION_PAGEUP_KEY      "Text Auswahl Seite nach-oben"
-ID_TEXT_SELECTION_PAGEDOWN_KEY    "Text Auswahl Seite nach-unten"
-ID_COLUMN_SELECTION_LEFT_KEY      "Spalten Auswahl, nach-links Taste"
-ID_COLUMN_SELECTION_RIGHT_KEY     "Spalten Auswahl, nach-rechts Taste"
-ID_COLUMN_SELECTION_TOP_KEY       "Spalten Auswahl, nach-oben Taste"
-ID_COLUMN_SELECTION_BOTTOM_KEY    "Spalten Auswahl, nach-unten Taste"
-ID_COLUMN_SELECTION_HOME_KEY      "Spalten Auswahl, home Taste"
-ID_COLUMN_SELECTION_END_KEY       "Spalten Auswahl, end Taste"
-ID_COLUMN_SELECTION_PAGEUP_KEY    "Spalten Auswahl, page up Taste"
-ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Spalten Auswahl, page down Taste"
+ID_TEXT_SELECTION_LEFT_KEY        "Text Auswahl Links-Taste"
+ID_TEXT_SELECTION_RIGHT_KEY       "Text Auswahl Rechts-Taste"
+ID_TEXT_SELECTION_TOP_KEY         "Text Auswahl Oben-Taste"
+ID_TEXT_SELECTION_BOTTOM_KEY      "Text Auswahl Unten-Taste"
+ID_TEXT_SELECTION_HOME_KEY        "Text Auswahl Home-Taste"
+ID_TEXT_SELECTION_END_KEY         "Text Auswahl Ende-Taste"
+ID_TEXT_SELECTION_PAGEUP_KEY      "Text Auswahl Seite-Oben-Taste"
+ID_TEXT_SELECTION_PAGEDOWN_KEY    "Text Auswahl Seite-Unten-Taste"
+ID_COLUMN_SELECTION_LEFT_KEY      "Spalten Auswahl, Links Taste"
+ID_COLUMN_SELECTION_RIGHT_KEY     "Spalten Auswahl, Rechts Taste"
+ID_COLUMN_SELECTION_TOP_KEY       "Spalten Auswahl, Oben Taste"
+ID_COLUMN_SELECTION_BOTTOM_KEY    "Spalten Auswahl, Unten Taste"
+ID_COLUMN_SELECTION_HOME_KEY      "Spalten Auswahl, Home Taste"
+ID_COLUMN_SELECTION_END_KEY       "Spalten Auswahl, Ende Taste"
+ID_COLUMN_SELECTION_PAGEUP_KEY    "Spalten Auswahl, Seite-Oben Taste"
+ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Spalten Auswahl, Seite-Unten Taste"
 END
 
 STRINGTABLE
@@ -1121,9 +1121,9 @@ IDS_MOUSE_COLUMNSELECT   "Spalte auswählen"
 IDS_MOUSE_PASTE          "Text einfügen"
 IDS_MOUSE_DRAG           "Fenster verschieben"
 IDS_MOUSE_LINK           "Link anklicken"
-IDS_MOUSE_MENU1          "Kontext menu #1"
-IDS_MOUSE_MENU2          "Kontext menu #2"
-IDS_MOUSE_MENU3          "Kontext menu #3"
+IDS_MOUSE_MENU1          "Kontext Menu #1"
+IDS_MOUSE_MENU2          "Kontext Menu #2"
+IDS_MOUSE_MENU3          "Kontext Menu #3"
 IDS_MOUSE_SNIPPETS       "Snippets Kontext Menü"
 END
 
@@ -1133,8 +1133,8 @@ IDS_SETTINGS_CONSOLE       "Konsole"
 IDS_SETTINGS_APPEARANCE    "Aussehen"
 IDS_SETTINGS_STYLES        "Stile"
 IDS_SETTINGS_TRANSPARENCY  "Transparenz"
-IDS_SETTINGS_FONT          "Font"
-IDS_SETTINGS_FULLSCREEN    "Full screen"
+IDS_SETTINGS_FONT          "Schriftart"
+IDS_SETTINGS_FULLSCREEN    "Vollbild"
 IDS_SETTINGS_BEHAVIOR      "Verhalten"
 IDS_SETTINGS_MORE          "Mehr..."
 IDS_SETTINGS_HOTKEYS       "Hotkeys"
@@ -1157,7 +1157,7 @@ STRINGTABLE
 BEGIN
 IDC_COMBO_CURSOR             "XTerm;Block;Nicht-blink. Block;Puls;Barren;Horizontale Linie;Spez. Horizontale Linie;Spez. Verticale Linie;Blinkendes Rechteck;Rechteck;Pulsierendes Rechteck;Schwindender Block;Konsole;XTerm2;Horizontaler Barren;"
 IDC_COMBO_DOCKING            "Leer;Oben Links;Oben rechts;Unten links;Unten rechts;Oben Mitte,Unten Mitte;Links Mitte;Rechts Mitte;"
-IDC_COMBO_ZORDER             "Regulär;Immer oben;Immer unten;am desktop befestigt;"
+IDC_COMBO_ZORDER             "Regulär;Immer oben;Immer unten;Am Desktop befestigt;"
 IDC_COMBO_SMOOTHING          "Default;None;ClearType;Natural ClearType;Antialiased"
 IDC_COMBO_BUTTONS            "Leer;Links;Rechts;Mitte;Viertes;Fünftes;"
 IDC_COMBO_BK_POS             "Zentrieren;Strecken,Titel,Passend,Füllen"
