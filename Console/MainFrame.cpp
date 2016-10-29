@@ -1388,7 +1388,8 @@ LRESULT MainFrame::OnReloadDesktopImages(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 
 
 	// can't use Invalidate because full repaint is in order
-	m_activeTabView->Repaint(true);
+	if (m_activeTabView)
+		m_activeTabView->Repaint(true);
 
   return 0;
 }
@@ -1905,13 +1906,16 @@ void MainFrame::SetProgress(unsigned long long ullProgressCompleted, unsigned lo
 		{
 			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
 
-			RECT rect;
-			//m_activeTabView->GetWindowRect(&rect);
-			m_activeTabView->GetClientRect(&rect);
-			m_activeTabView->MapWindowPoints(this->m_hWnd, reinterpret_cast<LPPOINT>(&rect), 2);
-			HRESULT hr;
-			hr = m_pTaskbarList->SetThumbnailClip(m_hWnd, &rect);
-			TRACE(L"SetThumbnailClip returns %d\n", hr);
+			if( m_activeTabView )
+			{
+				RECT rect;
+				//m_activeTabView->GetWindowRect(&rect);
+				m_activeTabView->GetClientRect(&rect);
+				m_activeTabView->MapWindowPoints(this->m_hWnd, reinterpret_cast<LPPOINT>(&rect), 2);
+				HRESULT hr;
+				hr = m_pTaskbarList->SetThumbnailClip(m_hWnd, &rect);
+				TRACE(L"SetThumbnailClip returns %d\n", hr);
+			}
 		}
 	}
 }
@@ -1957,7 +1961,7 @@ LRESULT MainFrame::OnTabChanged(int /*idCtrl*/, LPNMHDR pnmh, BOOL& bHandled)
 		}
 		else
 		{
-      m_activeTabView = std::shared_ptr<TabView>();
+			m_activeTabView.reset();
 		}
 	}
 
