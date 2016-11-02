@@ -18,6 +18,7 @@ extern int g_nIconSize;
 
 DlgSettingsTabs::DlgSettingsTabs(CComPtr<IXMLDOMElement>& pOptionsRoot, ConsoleSettings &consoleSettings)
 : DlgSettingsBase(pOptionsRoot)
+, m_consoleSettings(consoleSettings)
 , m_page1()
 , m_page2(consoleSettings)
 , m_page3(consoleSettings)
@@ -59,7 +60,7 @@ LRESULT DlgSettingsTabs::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /
 	TabDataVector::iterator	it = m_tabSettings.tabDataVector.begin();
 	for (; it != m_tabSettings.tabDataVector.end(); ++it)
 	{
-		CIcon tabSmallIcon(Helpers::LoadTabIcon(false, (*it)->bUseDefaultIcon, (*it)->strIcon, (*it)->strShell));
+		CIcon tabSmallIcon((*it)->GetSmallIcon(m_consoleSettings.strShell));
 		int nIcon = tabSmallIcon.m_hIcon? m_ImageList.AddIcon(tabSmallIcon.m_hIcon) : -1;
 		int nItem = m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), (*it)->strTitle.c_str(), nIcon);
 		m_listCtrl.SetItemData(nItem, reinterpret_cast<DWORD_PTR>(it->get()));
@@ -112,6 +113,35 @@ LRESULT DlgSettingsTabs::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT DlgSettingsTabs::OnShowWindow(UINT, WPARAM wParam, LPARAM, BOOL & bHandled)
+{
+	bHandled = FALSE;
+
+	if( wParam == TRUE )
+	{
+		m_page1.Save();
+
+		int nItem = 0;
+		TabDataVector::iterator	it = m_tabSettings.tabDataVector.begin();
+		for (; it != m_tabSettings.tabDataVector.end(); ++it, ++nItem)
+		{
+			if( !(*it)->bUseDefaultIcon ) continue;
+			if( !(*it)->strShell.empty() ) continue;
+
+			CIcon tabSmallIcon((*it)->GetSmallIcon(m_consoleSettings.strShell));
+			int nIcon = tabSmallIcon.m_hIcon? m_ImageList.AddIcon(tabSmallIcon.m_hIcon) : -1;
+			m_listCtrl.SetItem(nItem, 0, LVIF_TEXT|LVIF_IMAGE, (*it)->strTitle.c_str(), nIcon, 0, 0, 0);
+		}
+	}
+
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 LRESULT DlgSettingsTabs::OnTabTitleChanged(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
 	m_listCtrl.SetItemText(m_listCtrl.GetSelectedIndex(), 0, m_page1.GetTabTitle());
@@ -124,7 +154,16 @@ LRESULT DlgSettingsTabs::OnTabIconChanged(UINT /*uMsg*/, WPARAM /*wParam*/, LPAR
   wstring strIcon         = m_page1.GetTabIcon();
   wstring strShell        = m_page1.GetTabShell();
 
-  CIcon tabSmallIcon(Helpers::LoadTabIcon(false, bUseDefaultIcon, strIcon, strShell));
+	CIcon tabSmallIcon(Helpers::LoadTabIcon(
+		false,
+		bUseDefaultIcon,
+		strIcon,
+		strShell.empty() ?
+			( m_consoleSettings.strShell.empty() ?
+					L"%ComSpec%" :
+					m_consoleSettings.strShell ) :
+			strShell));
+
   int nIcon = tabSmallIcon.m_hIcon? m_ImageList.AddIcon(tabSmallIcon.m_hIcon) : -1;
   // list control is not refreshed when an empty icon is set ...
   // so the text is updated too !

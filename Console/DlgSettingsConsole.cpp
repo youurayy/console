@@ -89,6 +89,26 @@ LRESULT DlgSettingsConsole::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARA
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT DlgSettingsConsole::OnShowWindow(UINT, WPARAM wParam, LPARAM, BOOL & bHandled)
+{
+	bHandled = FALSE;
+
+	if( wParam == FALSE )
+	{
+		// window is hidden
+		DoDataExchange(DDX_SAVE);
+		m_consoleSettings.strShell      = m_strShell;
+		m_consoleSettings.strInitialDir = m_strInitialDir;
+	}
+
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 LRESULT DlgSettingsConsole::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	if (wID == IDOK)
