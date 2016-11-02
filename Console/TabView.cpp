@@ -377,8 +377,8 @@ void TabView::GetRect(CRect& clientRect)
 
 void TabView::UpdateIcons()
 {
-  m_bigIcon.Attach(m_tabData->GetBigIcon());
-  m_smallIcon.Attach(m_tabData->GetSmallIcon());
+  m_bigIcon.Attach(m_tabData->GetBigIcon(g_settingsHandler->GetConsoleSettings().strShell));
+  m_smallIcon.Attach(m_tabData->GetSmallIcon(g_settingsHandler->GetConsoleSettings().strShell));
 }
 
 void TabView::InitializeScrollbars()

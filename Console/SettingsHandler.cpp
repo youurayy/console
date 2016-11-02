@@ -5,7 +5,6 @@ using namespace boost::algorithm;
 
 //////////////////////////////////////////////////////////////////////////////
 
-extern std::shared_ptr<ImageHandler>		g_imageHandler;
 extern int g_nIconSize;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -2228,8 +2227,6 @@ MouseSettings& MouseSettings::operator=(const MouseSettings& other)
 //////////////////////////////////////////////////////////////////////////////
 
 TabSettings::TabSettings()
-: strDefaultShell(L"")
-, strDefaultInitialDir(L"")
 {
 }
 
@@ -2254,7 +2251,7 @@ bool TabSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 		if( FAILED(pTabNodes->get_item(i, &pTabNode)) ) return false;
 		if( FAILED(pTabNode.QueryInterface(&pTabElement)) ) return false;
 
-		std::shared_ptr<TabData> tabData(new TabData(strDefaultShell, strDefaultInitialDir));
+		std::shared_ptr<TabData> tabData(new TabData());
 		tabData->nIndex = i + 1;
 
 		XmlHelper::GetAttribute(pTabElement, CComBSTR(L"title"), tabData->strTitle, L"ConsoleZ");
@@ -2266,8 +2263,8 @@ bool TabSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 		CComPtr<IXMLDOMElement> pConsoleElement;
 		if (SUCCEEDED(XmlHelper::GetDomElement(pTabElement, CComBSTR(L"console"), pConsoleElement)))
 		{
-			XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"shell"), tabData->strShell, strDefaultShell);
-			XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"init_dir"), tabData->strInitialDir, strDefaultInitialDir);
+			XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"shell"), tabData->strShell, L"");
+			XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"init_dir"), tabData->strInitialDir, L"");
 			XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"priority"), tabData->dwBasePriority, 2);
 			XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"run_as_user"), tabData->bRunAsUser, false);
 			XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"user"), tabData->strUser, L"");
@@ -2360,7 +2357,7 @@ bool TabSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 	if( tabDataVector.empty() )
 	{
-		std::shared_ptr<TabData> tabData(new TabData(strDefaultShell, strDefaultInitialDir));
+		std::shared_ptr<TabData> tabData(new TabData());
 		tabDataVector.push_back(tabData);
 	}
 
@@ -2497,17 +2494,6 @@ bool TabSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::AddTextNode(pTabsElement, CComBSTR(L"\n\t"));
 
 	return true;
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-
-//////////////////////////////////////////////////////////////////////////////
-
-void TabSettings::SetDefaults(const wstring& defaultShell, const wstring& defaultInitialDir)
-{
-	strDefaultShell		= defaultShell;
-	strDefaultInitialDir= defaultInitialDir;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -2739,7 +2725,6 @@ bool SettingsHandler::LoadSettings(const wstring& strSettingsFileName)
 	if( m_mouseSettings     .Load(m_pSettingsRoot) == false ) return false;
 	if( m_snippetSettings   .Load(m_pSettingsRoot) == false ) return false;
 
-	m_tabSettings.SetDefaults(m_consoleSettings.strShell, m_consoleSettings.strInitialDir);
 	if( m_tabSettings.Load(m_pSettingsRoot) == false ) return false;
 
 	for(auto iterTabData = m_tabSettings.tabDataVector.begin(); iterTabData != m_tabSettings.tabDataVector.end(); ++iterTabData)

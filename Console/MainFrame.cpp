@@ -2315,7 +2315,7 @@ BOOL CALLBACK MainFrame::ConsoleEnumWindowsProc(HWND hwnd, LPARAM lParam)
 		{
 			lParam;
 
-			std::shared_ptr<TabData> tabData(new TabData(L"", L""));
+			std::shared_ptr<TabData> tabData(new TabData());
 			tabData->bCloneable = false;
 			tabData->hwnd       = hwnd;
 
@@ -3379,7 +3379,7 @@ bool MainFrame::CreateSafeConsole()
 
 	ConsoleOptions consoleOptions;
 
-	std::shared_ptr<TabData> tabData(new TabData(L"", L""));
+	std::shared_ptr<TabData> tabData(new TabData());
 
 	return CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
 }
@@ -3555,7 +3555,7 @@ void MainFrame::UpdateTabsMenu()
 		m_tabsMenu.InsertMenuItem(wId-ID_NEW_TAB_1, TRUE, &subMenuItem);
 
 		m_CmdBar.RemoveImage(wId);
-		HICON hiconMenu = (*it)->GetMenuIcon();
+		HICON hiconMenu = (*it)->GetMenuIcon(g_settingsHandler->GetConsoleSettings().strShell);
 		if( hiconMenu )
 			m_CmdBar.AddIcon(hiconMenu, wId);
 	}
@@ -3645,7 +3645,7 @@ void MainFrame::UpdateOpenedTabsMenu(CMenu& tabsMenu, bool bContextual)
 		}
 
 		m_CmdBar.RemoveImage(wId);
-		HICON hiconMenu = tabData->GetMenuIcon();
+		HICON hiconMenu = tabData->GetMenuIcon(g_settingsHandler->GetConsoleSettings().strShell);
 		if( hiconMenu )
 			m_CmdBar.AddIcon(hiconMenu, wId);
 	}

@@ -833,13 +833,13 @@ struct VarEnv
 
 struct TabData
 {
-	TabData(const wstring& shell, const wstring& initialDir)
+	TabData()
 	: strTitle(L"ConsoleZ")
 	, strIcon(L"")
 	, bUseDefaultIcon(false)
 	, hwnd(nullptr)
-	, strShell(shell)
-	, strInitialDir(initialDir)
+	, strShell(L"")
+	, strInitialDir(L"")
 	, dwBasePriority(2)
 	, bRunAsUser(false)
 	, strUser()
@@ -940,17 +940,17 @@ struct TabData
 		}
 	}
 
-	HICON GetMenuIcon(void)
+	HICON GetMenuIcon(const std::wstring& defaultShell)
 	{
 		if (iconMenu.IsNull())
 		{
 			// load small icon
-			iconMenu.Attach(GetSmallIcon());
+			iconMenu.Attach(GetSmallIcon(defaultShell));
 		}
 		return iconMenu;
 	}
 
-	HICON GetBigIcon(void)
+	HICON GetBigIcon(const std::wstring& defaultShell)
 	{
 		if( hwnd )
 		{
@@ -958,11 +958,19 @@ struct TabData
 		}
 		else
 		{
-			return Helpers::LoadTabIcon(true, bUseDefaultIcon, strIcon, strShell);
+			return Helpers::LoadTabIcon(
+				true,
+				bUseDefaultIcon,
+				strIcon,
+				strShell.empty() ?
+					( defaultShell.empty() ?
+							L"%ComSpec%" :
+							defaultShell ) :
+					strShell);
 		}
 	}
 
-	HICON GetSmallIcon(void)
+	HICON GetSmallIcon(const std::wstring& defaultShell)
 	{
 		if( hwnd )
 		{
@@ -970,7 +978,15 @@ struct TabData
 		}
 		else
 		{
-			return Helpers::LoadTabIcon(false, bUseDefaultIcon, strIcon, strShell);
+			return Helpers::LoadTabIcon(
+				false,
+				bUseDefaultIcon,
+				strIcon,
+				strShell.empty() ?
+					( defaultShell.empty() ?
+							L"%ComSpec%" :
+							defaultShell ) :
+					strShell);
 		}
 	}
 
@@ -1029,14 +1045,7 @@ struct TabSettings : public SettingsBase
 	bool Load(const CComPtr<IXMLDOMElement>& pSettingsRoot);
 	bool Save(const CComPtr<IXMLDOMElement>& pSettingsRoot);
 
-	void SetDefaults(const wstring& defaultShell, const wstring& defaultInitialDir);
-
 	TabDataVector	tabDataVector;
-
-private:
-
-	wstring			strDefaultShell;
-	wstring			strDefaultInitialDir;
 };
 
 //////////////////////////////////////////////////////////////////////////////

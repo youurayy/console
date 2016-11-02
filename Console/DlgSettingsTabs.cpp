@@ -170,9 +170,7 @@ LRESULT DlgSettingsTabs::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndC
 
 LRESULT DlgSettingsTabs::OnAdd(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	ConsoleSettings& consoleSettings = g_settingsHandler->GetConsoleSettings();
-
-	std::shared_ptr<TabData>	tabData(new TabData(consoleSettings.strShell, consoleSettings.strInitialDir));
+	std::shared_ptr<TabData>	tabData(new TabData());
 
 	m_tabSettings.tabDataVector.push_back(tabData);
 
