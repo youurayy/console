@@ -1306,6 +1306,7 @@ TabHighlightSettings& TabHighlightSettings::operator=(const TabHighlightSettings
 
 CloseSettings::CloseSettings()
   : bAllowClosingLastView(false)
+	, bExitOnClosingOfLastTab(true)
   , bConfirmClosingMultipleViews(true)
 {
 }
@@ -1322,6 +1323,7 @@ bool CloseSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if( SUCCEEDED(XmlHelper::AddDomElementIfNotExist(pSettingsRoot, CComBSTR(L"behavior/close"), pCloseElement)) )
 	{
 		XmlHelper::GetAttribute(pCloseElement, CComBSTR(L"allow_closing_last_view"), bAllowClosingLastView, false);
+		XmlHelper::GetAttribute(pCloseElement, CComBSTR(L"exit_on_closing_of_last_tab"), bExitOnClosingOfLastTab, true);
 		XmlHelper::GetAttribute(pCloseElement, CComBSTR(L"confirm_closing_multiple_views"), bConfirmClosingMultipleViews, true);
 	}
 
@@ -1341,7 +1343,8 @@ bool CloseSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	CComPtr<IXMLDOMElement> pCloseElement;
 	if (FAILED(XmlHelper::AddDomElementIfNotExist(pBehaviorElement, CComBSTR(L"close"), pCloseElement))) return false;
 
-	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"allow_closing_last_view"),        bAllowClosingLastView       );
+	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"allow_closing_last_view"), bAllowClosingLastView);
+	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"exit_on_closing_of_last_tab"), bExitOnClosingOfLastTab);
 	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"confirm_closing_multiple_views"), bConfirmClosingMultipleViews);
 
 	return true;
@@ -1355,6 +1358,7 @@ bool CloseSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 CloseSettings& CloseSettings::operator=(const CloseSettings& other)
 {
 	bAllowClosingLastView        = other.bAllowClosingLastView;
+	bExitOnClosingOfLastTab      = other.bExitOnClosingOfLastTab;
 	bConfirmClosingMultipleViews = other.bConfirmClosingMultipleViews;
 
 	return *this;

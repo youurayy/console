@@ -541,6 +541,8 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	pLoop->AddMessageFilter(this);
 	pLoop->AddIdleHandler(this);
 
+	SetMinTabCountForVisibleTabs(0);
+
 	// this is the only way I know that other message handlers can be aware 
 	// if they're being called after OnCreate has finished
 	m_bOnCreateDone = true;
@@ -615,6 +617,14 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 LRESULT MainFrame::OnEraseBkgnd(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
+#ifndef _USE_AERO
+	CRect clientRect;
+	GetClientRect(clientRect);
+	CBrush backgroundBrush;
+	backgroundBrush.CreateSolidBrush(::GetSysColor(COLOR_WINDOW));
+	FillRect(GetDC(), clientRect, backgroundBrush);
+#endif
+
 	return 0;
 }
 
@@ -1065,10 +1075,8 @@ LRESULT MainFrame::OnSizing(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOO
 {
 	m_dwResizeWindowEdge = static_cast<DWORD>(wParam);
 
-	if (!m_activeTabView)
-		return 0;
+	if( m_activeTabView ) m_activeTabView->SetResizing(true);
 
-	m_activeTabView->SetResizing(true);
 #if 0
 	CPoint pointSize = m_activeView->GetCellSize();
 	RECT *rectNew = (RECT *)lParam;
@@ -1088,6 +1096,7 @@ LRESULT MainFrame::OnSizing(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOO
 	if (rectWindow.right != rectNew->right)
 		rectNew->right += (rectWindow.right - rectNew->right) - (rectWindow.right - rectNew->right) / pointSize.x * pointSize.x;
 #endif
+
 	return 0;
 }
 
@@ -2803,8 +2812,6 @@ LRESULT MainFrame::OnEditRenameTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 
 LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	if (!m_activeTabView) return 0;
-
 	DockPosition oldDockPosition = g_settingsHandler->GetAppearanceSettings().positionSettings.dockPosition;
 
 	DlgSettingsMain dlg;
@@ -3521,7 +3528,7 @@ void MainFrame::CloseTab(HWND hwndTabView)
     ShowTabs(false);
   }
 
-  if (m_tabs.empty()) PostMessage(WM_CLOSE);
+  if (m_tabs.empty() && g_settingsHandler->GetBehaviorSettings().closeSettings.bExitOnClosingOfLastTab) PostMessage(WM_CLOSE);
 }
 
 //////////////////////////////////////////////////////////////////////////////

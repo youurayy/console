@@ -448,6 +448,7 @@ struct CloseSettings : public SettingsBase
 	CloseSettings& operator=(const CloseSettings& other);
 
 	bool bAllowClosingLastView;
+	bool bExitOnClosingOfLastTab;
 	bool bConfirmClosingMultipleViews;
 };
 
