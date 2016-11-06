@@ -184,6 +184,9 @@ MainFrame::MainFrame
 , m_uTaskbarButtonCreated(::RegisterWindowMessage(TEXT("TaskbarButtonCreated")))
 #endif
 {
+	// allow middle mouse button on tab area with no tabs
+	m_nMinTabCountForVisibleTabs = 0;
+
 	m_Margins.cxLeftWidth    = 0;
 	m_Margins.cxRightWidth   = 0;
 	m_Margins.cyTopHeight    = 0;
@@ -540,8 +543,6 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	ATLASSERT(pLoop != NULL);
 	pLoop->AddMessageFilter(this);
 	pLoop->AddIdleHandler(this);
-
-	SetMinTabCountForVisibleTabs(0);
 
 	// this is the only way I know that other message handlers can be aware 
 	// if they're being called after OnCreate has finished
