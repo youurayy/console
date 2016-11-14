@@ -295,8 +295,15 @@ private:
   /*static*/ CBitmap    m_bmpOffscreen;
   /*static*/ CBitmap    m_bmpText;
 
-  static CFont          m_fontText;
-  static CFont          m_fontTextHigh;
+	enum FontTextType
+	{
+		FontTextNormal          = 0,
+		FontTextBright          = 1,
+		FontTextUnderline       = 2,
+		FontTextBrightUnderline = 3,
+	};
+
+  static CFont          m_fontText[4];
 
   static int            m_nCharHeight;
   static int            m_nCharWidth;

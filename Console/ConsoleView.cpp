@@ -21,8 +21,7 @@
 //CBitmap	ConsoleView::m_bmpOffscreen;
 //CBitmap	ConsoleView::m_bmpText;
 
-CFont ConsoleView::m_fontText;
-CFont ConsoleView::m_fontTextHigh;
+CFont ConsoleView::m_fontText[4];
 DWORD ConsoleView::m_dwFontSize(0);
 DWORD ConsoleView::m_dwFontZoom(100); // 100 %
 DWORD ConsoleView::m_dwScreenDpi(96);
@@ -1471,8 +1470,9 @@ bool ConsoleView::RecreateFont(DWORD dwNewFontSize, bool boolZooming, DWORD dwSc
 	m_dwFontZoom = zoom;
 	m_dwScreenDpi = dwScreenDpi;
 
-	if (!m_fontText.IsNull()) m_fontText.DeleteObject();
-	if (!m_fontTextHigh.IsNull()) m_fontTextHigh.DeleteObject();
+	for( CFont& font : m_fontText )
+		if( !font.IsNull() ) font.DeleteObject();
+
 	if (!CreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.strName))
 	{
 		CreateFont(wstring(L"Courier New"));
@@ -1906,7 +1906,7 @@ void ConsoleView::CreateOffscreenBuffers()
 	// create offscreen bitmaps if needed
 	if (m_bmpOffscreen.IsNull()) CreateOffscreenBitmap(m_dcOffscreen, rectWindowMax, m_bmpOffscreen);
 	if (m_bmpText.IsNull()) CreateOffscreenBitmap(m_dcText, rectWindowMax, m_bmpText);
-	m_dcText.SelectFont(m_fontText);
+	m_dcText.SelectFont(m_fontText[FontTextNormal]);
 
 	// create background brush
 	m_backgroundBrush.CreateSolidBrush(m_tabData->crBackgroundColor);
@@ -1983,8 +1983,8 @@ void ConsoleView::CreateOffscreenBitmap(CDC& cdc, const CRect& rect, CBitmap& bi
 
 bool ConsoleView::CreateFont(const wstring& strFontName)
 {
-	if (!m_fontText.IsNull()) return true;// m_fontText.DeleteObject();
-	if (!m_fontTextHigh.IsNull()) return true;// m_fontTextHigh.DeleteObject();
+	for( CFont& font : m_fontText )
+		if( !font.IsNull() ) return true;
 
   CDC dcText(::CreateCompatibleDC(NULL));
 
@@ -2005,28 +2005,7 @@ bool ConsoleView::CreateFont(const wstring& strFontName)
 	bool bBold   = fontSettings.bBold;
 	bool bItalic = fontSettings.bItalic;
 
-	m_fontText.CreateFont(
-		-::MulDiv(m_dwFontSize, m_dwScreenDpi, 72),
-		0,
-		0,
-		0,
-		bBold ? FW_BOLD : 0,
-		bItalic,
-		FALSE,
-		FALSE,
- 		DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS,
-		CLIP_DEFAULT_PRECIS,
-		byFontQuality,
-		DEFAULT_PITCH,
-		strFontName.c_str());
-
-	if( fontSettings.bBoldIntensified )
-		bBold = !bBold;
-	if( fontSettings.bItalicIntensified )
-		bItalic = !bItalic;
-
-	m_fontTextHigh.CreateFont(
+	m_fontText[FontTextNormal].CreateFont(
 		-::MulDiv(m_dwFontSize, m_dwScreenDpi, 72),
 		0,
 		0,
@@ -2042,15 +2021,68 @@ bool ConsoleView::CreateFont(const wstring& strFontName)
 		DEFAULT_PITCH,
 		strFontName.c_str());
 
+	m_fontText[FontTextUnderline].CreateFont(
+		-::MulDiv(m_dwFontSize, m_dwScreenDpi, 72),
+		0,
+		0,
+		0,
+		bBold ? FW_BOLD : 0,
+		bItalic,
+		TRUE,
+		FALSE,
+		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS,
+		byFontQuality,
+		DEFAULT_PITCH,
+		strFontName.c_str());
+
+	if( fontSettings.bBoldIntensified )
+		bBold = !bBold;
+	if( fontSettings.bItalicIntensified )
+		bItalic = !bItalic;
+
+	m_fontText[FontTextBright].CreateFont(
+		-::MulDiv(m_dwFontSize, m_dwScreenDpi, 72),
+		0,
+		0,
+		0,
+		bBold ? FW_BOLD : 0,
+		bItalic,
+		FALSE,
+		FALSE,
+		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS,
+		byFontQuality,
+		DEFAULT_PITCH,
+		strFontName.c_str());
+
+	m_fontText[FontTextBrightUnderline].CreateFont(
+		-::MulDiv(m_dwFontSize, m_dwScreenDpi, 72),
+		0,
+		0,
+		0,
+		bBold ? FW_BOLD : 0,
+		bItalic,
+		TRUE,
+		FALSE,
+		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS,
+		byFontQuality,
+		DEFAULT_PITCH,
+		strFontName.c_str());
+
 	TEXTMETRIC	textMetric;
 
-	dcText.SelectFont(m_fontText);
+	dcText.SelectFont(m_fontText[FontTextNormal]);
 	if( !dcText.GetTextMetrics(&textMetric) ||
 		  (textMetric.tmPitchAndFamily & TMPF_FIXED_PITCH) ) // fixed pitch font (TMPF_FIXED_PITCH is cleared!!!)
 	{
 		TRACE(L"/!\\ can't use %s font\n", strFontName.c_str());
-		if (!m_fontText.IsNull()) m_fontText.DeleteObject();
-		if (!m_fontTextHigh.IsNull()) m_fontTextHigh.DeleteObject();
+		for( CFont& font : m_fontText )
+			if( !font.IsNull() ) font.DeleteObject();
 		return false;
 	}
 
@@ -2832,11 +2864,11 @@ void ConsoleView::RowTextOut(CDC& dc, DWORD dwRow)
   dwX      = m_nVInsideBorder;
   dwOffset = m_dwScreenColumns * dwRow;
 
-  wstring  strText(L"");
-  COLORREF colorFG   = 0;
-  DWORD    dwFGWidth = 0;
-	DWORD    dwCharIdx = 0;
-  bool     fontHigh  = false;
+  wstring      strText(L"");
+  COLORREF     colorFG      = 0;
+  DWORD        dwFGWidth    = 0;
+  DWORD        dwCharIdx    = 0;
+  FontTextType fontTextType = FontTextNormal;
 
   bool     boolIntensified = m_appearanceSettings.fontSettings.bBoldIntensified ||
                              m_appearanceSettings.fontSettings.bItalicIntensified;
@@ -2849,20 +2881,22 @@ void ConsoleView::RowTextOut(CDC& dc, DWORD dwRow)
     int nCharWidth = (charInfo.Attributes & COMMON_LVB_LEADING_BYTE)? m_nCharWidth * 2 : m_nCharWidth;
 
     // compare foreground color
-    COLORREF colorFG2  = m_appearanceSettings.fontSettings.bUseColor ? m_appearanceSettings.fontSettings.crFontColor : consoleColors[charInfo.Attributes & 0xF];
-    bool     fontHigh2 = boolIntensified && (charInfo.Attributes & 0x8);
+    COLORREF     colorFG2      = m_appearanceSettings.fontSettings.bUseColor ? m_appearanceSettings.fontSettings.crFontColor : consoleColors[charInfo.Attributes & 0xF];
+    FontTextType fontTextType2 = static_cast<FontTextType>(
+			(boolIntensified && (charInfo.Attributes & FOREGROUND_INTENSITY) ? 1 : 0) |
+			(charInfo.Attributes &  COMMON_LVB_UNDERSCORE ? 2 : 0));
 
     if( dwFGWidth == 0 )
     {
-      colorFG   = colorFG2;
-      dwFGWidth = nCharWidth;
-      fontHigh  = fontHigh2;
+      colorFG      = colorFG2;
+      dwFGWidth    = nCharWidth;
+      fontTextType = fontTextType2;
 
-      dc.SelectFont(fontHigh? m_fontTextHigh : m_fontText);
+      dc.SelectFont(m_fontText[fontTextType]);
     }
     else
     {
-      if( colorFG == colorFG2 && fontHigh == fontHigh2 )
+      if( colorFG == colorFG2 && fontTextType == fontTextType2 )
       {
         dwFGWidth += nCharWidth;
       }
@@ -2887,10 +2921,10 @@ void ConsoleView::RowTextOut(CDC& dc, DWORD dwRow)
         dwCharIdx = 0;
 
         // change font
-        if( fontHigh != fontHigh2 )
+        if( fontTextType != fontTextType2 )
         {
-          fontHigh = fontHigh2;
-          dc.SelectFont(fontHigh? m_fontTextHigh : m_fontText);
+          fontTextType = fontTextType2;
+          dc.SelectFont(m_fontText[fontTextType]);
         }
       }
     }
@@ -3354,7 +3388,7 @@ void ConsoleView::RedrawCharOnCursor(CDC& dc)
   dc.FillRect(rectCursor, brush);
 
   dc.SetBkMode(TRANSPARENT);
-  dc.SelectFont(m_fontText);
+  dc.SelectFont(m_fontText[FontTextNormal]);
 
   COLORREF colorBG;
 
@@ -3415,7 +3449,7 @@ LRESULT ConsoleView::OnIMEComposition(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /
 
 	TEXTMETRIC  textMetric;
 
-	m_dcText.SelectFont(m_fontText);
+	m_dcText.SelectFont(m_fontText[FontTextNormal]);
 	m_dcText.GetTextMetrics(&textMetric);
 
 	SharedMemory<ConsoleInfo>& consoleInfo = m_consoleHandler.GetConsoleInfo();
@@ -3434,7 +3468,7 @@ LRESULT ConsoleView::OnIMEComposition(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /
 	::ImmSetCompositionWindow(hImc, &cf);
 
 	LOGFONT lf;
-	m_fontText.GetLogFont(lf);
+	m_fontText[FontTextNormal].GetLogFont(lf);
 	::ImmSetCompositionFont(hImc, &lf);
 
 	::ImmReleaseContext(m_hWnd, hImc);
