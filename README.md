@@ -38,6 +38,20 @@ Changelog
     + added
     * fixed
 
+Changes in 1.17.2 (18 Nov 2016)
+
+    ! New Icons (a gift from BlazenBundy).
+    ! Use icon defined in appearance settings as default tab icon.
+    + Allow configuration of icon size.
+    + Option to prevent exiting ConsoleZ on closing of last tab.
+    + Support for underlined text.
+    * Fix "snap to edges" feature.
+    * Fix rebar auto sizing bug.
+    * Fix docking bug when showing/hiding bar.
+    * Update window icon after settings edition.
+    * Update tab icons after settings edition.
+    * German localization (thanks to sskopnik).
+
 Changes in 1.17.1 (22 Sep 2016)
 
     ! Handle XML parsing errors (configuration file and snippets).
