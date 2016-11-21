@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>ConsoleZ</id>
-    <version>1.17.1.16266</version>
+    <version>1.17.2.16323</version>
     <title>ConsoleZ (Install)</title>
     <authors>cbucher</authors>
     <owners>cbucher</owners>
@@ -32,16 +32,17 @@ This fork supports:
 * Snippets
 * and more...</description>
     <summary>This is a modified version of Console 2 for a better experience under Windows Vista/7/8/10 and a better visual rendering.</summary>
-    <releaseNotes>! Handle XML parsing errors (configuration file and snippets).
-+ "Toggle always on top" hotkey command.
-+ New high dpi icons (250%, 300%, 400% and 500%).
-+ Bing image of the day as background.
-* ConsoleZ no longer closes without explanation on bad config.
-* Start a safe console when no console started.
-* Fix scroll bars position in hidden tabs.
-* System environment variables no longer override local environment variables.
-* Japanese localization (thanks to ys-nuem).
-* Link files are also resolved when text is copied in shell text box.		</releaseNotes>
+    <releaseNotes>! New Icons (a gift from BlazenBundy).
+! Use icon defined in appearance settings as default tab icon.
++ Allow configuration of icon size.
++ Option to prevent exiting ConsoleZ on closing of last tab.
++ Support for underlined text.
+* Fix "snap to edges" feature.
+* Fix rebar auto sizing bug.
+* Fix docking bug when showing/hiding bar.
+* Update window icon after settings edition.
+* Update tab icons after settings edition.
+* German localization (thanks to sskopnik).</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>shell console tabs split glass fullscreen</tags>
     <projectSourceUrl>https://github.com/cbucher/console</projectSourceUrl>
