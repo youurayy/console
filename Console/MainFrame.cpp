@@ -5331,3 +5331,61 @@ LRESULT MainFrame::OnSendCtrlEvent(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnLoadWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	std::wstring strFiler = Helpers::LoadFileFilter(MSG_MAINFRAME_WORKSPACE_FILES);
+
+	CFileDialog dialog = CFileDialog(TRUE, L"workspace", nullptr, OFN_HIDEREADONLY, strFiler.c_str());
+	CString sInitialDirectory = g_settingsHandler->GetSettingsPath().c_str();
+	dialog.m_ofn.lpstrInitialDir = sInitialDirectory;
+
+	if( dialog.DoModal() != IDOK )
+		return 0;
+
+	LoadWorkspace(dialog.m_szFileName);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnSaveWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	std::wstring strFiler = Helpers::LoadFileFilter(MSG_MAINFRAME_WORKSPACE_FILES);
+
+	CFileDialog dialog = CFileDialog(FALSE, L"workspace", nullptr, OFN_OVERWRITEPROMPT | OFN_FILEMUSTEXIST, strFiler.c_str());
+	CString sInitialDirectory = g_settingsHandler->GetSettingsPath().c_str();
+	dialog.m_ofn.lpstrInitialDir = sInitialDirectory;
+
+	if( dialog.DoModal() != IDOK )
+		return 0;
+
+	SaveWorkspace(dialog.m_szFileName);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+void MainFrame::LoadWorkspace(const wstring& /*filename*/)
+{
+
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+void MainFrame::SaveWorkspace(const wstring& /*filename*/)
+{
+
+}

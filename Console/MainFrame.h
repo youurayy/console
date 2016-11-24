@@ -264,6 +264,8 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_FONT_INFO,               OnFontInfo)
 			COMMAND_ID_HANDLER(ID_DIAGNOSE,                OnDiagnose)
 			COMMAND_ID_HANDLER(ID_SPLIT_SWAP,              OnSwap)
+			COMMAND_ID_HANDLER(ID_LOAD_WORKSPACE,          OnLoadWorkspace)
+			COMMAND_ID_HANDLER(ID_SAVE_WORKSPACE,          OnSaveWorkspace)
 
 			COMMAND_RANGE_HANDLER(ID_EXTERNAL_COMMAND_1, (ID_EXTERNAL_COMMAND_1 + EXTERNAL_COMMANDS_COUNT - 1), OnExternalCommand)
 			COMMAND_RANGE_HANDLER(ID_SNIPPET_ID_FIRST, ID_SNIPPET_ID_LAST, OnSnippet)
@@ -379,6 +381,9 @@ class MainFrame
 		LRESULT OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSnippet(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
+		LRESULT OnLoadWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnSaveWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+
 	public:
 
 		void AdjustWindowRect(CRect& rect);
@@ -441,6 +446,9 @@ class MainFrame
 		static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC /*hdcMonitor*/, LPRECT /*lprcMonitor*/, LPARAM lpData);
 		static BOOL CALLBACK MonitorEnumProcDiag(HMONITOR hMonitor, HDC /*hdcMonitor*/, LPRECT lprcMonitor, LPARAM lpData);
 		static BOOL CALLBACK ConsoleEnumWindowsProc(HWND hwnd, LPARAM lParam);
+
+		void LoadWorkspace(const wstring& filename);
+		void SaveWorkspace(const wstring& filename);
 
 	public:
 		LRESULT CreateInitialTabs

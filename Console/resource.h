@@ -400,6 +400,8 @@
 #define ID_MOVE_TAB_LEFT                2938
 #define ID_MOVE_TAB_RIGHT               2939
 #define ID_SHOW_CONTEXT_MENU_SNIPPETS   2940
+#define ID_LOAD_WORKSPACE               2941
+#define ID_SAVE_WORKSPACE               2942
 
 #define IDC_DUMP_BUFFER                 3000
 
@@ -510,6 +512,8 @@
 #define IDS_MOVE_TAB_RIGHT              6090
 #define IDS_EDIT_RESUME_SCROLLING       6091
 #define IDS_VIEW_ALWAYS_ON_TOP          6092
+#define IDS_LOAD_WORKSPACE              6093
+#define IDS_SAVE_WORKSPACE              6094
 
 #define IDS_MOUSE_COPY                  7000
 #define IDS_MOUSE_SELECT                7001
@@ -573,6 +577,7 @@
 #define MSG_MAINFRAME_SEARCH            11002
 #define MSG_MAINFRAME_EXIT_FULLSCREEN   11003
 #define MSG_MAINFRAME_SYNTAX_ERROR      11004
+#define MSG_MAINFRAME_WORKSPACE_FILES   11005
 
 #define MSG_TABVIEW_RUNAS               12000
 

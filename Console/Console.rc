@@ -681,6 +681,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Attach Consoles",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
+        MENUITEM "Load Workspace...",           ID_LOAD_WORKSPACE
+        MENUITEM "Save Workspace...",           ID_SAVE_WORKSPACE
+        MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
     POPUP "Edit"
@@ -873,6 +876,8 @@ BEGIN
     ID_CLOSE_VIEW           "Close the current view\nClose View"
     ID_DETACH_VIEW          "Detach the current view\nDetach View"
     ID_ATTACH_CONSOLES      "Attach consoles\nAttach consoles"
+    ID_LOAD_WORKSPACE       "Load workspace\nLoad workspace"
+    ID_SAVE_WORKSPACE       "Save workspace\nSave workspace"
     ID_SPLIT_HORIZ          "Split the current view horizontally\nSplit Horizontally"
     ID_SPLIT_VERT           "Split the current view vertically\nSplit Vertically"
     ID_SPLIT_SWAP           "Swap with the view that previously had focus\nSwap Views"
@@ -976,6 +981,8 @@ BEGIN
                             "Exit Full Screen"
     MSG_MAINFRAME_SYNTAX_ERROR
                             "syntax error at position %1%"
+    MSG_MAINFRAME_WORKSPACE_FILES
+                            "ConsoleZ workspace|*.workspace||"
 
     MSG_TABVIEW_RUNAS       "Run as different user"
 
@@ -1036,6 +1043,8 @@ BEGIN
     IDS_CLOSE_VIEW           "Close view"
     IDS_DETACH_VIEW          "Detach view"
     IDS_ATTACH_CONSOLES      "Attach consoles"
+    IDS_LOAD_WORKSPACE       "Load workspace"
+    IDS_SAVE_WORKSPACE       "Save Workspace"
     IDS_SPLIT_HORIZ          "Split horizontally"
     IDS_SPLIT_VERT           "Split vertically"
     IDS_SPLIT_SWAP           "Swap with the view that previously had focus"

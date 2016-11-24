@@ -1909,6 +1909,9 @@ HotKeys::HotKeys()
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"ctrlC",              ID_SEND_CTRL_C,          IDS_SEND_CTRL_C         )));
 
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"wspload",            ID_LOAD_WORKSPACE,       IDS_LOAD_WORKSPACE )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"wspsave",            ID_SAVE_WORKSPACE,       IDS_SAVE_WORKSPACE )));
+
 	for(WORD i = 0; i < EXTERNAL_COMMANDS_COUNT; ++i)
 	{
 		commands.push_back(std::shared_ptr<CommandData>(new CommandData(std::wstring(L"externalcmd") + std::to_wstring(i + 1), ID_EXTERNAL_COMMAND_1 + i, IDS_EXTERNAL_COMMAND_1 + i)));
