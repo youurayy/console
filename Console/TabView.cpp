@@ -12,17 +12,15 @@ int CMultiSplitPane::splitBarHeight = 0;
 
 //////////////////////////////////////////////////////////////////////////////
 
-TabView::TabView(MainFrame& mainFrame, std::shared_ptr<TabData> tabData, const ConsoleOptions& consoleOptions)
+TabView::TabView(MainFrame& mainFrame, std::shared_ptr<TabData> tabData, const std::wstring& strTitle)
 :m_mainFrame(mainFrame)
 ,m_viewsMutex(NULL, FALSE, NULL)
 ,m_tabData(tabData)
 ,m_bigIcon()
 ,m_smallIcon()
 ,m_boolIsGrouped(false)
-,m_consoleOptions(consoleOptions)
+,m_strTitle(strTitle.empty() ? tabData->strTitle : strTitle)
 {
-	if( m_consoleOptions.strTitle.empty() )
-		m_consoleOptions.strTitle = tabData->strTitle;
 }
 
 TabView::~TabView()
@@ -95,7 +93,7 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 
   ATLTRACE(_T("TabView::OnCreate\n"));
   MutexLock viewMapLock(m_viewsMutex);
-  HWND hwndConsoleView = CreateNewConsole(consoleViewCreate, m_consoleOptions);
+  HWND hwndConsoleView = CreateNewConsole(consoleViewCreate);
   if( hwndConsoleView )
   {
     result = multisplitClass::OnCreate(uMsg, wParam, lParam, bHandled);
@@ -132,7 +130,7 @@ LRESULT TabView::OnSize (UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL &
   return 1;
 }
 
-HWND TabView::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, const ConsoleOptions& consoleOptions)
+HWND TabView::CreateNewConsole(ConsoleViewCreate* consoleViewCreate)
 {
 	DWORD dwRows    = g_settingsHandler->GetConsoleSettings().dwRows;
 	DWORD dwColumns = g_settingsHandler->GetConsoleSettings().dwColumns;
@@ -152,7 +150,7 @@ HWND TabView::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, const Conso
 		m_dwColumns	= dwColumns;
 	}
 #endif
-	std::shared_ptr<ConsoleView> consoleView(new ConsoleView(m_mainFrame, m_hWnd, m_tabData, dwRows, dwColumns, consoleOptions));
+	std::shared_ptr<ConsoleView> consoleView(new ConsoleView(m_mainFrame, m_hWnd, m_tabData, dwRows, dwColumns, consoleViewCreate->consoleOptions));
 	consoleView->Group(this->IsGrouped());
 	UserCredentials userCredentials;
 
@@ -421,7 +419,7 @@ bool TabView::MainframeMoving()
 
 void TabView::SetTitle(const std::wstring& strTitle)
 {
-  m_consoleOptions.strTitle = strTitle;
+	m_strTitle = strTitle;
 }
 
 void TabView::SetActive(bool bActive)
@@ -493,12 +491,10 @@ void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
 		ConsoleViewCreate consoleViewCreate;
 		consoleViewCreate.type = ConsoleViewCreate::CREATE;
 		consoleViewCreate.u.userCredentials = nullptr;
+		consoleViewCreate.consoleOptions.strInitialDir = strCurrentDirectory;
+		consoleViewCreate.consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
 
-		ConsoleOptions consoleOptions;
-		consoleOptions.strInitialDir = strCurrentDirectory;
-		consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
-
-		HWND hwndConsoleView = CreateNewConsole(&consoleViewCreate, consoleOptions);
+		HWND hwndConsoleView = CreateNewConsole(&consoleViewCreate);
 		if( hwndConsoleView )
 		{
 			multisplitClass::Split(

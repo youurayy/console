@@ -251,10 +251,6 @@ LRESULT MainFrame::CreateInitialTabs
 
 	TabSettings&	tabSettings = g_settingsHandler->GetTabSettings();
 
-	ConsoleViewCreate consoleViewCreate;
-	consoleViewCreate.type = ConsoleViewCreate::CREATE;
-	consoleViewCreate.u.userCredentials = nullptr;
-
 	// create initial console window(s)
 	if (commandLineOptions.startupTabs.size() == 0)
 	{
@@ -2561,11 +2557,10 @@ LRESULT MainFrame::OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
 
-	ConsoleOptions consoleOptions;
-	consoleOptions.strInitialDir = strCurrentDirectory;
-	consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
+	consoleViewCreate.consoleOptions.strInitialDir = strCurrentDirectory;
+	consoleViewCreate.consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
 
-	CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
+	CreateNewConsole(&consoleViewCreate, tabData);
 
 	return 0;
 }
@@ -3377,10 +3372,11 @@ bool MainFrame::CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& console
 	ConsoleViewCreate consoleViewCreate;
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
+	consoleViewCreate.consoleOptions = consoleOptions;
 
 	std::shared_ptr<TabData> tabData = g_settingsHandler->GetTabSettings().tabDataVector[dwTabIndex];
 
-	return CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
+	return CreateNewConsole(&consoleViewCreate, tabData);
 }
 
 bool MainFrame::CreateSafeConsole()
@@ -3389,18 +3385,16 @@ bool MainFrame::CreateSafeConsole()
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
 
-	ConsoleOptions consoleOptions;
-
 	std::shared_ptr<TabData> tabData(new TabData());
 
-	return CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
+	return CreateNewConsole(&consoleViewCreate, tabData);
 }
 
-bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData, const ConsoleOptions& consoleOptions)
+bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData)
 {
 	MutexLock	tabMapLock(m_tabsMutex);
 
-	std::shared_ptr<TabView> tabView(new TabView(*this, tabData, consoleOptions));
+	std::shared_ptr<TabView> tabView(new TabView(*this, tabData, consoleViewCreate->consoleOptions.strTitle));
 
 	HWND hwndTabView = tabView->Create(
 											m_hWnd, 
@@ -3420,10 +3414,10 @@ bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shar
 
 	CString cstrTabTitle;
 	tabView->GetWindowText(cstrTabTitle);
-	if( !consoleOptions.strTitle.empty() )
+	if( !consoleViewCreate->consoleOptions.strTitle.empty() )
 	{
-		cstrTabTitle = consoleOptions.strTitle.c_str();
-		tabView->SetTitle(std::wstring(cstrTabTitle));
+		cstrTabTitle = consoleViewCreate->consoleOptions.strTitle.c_str();
+		tabView->SetTitle(consoleViewCreate->consoleOptions.strTitle);
 	}
 
 	int nImageIndex = -1;

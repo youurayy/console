@@ -34,6 +34,8 @@ struct ConsoleViewCreate
 		UserCredentials* userCredentials;
 		DWORD            dwProcessId;
 	} u;
+
+	ConsoleOptions consoleOptions;
 };
 
 //////////////////////////////////////////////////////////////////////////////
