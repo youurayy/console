@@ -150,7 +150,7 @@ HWND TabView::CreateNewConsole(ConsoleViewCreate* consoleViewCreate)
 		m_dwColumns	= dwColumns;
 	}
 #endif
-	std::shared_ptr<ConsoleView> consoleView(new ConsoleView(m_mainFrame, m_hWnd, m_tabData, dwRows, dwColumns, consoleViewCreate->consoleOptions));
+	std::shared_ptr<ConsoleView> consoleView(new ConsoleView(m_mainFrame, m_hWnd, m_tabData, consoleViewCreate->m_tabDataShell, dwRows, dwColumns, consoleViewCreate->consoleOptions));
 	consoleView->Group(this->IsGrouped());
 	UserCredentials userCredentials;
 
@@ -493,6 +493,7 @@ void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
 		consoleViewCreate.u.userCredentials = nullptr;
 		consoleViewCreate.consoleOptions.strInitialDir = strCurrentDirectory;
 		consoleViewCreate.consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
+		consoleViewCreate.m_tabDataShell = activeConsoleView->GetTabData();
 
 		HWND hwndConsoleView = CreateNewConsole(&consoleViewCreate);
 		if( hwndConsoleView )
