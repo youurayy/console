@@ -85,8 +85,13 @@ public:
 
 	void Diagnose(HANDLE hFile);
 
+	bool SaveWorkspace(CComPtr<IXMLDOMElement>& pTabElement);
+
 private:
 	HWND CreateNewConsole(ConsoleViewCreate* consoleViewCreate);
+
+	bool LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane);
+	bool SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane);
 
 private:
   MainFrame&          m_mainFrame;

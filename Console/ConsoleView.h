@@ -26,7 +26,8 @@ struct ConsoleViewCreate
 	enum TYPE
 	{
 		CREATE,
-		ATTACH
+		ATTACH,
+		LOAD_WORKSPACE
 	} type;
 
 	union
@@ -38,6 +39,8 @@ struct ConsoleViewCreate
 	ConsoleOptions consoleOptions;
 
 	std::shared_ptr<TabData> m_tabDataShell;
+
+	CComPtr<IXMLDOMElement> pTabElement;
 };
 
 //////////////////////////////////////////////////////////////////////////////

@@ -5370,16 +5370,96 @@ LRESULT MainFrame::OnSaveWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 
 /////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::LoadWorkspace(const wstring& /*filename*/)
+bool MainFrame::LoadWorkspace(const wstring& filename)
 {
+	CComPtr<IXMLDOMDocument> xmlDocumentWorksapce;
+	CComPtr<IXMLDOMElement>  xmlElementWorksapce;
 
+	std::wstring strParseError;
+	HRESULT hr = XmlHelper::OpenXmlDocument(
+		filename,
+		xmlDocumentWorksapce,
+		xmlElementWorksapce,
+		strParseError);
+
+	if( FAILED(hr) ) return false;
+
+	if( hr == S_FALSE )
+	{
+		MessageBox(strParseError.c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR | MB_OK);
+		return false;
+	}
+
+	CComPtr<IXMLDOMNodeList> xmlNodeList;
+	if( FAILED(xmlElementWorksapce->selectNodes(CComBSTR(L"/ConsoleZWorkspace/Tab"), &xmlNodeList)) ) return false;
+
+	long lListLength;
+	if( FAILED(xmlNodeList->get_length(&lListLength)) ) return false;
+	for( long lNodeIndex = 0; lNodeIndex < lListLength; ++lNodeIndex )
+	{
+		// Tab
+		CComPtr<IXMLDOMNode> xmlNode;
+		if( FAILED(xmlNodeList->get_item(lNodeIndex, &xmlNode)) ) return false;
+		CComPtr<IXMLDOMElement> xmlElementTab;
+		if( FAILED(xmlNode.QueryInterface(&xmlElementTab)) ) return false;
+
+		std::wstring strTabTitle;
+		XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"Title"), strTabTitle, std::wstring());
+
+		TabSettings& tabSettings = g_settingsHandler->GetTabSettings();
+
+		// find tab with corresponding name...
+		for( size_t i = 0; i < tabSettings.tabDataVector.size(); ++i )
+		{
+			if( tabSettings.tabDataVector[i]->strTitle == strTabTitle )
+			{
+				// found it, create new tab and console views from workspace
+				ConsoleViewCreate consoleViewCreate;
+				consoleViewCreate.type = ConsoleViewCreate::LOAD_WORKSPACE;
+				consoleViewCreate.u.userCredentials = nullptr;
+				consoleViewCreate.pTabElement = xmlElementTab;
+
+				XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"Name"), consoleViewCreate.consoleOptions.strTitle, strTabTitle);
+
+				std::shared_ptr<TabData> tabData = tabSettings.tabDataVector[i];
+
+				CreateNewConsole(&consoleViewCreate, tabData);
+
+				break;
+			}
+		}
+	}
+
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::SaveWorkspace(const wstring& /*filename*/)
+bool MainFrame::SaveWorkspace(const wstring& filename)
 {
+	CComPtr<IXMLDOMDocument> pWorkspaceDocument;
+	CComPtr<IXMLDOMElement>  pWorkspaceRoot;
 
+	// <ConsoleZWorkspace/>
+	std::vector<char> content { '<', 'C', 'o', 'n', 's', 'o', 'l', 'e', 'Z', 'W', 'o', 'r', 'k', 's', 'p', 'a', 'c', 'e', '/', '>' };
+
+	if( FAILED(XmlHelper::OpenXmlDocumentFromContent(content, pWorkspaceDocument, pWorkspaceRoot)) ) return false;
+
+	MutexLock lock(m_tabsMutex);
+
+	// /!\ m_tabs is sorted by HWND
+	// we want to save tabs sorted by tab number
+	for( int i = 0; i < m_TabCtrl.GetItemCount(); ++i)
+	{
+		CComPtr<IXMLDOMElement> pTabElement;
+		if( FAILED(XmlHelper::CreateDomElement(pWorkspaceRoot, CComBSTR(L"Tab"), pTabElement)) ) return false;
+
+		if( !m_tabs[m_TabCtrl.GetItem(i)->GetTabView()]->SaveWorkspace(pTabElement) ) return false;
+	}
+
+	if( FAILED(pWorkspaceDocument->save(CComVariant(filename.c_str()))) ) return false;
+
+	return true;
 }

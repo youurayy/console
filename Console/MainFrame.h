@@ -447,8 +447,8 @@ class MainFrame
 		static BOOL CALLBACK MonitorEnumProcDiag(HMONITOR hMonitor, HDC /*hdcMonitor*/, LPRECT lprcMonitor, LPARAM lpData);
 		static BOOL CALLBACK ConsoleEnumWindowsProc(HWND hwnd, LPARAM lParam);
 
-		void LoadWorkspace(const wstring& filename);
-		void SaveWorkspace(const wstring& filename);
+		bool LoadWorkspace(const wstring& filename);
+		bool SaveWorkspace(const wstring& filename);
 
 	public:
 		LRESULT CreateInitialTabs

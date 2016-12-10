@@ -93,19 +93,42 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 
   ATLTRACE(_T("TabView::OnCreate\n"));
   MutexLock viewMapLock(m_viewsMutex);
-  HWND hwndConsoleView = CreateNewConsole(consoleViewCreate);
-  if( hwndConsoleView )
-  {
-    result = multisplitClass::OnCreate(uMsg, wParam, lParam, bHandled);
-    TRACE(L"multisplitClass::OnCreate returns %p\n", result);
-    if( result == 0 )
-    {
-      multisplitClass::tree.window = hwndConsoleView;
-      CRect rect;
-      m_views.begin()->second->GetRect(rect);
-      multisplitClass::RectSet(rect, true);
-    }
-  }
+	switch( consoleViewCreate->type )
+	{
+	case ConsoleViewCreate::CREATE:
+		{
+			HWND hwndConsoleView = CreateNewConsole(consoleViewCreate);
+			if( hwndConsoleView )
+			{
+				result = multisplitClass::OnCreate(uMsg, wParam, lParam, bHandled);
+				TRACE(L"multisplitClass::OnCreate returns %p\n", result);
+				if( result == 0 )
+				{
+					multisplitClass::tree.window = hwndConsoleView;
+				}
+			}
+		}
+		break;
+
+	case ConsoleViewCreate::LOAD_WORKSPACE:
+		{
+			result = multisplitClass::OnCreate(uMsg, wParam, lParam, bHandled);
+			TRACE(L"multisplitClass::OnCreate returns %p\n", result);
+			if( result == 0 )
+			{
+				if( !LoadWorkspace(consoleViewCreate->pTabElement, &(multisplitClass::tree)) || m_views.empty() )
+					result = -1;
+			}
+		}
+		break;
+	}
+
+	if( result == 0 )
+	{
+		CRect rect;
+		m_views.begin()->second->GetRect(rect);
+		multisplitClass::RectSet(rect, true);
+	}
 
   bHandled = TRUE;
   ATLTRACE(_T("TabView::OnCreate done\n"));
@@ -867,4 +890,133 @@ void TabView::Diagnose(HANDLE hFile)
 		Helpers::WriteLine(hFile, L"  ConsoleZ font");
 		Helpers::WriteLine(hFile, console->second->GetFontInfo());
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pTabElement)
+{
+	XmlHelper::SetAttribute(pTabElement, CComBSTR(L"Title"), m_tabData->strTitle);
+	XmlHelper::SetAttribute(pTabElement, CComBSTR(L"Name"), m_strTitle);
+
+	return SaveWorkspace(pTabElement, &(multisplitClass::tree));
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane)
+{
+	if( pane->isSplitBar() )
+	{
+		// SplitView
+		CComPtr<IXMLDOMElement> pSplitViewElement;
+		if( FAILED(XmlHelper::CreateDomElement(pElement, CComBSTR(L"SplitView"), pSplitViewElement)) ) return false;
+
+		XmlHelper::SetAttribute(pSplitViewElement, CComBSTR(L"Type"), std::wstring(pane->splitType == CMultiSplitPane::HORIZONTAL ? L"Horizontal" : L"Vertical"));
+		XmlHelper::SetAttribute(pSplitViewElement, CComBSTR(L"Ratio"), pane->splitRatio);
+
+		// SplitView/Pane0
+		CComPtr<IXMLDOMElement> pPane0Element;
+		if( FAILED(XmlHelper::CreateDomElement(pSplitViewElement, CComBSTR(L"Pane0"), pPane0Element)) ) return false;
+
+		if( SaveWorkspace(pPane0Element, pane->pane0) == false ) return false;
+
+		// SplitView/Pane1
+		CComPtr<IXMLDOMElement> pPane1Element;
+		if( FAILED(XmlHelper::CreateDomElement(pSplitViewElement, CComBSTR(L"Pane1"), pPane1Element)) ) return false;
+
+		if( SaveWorkspace(pPane1Element, pane->pane1) == false ) return false;
+	}
+	else
+	{
+		// View
+		CComPtr<IXMLDOMElement> pViewElement;
+		if( FAILED(XmlHelper::CreateDomElement(pElement, CComBSTR(L"View"), pViewElement)) ) return false;
+
+		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"Title"), m_tabData->strTitle);
+		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), m_views[pane->window]->GetConsoleHandler().GetCurrentDirectory());
+		DWORD dwBasePriority = m_views[pane->window]->GetBasePriority();
+		if( dwBasePriority != ULONG_MAX )
+			XmlHelper::SetAttribute(pViewElement, CComBSTR(L"BasePriority"), std::wstring(TabData::PriorityToString(dwBasePriority)));
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool TabView::LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane)
+{
+	CComPtr<IXMLDOMElement> pSplitViewElement;
+	if( SUCCEEDED(XmlHelper::GetDomElement(pElement, CComBSTR(L"SplitView"), pSplitViewElement)) )
+	{
+		// SplitView
+
+		std::wstring strSplitViewType;
+		XmlHelper::GetAttribute(pSplitViewElement, CComBSTR(L"Type"), strSplitViewType, L"");
+
+		CMultiSplitPane::SPLITTYPE splitType;
+		if( strSplitViewType == L"Horizontal" ) splitType = CMultiSplitPane::HORIZONTAL;
+		else if( strSplitViewType == L"Vertical" ) splitType = CMultiSplitPane::VERTICAL;
+		else return false;
+
+		int splitRatio;
+		XmlHelper::GetAttribute(pSplitViewElement, CComBSTR(L"Ratio"), splitRatio, 50);
+
+		if( !pane->split(splitType, splitRatio, nullptr, nullptr, false) ) return false;
+
+		// SplitView/Pane0
+		CComPtr<IXMLDOMElement> pPane0Element;
+		if( FAILED(XmlHelper::GetDomElement(pSplitViewElement, CComBSTR(L"Pane0"), pPane0Element)) ) return false;
+
+		if( LoadWorkspace(pPane0Element, pane->pane0) == false ) return false;
+
+		// SplitView/Pane1
+		CComPtr<IXMLDOMElement> pPane1Element;
+		if( FAILED(XmlHelper::GetDomElement(pSplitViewElement, CComBSTR(L"Pane1"), pPane1Element)) ) return false;
+
+		if( LoadWorkspace(pPane1Element, pane->pane1) == false ) return false;
+	}
+	else
+	{
+		// View
+		CComPtr<IXMLDOMElement> pViewElement;
+		if( FAILED(XmlHelper::GetDomElement(pElement, CComBSTR(L"View"), pViewElement)) ) return false;
+
+		std::wstring strTitle;
+		XmlHelper::GetAttribute(pViewElement, CComBSTR(L"Title"), strTitle, L"");
+
+		// find tab with corresponding name...
+		TabSettings&	tabSettings = g_settingsHandler->GetTabSettings();
+		for( size_t i = 0; i < tabSettings.tabDataVector.size(); ++i )
+		{
+			if( tabSettings.tabDataVector[i]->strTitle == strTitle )
+			{
+				ConsoleViewCreate consoleViewCreate;
+				consoleViewCreate.type = ConsoleViewCreate::CREATE;
+				consoleViewCreate.u.userCredentials = nullptr;
+				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), consoleViewCreate.consoleOptions.strInitialDir, L"");
+				std::wstring strBasePriority;
+				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"BasePriority"), strBasePriority, L"");
+				consoleViewCreate.consoleOptions.dwBasePriority = TabData::StringToPriority(strBasePriority.c_str());
+				consoleViewCreate.m_tabDataShell = tabSettings.tabDataVector[i];
+
+				pane->window = CreateNewConsole(&consoleViewCreate);
+				return pane->window ? true : false;
+			}
+		}
+
+		return false;
+	}
+
+	return true;
 }
