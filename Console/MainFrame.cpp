@@ -623,7 +623,9 @@ LRESULT MainFrame::OnEraseBkgnd(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
 	GetClientRect(clientRect);
 	CBrush backgroundBrush;
 	backgroundBrush.CreateSolidBrush(::GetSysColor(COLOR_WINDOW));
-	FillRect(GetDC(), clientRect, backgroundBrush);
+	HDC dc = GetDC();
+	FillRect(dc, clientRect, backgroundBrush);
+	ReleaseDC(dc);
 #endif
 
 	return 0;
@@ -3224,7 +3226,9 @@ LRESULT MainFrame::OnDiagnose(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl
 					FILE_ATTRIBUTE_NORMAL,
 					NULL));
 
-			Helpers::WriteLine(file.get(), std::wstring(L"System dpi ") + std::to_wstring(::GetDeviceCaps(GetDC(), LOGPIXELSY)));
+			HDC dc = GetDC();
+			Helpers::WriteLine(file.get(), std::wstring(L"System dpi ") + std::to_wstring(::GetDeviceCaps(dc, LOGPIXELSY)));
+			ReleaseDC(dc);
 			Helpers::WriteLine(file.get(), std::wstring(L"System metrics"));
 			Helpers::WriteLine(file.get(), std::wstring(L"  SM_CXSMICON        ") + std::to_wstring(::GetSystemMetrics(SM_CXSMICON)));
 			Helpers::WriteLine(file.get(), std::wstring(L"  SM_CYSMICON        ") + std::to_wstring(::GetSystemMetrics(SM_CYSMICON)));
