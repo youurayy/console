@@ -941,6 +941,7 @@ bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* 
 
 		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"Title"), m_tabData->strTitle);
 		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), m_views[pane->window]->GetConsoleHandler().GetCurrentDirectory());
+		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"InitialCommand"), m_views[pane->window]->GetInitialCommand());
 		DWORD dwBasePriority = m_views[pane->window]->GetBasePriority();
 		if( dwBasePriority != ULONG_MAX )
 			XmlHelper::SetAttribute(pViewElement, CComBSTR(L"BasePriority"), std::wstring(TabData::PriorityToString(dwBasePriority)));
@@ -1005,6 +1006,7 @@ bool TabView::LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* 
 				consoleViewCreate.type = ConsoleViewCreate::CREATE;
 				consoleViewCreate.u.userCredentials = nullptr;
 				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), consoleViewCreate.consoleOptions.strInitialDir, L"");
+				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"InitialCommand"), consoleViewCreate.consoleOptions.strInitialCmd, L"");
 				std::wstring strBasePriority;
 				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"BasePriority"), strBasePriority, L"");
 				consoleViewCreate.consoleOptions.dwBasePriority = TabData::StringToPriority(strBasePriority.c_str());

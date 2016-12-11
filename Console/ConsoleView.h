@@ -180,13 +180,14 @@ class ConsoleView
 		void DumpBuffer();
 		void InitializeScrollbars();
 
-		const std::wstring& GetExceptionMessage() const { return m_exceptionMessage; }
+		inline const std::wstring& GetExceptionMessage() const { return m_exceptionMessage; }
 
 		inline bool IsGrouped() const { return m_boolIsGrouped; }
 		void Group(bool b) { m_boolIsGrouped = b; }
 
 		inline DWORD GetBasePriority() const { return m_consoleOptions.dwBasePriority; }
-		inline std::wstring GetEnvironment() const { return m_consoleOptions.strEnvironment; }
+		inline const std::wstring& GetEnvironment() const { return m_consoleOptions.strEnvironment; }
+		inline const std::wstring& GetInitialCommand() const { return m_consoleOptions.strInitialCmd; }
 
 		void DoScroll(int nType, int nScrollCode, int nThumbPos);
 
