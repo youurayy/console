@@ -91,7 +91,7 @@ private:
 	HWND CreateNewConsole(ConsoleViewCreate* consoleViewCreate);
 
 	bool LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane);
-	bool SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane);
+	bool SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane, const CComBSTR& ident);
 
 private:
   MainFrame&          m_mainFrame;

@@ -902,7 +902,11 @@ bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pTabElement)
 	XmlHelper::SetAttribute(pTabElement, CComBSTR(L"Title"), m_tabData->strTitle);
 	XmlHelper::SetAttribute(pTabElement, CComBSTR(L"Name"), m_strTitle);
 
-	return SaveWorkspace(pTabElement, &(multisplitClass::tree));
+	if( !SaveWorkspace(pTabElement, &(multisplitClass::tree), CComBSTR(L"\r\n\t\t")) ) return false;
+
+	XmlHelper::AddTextNode(pTabElement, CComBSTR(L"\r\n\t"));
+
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -910,7 +914,7 @@ bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pTabElement)
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane)
+bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane, const CComBSTR& ident)
 {
 	if( pane->isSplitBar() )
 	{
@@ -921,17 +925,28 @@ bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* 
 		XmlHelper::SetAttribute(pSplitViewElement, CComBSTR(L"Type"), std::wstring(pane->splitType == CMultiSplitPane::HORIZONTAL ? L"Horizontal" : L"Vertical"));
 		XmlHelper::SetAttribute(pSplitViewElement, CComBSTR(L"Ratio"), pane->splitRatio);
 
+		CComBSTR identPaneOut = ident;
+		identPaneOut += L"\t";
+		CComBSTR identPaneIn = identPaneOut;
+		identPaneIn += L"\t";
+
 		// SplitView/Pane0
 		CComPtr<IXMLDOMElement> pPane0Element;
 		if( FAILED(XmlHelper::CreateDomElement(pSplitViewElement, CComBSTR(L"Pane0"), pPane0Element)) ) return false;
 
-		if( SaveWorkspace(pPane0Element, pane->pane0) == false ) return false;
+		if( SaveWorkspace(pPane0Element, pane->pane0, identPaneIn) == false ) return false;
+
+		XmlHelper::AddTextNode(pPane0Element, identPaneOut);
 
 		// SplitView/Pane1
 		CComPtr<IXMLDOMElement> pPane1Element;
 		if( FAILED(XmlHelper::CreateDomElement(pSplitViewElement, CComBSTR(L"Pane1"), pPane1Element)) ) return false;
 
-		if( SaveWorkspace(pPane1Element, pane->pane1) == false ) return false;
+		if( SaveWorkspace(pPane1Element, pane->pane1, identPaneIn) == false ) return false;
+
+		XmlHelper::AddTextNode(pPane1Element, identPaneOut);
+
+		XmlHelper::AddTextNode(pSplitViewElement, ident);
 	}
 	else
 	{

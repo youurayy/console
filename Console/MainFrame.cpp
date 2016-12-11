@@ -5455,13 +5455,15 @@ bool MainFrame::SaveWorkspace(const wstring& filename)
 
 	// /!\ m_tabs is sorted by HWND
 	// we want to save tabs sorted by tab number
-	for( int i = 0; i < m_TabCtrl.GetItemCount(); ++i)
+	for( int i = 0; i < m_TabCtrl.GetItemCount(); ++i )
 	{
 		CComPtr<IXMLDOMElement> pTabElement;
 		if( FAILED(XmlHelper::CreateDomElement(pWorkspaceRoot, CComBSTR(L"Tab"), pTabElement)) ) return false;
 
 		if( !m_tabs[m_TabCtrl.GetItem(i)->GetTabView()]->SaveWorkspace(pTabElement) ) return false;
 	}
+
+	XmlHelper::AddTextNode(pWorkspaceRoot, CComBSTR(L"\r\n"));
 
 	if( FAILED(pWorkspaceDocument->save(CComVariant(filename.c_str()))) ) return false;
 
