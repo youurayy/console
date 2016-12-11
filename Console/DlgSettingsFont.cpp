@@ -119,8 +119,10 @@ LRESULT DlgSettingsFont::OnClickedBtnBrowseFont(WORD /*wNotifyCode*/, WORD /*wID
 	LOGFONT	lf;
 	::ZeroMemory(&lf, sizeof(LOGFONT));
 
+	HDC desktopDc = ::GetDC(NULL);
+
 	wcsncpy_s(lf.lfFaceName, _countof(lf.lfFaceName), LPCTSTR(m_strFontName), 32);
-	lf.lfHeight	= -MulDiv(m_fontSettings.dwSize, GetDeviceCaps(::GetDC(NULL), LOGPIXELSY), 72);
+	lf.lfHeight	= -MulDiv(m_fontSettings.dwSize, GetDeviceCaps(desktopDc, LOGPIXELSY), 72);
 	lf.lfWeight	= m_fontSettings.bBold ? FW_BOLD : FW_NORMAL;
 	lf.lfItalic	= m_fontSettings.bItalic ? 1 : 0;
 
@@ -130,7 +132,7 @@ LRESULT DlgSettingsFont::OnClickedBtnBrowseFont(WORD /*wNotifyCode*/, WORD /*wID
 	if (fontDlg.DoModal() == IDOK)
 	{
 		m_strFontName							= fontDlg.GetFaceName();
-		m_fontSettings.dwSize= static_cast<DWORD>(static_cast<double>(-fontDlg.m_lf.lfHeight*72)/static_cast<double>(GetDeviceCaps(::GetDC(NULL), LOGPIXELSY)) + 0.5);
+		m_fontSettings.dwSize= static_cast<DWORD>(static_cast<double>(-fontDlg.m_lf.lfHeight*72)/static_cast<double>(GetDeviceCaps(desktopDc, LOGPIXELSY)) + 0.5);
 		m_fontSettings.bBold					= fontDlg.IsBold() ? true : false;
 		m_fontSettings.bItalic					= fontDlg.IsItalic() ? true : false;
 
