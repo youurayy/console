@@ -35,6 +35,7 @@ struct CommandLineOptions
 {
 	CommandLineOptions()
 		: strWindowTitle()
+		, startupWorkspaces()
 		, startupTabs()
 		, startupTabTitles()
 		, startupDirs()
@@ -48,6 +49,7 @@ struct CommandLineOptions
 	}
 
 	std::wstring strWindowTitle;
+	std::vector<std::wstring> startupWorkspaces;
 	std::vector<std::wstring> startupTabs;
 	std::vector<std::wstring> startupTabTitles;
 	std::vector<std::wstring> startupDirs;

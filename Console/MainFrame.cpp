@@ -43,6 +43,13 @@ void MainFrame::ParseCommandLine
 			if (i == argc) break;
 			commandLineOptions.strWindowTitle = argv[i];
 		}
+		if (wstring(argv[i]) == wstring(L"-ws"))
+		{
+			// startup workspace
+			++i;
+			if (i == argc) break;
+			commandLineOptions.startupWorkspaces.push_back(argv[i]);
+		}
 		else if (wstring(argv[i]) == wstring(L"-t"))
 		{
 			// startup tab type
@@ -252,7 +259,7 @@ LRESULT MainFrame::CreateInitialTabs
 	TabSettings&	tabSettings = g_settingsHandler->GetTabSettings();
 
 	// create initial console window(s)
-	if (commandLineOptions.startupTabs.size() == 0)
+	if (commandLineOptions.startupTabs.empty() == 0 && commandLineOptions.startupWorkspaces.empty())
 	{
 		if( !tabSettings.tabDataVector.empty() )
 		{
@@ -274,7 +281,16 @@ LRESULT MainFrame::CreateInitialTabs
 				consoleOptions);
 		}
 	}
-	else
+
+	if (!commandLineOptions.startupWorkspaces.empty())
+	{
+		for( auto itWs = commandLineOptions.startupWorkspaces.begin(); itWs != commandLineOptions.startupWorkspaces.end(); ++itWs )
+		{
+			bAtLeastOneStarted = LoadWorkspace(*itWs);
+		}
+	}
+
+	if (!commandLineOptions.startupTabs.empty())
 	{
 		for (size_t tabIndex = 0; tabIndex < commandLineOptions.startupTabs.size(); ++tabIndex)
 		{
@@ -5376,6 +5392,8 @@ LRESULT MainFrame::OnSaveWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 
 bool MainFrame::LoadWorkspace(const wstring& filename)
 {
+	bool bAtLeastOneStarted = false;
+
 	CComPtr<IXMLDOMDocument> xmlDocumentWorksapce;
 	CComPtr<IXMLDOMElement>  xmlElementWorksapce;
 
@@ -5427,14 +5445,14 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 				std::shared_ptr<TabData> tabData = tabSettings.tabDataVector[i];
 
-				CreateNewConsole(&consoleViewCreate, tabData);
+				bAtLeastOneStarted = CreateNewConsole(&consoleViewCreate, tabData);
 
 				break;
 			}
 		}
 	}
 
-	return true;
+	return bAtLeastOneStarted;
 }
 
 /////////////////////////////////////////////////////////////////////////////
