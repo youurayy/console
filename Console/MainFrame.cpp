@@ -259,7 +259,7 @@ LRESULT MainFrame::CreateInitialTabs
 	TabSettings&	tabSettings = g_settingsHandler->GetTabSettings();
 
 	// create initial console window(s)
-	if (commandLineOptions.startupTabs.empty() == 0 && commandLineOptions.startupWorkspaces.empty())
+	if (commandLineOptions.startupTabs.empty() && commandLineOptions.startupWorkspaces.empty())
 	{
 		if( !tabSettings.tabDataVector.empty() )
 		{
@@ -5445,7 +5445,7 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 				std::shared_ptr<TabData> tabData = tabSettings.tabDataVector[i];
 
-				bAtLeastOneStarted = CreateNewConsole(&consoleViewCreate, tabData);
+				if( CreateNewConsole(&consoleViewCreate, tabData) ) bAtLeastOneStarted = true;
 
 				break;
 			}
