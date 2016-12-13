@@ -45,6 +45,10 @@
 			<param name="Local" value="html\snippets.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Workspaces">
+			<param name="Local" value="html\workspaces.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Settings">
 			</OBJECT>
 		<UL>
