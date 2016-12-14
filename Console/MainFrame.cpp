@@ -261,7 +261,17 @@ LRESULT MainFrame::CreateInitialTabs
 	// create initial console window(s)
 	if (commandLineOptions.startupTabs.empty() && commandLineOptions.startupWorkspaces.empty())
 	{
-		if( !tabSettings.tabDataVector.empty() )
+		// load auto saved workspace
+		if(g_settingsHandler->GetBehaviorSettings2().closeSettings.bSaveWorkspaceOnExit)
+		{
+			std::wstring strAutoSaveWorkspaceFileName = g_settingsHandler->GetSettingsFileName();
+			strAutoSaveWorkspaceFileName = strAutoSaveWorkspaceFileName.substr(0, strAutoSaveWorkspaceFileName.length() - 4);
+			strAutoSaveWorkspaceFileName += L".autosave.workspace";
+
+			bAtLeastOneStarted = LoadWorkspace(strAutoSaveWorkspaceFileName);
+		}
+
+		if( !bAtLeastOneStarted && !tabSettings.tabDataVector.empty() )
 		{
 			ConsoleOptions consoleOptions;
 
@@ -664,6 +674,16 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 			if(MessageBox(Helpers::LoadString(MSG_MAINFRAME_CLOSE_ALL_VIEWS).c_str(), L"ConsoleZ", MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
 				return 0;
 		}
+	}
+
+	// save workspace
+	if(g_settingsHandler->GetBehaviorSettings2().closeSettings.bSaveWorkspaceOnExit)
+	{
+		std::wstring strAutoSaveWorkspaceFileName = g_settingsHandler->GetSettingsFileName();
+		strAutoSaveWorkspaceFileName = strAutoSaveWorkspaceFileName.substr(0, strAutoSaveWorkspaceFileName.length() - 4);
+		strAutoSaveWorkspaceFileName += L".autosave.workspace";
+
+		SaveWorkspace(strAutoSaveWorkspaceFileName);
 	}
 
 	// save settings on exit
