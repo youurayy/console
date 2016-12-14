@@ -504,7 +504,7 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 	DWORD dwTabStyles = CTCS_TOOLTIPS | CTCS_DRAGREARRANGE | CTCS_SCROLL | CTCS_CLOSEBUTTON | CTCS_HOTTRACK;
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM;
-	if (g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB;
+	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB;
 
 	CreateTabWindow(m_hWnd, rcDefault, dwTabStyles);
 
@@ -650,7 +650,7 @@ LRESULT MainFrame::OnEraseBkgnd(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
 
 LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	if(g_settingsHandler->GetBehaviorSettings().closeSettings.bConfirmClosingMultipleViews)
+	if(g_settingsHandler->GetBehaviorSettings2().closeSettings.bConfirmClosingMultipleViews)
 	{
 		MutexLock lock(m_tabsMutex);
 
@@ -2463,7 +2463,7 @@ LRESULT MainFrame::OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 {
   MutexLock viewMapLock(m_tabsMutex);
 
-  if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+  if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
   {
     if( m_tabs.size() == 1 && m_tabs.begin()->second->GetViewsCount() == 1 )
       return 0;
@@ -2477,7 +2477,7 @@ LRESULT MainFrame::OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 			CloseTab(m_activeTabView->m_hWnd);
 	}
 
-  if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+  if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
   {
     if( m_tabs.size() == 1 && m_tabs.begin()->second->GetViewsCount() == 1 )
 		{
@@ -2515,7 +2515,7 @@ LRESULT MainFrame::OnSplit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 		}
 	}
 
-	if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+	if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
 	{
 		if( m_tabs.size() > 1 || m_tabs.begin()->second->GetViewsCount() > 1 )
 		{
@@ -2839,7 +2839,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 
 	DWORD dwTabStyles = ::GetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE);
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM; else dwTabStyles &= ~CTCS_BOTTOM;
-	if (g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
+	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
 	::SetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE, dwTabStyles);
 
 	SetWindowStyles();
@@ -3513,7 +3513,7 @@ void MainFrame::CloseTab(CTabViewTabItem* pTabItem)
 {
   MutexLock viewMapLock(m_tabsMutex);
   if (!pTabItem) return;
-  if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+  if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
     if (m_tabs.size() <= 1) return;
   CloseTab(pTabItem->GetTabView());
 }
@@ -3543,7 +3543,7 @@ void MainFrame::CloseTab(HWND hwndTabView)
     ShowTabs(false);
   }
 
-  if (m_tabs.empty() && g_settingsHandler->GetBehaviorSettings().closeSettings.bExitOnClosingOfLastTab) PostMessage(WM_CLOSE);
+  if (m_tabs.empty() && g_settingsHandler->GetBehaviorSettings2().closeSettings.bExitOnClosingOfLastTab) PostMessage(WM_CLOSE);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4250,7 +4250,7 @@ void MainFrame::ShowFullScreen(bool bShow)
 
 	DWORD dwTabStyles = ::GetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE);
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM; else dwTabStyles &= ~CTCS_BOTTOM;
-	if (g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
+	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
 	::SetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE, dwTabStyles);
 
 	bool bShowTabs = controlsSettings.ShowTabs();
@@ -5121,7 +5121,7 @@ void MainFrame::UpdateUI()
 {
 	MutexLock lock(m_tabsMutex);
 
-	if( g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+	if( g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
 	{
 		UIEnable(ID_FILE_CLOSE_TAB, TRUE);
 		UIEnable(ID_CLOSE_VIEW, TRUE);

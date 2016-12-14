@@ -25,6 +25,10 @@ class DlgSettingsBehavior2
 			DDX_CHECK(IDC_CHECK_MULTI_INSTANCES,    m_behaviorSettings2.instanceSettings.bAllowMultipleInstances)
 			DDX_CHECK(IDC_CHECK_OPEN_CURRENT_DIR,   m_behaviorSettings2.cloneSettings.bUseCurrentDirectory)
 			DDX_CHECK(IDC_CHECK_USE_CREDPROV,       m_behaviorSettings2.runAsUserSettings.bUseCredentialProviders)
+			DDX_CHECK(IDC_CHECK_CLOSING_LAST_TAB,   m_behaviorSettings2.closeSettings.bAllowClosingLastView)
+			DDX_CHECK(IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB, m_behaviorSettings2.closeSettings.bExitOnClosingOfLastTab)
+			DDX_CHECK(IDC_CHECK_CONFIRM_CLOSE_MULTI, m_behaviorSettings2.closeSettings.bConfirmClosingMultipleViews)
+			DDX_CHECK(IDC_CHECK_SAVE_WORKSPACE_ON_EXIT, m_behaviorSettings2.closeSettings.bSaveWorkspaceOnExit)
 		END_DDX_MAP()
 
 		BEGIN_MSG_MAP(DlgSettingsBehavior2)

@@ -336,6 +336,7 @@
 #define IDC_RADIO_BK_TYPE3              1246
 #define IDC_RADIO_BK_TYPE4              1247
 #define IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB 1248
+#define IDC_CHECK_SAVE_WORKSPACE_ON_EXIT 1249
 
 #define ID_SNIPPET_ID_FIRST             1900
 #define ID_SNIPPET_ID_LAST              1999
@@ -614,7 +615,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1249
+#define _APS_NEXT_CONTROL_VALUE         1250
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
