@@ -378,11 +378,6 @@ BEGIN
     CONTROL         "",IDC_SPIN_SCROLL_PAGE_ROWS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,187,158,11,14
     LTEXT           "行",IDC_STATIC_ROWS,209,160,26,8
     GROUPBOX        "ページスクロール",IDC_STATIC,120,130,115,63
-
-    CONTROL         "タブが1つのとき'ビューを閉じる/ビューのデタッチ'を許可する",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,206,220,16
-    CONTROL         "Exit on closing of last tab",IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,222,220,16
-    CONTROL         "複数のタブ/ビューを閉じる前に確認する",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,238,220,16
-    GROUPBOX        "閉じる/デタッチ",IDC_STATIC,0,195,235,64,WS_GROUP
 END
 
 IDD_SETTINGS_BEHAVIOR_2 DIALOGEX 0, 0, 235, 265
@@ -400,6 +395,12 @@ BEGIN
 
     CONTROL         "Use credential providers",IDC_CHECK_USE_CREDPROV,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,220,16
     GROUPBOX        "ユーザ権限で実行",IDC_STATIC,0,70,235,33
+
+    CONTROL         "タブが1つのとき'ビューを閉じる/ビューのデタッチ'を許可する",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,116,220,16
+    CONTROL         "Exit on closing of last tab",IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,132,220,16
+    CONTROL         "複数のタブ/ビューを閉じる前に確認する",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,148,220,16
+    CONTROL         "Save workspace on exit",IDC_CHECK_SAVE_WORKSPACE_ON_EXIT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,164,220,16
+    GROUPBOX        "閉じる/デタッチ",IDC_STATIC,0,105,235,80,WS_GROUP
 END
 
 IDD_SETTINGS_TABS_1 DIALOGEX 0, 0, 224, 172
@@ -681,6 +682,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "コンソールのアタッチ",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
+        MENUITEM "Load Workspace...",           ID_LOAD_WORKSPACE
+        MENUITEM "Save Workspace...",           ID_SAVE_WORKSPACE
+        MENUITEM SEPARATOR
         MENUITEM "終了",                       ID_APP_EXIT
     END
     POPUP "編集"
@@ -873,6 +877,8 @@ BEGIN
     ID_CLOSE_VIEW           "現在のビューを閉じる\nビューを閉じる"
     ID_DETACH_VIEW          "現在のビューをデタッチ\nビューのデタッチ"
     ID_ATTACH_CONSOLES      "コンソールのアタッチ\nコンソールのアタッチ"
+    ID_LOAD_WORKSPACE       "Load workspace\nLoad workspace"
+    ID_SAVE_WORKSPACE       "Save workspace\nSave workspace"
     ID_SPLIT_HORIZ          "現在のビューを水平に分割\n水平分割"
     ID_SPLIT_VERT           "現在のビューを垂直に分割\n垂直分割"
     ID_SPLIT_SWAP           "前のフォーカス画面と交換\nビューのスワップ"
@@ -976,6 +982,8 @@ BEGIN
                             "フルスクリーンを終了"
     MSG_MAINFRAME_SYNTAX_ERROR
                             "%1% にシンタックスエラー"
+    MSG_MAINFRAME_WORKSPACE_FILES
+                            "ConsoleZ workspace|*.workspace||"
 
     MSG_TABVIEW_RUNAS       "別のユーザーとして実行"
 
@@ -1036,6 +1044,8 @@ BEGIN
     IDS_CLOSE_VIEW           "ビューを閉じる"
     IDS_DETACH_VIEW          "ビューのデタッチ"
     IDS_ATTACH_CONSOLES      "コンソールのアタッチ"
+    IDS_LOAD_WORKSPACE       "Load workspace"
+    IDS_SAVE_WORKSPACE       "Save Workspace"
     IDS_SPLIT_HORIZ          "水平方向に分割"
     IDS_SPLIT_VERT           "垂直方向に分割"
     IDS_SPLIT_SWAP           "前のフォーカス画面と交換"
