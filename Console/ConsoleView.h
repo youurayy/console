@@ -26,7 +26,8 @@ struct ConsoleViewCreate
 	enum TYPE
 	{
 		CREATE,
-		ATTACH
+		ATTACH,
+		LOAD_WORKSPACE
 	} type;
 
 	union
@@ -34,6 +35,12 @@ struct ConsoleViewCreate
 		UserCredentials* userCredentials;
 		DWORD            dwProcessId;
 	} u;
+
+	ConsoleOptions consoleOptions;
+
+	std::shared_ptr<TabData> m_tabDataShell;
+
+	CComPtr<IXMLDOMElement> pTabElement;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -50,7 +57,7 @@ class ConsoleView
 		DECLARE_WND_CLASS_EX(L"Console_2_View", CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS, COLOR_WINDOW)
 //		DECLARE_WND_CLASS_EX(L"Console_2_View", CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS, COLOR_WINDOW)
 
-		ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr<TabData> tabData, DWORD dwRows, DWORD dwColumns, const ConsoleOptions& consoleOptions);
+		ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr<TabData> tabDataTab, std::shared_ptr<TabData> tabDataShell, DWORD dwRows, DWORD dwColumns, const ConsoleOptions& consoleOptions);
 		~ConsoleView();
 
 		BEGIN_MSG_MAP(ConsoleView)
@@ -137,7 +144,7 @@ class ConsoleView
 		CPoint GetCellSize() { return CPoint(m_nCharWidth, m_nCharHeight); };
 
 		ConsoleHandler& GetConsoleHandler() { return m_consoleHandler; }
-		std::shared_ptr<TabData> GetTabData() { return m_tabData; }
+		std::shared_ptr<TabData> GetTabData() { return m_tabDataShell; }
 
 		bool GetConsoleWindowVisible() const { return m_bConsoleWindowVisible; }
 		void SetConsoleWindowVisible(bool bVisible);
@@ -173,13 +180,14 @@ class ConsoleView
 		void DumpBuffer();
 		void InitializeScrollbars();
 
-		const std::wstring& GetExceptionMessage() const { return m_exceptionMessage; }
+		inline const std::wstring& GetExceptionMessage() const { return m_exceptionMessage; }
 
 		inline bool IsGrouped() const { return m_boolIsGrouped; }
 		void Group(bool b) { m_boolIsGrouped = b; }
 
 		inline DWORD GetBasePriority() const { return m_consoleOptions.dwBasePriority; }
-		inline std::wstring GetEnvironment() const { return m_consoleOptions.strEnvironment; }
+		inline const std::wstring& GetEnvironment() const { return m_consoleOptions.strEnvironment; }
+		inline const std::wstring& GetInitialCommand() const { return m_consoleOptions.strInitialCmd; }
 
 		void DoScroll(int nType, int nScrollCode, int nThumbPos);
 
@@ -259,7 +267,8 @@ class ConsoleView
 		AppearanceSettings&				m_appearanceSettings;
 		HotKeys&						m_hotkeys;
 
-		std::shared_ptr<TabData>				m_tabData;
+		std::shared_ptr<TabData>    m_tabDataTab;
+		std::shared_ptr<TabData>    m_tabDataShell;
 		std::shared_ptr<BackgroundImage>		m_background;
 
 		CBrush							m_backgroundBrush;

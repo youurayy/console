@@ -139,41 +139,43 @@ namespace WTL
 				return isPane0 ? TOP : BOTTOM;
 		}
 
-		CMultiSplitPane* split(HWND windowPane1, SPLITTYPE splitType)
+		bool split(SPLITTYPE splitType, int splitRatio, HWND windowPane0, HWND windowPane1, bool updateSize)
 		{
-			if( this->isSplitBar() )
-				return 0;
-
-			int pane0Width, pane0Height, pane1Width, pane1Height, pane1X, pane1Y;
+			int pane0Width = 0, pane0Height = 0, pane1Width = 0, pane1Height = 0, pane1X = 0, pane1Y = 0;
 
 			this->splitType  = splitType;
-			this->splitRatio = 50;
-			if( this->splitType == HORIZONTAL )
-			{
-				pane1Width = pane0Width = this->width;
-				pane0Height = (this->height - CMultiSplitPane::splitBarHeight) / 2;
-				pane1Height = this->height - CMultiSplitPane::splitBarHeight - pane0Height;
-				pane1X = this->x;
-				pane1Y = this->y + pane0Height + CMultiSplitPane::splitBarHeight;
-			}
-			else
-			{
-				pane0Width = (this->width - CMultiSplitPane::splitBarWidth) / 2;
-				pane1Width = this->width - CMultiSplitPane::splitBarWidth - pane0Width;
-				pane1Height = pane0Height = this->height;
-				pane1X = this->x + pane0Width + CMultiSplitPane::splitBarWidth;
-				pane1Y = this->y;
-			}
+			this->splitRatio = splitRatio;
 
-			if( pane0Width <= 0 || pane1Width <= 0 || pane0Height <= 0 || pane1Height <= 0 )
-				// too small
-					return 0;
+			if( updateSize )
+			{
+				if( this->splitType == HORIZONTAL )
+				{
+					pane1Width = pane0Width = this->width;
+					pane0Height = (this->height - CMultiSplitPane::splitBarHeight) / 2;
+					pane1Height = this->height - CMultiSplitPane::splitBarHeight - pane0Height;
+					pane1X = this->x;
+					pane1Y = this->y + pane0Height + CMultiSplitPane::splitBarHeight;
+				}
+				else
+				{
+					pane0Width = (this->width - CMultiSplitPane::splitBarWidth) / 2;
+					pane1Width = this->width - CMultiSplitPane::splitBarWidth - pane0Width;
+					pane1Height = pane0Height = this->height;
+					pane1X = this->x + pane0Width + CMultiSplitPane::splitBarWidth;
+					pane1Y = this->y;
+				}
+
+				if( pane0Width <= 0 || pane1Width <= 0 || pane0Height <= 0 || pane1Height <= 0 )
+					// too small
+					return false;
+			}
 
 			this->pane0 = new CMultiSplitPane(
-				this->window,
+				windowPane0,
 				this->x, this->y,
 				pane0Width, pane0Height,
 				this);
+
 			this->pane1 = new CMultiSplitPane(
 				windowPane1,
 				pane1X, pane1Y,
@@ -181,6 +183,16 @@ namespace WTL
 				this);
 
 			this->window = 0;
+
+			return true;
+		}
+
+		CMultiSplitPane* split(HWND windowPane1, SPLITTYPE splitType)
+		{
+			if( this->isSplitBar() )
+				return 0;
+
+			if( !split(splitType, 50, this->window, windowPane1, true) ) return nullptr;
 
 			// resize two children
 			this->pane0->resize(this->pane0->width, this->pane0->height);

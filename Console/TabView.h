@@ -11,7 +11,7 @@ class TabView
 public:
   DECLARE_WND_CLASS_EX(L"Console_2_TabView", CS_DBLCLKS, COLOR_WINDOW)
 
-  TabView(MainFrame& mainFrame, std::shared_ptr<TabData> tabData, const ConsoleOptions& consoleOptions);
+  TabView(MainFrame& mainFrame, std::shared_ptr<TabData> tabData, const std::wstring& strTitle);
   ~TabView();
 
   BOOL PreTranslateMessage(MSG* pMsg);
@@ -55,7 +55,7 @@ public:
   std::shared_ptr<TabData>     GetTabData() { return m_tabData; }
 
   void SetTitle(const std::wstring& strTitle);
-  const std::wstring& GetTitle() const { return m_consoleOptions.strTitle; }
+  const std::wstring& GetTitle() const { return m_strTitle; }
   CIcon& GetIcon(bool bBigIcon = true) { return bBigIcon ? m_bigIcon : m_smallIcon; }
   void SetActive(bool bActive);
   void SetAppActiveStatus(bool bAppActive);
@@ -85,8 +85,13 @@ public:
 
 	void Diagnose(HANDLE hFile);
 
+	bool SaveWorkspace(CComPtr<IXMLDOMElement>& pTabElement);
+
 private:
-	HWND CreateNewConsole(ConsoleViewCreate* consoleViewCreate, const ConsoleOptions& consoleOptions);
+	HWND CreateNewConsole(ConsoleViewCreate* consoleViewCreate);
+
+	bool LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane);
+	bool SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* pane, const CComBSTR& ident);
 
 private:
   MainFrame&          m_mainFrame;
@@ -96,7 +101,7 @@ private:
   CIcon               m_bigIcon;
   CIcon               m_smallIcon;
   bool                m_boolIsGrouped;
-	ConsoleOptions      m_consoleOptions;
+	std::wstring        m_strTitle;
 
   // static members
 private:

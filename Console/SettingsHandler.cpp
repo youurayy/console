@@ -1308,6 +1308,7 @@ CloseSettings::CloseSettings()
   : bAllowClosingLastView(false)
 	, bExitOnClosingOfLastTab(true)
   , bConfirmClosingMultipleViews(true)
+	, bSaveWorkspaceOnExit(false)
 {
 }
 
@@ -1325,6 +1326,7 @@ bool CloseSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 		XmlHelper::GetAttribute(pCloseElement, CComBSTR(L"allow_closing_last_view"), bAllowClosingLastView, false);
 		XmlHelper::GetAttribute(pCloseElement, CComBSTR(L"exit_on_closing_of_last_tab"), bExitOnClosingOfLastTab, true);
 		XmlHelper::GetAttribute(pCloseElement, CComBSTR(L"confirm_closing_multiple_views"), bConfirmClosingMultipleViews, true);
+		XmlHelper::GetAttribute(pCloseElement, CComBSTR(L"save_workspace_on_exit"), bSaveWorkspaceOnExit, false);
 	}
 
 	return true;
@@ -1346,6 +1348,7 @@ bool CloseSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"allow_closing_last_view"), bAllowClosingLastView);
 	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"exit_on_closing_of_last_tab"), bExitOnClosingOfLastTab);
 	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"confirm_closing_multiple_views"), bConfirmClosingMultipleViews);
+	XmlHelper::SetAttribute(pCloseElement, CComBSTR(L"save_workspace_on_exit"), bSaveWorkspaceOnExit);
 
 	return true;
 }
@@ -1360,6 +1363,7 @@ CloseSettings& CloseSettings::operator=(const CloseSettings& other)
 	bAllowClosingLastView        = other.bAllowClosingLastView;
 	bExitOnClosingOfLastTab      = other.bExitOnClosingOfLastTab;
 	bConfirmClosingMultipleViews = other.bConfirmClosingMultipleViews;
+	bSaveWorkspaceOnExit         = other.bSaveWorkspaceOnExit;
 
 	return *this;
 }
@@ -1697,7 +1701,6 @@ bool BehaviorSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if( copyPasteSettings   .Load(pSettingsRoot) == false ) return false;
 	if( scrollSettings      .Load(pSettingsRoot) == false ) return false;
 	if( tabHighlightSettings.Load(pSettingsRoot) == false ) return false;
-	if( closeSettings       .Load(pSettingsRoot) == false ) return false;
 
 	return true;
 }
@@ -1712,7 +1715,6 @@ bool BehaviorSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if( copyPasteSettings   .Save(pSettingsRoot) == false ) return false;
 	if( scrollSettings      .Save(pSettingsRoot) == false ) return false;
 	if( tabHighlightSettings.Save(pSettingsRoot) == false ) return false;
-	if( closeSettings       .Save(pSettingsRoot) == false ) return false;
 
 	return true;
 }
@@ -1727,7 +1729,6 @@ BehaviorSettings& BehaviorSettings::operator=(const BehaviorSettings& other)
 	copyPasteSettings    = other.copyPasteSettings;
 	scrollSettings       = other.scrollSettings;
 	tabHighlightSettings = other.tabHighlightSettings;
-	closeSettings        = other.closeSettings;
 
 	return *this;
 }
@@ -1758,6 +1759,7 @@ bool BehaviorSettings2::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if( cloneSettings    .Load(pSettingsRoot) == false ) return false;
 	if( searchSettings   .Load(pSettingsRoot) == false ) return false;
 	if( runAsUserSettings.Load(pSettingsRoot) == false ) return false;
+	if( closeSettings    .Load(pSettingsRoot) == false ) return false;
 
 	return true;
 }
@@ -1774,6 +1776,7 @@ bool BehaviorSettings2::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if( cloneSettings    .Save(pSettingsRoot) == false ) return false;
 	if( searchSettings   .Save(pSettingsRoot) == false ) return false;
 	if( runAsUserSettings.Save(pSettingsRoot) == false ) return false;
+	if( closeSettings    .Save(pSettingsRoot) == false ) return false;
 
 	return true;
 }
@@ -1790,6 +1793,7 @@ BehaviorSettings2& BehaviorSettings2::operator=(const BehaviorSettings2& other)
 	cloneSettings        = other.cloneSettings;
 	searchSettings       = other.searchSettings;
 	runAsUserSettings    = other.runAsUserSettings;
+	closeSettings        = other.closeSettings;
 
 	return *this;
 }
@@ -1908,6 +1912,9 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdSnippets",        ID_SHOW_CONTEXT_MENU_SNIPPETS,  ID_SHOW_CONTEXT_MENU_SNIPPETS )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"ctrlC",              ID_SEND_CTRL_C,          IDS_SEND_CTRL_C         )));
+
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"wspload",            ID_LOAD_WORKSPACE,       IDS_LOAD_WORKSPACE )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"wspsave",            ID_SAVE_WORKSPACE,       IDS_SAVE_WORKSPACE )));
 
 	for(WORD i = 0; i < EXTERNAL_COMMANDS_COUNT; ++i)
 	{

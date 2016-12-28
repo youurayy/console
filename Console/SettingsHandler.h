@@ -450,6 +450,7 @@ struct CloseSettings : public SettingsBase
 	bool bAllowClosingLastView;
 	bool bExitOnClosingOfLastTab;
 	bool bConfirmClosingMultipleViews;
+	bool bSaveWorkspaceOnExit;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -555,7 +556,6 @@ struct BehaviorSettings : public SettingsBase
 	CopyPasteSettings    copyPasteSettings;
 	ScrollSettings       scrollSettings;
 	TabHighlightSettings tabHighlightSettings;
-	CloseSettings        closeSettings;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -577,6 +577,7 @@ struct BehaviorSettings2 : public SettingsBase
 	CloneSettings        cloneSettings;
 	SearchSettings       searchSettings;
 	RunAsUserSettings    runAsUserSettings;
+	CloseSettings        closeSettings;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1097,9 +1098,9 @@ class SettingsHandler
 		bool SaveSettings();
 		bool SerializeSettings(CComPtr<IXMLDOMElement>& pSettingsRoot);
 
-		wstring	GetSettingsFileName() const { return m_strSettingsPath+m_strSettingsFileName; }
-		wstring	GetSettingsPath() const { return m_strSettingsPath; }
-		wstring	GetSettingsTitle() const { return m_strSettingsFileName; }
+		const std::wstring GetSettingsFileName() const { return m_strSettingsPath+m_strSettingsFileName; }
+		const std::wstring& GetSettingsPath() const { return m_strSettingsPath; }
+		const std::wstring& GetSettingsTitle() const { return m_strSettingsFileName; }
 
 		SettingsDirType GetSettingsDirType() const { return m_settingsDirType; }
 		void SetUserDataDir(SettingsDirType settingsDirType);

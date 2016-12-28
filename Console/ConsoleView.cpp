@@ -37,7 +37,7 @@ bool _boolMenuSysKeyCancelled = false;
 
 //////////////////////////////////////////////////////////////////////////////
 
-ConsoleView::ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr<TabData> tabData, DWORD dwRows, DWORD dwColumns, const ConsoleOptions& consoleOptions)
+ConsoleView::ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr<TabData> tabDataTab, std::shared_ptr<TabData> tabDataShell, DWORD dwRows, DWORD dwColumns, const ConsoleOptions& consoleOptions)
 : m_mainFrame(mainFrame)
 , m_hwndTabView(hwndTabView)
 , m_consoleOptions(consoleOptions)
@@ -63,7 +63,8 @@ ConsoleView::ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr
 , m_consoleSettings(g_settingsHandler->GetConsoleSettings())
 , m_appearanceSettings(g_settingsHandler->GetAppearanceSettings())
 , m_hotkeys(g_settingsHandler->GetHotKeys())
-, m_tabData(tabData)
+, m_tabDataTab(tabDataTab)
+, m_tabDataShell(tabDataShell.get() ? tabDataShell : tabDataTab)
 , m_background()
 , m_backgroundBrush(NULL)
 , m_cursor()
@@ -108,22 +109,22 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 						fastdelegate::MakeDelegate(this, &ConsoleView::OnConsoleClose));
 
 	// load background image
-	switch( m_tabData->backgroundImageType )
+	switch( m_tabDataTab->backgroundImageType )
 	{
 	case bktypeImage:
-		m_background = g_imageHandler->GetImage(m_tabData->imageData);
+		m_background = g_imageHandler->GetImage(m_tabDataTab->imageData);
 		break;
 
 	case bktypeDesktop:
-		m_background = g_imageHandler->GetDesktopImage(m_tabData->imageData);
+		m_background = g_imageHandler->GetDesktopImage(m_tabDataTab->imageData);
 		break;
 
 	case bktypeBing:
-		m_background = g_imageHandler->GetBingImage(m_tabData->imageData);
+		m_background = g_imageHandler->GetBingImage(m_tabDataTab->imageData);
 		break;
 	}
 
-	if (!m_background) m_tabData->backgroundImageType = bktypeNone;
+	if (!m_background) m_tabDataTab->backgroundImageType = bktypeNone;
 
 	CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
 	ConsoleViewCreate* consoleViewCreate = reinterpret_cast<ConsoleViewCreate*>(createStruct->lpCreateParams);
@@ -138,24 +139,24 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 		{
 			consoleOptions.strInitialDir = m_consoleOptions.strInitialDir;
 		}
-		else if (m_tabData->strInitialDir.length() > 0)
+		else if (m_tabDataShell->strInitialDir.length() > 0)
 		{
-			consoleOptions.strInitialDir = m_tabData->strInitialDir;
+			consoleOptions.strInitialDir = m_tabDataShell->strInitialDir;
 		}
 
 		wstring	strShell(m_consoleSettings.strShell);
 
-		if (m_tabData->strShell.length() > 0)
+		if (m_tabDataShell->strShell.length() > 0)
 		{
-			strShell	= m_tabData->strShell;
+			strShell	= m_tabDataShell->strShell;
 		}
 
 		UserCredentials* userCredentials = consoleViewCreate->u.userCredentials;
 
-		consoleOptions.strTitle = m_tabData->strTitle;
+		consoleOptions.strTitle = m_tabDataShell->strTitle;
 		consoleOptions.strInitialCmd = m_consoleOptions.strInitialCmd;
 		consoleOptions.strEnvironment = m_consoleOptions.strEnvironment;
-		consoleOptions.dwBasePriority = m_consoleOptions.dwBasePriority == ULONG_MAX ? m_tabData->dwBasePriority : m_consoleOptions.dwBasePriority;
+		consoleOptions.dwBasePriority = m_consoleOptions.dwBasePriority == ULONG_MAX ? m_tabDataShell->dwBasePriority : m_consoleOptions.dwBasePriority;
 
 		try
 		{
@@ -163,7 +164,7 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 				consoleOptions,
 				strShell,
 				*userCredentials,
-				m_tabData->environmentVariables,
+				m_tabDataShell->environmentVariables,
 				m_dwStartupRows,
 				m_dwStartupColumns);
 
@@ -330,7 +331,7 @@ LRESULT ConsoleView::OnWindowPosChanged(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 	if (pWinPos->flags & SWP_SHOWWINDOW) Repaint(false);
 
 	// force full repaint for relative backgrounds
-	if (m_tabData->imageData.bRelative && !(pWinPos->flags & SWP_NOMOVE)) m_bNeedFullRepaint = true;
+	if (m_tabDataTab->imageData.bRelative && !(pWinPos->flags & SWP_NOMOVE)) m_bNeedFullRepaint = true;
 
 	return 0;
 }
@@ -1561,7 +1562,7 @@ void ConsoleView::Repaint(bool bFullRepaint)
 bool ConsoleView::MainframeMoving()
 {
 	// next OnPaint will do a full repaint
-	if (m_tabData->imageData.bRelative)
+	if (m_tabDataTab->imageData.bRelative)
 	{
 		m_bNeedFullRepaint = true;
 		return true;
@@ -1909,7 +1910,7 @@ void ConsoleView::CreateOffscreenBuffers()
 	m_dcText.SelectFont(m_fontText[FontTextNormal]);
 
 	// create background brush
-	m_backgroundBrush.CreateSolidBrush(m_tabData->crBackgroundColor);
+	m_backgroundBrush.CreateSolidBrush(m_tabDataTab->crBackgroundColor);
 
 	// initial offscreen paint
 	m_dcOffscreen.FillRect(&rectWindowMax, m_backgroundBrush);
@@ -1933,7 +1934,7 @@ void ConsoleView::CreateOffscreenBuffers()
 									m_nCharHeight,
 									m_nVInsideBorder,
 									m_nHInsideBorder,
-									m_tabData));
+									m_tabDataTab));
 
 	// create and initialize cursor
 	CRect		rectCursor(0, 0, m_nCharWidth, m_nCharHeight);
@@ -1944,10 +1945,10 @@ void ConsoleView::CreateOffscreenBuffers()
 	m_cursor = CursorFactory::CreateCursor(
 								m_hWnd,
 								m_bAppActive,
-								m_tabData.get() ? static_cast<CursorStyle>(m_tabData->dwCursorStyle) : cstyleXTerm,
+								m_tabDataTab.get() ? static_cast<CursorStyle>(m_tabDataTab->dwCursorStyle) : cstyleXTerm,
 								dcWindow,
 								rectCursor,
-								m_tabData.get() ? m_tabData->crCursorColor : RGB(255, 255, 255),
+								m_tabDataTab.get() ? m_tabDataTab->crCursorColor : RGB(255, 255, 255),
 								this,
 								true);
 
@@ -1955,10 +1956,10 @@ void ConsoleView::CreateOffscreenBuffers()
 	m_cursorDBCS = CursorFactory::CreateCursor(
 								m_hWnd,
 								m_bAppActive,
-								m_tabData.get() ? static_cast<CursorStyle>(m_tabData->dwCursorStyle) : cstyleXTerm,
+								m_tabDataTab.get() ? static_cast<CursorStyle>(m_tabDataTab->dwCursorStyle) : cstyleXTerm,
 								dcWindow,
 								rectCursor,
-								m_tabData.get() ? m_tabData->crCursorColor : RGB(255, 255, 255),
+								m_tabDataTab.get() ? m_tabDataTab->crCursorColor : RGB(255, 255, 255),
 								this,
 								false);
 }
@@ -2369,7 +2370,7 @@ void ConsoleView::RepaintText(CDC& dc)
 	bitmapRect.right = bitmapSize.cx;
 	bitmapRect.bottom = bitmapSize.cy;
 
-	if(m_tabData->backgroundImageType == bktypeNone)
+	if(m_tabDataTab->backgroundImageType == bktypeNone)
 	{
 #ifdef _USE_AERO
 		// set transparency
@@ -2378,7 +2379,7 @@ void ConsoleView::RepaintText(CDC& dc)
 		{
 			Gdiplus::Graphics gr(dc);
 
-			COLORREF backgroundColor = m_tabData->crBackgroundColor;
+			COLORREF backgroundColor = m_tabDataTab->crBackgroundColor;
 
 			gr.Clear(
 				Gdiplus::Color(
@@ -2411,7 +2412,7 @@ void ConsoleView::RepaintText(CDC& dc)
 
 		g_imageHandler->UpdateImageBitmap(dc, rectTab, m_background);
 
-		if(m_tabData->imageData.bRelative)
+		if(m_tabDataTab->imageData.bRelative)
 		{
 			dc.BitBlt(
 				rectView.left,
@@ -2654,7 +2655,7 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
   CPoint pointTab(0,0);
   ::ClientToScreen(this->m_hwndTabView, &pointTab);
 
-  if (m_tabData->backgroundImageType != bktypeNone)
+  if (m_tabDataTab->backgroundImageType != bktypeNone)
   {
     //TRACE(L"========UpdateImageBitmap=====================================\n"
     //      L"rect: %ix%i - %ix%i\n", rectTab.left, rectTab.top, rectTab.right, rectTab.bottom);
@@ -2684,7 +2685,7 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
       rect.bottom = dwY + m_nCharHeight;
       rect.right  = dwX;
 
-      if (m_tabData->backgroundImageType == bktypeNone)
+      if (m_tabDataTab->backgroundImageType == bktypeNone)
       {
         dc.FillRect(&rect, m_backgroundBrush);
 #if _USE_AERO
@@ -2700,7 +2701,7 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
               rect.Width(), rect.Height()),
             Gdiplus::CombineModeReplace);
 
-          COLORREF backgroundColor = m_tabData->crBackgroundColor;
+          COLORREF backgroundColor = m_tabDataTab->crBackgroundColor;
 
           gr.Clear(
             Gdiplus::Color(
@@ -2713,7 +2714,7 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
       }
       else
       {
-        if (m_tabData->imageData.bRelative)
+        if (m_tabDataTab->imageData.bRelative)
         {
           dc.BitBlt(
             rect.left,
@@ -2754,10 +2755,10 @@ void ConsoleView::RowTextOut(CDC& dc, DWORD dwRow)
   DWORD dwY      = m_nHInsideBorder + m_nCharHeight * dwRow;
   DWORD dwOffset = m_dwScreenColumns * dwRow;
 
-  COLORREF * consoleColors = m_tabData->consoleColors;
+  COLORREF * consoleColors = m_tabDataTab->consoleColors;
 
 #ifdef _USE_AERO
-	BYTE opacity = m_tabData->backgroundTextOpacity;
+	BYTE opacity = m_tabDataTab->backgroundTextOpacity;
   Gdiplus::Graphics gr(dc);
 #endif //_USE_AERO
 
@@ -3041,7 +3042,7 @@ void ConsoleView::BitBltOffscreen(bool bOnlyCursor /*= false*/)
 
 	// we can skip this for relative background images when a full repaint 
 	// is needed (UpdateOffscreen will be called in OnPaint)
-	if (!m_tabData->imageData.bRelative || (m_tabData->imageData.bRelative && !m_bNeedFullRepaint))
+	if (!m_tabDataTab->imageData.bRelative || (m_tabDataTab->imageData.bRelative && !m_bNeedFullRepaint))
 	{
 		// we don't do this for relative backgrounds here
 		UpdateOffscreen(rectBlit);
@@ -3362,7 +3363,7 @@ void ConsoleView::RedrawCharOnCursor(CDC& dc)
 {
   SharedMemory<ConsoleInfo>& consoleInfo = m_consoleHandler.GetConsoleInfo();
   SharedMemoryLock           consoleInfoLock(consoleInfo);
-  COLORREF *                 consoleColors = m_tabData->consoleColors;
+  COLORREF *                 consoleColors = m_tabDataTab->consoleColors;
 
   MutexLock bufferLock(m_consoleHandler.m_bufferMutex);
   DWORD dwOffset =
@@ -3384,7 +3385,7 @@ void ConsoleView::RedrawCharOnCursor(CDC& dc)
   rectCursor.right  = rectCursor.left + nCharWidth;
   rectCursor.bottom = rectCursor.top + m_nCharHeight;
 
-  CBrush brush(::CreateSolidBrush(m_tabData->crCursorColor));
+  CBrush brush(::CreateSolidBrush(m_tabDataTab->crCursorColor));
   dc.FillRect(rectCursor, brush);
 
   dc.SetBkMode(TRANSPARENT);

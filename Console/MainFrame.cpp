@@ -43,6 +43,13 @@ void MainFrame::ParseCommandLine
 			if (i == argc) break;
 			commandLineOptions.strWindowTitle = argv[i];
 		}
+		if (wstring(argv[i]) == wstring(L"-ws"))
+		{
+			// startup workspace
+			++i;
+			if (i == argc) break;
+			commandLineOptions.startupWorkspaces.push_back(argv[i]);
+		}
 		else if (wstring(argv[i]) == wstring(L"-t"))
 		{
 			// startup tab type
@@ -251,14 +258,20 @@ LRESULT MainFrame::CreateInitialTabs
 
 	TabSettings&	tabSettings = g_settingsHandler->GetTabSettings();
 
-	ConsoleViewCreate consoleViewCreate;
-	consoleViewCreate.type = ConsoleViewCreate::CREATE;
-	consoleViewCreate.u.userCredentials = nullptr;
-
 	// create initial console window(s)
-	if (commandLineOptions.startupTabs.size() == 0)
+	if (commandLineOptions.startupTabs.empty() && commandLineOptions.startupWorkspaces.empty())
 	{
-		if( !tabSettings.tabDataVector.empty() )
+		// load auto saved workspace
+		if(g_settingsHandler->GetBehaviorSettings2().closeSettings.bSaveWorkspaceOnExit)
+		{
+			std::wstring strAutoSaveWorkspaceFileName = g_settingsHandler->GetSettingsFileName();
+			strAutoSaveWorkspaceFileName = strAutoSaveWorkspaceFileName.substr(0, strAutoSaveWorkspaceFileName.length() - 4);
+			strAutoSaveWorkspaceFileName += L".autosave.workspace";
+
+			bAtLeastOneStarted = LoadWorkspace(strAutoSaveWorkspaceFileName);
+		}
+
+		if( !bAtLeastOneStarted && !tabSettings.tabDataVector.empty() )
 		{
 			ConsoleOptions consoleOptions;
 
@@ -278,7 +291,16 @@ LRESULT MainFrame::CreateInitialTabs
 				consoleOptions);
 		}
 	}
-	else
+
+	if (!commandLineOptions.startupWorkspaces.empty())
+	{
+		for( auto itWs = commandLineOptions.startupWorkspaces.begin(); itWs != commandLineOptions.startupWorkspaces.end(); ++itWs )
+		{
+			bAtLeastOneStarted = LoadWorkspace(*itWs);
+		}
+	}
+
+	if (!commandLineOptions.startupTabs.empty())
 	{
 		for (size_t tabIndex = 0; tabIndex < commandLineOptions.startupTabs.size(); ++tabIndex)
 		{
@@ -492,7 +514,7 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 	DWORD dwTabStyles = CTCS_TOOLTIPS | CTCS_DRAGREARRANGE | CTCS_SCROLL | CTCS_CLOSEBUTTON | CTCS_HOTTRACK;
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM;
-	if (g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB;
+	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB;
 
 	CreateTabWindow(m_hWnd, rcDefault, dwTabStyles);
 
@@ -638,7 +660,7 @@ LRESULT MainFrame::OnEraseBkgnd(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
 
 LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	if(g_settingsHandler->GetBehaviorSettings().closeSettings.bConfirmClosingMultipleViews)
+	if(g_settingsHandler->GetBehaviorSettings2().closeSettings.bConfirmClosingMultipleViews)
 	{
 		MutexLock lock(m_tabsMutex);
 
@@ -652,6 +674,16 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 			if(MessageBox(Helpers::LoadString(MSG_MAINFRAME_CLOSE_ALL_VIEWS).c_str(), L"ConsoleZ", MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
 				return 0;
 		}
+	}
+
+	// save workspace
+	if(g_settingsHandler->GetBehaviorSettings2().closeSettings.bSaveWorkspaceOnExit)
+	{
+		std::wstring strAutoSaveWorkspaceFileName = g_settingsHandler->GetSettingsFileName();
+		strAutoSaveWorkspaceFileName = strAutoSaveWorkspaceFileName.substr(0, strAutoSaveWorkspaceFileName.length() - 4);
+		strAutoSaveWorkspaceFileName += L".autosave.workspace";
+
+		SaveWorkspace(strAutoSaveWorkspaceFileName);
 	}
 
 	// save settings on exit
@@ -2451,7 +2483,7 @@ LRESULT MainFrame::OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 {
   MutexLock viewMapLock(m_tabsMutex);
 
-  if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+  if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
   {
     if( m_tabs.size() == 1 && m_tabs.begin()->second->GetViewsCount() == 1 )
       return 0;
@@ -2465,7 +2497,7 @@ LRESULT MainFrame::OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 			CloseTab(m_activeTabView->m_hWnd);
 	}
 
-  if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+  if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
   {
     if( m_tabs.size() == 1 && m_tabs.begin()->second->GetViewsCount() == 1 )
 		{
@@ -2503,7 +2535,7 @@ LRESULT MainFrame::OnSplit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 		}
 	}
 
-	if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+	if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
 	{
 		if( m_tabs.size() > 1 || m_tabs.begin()->second->GetViewsCount() > 1 )
 		{
@@ -2563,11 +2595,10 @@ LRESULT MainFrame::OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
 
-	ConsoleOptions consoleOptions;
-	consoleOptions.strInitialDir = strCurrentDirectory;
-	consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
+	consoleViewCreate.consoleOptions.strInitialDir = strCurrentDirectory;
+	consoleViewCreate.consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
 
-	CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
+	CreateNewConsole(&consoleViewCreate, tabData);
 
 	return 0;
 }
@@ -2828,7 +2859,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 
 	DWORD dwTabStyles = ::GetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE);
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM; else dwTabStyles &= ~CTCS_BOTTOM;
-	if (g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
+	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
 	::SetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE, dwTabStyles);
 
 	SetWindowStyles();
@@ -3381,10 +3412,11 @@ bool MainFrame::CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& console
 	ConsoleViewCreate consoleViewCreate;
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
+	consoleViewCreate.consoleOptions = consoleOptions;
 
 	std::shared_ptr<TabData> tabData = g_settingsHandler->GetTabSettings().tabDataVector[dwTabIndex];
 
-	return CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
+	return CreateNewConsole(&consoleViewCreate, tabData);
 }
 
 bool MainFrame::CreateSafeConsole()
@@ -3393,18 +3425,16 @@ bool MainFrame::CreateSafeConsole()
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
 
-	ConsoleOptions consoleOptions;
-
 	std::shared_ptr<TabData> tabData(new TabData());
 
-	return CreateNewConsole(&consoleViewCreate, tabData, consoleOptions);
+	return CreateNewConsole(&consoleViewCreate, tabData);
 }
 
-bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData, const ConsoleOptions& consoleOptions)
+bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData)
 {
 	MutexLock	tabMapLock(m_tabsMutex);
 
-	std::shared_ptr<TabView> tabView(new TabView(*this, tabData, consoleOptions));
+	std::shared_ptr<TabView> tabView(new TabView(*this, tabData, consoleViewCreate->consoleOptions.strTitle));
 
 	HWND hwndTabView = tabView->Create(
 											m_hWnd, 
@@ -3424,10 +3454,10 @@ bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shar
 
 	CString cstrTabTitle;
 	tabView->GetWindowText(cstrTabTitle);
-	if( !consoleOptions.strTitle.empty() )
+	if( !consoleViewCreate->consoleOptions.strTitle.empty() )
 	{
-		cstrTabTitle = consoleOptions.strTitle.c_str();
-		tabView->SetTitle(std::wstring(cstrTabTitle));
+		cstrTabTitle = consoleViewCreate->consoleOptions.strTitle.c_str();
+		tabView->SetTitle(consoleViewCreate->consoleOptions.strTitle);
 	}
 
 	int nImageIndex = -1;
@@ -3503,7 +3533,7 @@ void MainFrame::CloseTab(CTabViewTabItem* pTabItem)
 {
   MutexLock viewMapLock(m_tabsMutex);
   if (!pTabItem) return;
-  if( !g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+  if( !g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
     if (m_tabs.size() <= 1) return;
   CloseTab(pTabItem->GetTabView());
 }
@@ -3533,7 +3563,7 @@ void MainFrame::CloseTab(HWND hwndTabView)
     ShowTabs(false);
   }
 
-  if (m_tabs.empty() && g_settingsHandler->GetBehaviorSettings().closeSettings.bExitOnClosingOfLastTab) PostMessage(WM_CLOSE);
+  if (m_tabs.empty() && g_settingsHandler->GetBehaviorSettings2().closeSettings.bExitOnClosingOfLastTab) PostMessage(WM_CLOSE);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4240,7 +4270,7 @@ void MainFrame::ShowFullScreen(bool bShow)
 
 	DWORD dwTabStyles = ::GetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE);
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM; else dwTabStyles &= ~CTCS_BOTTOM;
-	if (g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
+	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
 	::SetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE, dwTabStyles);
 
 	bool bShowTabs = controlsSettings.ShowTabs();
@@ -5111,7 +5141,7 @@ void MainFrame::UpdateUI()
 {
 	MutexLock lock(m_tabsMutex);
 
-	if( g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView )
+	if( g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView )
 	{
 		UIEnable(ID_FILE_CLOSE_TAB, TRUE);
 		UIEnable(ID_CLOSE_VIEW, TRUE);
@@ -5334,4 +5364,146 @@ LRESULT MainFrame::OnSendCtrlEvent(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 	}
 
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnLoadWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	std::wstring strFiler = Helpers::LoadFileFilter(MSG_MAINFRAME_WORKSPACE_FILES);
+
+	CFileDialog dialog = CFileDialog(TRUE, L"workspace", nullptr, OFN_HIDEREADONLY, strFiler.c_str());
+	CString sInitialDirectory = g_settingsHandler->GetSettingsPath().c_str();
+	dialog.m_ofn.lpstrInitialDir = sInitialDirectory;
+
+	if( dialog.DoModal() != IDOK )
+		return 0;
+
+	LoadWorkspace(dialog.m_szFileName);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnSaveWorkspace(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	std::wstring strFiler = Helpers::LoadFileFilter(MSG_MAINFRAME_WORKSPACE_FILES);
+
+	CFileDialog dialog = CFileDialog(FALSE, L"workspace", nullptr, OFN_OVERWRITEPROMPT | OFN_FILEMUSTEXIST, strFiler.c_str());
+	CString sInitialDirectory = g_settingsHandler->GetSettingsPath().c_str();
+	dialog.m_ofn.lpstrInitialDir = sInitialDirectory;
+
+	if( dialog.DoModal() != IDOK )
+		return 0;
+
+	SaveWorkspace(dialog.m_szFileName);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+bool MainFrame::LoadWorkspace(const wstring& filename)
+{
+	bool bAtLeastOneStarted = false;
+
+	CComPtr<IXMLDOMDocument> xmlDocumentWorksapce;
+	CComPtr<IXMLDOMElement>  xmlElementWorksapce;
+
+	std::wstring strParseError;
+	HRESULT hr = XmlHelper::OpenXmlDocument(
+		filename,
+		xmlDocumentWorksapce,
+		xmlElementWorksapce,
+		strParseError);
+
+	if( FAILED(hr) ) return false;
+
+	if( hr == S_FALSE )
+	{
+		MessageBox(strParseError.c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR | MB_OK);
+		return false;
+	}
+
+	CComPtr<IXMLDOMNodeList> xmlNodeList;
+	if( FAILED(xmlElementWorksapce->selectNodes(CComBSTR(L"/ConsoleZWorkspace/Tab"), &xmlNodeList)) ) return false;
+
+	long lListLength;
+	if( FAILED(xmlNodeList->get_length(&lListLength)) ) return false;
+	for( long lNodeIndex = 0; lNodeIndex < lListLength; ++lNodeIndex )
+	{
+		// Tab
+		CComPtr<IXMLDOMNode> xmlNode;
+		if( FAILED(xmlNodeList->get_item(lNodeIndex, &xmlNode)) ) return false;
+		CComPtr<IXMLDOMElement> xmlElementTab;
+		if( FAILED(xmlNode.QueryInterface(&xmlElementTab)) ) return false;
+
+		std::wstring strTabTitle;
+		XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"Title"), strTabTitle, std::wstring());
+
+		TabSettings& tabSettings = g_settingsHandler->GetTabSettings();
+
+		// find tab with corresponding name...
+		for( size_t i = 0; i < tabSettings.tabDataVector.size(); ++i )
+		{
+			if( tabSettings.tabDataVector[i]->strTitle == strTabTitle )
+			{
+				// found it, create new tab and console views from workspace
+				ConsoleViewCreate consoleViewCreate;
+				consoleViewCreate.type = ConsoleViewCreate::LOAD_WORKSPACE;
+				consoleViewCreate.u.userCredentials = nullptr;
+				consoleViewCreate.pTabElement = xmlElementTab;
+
+				XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"Name"), consoleViewCreate.consoleOptions.strTitle, strTabTitle);
+
+				std::shared_ptr<TabData> tabData = tabSettings.tabDataVector[i];
+
+				if( CreateNewConsole(&consoleViewCreate, tabData) ) bAtLeastOneStarted = true;
+
+				break;
+			}
+		}
+	}
+
+	return bAtLeastOneStarted;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+bool MainFrame::SaveWorkspace(const wstring& filename)
+{
+	CComPtr<IXMLDOMDocument> pWorkspaceDocument;
+	CComPtr<IXMLDOMElement>  pWorkspaceRoot;
+
+	// <ConsoleZWorkspace/>
+	std::vector<char> content { '<', 'C', 'o', 'n', 's', 'o', 'l', 'e', 'Z', 'W', 'o', 'r', 'k', 's', 'p', 'a', 'c', 'e', '/', '>' };
+
+	if( FAILED(XmlHelper::OpenXmlDocumentFromContent(content, pWorkspaceDocument, pWorkspaceRoot)) ) return false;
+
+	MutexLock lock(m_tabsMutex);
+
+	// /!\ m_tabs is sorted by HWND
+	// we want to save tabs sorted by tab number
+	for( int i = 0; i < m_TabCtrl.GetItemCount(); ++i )
+	{
+		CComPtr<IXMLDOMElement> pTabElement;
+		if( FAILED(XmlHelper::CreateDomElement(pWorkspaceRoot, CComBSTR(L"Tab"), pTabElement)) ) return false;
+
+		if( !m_tabs[m_TabCtrl.GetItem(i)->GetTabView()]->SaveWorkspace(pTabElement) ) return false;
+	}
+
+	XmlHelper::AddTextNode(pWorkspaceRoot, CComBSTR(L"\r\n"));
+
+	if( FAILED(pWorkspaceDocument->save(CComVariant(filename.c_str()))) ) return false;
+
+	return true;
 }
