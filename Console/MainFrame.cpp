@@ -512,8 +512,9 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	UpdateTabsMenu();
 	SetReflectNotifications(true);
 
-	DWORD dwTabStyles = CTCS_TOOLTIPS | CTCS_DRAGREARRANGE | CTCS_SCROLL | CTCS_CLOSEBUTTON | CTCS_HOTTRACK;
+	DWORD dwTabStyles = CTCS_TOOLTIPS | CTCS_DRAGREARRANGE | CTCS_SCROLL | CTCS_HOTTRACK;
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM;
+	if (!controlsSettings.HideTabCloseButton()) dwTabStyles |= CTCS_CLOSEBUTTON;
 	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB;
 
 	CreateTabWindow(m_hWnd, rcDefault, dwTabStyles);
@@ -2859,6 +2860,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 
 	DWORD dwTabStyles = ::GetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE);
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM; else dwTabStyles &= ~CTCS_BOTTOM;
+	if (controlsSettings.HideTabCloseButton()) dwTabStyles &= ~CTCS_CLOSEBUTTON; else dwTabStyles |= CTCS_CLOSEBUTTON;
 	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
 	::SetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE, dwTabStyles);
 
@@ -4270,6 +4272,7 @@ void MainFrame::ShowFullScreen(bool bShow)
 
 	DWORD dwTabStyles = ::GetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE);
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM; else dwTabStyles &= ~CTCS_BOTTOM;
+	if( controlsSettings.HideTabCloseButton() ) dwTabStyles &= ~CTCS_CLOSEBUTTON; else dwTabStyles |= CTCS_CLOSEBUTTON;
 	if (g_settingsHandler->GetBehaviorSettings2().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB; else dwTabStyles &= ~CTCS_CLOSELASTTAB;
 	::SetWindowLong(GetTabCtrl().m_hWnd, GWL_STYLE, dwTabStyles);
 

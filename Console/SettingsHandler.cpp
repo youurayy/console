@@ -539,6 +539,7 @@ ControlsSettings2::ControlsSettings2()
 , bHideSingleTab(true)
 , bTabsOnBottom(false)
 , bHideTabIcons(false)
+, bHideTabCloseButton(false)
 , bShowScrollbars(true)
 {
 }
@@ -558,6 +559,7 @@ bool ControlsSettings2::Load(const CComPtr<IXMLDOMElement>& pCtrlsElement)
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"hide_single_tab"), bHideSingleTab, true);
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"tabs_on_bottom"), bTabsOnBottom, false);
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_icons"), bHideTabIcons, false);
+	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_close_button"), bHideTabCloseButton, false);
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"show_scrollbars"), bShowScrollbars, true);
 
 	return true;
@@ -578,6 +580,7 @@ bool ControlsSettings2::Save(const CComPtr<IXMLDOMElement>& pCtrlsElement)
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"hide_single_tab"), bHideSingleTab);
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"tabs_on_bottom"), bTabsOnBottom);
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_icons"), bHideTabIcons);
+	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_close_button"), bHideTabCloseButton);
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"show_scrollbars"), bShowScrollbars);
 
 	return true;
@@ -590,15 +593,16 @@ bool ControlsSettings2::Save(const CComPtr<IXMLDOMElement>& pCtrlsElement)
 
 ControlsSettings2& ControlsSettings2::operator=(const ControlsSettings2& other)
 {
-	bShowMenu		= other.bShowMenu;
-	bShowToolbar	= other.bShowToolbar;
-	bShowSearchbar	= other.bShowSearchbar;
-	bShowStatusbar	= other.bShowStatusbar;
-	bShowTabs		= other.bShowTabs;
-	bHideSingleTab	= other.bHideSingleTab;
-	bTabsOnBottom	= other.bTabsOnBottom;
-	bHideTabIcons	= other.bHideTabIcons;
-	bShowScrollbars	= other.bShowScrollbars;
+	bShowMenu           = other.bShowMenu;
+	bShowToolbar        = other.bShowToolbar;
+	bShowSearchbar      = other.bShowSearchbar;
+	bShowStatusbar      = other.bShowStatusbar;
+	bShowTabs           = other.bShowTabs;
+	bHideSingleTab      = other.bHideSingleTab;
+	bTabsOnBottom       = other.bTabsOnBottom;
+	bHideTabIcons       = other.bHideTabIcons;
+	bHideTabCloseButton = other.bHideTabCloseButton;
+	bShowScrollbars     = other.bShowScrollbars;
 
 	return *this;
 }

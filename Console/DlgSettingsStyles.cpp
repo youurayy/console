@@ -191,6 +191,7 @@ void DlgSettingsStyles::EnableTabControls()
 	GetDlgItem(IDC_CHECK_HIDE_SINGLE_TAB).EnableWindow(m_controlsSettings.ShowTabs());
 	GetDlgItem(IDC_CHECK_TABS_ON_BOTTOM).EnableWindow(m_controlsSettings.ShowTabs());
 	GetDlgItem(IDC_CHECK_HIDE_TAB_ICONS).EnableWindow(m_controlsSettings.ShowTabs());
+	GetDlgItem(IDC_CHECK_HIDE_TAB_CLOSE_BUTTON).EnableWindow(m_controlsSettings.ShowTabs());
 }
 
 void DlgSettingsStyles::EnableQuakeControls()

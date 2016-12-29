@@ -30,6 +30,7 @@ class DlgSettingsStyles
 			DDX_CHECK(IDC_CHECK_TABS_ON_BOTTOM, m_controlsSettings.TabsOnBottom())
 			DDX_CHECK(IDC_CHECK_SHOW_SCROLLBARS, m_controlsSettings.ShowScrollbars())
 			DDX_CHECK(IDC_CHECK_HIDE_TAB_ICONS, m_controlsSettings.HideTabIcons())
+			DDX_CHECK(IDC_CHECK_HIDE_TAB_CLOSE_BUTTON, m_controlsSettings.HideTabCloseButton())
 			DDX_CHECK(IDC_CHECK_STYLE_CAPTION, m_stylesSettings.bCaption)
 			DDX_CHECK(IDC_CHECK_STYLE_RESIZABLE, m_stylesSettings.bResizable)
 			DDX_CHECK(IDC_CHECK_STYLE_BORDER, m_stylesSettings.bBorder)
