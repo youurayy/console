@@ -39,6 +39,9 @@ class DlgSettingsBehavior
 			DDX_CHECK(IDC_CHECK_INC_RIGHT_DELIMITER, m_behaviorSettings.copyPasteSettings.bIncludeRightDelimiter)
 			DDX_TEXT(IDC_LEFT_DELIMITERS, m_strLeftDelimiters)
 			DDX_TEXT(IDC_RIGHT_DELIMITERS, m_strRightDelimiters)
+
+			DDX_CHECK(IDC_CHECK_ENVIRONMENT_INHERIT, m_behaviorSettings.environmentSettings.bInherit)
+			DDX_CHECK(IDC_CHECK_ENVIRONMENT_SYNC, m_behaviorSettings.environmentSettings.bSync)
 		END_DDX_MAP()
 
 		BEGIN_MSG_MAP(DlgSettingsBehavior)

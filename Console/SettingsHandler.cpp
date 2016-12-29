@@ -1687,6 +1687,71 @@ RunAsUserSettings& RunAsUserSettings::operator=(const RunAsUserSettings& other)
 
 //////////////////////////////////////////////////////////////////////////////
 
+EnvironmentSettings::EnvironmentSettings()
+	: bInherit(true)
+	, bSync(true)
+{
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool EnvironmentSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+{
+	CComPtr<IXMLDOMElement> pEnvironmentElement;
+	if( SUCCEEDED(XmlHelper::GetDomElement(pSettingsRoot, CComBSTR(L"behavior/environment"), pEnvironmentElement)) )
+	{
+		XmlHelper::GetAttribute(pEnvironmentElement, CComBSTR(L"inherit"), bInherit, true);
+		XmlHelper::GetAttribute(pEnvironmentElement, CComBSTR(L"sync"), bSync, true);
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool EnvironmentSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+{
+	CComPtr<IXMLDOMElement> pBehaviorElement;
+	if( FAILED(XmlHelper::AddDomElementIfNotExist(pSettingsRoot, CComBSTR(L"behavior"), pBehaviorElement)) ) return false;
+
+	CComPtr<IXMLDOMElement> pEnvironmentElement;
+	if( FAILED(XmlHelper::AddDomElementIfNotExist(pBehaviorElement, CComBSTR(L"environment"), pEnvironmentElement)) ) return false;
+
+	XmlHelper::SetAttribute(pEnvironmentElement, CComBSTR(L"inherit"), bInherit);
+	XmlHelper::SetAttribute(pEnvironmentElement, CComBSTR(L"sync"), bSync);
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+EnvironmentSettings& EnvironmentSettings::operator=(const EnvironmentSettings& other)
+{
+	bInherit = other.bInherit;
+	bSync    = other.bSync;
+
+	return *this;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 BehaviorSettings::BehaviorSettings()
 {
 }
@@ -1701,6 +1766,7 @@ bool BehaviorSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if( copyPasteSettings   .Load(pSettingsRoot) == false ) return false;
 	if( scrollSettings      .Load(pSettingsRoot) == false ) return false;
 	if( tabHighlightSettings.Load(pSettingsRoot) == false ) return false;
+	if( environmentSettings .Load(pSettingsRoot) == false ) return false;
 
 	return true;
 }
@@ -1715,6 +1781,7 @@ bool BehaviorSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if( copyPasteSettings   .Save(pSettingsRoot) == false ) return false;
 	if( scrollSettings      .Save(pSettingsRoot) == false ) return false;
 	if( tabHighlightSettings.Save(pSettingsRoot) == false ) return false;
+	if( environmentSettings .Save(pSettingsRoot) == false ) return false;
 
 	return true;
 }
@@ -1729,6 +1796,7 @@ BehaviorSettings& BehaviorSettings::operator=(const BehaviorSettings& other)
 	copyPasteSettings    = other.copyPasteSettings;
 	scrollSettings       = other.scrollSettings;
 	tabHighlightSettings = other.tabHighlightSettings;
+	environmentSettings  = other.environmentSettings;
 
 	return *this;
 }

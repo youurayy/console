@@ -544,6 +544,24 @@ struct RunAsUserSettings : public SettingsBase
 
 //////////////////////////////////////////////////////////////////////////////
 
+struct EnvironmentSettings : public SettingsBase
+{
+  EnvironmentSettings();
+
+  bool Load(const CComPtr<IXMLDOMElement>& pSettingsRoot);
+  bool Save(const CComPtr<IXMLDOMElement>& pSettingsRoot);
+
+  EnvironmentSettings& operator=(const EnvironmentSettings& other);
+
+  bool bInherit;
+  bool bSync;
+};
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 struct BehaviorSettings : public SettingsBase
 {
 	BehaviorSettings ();
@@ -556,6 +574,7 @@ struct BehaviorSettings : public SettingsBase
 	CopyPasteSettings    copyPasteSettings;
 	ScrollSettings       scrollSettings;
 	TabHighlightSettings tabHighlightSettings;
+	EnvironmentSettings  environmentSettings;
 };
 
 //////////////////////////////////////////////////////////////////////////////

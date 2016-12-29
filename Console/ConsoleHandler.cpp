@@ -1022,11 +1022,47 @@ bool ConsoleHandler::SearchText(CString& text, bool bNext, const COORD& coordCur
 
 void ConsoleHandler::UpdateCurrentUserEnvironmentBlock()
 {
-	LPTCH 	pEnvironment = NULL;
+	const EnvironmentSettings& environmentSettings =  g_settingsHandler->GetBehaviorSettings().environmentSettings;
 
-	pEnvironment = GetEnvironmentStrings();
+	if( environmentSettings.bSync )
+	{
+		void* pEnvironment = nullptr;
 
-	s_environmentBlock.reset(pEnvironment, FreeEnvironmentStrings);
+		{
+			HANDLE hProcessToken = nullptr;
+			::OpenProcessToken(::GetCurrentProcess(), TOKEN_ALL_ACCESS, &hProcessToken);
+			::CreateEnvironmentBlock(&pEnvironment, hProcessToken, environmentSettings.bInherit? TRUE : FALSE);
+			::CloseHandle(hProcessToken);
+		}
+
+		s_environmentBlock.reset(pEnvironment, ::DestroyEnvironmentBlock);
+	}
+	else
+	{
+		if( s_environmentBlock.get() ) return;
+
+		if( environmentSettings.bInherit )
+		{
+			LPTCH pEnvironment = nullptr;
+
+			pEnvironment = ::GetEnvironmentStrings();
+
+			s_environmentBlock.reset(pEnvironment, ::FreeEnvironmentStrings);
+		}
+		else
+		{
+			void* pEnvironment = nullptr;
+
+			{
+				HANDLE hProcessToken = nullptr;
+				::OpenProcessToken(::GetCurrentProcess(), TOKEN_ALL_ACCESS, &hProcessToken);
+				::CreateEnvironmentBlock(&pEnvironment, hProcessToken, FALSE);
+				::CloseHandle(hProcessToken);
+			}
+
+			s_environmentBlock.reset(pEnvironment, ::DestroyEnvironmentBlock);
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////
