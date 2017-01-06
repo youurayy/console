@@ -235,6 +235,7 @@ struct StylesSettings : public SettingsBase
 	bool			bHideWhenInactive;
 	bool			bPerMonitorDpi;
 	DWORD			dwInsideBorder;
+    DWORD           dwSplitBarSize;
 	DWORD			dwQuakeAnimationTime;
 	COLORREF		crSelectionColor;
 	COLORREF		crHighlightColor;

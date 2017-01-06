@@ -1064,13 +1064,17 @@ namespace WTL
 
 		void SystemSettingsGet (bool update)
 		{
+            if (CMultiSplitPane::splitBarWidth == 0 || CMultiSplitPane::splitBarHeight == 0)
+            {
 #if _USE_AERO
-			CMultiSplitPane::splitBarWidth  = 4;
-			CMultiSplitPane::splitBarHeight = 4;
+                CMultiSplitPane::splitBarWidth  = 4;
+                CMultiSplitPane::splitBarHeight = 4;
 #else
-			CMultiSplitPane::splitBarWidth  = ::GetSystemMetrics (SM_CXSIZEFRAME);
-			CMultiSplitPane::splitBarHeight = ::GetSystemMetrics (SM_CYSIZEFRAME);
+                CMultiSplitPane::splitBarWidth  = ::GetSystemMetrics (SM_CXSIZEFRAME);
+                CMultiSplitPane::splitBarHeight = ::GetSystemMetrics (SM_CYSIZEFRAME);
 #endif
+            }
+
 			this->edgeWidth  = ::GetSystemMetrics (SM_CXEDGE);
 			this->edgeHeight = ::GetSystemMetrics (SM_CYEDGE);
 

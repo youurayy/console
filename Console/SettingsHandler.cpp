@@ -712,6 +712,7 @@ StylesSettings::StylesSettings()
 , bHideWhenInactive(false)
 , bPerMonitorDpi(false)
 , dwInsideBorder(2)
+, dwSplitBarSize(0)
 , dwQuakeAnimationTime(300)
 , crSelectionColor(RGB(255, 255, 255))
 , crHighlightColor(RGB(191, 191, 191))
@@ -733,6 +734,7 @@ bool StylesSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"taskbar_button"), bTaskbarButton, true);
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"border"), bBorder, true);
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"inside_border"), dwInsideBorder, 2);
+        XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"split_bar_size"), dwSplitBarSize, 0);
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"tray_icon"), bTrayIcon, true);
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"quake_like"), bQuake, false);
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"quake_animation_time"), dwQuakeAnimationTime, 300);
@@ -771,6 +773,7 @@ bool StylesSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"taskbar_button"), bTaskbarButton);
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"border"), bBorder);
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"inside_border"), dwInsideBorder);
+    XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"split_bar_size"), dwSplitBarSize);
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"tray_icon"), bTrayIcon);
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"quake_like"), bQuake);
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"quake_animation_time"), dwQuakeAnimationTime);
@@ -808,6 +811,7 @@ StylesSettings& StylesSettings::operator=(const StylesSettings& other)
 	bHideWhenInactive = other.bHideWhenInactive;
 	bPerMonitorDpi = other.bPerMonitorDpi;
 	dwInsideBorder	= other.dwInsideBorder;
+    dwSplitBarSize  = other.dwSplitBarSize;
 	dwQuakeAnimationTime	= other.dwQuakeAnimationTime;
 	crSelectionColor= other.crSelectionColor;
 	crHighlightColor= other.crHighlightColor;
