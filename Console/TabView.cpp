@@ -83,16 +83,20 @@ BOOL TabView::PreTranslateMessage(MSG* pMsg)
 
 LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
-  // load icon
+    // Set global value of splitbar size.
+    CMultiSplitPane::splitBarWidth = g_settingsHandler->GetAppearanceSettings().stylesSettings.dwSplitBarSize;
+    CMultiSplitPane::splitBarHeight = g_settingsHandler->GetAppearanceSettings().stylesSettings.dwSplitBarSize;
+
+    // load icon
 	UpdateIcons();
 
-  LRESULT result = -1;
+    LRESULT result = -1;
 
 	CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
 	ConsoleViewCreate* consoleViewCreate = reinterpret_cast<ConsoleViewCreate*>(createStruct->lpCreateParams);
 
-  ATLTRACE(_T("TabView::OnCreate\n"));
-  MutexLock viewMapLock(m_viewsMutex);
+    ATLTRACE(_T("TabView::OnCreate\n"));
+    MutexLock viewMapLock(m_viewsMutex);
 	switch( consoleViewCreate->type )
 	{
 	case ConsoleViewCreate::CREATE:
@@ -130,9 +134,9 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 		multisplitClass::RectSet(rect, true);
 	}
 
-  bHandled = TRUE;
-  ATLTRACE(_T("TabView::OnCreate done\n"));
-  return result; // windows sets focus to first control
+    bHandled = TRUE;
+    ATLTRACE(_T("TabView::OnCreate done\n"));
+    return result; // windows sets focus to first control
 }
 
 LRESULT TabView::OnEraseBackground (UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL & /*bHandled*/)

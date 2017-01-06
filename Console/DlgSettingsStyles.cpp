@@ -41,6 +41,10 @@ LRESULT DlgSettingsStyles::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 	spin.SetRange(0, 10);
 	spin.Detach();
 
+    spin.Attach(GetDlgItem(IDC_SPIN_SPLIT_BAR_SIZE));
+    spin.SetRange(0, 8);
+    spin.Detach();
+
 	spin.Attach(GetDlgItem(IDC_SPIN_QUAKE_ANIMATION_TIME));
 	spin.SetRange(10, 20000);
 	udAccel.nSec = 0;
@@ -105,6 +109,7 @@ LRESULT DlgSettingsStyles::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWn
 		DoDataExchange(DDX_SAVE);
 
 		if (m_stylesSettings.dwInsideBorder > 10) m_stylesSettings.dwInsideBorder = 10;
+        if (m_stylesSettings.dwSplitBarSize > 8) m_stylesSettings.dwSplitBarSize = 8;
 
 		ControlsSettings&			controlsSettings	= g_settingsHandler->GetAppearanceSettings().controlsSettings;
 		StylesSettings&				stylesSettings		= g_settingsHandler->GetAppearanceSettings().stylesSettings;
