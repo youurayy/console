@@ -142,12 +142,12 @@ public:
 
     if (CTCS_BOTTOM == (dwStyle & CTCS_BOTTOM))
     {
-      //g.FillRectangle(&brush, rcClient.left, rcClient.top + 1, rcClient.right, rcClient.top + 2);
+      g.FillRectangle(&brush, rcClient.left, rcClient.top, rcClient.right, rcClient.top + 2);
       g.DrawLine(&pen, rcClient.left, rcClient.top + 2, rcClient.right, rcClient.top + 2);
     }
     else
     {
-      //g.FillRectangle(&brush, rcClient.left, rcClient.bottom - 2, rcClient.right, rcClient.bottom - 2);
+      g.FillRectangle(&brush, rcClient.left, rcClient.bottom - 2, rcClient.right, rcClient.bottom);
       g.DrawLine(&pen, rcClient.left, rcClient.bottom - 3, rcClient.right, rcClient.bottom - 3);
     }
   }
