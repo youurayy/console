@@ -34,6 +34,7 @@ ConsoleHandler::ConsoleHandler()
 , m_hStdOut(true)
 {
 	m_szConsoleTitle[0] = 0;
+	m_szCurrentDirectory[0] = 0;
 }
 
 ConsoleHandler::~ConsoleHandler()
@@ -329,6 +330,22 @@ void ConsoleHandler::RealReadConsoleBuffer()
 
 		// only ConsoleZ sets the flags to false
 		m_consoleInfo->progressChanged  = true;
+	}
+
+	// compare current directory
+	wchar_t szCurrentDirectory[_MAX_PATH];
+	szCurrentDirectory[0] = 0;
+	DWORD len = ::GetCurrentDirectory(_MAX_PATH, szCurrentDirectory);
+	if( len >= _MAX_PATH )
+		// truncated
+		szCurrentDirectory[0] = 0;
+	if( wcscmp(szCurrentDirectory, m_szCurrentDirectory) )
+	{
+		::memcpy(m_szCurrentDirectory, szCurrentDirectory, _MAX_PATH);
+		somethingChanged = true;
+
+		// only ConsoleZ sets the flags to false
+		m_consoleInfo->titleChanged = true;
 	}
 
 	// if something changed then event is alerted
