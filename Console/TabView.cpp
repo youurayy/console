@@ -446,7 +446,9 @@ bool TabView::MainframeMoving()
 
 void TabView::SetTitle(const std::wstring& strTitle)
 {
-	m_strTitle = strTitle;
+	// by default an empty title is replaced by
+	// the title of shell tab title from settings
+	m_strTitle = strTitle.empty()? m_tabData->strTitle : strTitle;
 }
 
 void TabView::SetActive(bool bActive)
