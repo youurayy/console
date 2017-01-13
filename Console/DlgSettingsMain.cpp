@@ -124,9 +124,20 @@ LRESULT DlgSettingsMain::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndC
 		{
 			// rename the file located in %APPDATA%\console
 			g_settingsHandler->SetUserDataDir(SettingsHandler::dirTypeUser);
+
+			::time_t t = time(nullptr);
+			::tm now;
+			::localtime_s(&now, &t);
+			wchar_t szBackupSuffix[32];
+			_snwprintf_s(szBackupSuffix, _countof(szBackupSuffix),
+			             _TRUNCATE,
+			             L".%04d%02d%02d%02d%02d%02d.bak",
+			             now.tm_year + 1900, now.tm_mon + 1, now.tm_mday,
+			             now.tm_hour, now.tm_min, now.tm_sec);
+
 			MoveFile(
 				g_settingsHandler->GetSettingsFileName().c_str(),
-				(g_settingsHandler->GetSettingsFileName() + L".bak").c_str());
+				(g_settingsHandler->GetSettingsFileName() + szBackupSuffix).c_str());
 
 			g_settingsHandler->SetUserDataDir(SettingsHandler::dirTypeExe);
 		}
