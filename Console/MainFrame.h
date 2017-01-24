@@ -19,7 +19,7 @@
 class TabView;
 class ConsoleView;
 struct ConsoleViewCreate;
-typedef map<HWND, std::shared_ptr<TabView> >	TabViewMap;
+typedef std::map< HWND, std::shared_ptr<TabView> > TabViewMap;
 
 enum ShowHideWindowAction
 {
@@ -268,6 +268,8 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_SPLIT_SWAP,              OnSwap)
 			COMMAND_ID_HANDLER(ID_LOAD_WORKSPACE,          OnLoadWorkspace)
 			COMMAND_ID_HANDLER(ID_SAVE_WORKSPACE,          OnSaveWorkspace)
+			COMMAND_ID_HANDLER(ID_MERGE_HORIZONTALLY,      OnMergeTabs)
+			COMMAND_ID_HANDLER(ID_MERGE_VERTICALLY,        OnMergeTabs)
 
 			COMMAND_RANGE_HANDLER(ID_EXTERNAL_COMMAND_1, (ID_EXTERNAL_COMMAND_1 + EXTERNAL_COMMANDS_COUNT - 1), OnExternalCommand)
 			COMMAND_RANGE_HANDLER(ID_SNIPPET_ID_FIRST, ID_SNIPPET_ID_LAST, OnSnippet)
@@ -337,6 +339,7 @@ class MainFrame
 		LRESULT OnResizeView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSplit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnMergeTabs(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSwap(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
@@ -483,6 +486,7 @@ class MainFrame
 
 		CMenu			m_tabsMenu;
 		CMenu			m_tabsRPopupMenu;
+		CMenu			m_tabsR2PopupMenu;
 		CMenu			m_openedTabsMenu;
 		CMenu			m_snippetsMenu;
 
@@ -523,6 +527,8 @@ class MainFrame
 		CMenuHandle m_contextMenu;
 
 		MARGINS m_Margins;
+
+		int     m_nTabRightClickSel;
 
 		int     m_nFullSreen1Bitmap;
 		int     m_nFullSreen2Bitmap;

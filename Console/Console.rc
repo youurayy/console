@@ -746,7 +746,6 @@ END
 
 IDR_TAB_POPUP_MENU MENU
 BEGIN
-
     POPUP "Tab"
     BEGIN
         MENUITEM "&Close Tab",                  ID_FILE_CLOSE_TAB
@@ -770,6 +769,15 @@ BEGIN
         MENUITEM "Clone in New &Tab",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Console Window",             ID_VIEW_CONSOLE
+    END
+END
+
+IDR_TAB2_POPUP_MENU MENU
+BEGIN
+    POPUP "Tab2"
+    BEGIN
+        MENUITEM "Merge Horizontally",          ID_MERGE_HORIZONTALLY
+        MENUITEM "Merge Vertically",            ID_MERGE_VERTICALLY
     END
 END
 

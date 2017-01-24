@@ -5,15 +5,16 @@
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
 #define IDR_TAB_POPUP_MENU              129
+#define IDR_TAB2_POPUP_MENU             130
 
-#define IDPANE_CAPS_INDICATOR           130
-#define IDPANE_NUM_INDICATOR            131
-#define IDPANE_SCRL_INDICATOR           132
-#define IDPANE_PID_INDICATOR            133
-#define IDPANE_SELECTION                134
-#define IDPANE_COLUMNS_ROWS             135
-#define IDPANE_BUF_COLUMNS_ROWS         136
-#define IDPANE_ZOOM                     137
+#define IDPANE_CAPS_INDICATOR           150
+#define IDPANE_NUM_INDICATOR            151
+#define IDPANE_SCRL_INDICATOR           152
+#define IDPANE_PID_INDICATOR            153
+#define IDPANE_SELECTION                154
+#define IDPANE_COLUMNS_ROWS             155
+#define IDPANE_BUF_COLUMNS_ROWS         156
+#define IDPANE_ZOOM                     157
 
 #define IDD_RENAME_TAB                  204
 #define IDD_SETTINGS_MAIN               205
@@ -408,6 +409,8 @@
 #define ID_SHOW_CONTEXT_MENU_SNIPPETS   2940
 #define ID_LOAD_WORKSPACE               2941
 #define ID_SAVE_WORKSPACE               2942
+#define ID_MERGE_HORIZONTALLY           2943
+#define ID_MERGE_VERTICALLY             2944
 
 #define IDC_DUMP_BUFFER                 3000
 

@@ -2,7 +2,7 @@
 
 #include "ConsoleView.h"
 
-typedef map<HWND, std::shared_ptr<ConsoleView> >	ConsoleViewMap;
+typedef std::map< HWND, std::shared_ptr<ConsoleView> > ConsoleViewMap;
 
 class TabView
   : public CWindowImpl<TabView>
@@ -68,6 +68,7 @@ public:
 	void UpdateIcons();
 
   void Split(CMultiSplitPane::SPLITTYPE);
+  void Merge(std::shared_ptr<TabView>, CMultiSplitPane::SPLITTYPE);
   bool CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed);
   void SwitchView(WORD wID);
   void ResizeView(WORD wID);

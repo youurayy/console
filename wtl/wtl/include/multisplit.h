@@ -261,7 +261,7 @@ namespace WTL
 				delete this;
 
 #ifdef _DEBUG
-				ATLTRACE(L"%p-remove returns\n",
+				ATLTRACE(L"%08lx-remove returns\n",
 					::GetCurrentThreadId());
 				result->dump(0, result->parent);
 #endif
@@ -576,31 +576,31 @@ namespace WTL
 				szTab[i] = L' ';
 			szTab[level] = 0;
 
-			ATLTRACE(L"%p-%swindow: %p(%p)\n",
+			ATLTRACE(L"%08lx-%swindow: %p(addr=%p)\n",
 				::GetCurrentThreadId(),
 				szTab,
 				this->window,
 				this);
 
-			ATLTRACE(L"%p-%sparent: %p\n",
+			ATLTRACE(L"%08lx-%sparent: %p\n",
 				::GetCurrentThreadId(),
 				szTab,
 				this->parent);
 
-			ATLTRACE(L"%p-%s  size: %dx%d\n",
+			ATLTRACE(L"%08lx-%s  size: %dx%d\n",
 				::GetCurrentThreadId(),
 				szTab,
 				this->width,
 				this->height);
 
-			ATLTRACE(L"%p-%s pane0: %p\n",
+			ATLTRACE(L"%08lx-%s pane0: %p\n",
 				::GetCurrentThreadId(),
 				szTab,
 				this->pane0);
 			if( this->pane0 )
 				this->pane0->dump(level + 2, this);
 
-			ATLTRACE(L"%p-%s pane1: %p\n",
+			ATLTRACE(L"%08lx-%s pane1: %p\n",
 				::GetCurrentThreadId(),
 				szTab,
 				this->pane1);
@@ -1018,12 +1018,77 @@ namespace WTL
 			return true;
 		}
 
+		bool Merge(CMultiSplitImpl & other, CMultiSplitPane::SPLITTYPE splitType)
+		{
+#ifdef _DEBUG
+			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge into tree\n", ::GetCurrentThreadId());
+			this->tree.dump(0, 0);
+			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge into defaultFocusPane\n", ::GetCurrentThreadId());
+			if( this->defaultFocusPane )
+				this->defaultFocusPane->dump(0, this->defaultFocusPane->parent);
+
+			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge from tree\n", ::GetCurrentThreadId());
+			other.tree.dump(0, 0);
+			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge from defaultFocusPane\n", ::GetCurrentThreadId());
+			if( other.defaultFocusPane )
+				other.defaultFocusPane->dump(0, other.defaultFocusPane->parent);
+#endif
+			// clone tree into pane0
+			CMultiSplitPane * pane0 = new CMultiSplitPane(this->tree);
+			if( pane0->pane0 ) pane0->pane0->parent = pane0;
+			if( pane0->pane1 ) pane0->pane1->parent = pane0;
+
+			// clone other.tree into pane1
+			CMultiSplitPane * pane1 = new CMultiSplitPane(other.tree);
+			if( pane1->pane0 ) pane1->pane0->parent = pane1;
+			if( pane1->pane1 ) pane1->pane1->parent = pane1;
+
+			// set panes
+			this->tree.window = nullptr;
+			this->tree.splitType = splitType;
+			this->tree.splitRatio = 50;
+			this->tree.pane0 = pane0;
+			this->tree.pane1 = pane1;
+			pane0->parent = &this->tree;
+			pane1->parent = &this->tree;
+
+			// get current defaultFocusPane
+			// if unsplit current defaultFocusPane is pane0
+			CMultiSplitPane * defaultFocusPane0 = pane0->isSplitBar() ? this->defaultFocusPane : pane0;
+
+			// get other defaultFocusPane
+			// if unsplit other defaultFocusPane is pane1
+			CMultiSplitPane * defaultFocusPane1 = pane1->isSplitBar() ? other.defaultFocusPane : pane1;
+
+			// clean other tree
+			other.tree.window = nullptr;
+			other.tree.pane0 = nullptr;
+			other.tree.pane1 = nullptr;
+			other.defaultFocusPane = nullptr;
+			other.previousFocusPane = nullptr;
+
+			// resize
+			UpdateLayout();
+
+#ifdef _DEBUG
+			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge merged tree\n", ::GetCurrentThreadId());
+			this->tree.dump(0, 0);
+#endif
+
+			// current defaultFocusPane keeps the same
+			// other defaultFocusPane becomes previousFocusPane
+			this->defaultFocusPane = defaultFocusPane1;
+			this->SetDefaultFocusPane(defaultFocusPane0);
+
+			return true;
+		}
+
 		bool Remove()
 		{
 #ifdef _DEBUG
-			ATLTRACE(L"%p-TabView::CloseView tree\n", ::GetCurrentThreadId());
+			ATLTRACE(L"%08lx-CMultiSplitImpl::Remove tree\n", ::GetCurrentThreadId());
 			this->tree.dump(0, 0);
-			ATLTRACE(L"%p-TabView::CloseView defaultFocusPane\n", ::GetCurrentThreadId());
+			ATLTRACE(L"%08lx-CMultiSplitImpl::Remove defaultFocusPane\n", ::GetCurrentThreadId());
 			if( this->defaultFocusPane )
 				this->defaultFocusPane->dump(0, this->defaultFocusPane->parent);
 #endif

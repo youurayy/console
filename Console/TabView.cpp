@@ -541,6 +541,35 @@ void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
 
 /////////////////////////////////////////////////////////////////////////////
 
+void TabView::Merge(std::shared_ptr<TabView> other, CMultiSplitPane::SPLITTYPE splitType)
+{
+	// lock access to views map
+	MutexLock	viewMapLock(m_viewsMutex);
+	MutexLock	viewMapLock2(other->m_viewsMutex);
+
+	// move views from other tab to current tab
+	for( auto it = other->m_views.begin(); it != other->m_views.end(); ++it )
+	{
+		// modify the tab owner of the view to current tab
+		it->second->SetParentTab(m_hWnd, m_tabData);
+
+		// insert into current tab
+		m_views.insert(*it);
+	}
+	other->m_views.clear();
+
+	// merge multisplit
+	multisplitClass::Merge(*other, splitType);
+
+	// resize consoles row/column
+	CRect clientRect(0, 0, 0, 0);
+	AdjustRectAndResize(ADJUSTSIZE_WINDOW, clientRect, WMSZ_BOTTOM);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
 bool TabView::CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed)
 {
 	boolTabClosed = false;

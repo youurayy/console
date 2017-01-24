@@ -190,6 +190,7 @@ MainFrame::MainFrame
 #ifdef _USE_AERO
 , m_uTaskbarButtonCreated(::RegisterWindowMessage(TEXT("TaskbarButtonCreated")))
 #endif
+, m_nTabRightClickSel(-1)
 {
 	// allow middle mouse button on tab area with no tabs
 	m_nMinTabCountForVisibleTabs = 0;
@@ -368,6 +369,7 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	SetMenu(NULL);
 
 	m_tabsRPopupMenu.LoadMenu(IDR_TAB_POPUP_MENU);
+	m_tabsR2PopupMenu.LoadMenu(IDR_TAB2_POPUP_MENU);
 
 	UpdateMenuHotKeys();
 
@@ -2101,16 +2103,28 @@ LRESULT MainFrame::OnTabRightClick(int idCtrl, LPNMHDR pnmh, BOOL& bHandled)
 
 	if (pTabItem)
 	{
-		// select the tab
-		// this will update the menu UI
-		m_TabCtrl.SetCurSel(pTabItems->iItem);
-
-		UpdateSnippetsMenu();
+		m_nTabRightClickSel = pTabItems->iItem;
 
 		CPoint point(pTabItems->pt.x, pTabItems->pt.y);
 		CPoint screenPoint(point);
-		this->m_TabCtrl.ClientToScreen(&screenPoint);
-		m_CmdBar.TrackPopupMenu(m_tabsRPopupMenu.GetSubMenu(0), 0, screenPoint.x, screenPoint.y);
+		m_TabCtrl.ClientToScreen(&screenPoint);
+
+		if( m_nTabRightClickSel != m_TabCtrl.GetCurSel() )
+		{
+			m_CmdBar.TrackPopupMenu(m_tabsR2PopupMenu.GetSubMenu(0), 0, screenPoint.x, screenPoint.y);
+		}
+		else
+		{
+			/*
+			// select the tab
+			// this will update the menu UI
+			m_TabCtrl.SetCurSel(pTabItems->iItem);
+			*/
+
+			UpdateSnippetsMenu();
+
+			m_CmdBar.TrackPopupMenu(m_tabsRPopupMenu.GetSubMenu(0), 0, screenPoint.x, screenPoint.y);
+		}
 	}
 
 	// tab is already selected so return 1
@@ -2546,6 +2560,45 @@ LRESULT MainFrame::OnSplit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 	}
 
 	::SetForegroundWindow(m_hWnd);
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnMergeTabs(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	// check if current tab is valid
+	if (!m_activeTabView) return 0;
+
+	// check if m_nTabRightClickSel is valid
+	if( m_nTabRightClickSel < 0 || m_nTabRightClickSel >= m_TabCtrl.GetItemCount() )
+		return 0;
+
+	// search tab to merge with
+	CTabViewTabItem* pTabItemPane1 = m_TabCtrl.GetItem(m_nTabRightClickSel);
+	if( pTabItemPane1 == nullptr ) return 0;
+	auto it = m_tabs.find(pTabItemPane1->GetTabView());
+	if( it == m_tabs.end() ) return 0;
+	std::shared_ptr<TabView> pane1TabView = it->second;
+
+	// merge views into current tab
+	switch( wID )
+	{
+	case ID_MERGE_HORIZONTALLY:
+		m_activeTabView->Merge(pane1TabView, CMultiSplitPane::HORIZONTAL);
+		break;
+
+	case ID_MERGE_VERTICALLY:
+		m_activeTabView->Merge(pane1TabView, CMultiSplitPane::VERTICAL);
+		break;
+	}
+
+	// close other empty tab
+	CloseTab(pTabItemPane1->GetTabView());
+
 	return 0;
 }
 
@@ -3552,6 +3605,7 @@ void MainFrame::CloseTab(HWND hwndTabView)
   if (it == m_tabs.end()) return;
 
   RemoveTab(hwndTabView);
+
   if (m_activeTabView == it->second) m_activeTabView.reset();
   it->second->DestroyWindow();
   m_tabs.erase(it);

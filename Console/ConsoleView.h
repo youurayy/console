@@ -157,6 +157,8 @@ class ConsoleView
 		void Repaint(bool bFullRepaint);
 		bool MainframeMoving();
 
+		void SetParentTab(HWND hwndTabView, std::shared_ptr<TabData> tabDataTab);
+
 		void SetResizing(bool bResizing);
 		void SetActive(bool bActive);
 		const CString& GetUser() const { return m_strUser; }
