@@ -108,23 +108,7 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 						fastdelegate::MakeDelegate(this, &ConsoleView::OnConsoleChange),
 						fastdelegate::MakeDelegate(this, &ConsoleView::OnConsoleClose));
 
-	// load background image
-	switch( m_tabDataTab->backgroundImageType )
-	{
-	case bktypeImage:
-		m_background = g_imageHandler->GetImage(m_tabDataTab->imageData);
-		break;
-
-	case bktypeDesktop:
-		m_background = g_imageHandler->GetDesktopImage(m_tabDataTab->imageData);
-		break;
-
-	case bktypeBing:
-		m_background = g_imageHandler->GetBingImage(m_tabDataTab->imageData);
-		break;
-	}
-
-	if (!m_background) m_tabDataTab->backgroundImageType = bktypeNone;
+	SetBackground();
 
 	CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
 	ConsoleViewCreate* consoleViewCreate = reinterpret_cast<ConsoleViewCreate*>(createStruct->lpCreateParams);
@@ -1580,6 +1564,8 @@ void ConsoleView::SetParentTab(HWND hwndTabView, std::shared_ptr<TabData> tabDat
 	SetParent(hwndTabView);
 	m_hwndTabView = hwndTabView;
 	m_tabDataTab = tabDataTab;
+
+	SetBackground();
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1901,6 +1887,32 @@ void ConsoleView::OnConsoleChange(bool bResize)
 void ConsoleView::OnConsoleClose()
 {
 	if (::IsWindow(m_hWnd)) m_mainFrame.PostMessage(UM_CONSOLE_CLOSED, reinterpret_cast<WPARAM>(m_hWnd), 0);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+void ConsoleView::SetBackground()
+{
+	// load background image
+	switch( m_tabDataTab->backgroundImageType )
+	{
+	case bktypeImage:
+		m_background = g_imageHandler->GetImage(m_tabDataTab->imageData);
+		break;
+
+	case bktypeDesktop:
+		m_background = g_imageHandler->GetDesktopImage(m_tabDataTab->imageData);
+		break;
+
+	case bktypeBing:
+		m_background = g_imageHandler->GetBingImage(m_tabDataTab->imageData);
+		break;
+	}
+
+	if (!m_background) m_tabDataTab->backgroundImageType = bktypeNone;
 }
 
 //////////////////////////////////////////////////////////////////////////////

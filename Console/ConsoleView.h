@@ -205,6 +205,7 @@ class ConsoleView
 		void OnConsoleChange(bool bResize);
 		void OnConsoleClose();
 
+		void SetBackground();
 		void CreateOffscreenBuffers();
 		void CreateOffscreenBitmap(CDC& cdc, const CRect& rect, CBitmap& bitmap);
 		static bool CreateFont(const wstring& strFontName);
