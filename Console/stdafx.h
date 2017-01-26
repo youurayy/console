@@ -70,10 +70,10 @@ extern CAppModule _Module;
   #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
 
+#include "resource.h"
 #include "CustomTabCtrl.h"
 #include "DotNetTabCtrl.h"
 #ifdef _USE_AERO
-#include "resource.h"
 #include "AeroTabCtrl.h"
 #endif
 #include "TabbedFrame.h"

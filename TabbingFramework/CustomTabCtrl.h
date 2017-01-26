@@ -2009,8 +2009,8 @@ public:
 				{
 					if(m_tooltip.IsWindow())
 					{
-						m_tooltip.AddTool(m_hWnd, _T("Scroll Right"), &rcDefault, (UINT)ectcToolTip_ScrollRight);
-						m_tooltip.AddTool(m_hWnd, _T("Scroll Left"), &rcDefault, (UINT)ectcToolTip_ScrollLeft);
+						m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT, &rcDefault, (UINT)ectcToolTip_ScrollRight);
+						m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT,  &rcDefault, (UINT)ectcToolTip_ScrollLeft);
 					}
 
 					//pT->UpdateLayout();
@@ -2036,7 +2036,7 @@ public:
 				{
 					if(m_tooltip.IsWindow())
 					{
-						m_tooltip.AddTool(m_hWnd, _T("Close"), &rcDefault, (UINT)ectcToolTip_Close);
+						m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_CLOSE, &rcDefault, (UINT)ectcToolTip_Close);
 					}
 
 					//pT->UpdateLayout();
@@ -2189,7 +2189,8 @@ public:
 			{
 				if( (m_dwState & ectcHotTrack) == ectcHotTrack_CloseButton )
 				{
-					pToolTipInfo->lpszText = _T("Close");
+					pToolTipInfo->hinst = _Module.GetResourceInstance();
+					pToolTipInfo->lpszText = (LPWSTR)IDS_TABBINGFRAMEWORK_TIPS_CLOSE;
 				}
 				else
 				{
@@ -2235,8 +2236,8 @@ public:
 		{
 			if(m_tooltip.IsWindow())
 			{
-				m_tooltip.AddTool(m_hWnd, _T("Scroll Right"), &rcDefault, (UINT)ectcToolTip_ScrollRight);
-				m_tooltip.AddTool(m_hWnd, _T("Scroll Left"), &rcDefault, (UINT)ectcToolTip_ScrollLeft);
+				m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT, &rcDefault, (UINT)ectcToolTip_ScrollRight);
+				m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT,  &rcDefault, (UINT)ectcToolTip_ScrollLeft);
 			}
 		}
 
@@ -2244,7 +2245,7 @@ public:
 		{
 			if(m_tooltip.IsWindow())
 			{
-				m_tooltip.AddTool(m_hWnd, _T("Close"), &rcDefault, (UINT)ectcToolTip_Close);
+				m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_CLOSE, &rcDefault, (UINT)ectcToolTip_Close);
 			}
 		}
 	}
