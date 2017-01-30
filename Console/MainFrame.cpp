@@ -4623,6 +4623,39 @@ void MainFrame::SetMargins(void)
 
 void MainFrame::SetTransparency()
 {
+#ifdef _USE_AERO
+
+#define ACCENT_DISABLED                   0
+#define ACCENT_ENABLE_GRADIENT            1
+#define ACCENT_ENABLE_TRANSPARENTGRADIENT 2
+#define ACCENT_ENABLE_BLURBEHIND          3
+
+#define WCA_ACCENT_POLICY 19
+
+	struct ACCENTPOLICY
+	{
+		int nAccentState;
+		int nFlags;
+		int nColor;
+		int nAnimationId;
+	};
+
+	struct WINCOMPATTRDATA
+	{
+		int nAttribute;
+		PVOID pData;
+		ULONG ulDataSize;
+	};
+
+	typedef BOOL(WINAPI*pSetWindowCompositionAttribute)(HWND, WINCOMPATTRDATA*);
+
+	const pSetWindowCompositionAttribute SetWindowCompositionAttribute =
+		Helpers::CheckOSVersion(10, 0) ?
+		(pSetWindowCompositionAttribute)::GetProcAddress(::GetModuleHandle(L"user32.dll"), "SetWindowCompositionAttribute") :
+		nullptr;
+
+#endif
+
   // set transparency
   TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
   TransparencyType transType = m_bTransparencyActive ? transparencySettings.transType : transNone;
@@ -4639,6 +4672,13 @@ void MainFrame::SetTransparency()
   {
     if( transType != transGlass )
     {
+			if( SetWindowCompositionAttribute )
+			{
+				ACCENTPOLICY policy = { ACCENT_DISABLED, 0, 0, 0 };
+				WINCOMPATTRDATA data = { WCA_ACCENT_POLICY, &policy, sizeof(ACCENTPOLICY) };
+				SetWindowCompositionAttribute(m_hWnd, &data);
+			}
+
       // there is a side effect whith glass into client area and no caption (and no resizable)
       // blur is not applied, the window is transparent ...
       DWORD	dwStyle = GetWindowLong(GWL_STYLE);
@@ -4750,34 +4790,6 @@ void MainFrame::SetTransparency()
 #ifdef _USE_AERO
       if( fEnabled )
       {
-				#define	ACCENT_ENABLE_GRADIENT            1
-				#define ACCENT_ENABLE_TRANSPARENTGRADIENT 2
-				#define ACCENT_ENABLE_BLURBEHIND          3
-
-				#define WCA_ACCENT_POLICY 19
-
-				struct ACCENTPOLICY
-				{
-					int nAccentState;
-					int nFlags;
-					int nColor;
-					int nAnimationId;
-				};
-
-				struct WINCOMPATTRDATA
-				{
-					int nAttribute;
-					PVOID pData;
-					ULONG ulDataSize;
-				};
-
-				typedef BOOL(WINAPI*pSetWindowCompositionAttribute)(HWND, WINCOMPATTRDATA*);
-
-				const pSetWindowCompositionAttribute SetWindowCompositionAttribute =
-					Helpers::CheckOSVersion(10, 0)?
-						(pSetWindowCompositionAttribute)::GetProcAddress(::GetModuleHandle(L"user32.dll"), "SetWindowCompositionAttribute") :
-						nullptr;
-
 				if( SetWindowCompositionAttribute )
 				{
 					ACCENTPOLICY policy = { ACCENT_ENABLE_BLURBEHIND, 0, 0, 0 };

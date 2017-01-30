@@ -2394,11 +2394,14 @@ void ConsoleView::RepaintText(CDC& dc)
 	bitmapRect.right = bitmapSize.cx;
 	bitmapRect.bottom = bitmapSize.cy;
 
+#ifdef _USE_AERO
+	TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
+#endif //_USE_AERO
+
 	if(m_tabDataTab->backgroundImageType == bktypeNone)
 	{
 #ifdef _USE_AERO
 		// set transparency
-		TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
 		if(transparencySettings.transType == transGlass)
 		{
 			Gdiplus::Graphics gr(dc);
@@ -2413,12 +2416,10 @@ void ConsoleView::RepaintText(CDC& dc)
 				GetBValue(backgroundColor)));
 		}
 		else
+#endif // _USE_AERO
 		{
 			dc.FillRect(&bitmapRect, m_backgroundBrush);
 		}
-#else
-		dc.FillRect(&bitmapRect, m_backgroundBrush);
-#endif // _USE_AERO
 	}
 	else
 	{
@@ -2436,28 +2437,56 @@ void ConsoleView::RepaintText(CDC& dc)
 
 		g_imageHandler->UpdateImageBitmap(dc, rectTab, m_background);
 
-		if(m_tabDataTab->imageData.bRelative)
+		int xSrc = rectView.left + pointView.x;
+		int ySrc = rectView.top  + pointView.y;
+
+		if( m_tabDataTab->imageData.bRelative )
+		{
+			xSrc -= ::GetSystemMetrics(SM_XVIRTUALSCREEN);
+			ySrc -= ::GetSystemMetrics(SM_YVIRTUALSCREEN);
+		}
+		else
+		{
+			xSrc -= pointTab.x;
+			ySrc -= pointTab.y;
+		}
+
+#ifdef _USE_AERO
+		if( transparencySettings.transType == transGlass )
+		{
+			Gdiplus::Graphics gr(dc);
+
+			gr.Clear(Gdiplus::Color(this->m_mainFrame.GetAppActiveStatus() ? transparencySettings.byActiveAlpha : transparencySettings.byInactiveAlpha, 0, 0, 0));
+
+			BLENDFUNCTION bf;
+			bf.BlendOp = AC_SRC_OVER;
+			bf.BlendFlags = 0;
+			bf.SourceConstantAlpha = this->m_mainFrame.GetAppActiveStatus() ? transparencySettings.byActiveAlpha : transparencySettings.byInactiveAlpha;
+			bf.AlphaFormat = AC_SRC_ALPHA;
+
+			dc.AlphaBlend(
+				rectView.left,
+				rectView.top,
+				rectView.Width(),
+				rectView.Height(),
+				m_background->dcImage,
+				xSrc,
+				ySrc,
+				rectView.Width(),
+				rectView.Height(),
+				bf);
+		}
+		else
+#endif //_USE_AERO
 		{
 			dc.BitBlt(
 				rectView.left,
 				rectView.top,
-				rectView.right,
-				rectView.bottom,
+				rectView.Width(),
+				rectView.Height(),
 				m_background->dcImage,
-				rectView.left + pointView.x - ::GetSystemMetrics(SM_XVIRTUALSCREEN),
-				rectView.top + pointView.y - ::GetSystemMetrics(SM_YVIRTUALSCREEN),
-				SRCCOPY);
-		}
-		else
-		{
-			dc.BitBlt(
-				bitmapRect.left,
-				bitmapRect.top,
-				bitmapRect.right,
-				bitmapRect.bottom,
-				m_background->dcImage,
-				bitmapRect.left + pointView.x - pointTab.x,
-				bitmapRect.top + pointView.y - pointTab.y,
+				xSrc,
+				ySrc,
 				SRCCOPY);
 		}
 	}
@@ -2709,12 +2738,14 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
       rect.bottom = dwY + m_nCharHeight;
       rect.right  = dwX;
 
+#ifdef _USE_AERO
+			TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
+#endif //_USE_AERO
+
       if (m_tabDataTab->backgroundImageType == bktypeNone)
       {
-        dc.FillRect(&rect, m_backgroundBrush);
 #if _USE_AERO
         // set transparency
-        TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
         if (transparencySettings.transType == transGlass)
         {
           Gdiplus::Graphics gr(dc);
@@ -2734,34 +2765,72 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
               GetGValue(backgroundColor),
               GetBValue(backgroundColor)));
         }
+				else
 #endif
+				{
+					dc.FillRect(&rect, m_backgroundBrush);
+				}
       }
       else
       {
-        if (m_tabDataTab->imageData.bRelative)
-        {
-          dc.BitBlt(
-            rect.left,
-            rect.top,
-            rect.Width(),
-            rect.Height(),
-            m_background->dcImage,
-            rect.left + pointView.x - ::GetSystemMetrics(SM_XVIRTUALSCREEN),
-            rect.top  + pointView.y - ::GetSystemMetrics(SM_YVIRTUALSCREEN),
-            SRCCOPY);
-        }
-        else
-        {
-          dc.BitBlt(
-            rect.left,
-            rect.top,
-            rect.Width(),
-            rect.Height(),
-            m_background->dcImage,
-            rect.left + pointView.x - pointTab.x,
-            rect.top  + pointView.y - pointTab.y,
-            SRCCOPY);
-        }
+				int xSrc = rect.left + pointView.x;
+				int ySrc = rect.top  + pointView.y;
+
+				if( m_tabDataTab->imageData.bRelative )
+				{
+					xSrc -= ::GetSystemMetrics(SM_XVIRTUALSCREEN);
+					ySrc -= ::GetSystemMetrics(SM_YVIRTUALSCREEN);
+				}
+				else
+				{
+					xSrc -= pointTab.x;
+					ySrc -= pointTab.y;
+				}
+
+#ifdef _USE_AERO
+				if( transparencySettings.transType == transGlass )
+				{
+					Gdiplus::Graphics gr(dc);
+
+					gr.SetClip(
+						Gdiplus::Rect(
+							rect.left, rect.top,
+							rect.Width(), rect.Height()),
+						Gdiplus::CombineModeReplace);
+
+					gr.Clear(Gdiplus::Color(this->m_mainFrame.GetAppActiveStatus() ? transparencySettings.byActiveAlpha : transparencySettings.byInactiveAlpha, 0, 0, 0));
+
+					BLENDFUNCTION bf;
+					bf.BlendOp = AC_SRC_OVER;
+					bf.BlendFlags = 0;
+					bf.SourceConstantAlpha = this->m_mainFrame.GetAppActiveStatus() ? transparencySettings.byActiveAlpha : transparencySettings.byInactiveAlpha;
+					bf.AlphaFormat = AC_SRC_ALPHA;
+
+					dc.AlphaBlend(
+						rect.left,
+						rect.top,
+						rect.Width(),
+						rect.Height(),
+						m_background->dcImage,
+						xSrc,
+						ySrc,
+						rect.Width(),
+						rect.Height(),
+						bf);
+				}
+				else
+#endif //_USE_AERO
+				{
+					dc.BitBlt(
+						rect.left,
+						rect.top,
+						rect.Width(),
+						rect.Height(),
+						m_background->dcImage,
+						xSrc,
+						ySrc,
+						SRCCOPY);
+				}
       }
 
       this->RowTextOut(dc, i);
