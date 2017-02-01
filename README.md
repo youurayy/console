@@ -38,6 +38,21 @@ Changelog
     + added
     * fixed
 
+Changes in 1.18.0 experimental (30 Jan 2017)
+
+    ! Update tab title current directory in realtime.
+    ! Renaming a tab title to empty is no longer allowed
+      (empty string is replaced by tab title from settings).
+    ! Backup settings file using a timestamp (unique backup filename).
+    ! Tabbing framework localization.
+    + Workspaces.
+    + Option to hide the "close tab" button.
+    + Split bar size is configurable.
+    + Allow merging tabs (horizontally or vertically).
+    * GDI leaks (thanks to char101).
+    * Allow choosing environment variables inheritage method.
+    * Improve Windows 10 glass transparency.
+
 Changes in 1.17.2 (18 Nov 2016)
 
     ! New Icons (a gift from BlazenBundy).
