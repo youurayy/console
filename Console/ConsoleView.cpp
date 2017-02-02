@@ -2867,7 +2867,8 @@ void ConsoleView::RowTextOut(CDC& dc, DWORD dwRow)
     m_screenBuffer[dwOffset].changed = false;
 
     // compare background color
-    WORD attrBG2 = (m_screenBuffer[dwOffset].charInfo.Attributes & 0xFF) >> 4;
+		WORD attr = m_screenBuffer[dwOffset].charInfo.Attributes;
+		WORD attrBG2 = (attr & COMMON_LVB_REVERSE_VIDEO) ? (attr & 0x0F) : ((attr & 0xF0) >> 4);
     if( dwBGWidth == 0 )
     {
       attrBG    = attrBG2;
@@ -2972,13 +2973,15 @@ void ConsoleView::RowTextOut(CDC& dc, DWORD dwRow)
     CHAR_INFO & charInfo = m_screenBuffer[dwOffset].charInfo;
     if (charInfo.Attributes & COMMON_LVB_TRAILING_BYTE) continue;
 
-    int nCharWidth = (charInfo.Attributes & COMMON_LVB_LEADING_BYTE)? m_nCharWidth * 2 : m_nCharWidth;
+		WORD attr = charInfo.Attributes;
+		int nCharWidth = (attr & COMMON_LVB_LEADING_BYTE)? m_nCharWidth * 2 : m_nCharWidth;
 
     // compare foreground color
-    COLORREF     colorFG2      = m_appearanceSettings.fontSettings.bUseColor ? m_appearanceSettings.fontSettings.crFontColor : consoleColors[charInfo.Attributes & 0xF];
+		WORD         attrFG2       = (attr & COMMON_LVB_REVERSE_VIDEO) ? ((attr & 0xF0) >> 4) : (attr & 0x0F);
+		COLORREF     colorFG2      = m_appearanceSettings.fontSettings.bUseColor ? m_appearanceSettings.fontSettings.crFontColor : consoleColors[attrFG2];
     FontTextType fontTextType2 = static_cast<FontTextType>(
-			(boolIntensified && (charInfo.Attributes & FOREGROUND_INTENSITY) ? 1 : 0) |
-			(charInfo.Attributes &  COMMON_LVB_UNDERSCORE ? 2 : 0));
+			(boolIntensified && (attr & FOREGROUND_INTENSITY) ? 1 : 0) |
+			(attr &  COMMON_LVB_UNDERSCORE ? 2 : 0));
 
     if( dwFGWidth == 0 )
     {
