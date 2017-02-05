@@ -3924,6 +3924,17 @@ void MainFrame::UpdateStatusBar()
       UIEnable(ID_EDIT_PASTE,           activeConsoleView->CanPaste()          ? TRUE : FALSE);
       UIEnable(ID_PASTE_SELECTION,      activeConsoleView->CanClearSelection() ? TRUE : FALSE);
       UISetCheck(ID_VIEW_CONSOLE, activeConsoleView->GetConsoleWindowVisible() ? TRUE : FALSE);
+      UISetCheck(ID_FORWARD_MOUSE_EVENTS, activeConsoleView->GetForwardMouseEvents() ? TRUE : FALSE);
+
+			const std::wstring & strCopyright = activeConsoleView->GetImageCopyright();
+			if( strCopyright.empty() )
+			{
+				::SendMessage(m_hWndStatusBar, SB_SETTEXT, ID_DEFAULT_PANE, (LPARAM)Helpers::LoadStringW(ATL_IDS_IDLEMESSAGE).c_str());
+			}
+			else
+			{
+				::SendMessage(m_hWndStatusBar, SB_SETTEXT, ID_DEFAULT_PANE, (LPARAM)strCopyright.c_str());
+			}
     }
   }
 

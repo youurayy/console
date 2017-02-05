@@ -37,6 +37,8 @@ struct ImageData
 	, crBackground(RGB(0, 0, 0))
 	, crTint(RGB(0, 0, 0))
 	, byTintOpacity(0)
+	, strCopyright()
+	, strCopyrightLink()
 	{
 	}
 
@@ -48,6 +50,8 @@ struct ImageData
 	, crBackground(background)
 	, crTint(tint)
 	, byTintOpacity(tintOpacity)
+	, strCopyright()
+	, strCopyrightLink()
 	{
 	}
 
@@ -59,6 +63,8 @@ struct ImageData
 	, crBackground(other.crBackground)
 	, crTint(other.crTint)
 	, byTintOpacity(other.byTintOpacity)
+	, strCopyright(other.strCopyright)
+	, strCopyrightLink(other.strCopyrightLink)
 	{
 	}
 
@@ -71,6 +77,8 @@ struct ImageData
 		crBackground	= other.crBackground;
 		crTint			= other.crTint;
 		byTintOpacity	= other.byTintOpacity;
+		strCopyright     = other.strCopyright;
+		strCopyrightLink = other.strCopyrightLink;
 
 		return *this;
 	}
@@ -98,6 +106,9 @@ struct ImageData
 
 	COLORREF			crTint;
 	BYTE				byTintOpacity;
+
+	std::wstring strCopyright;
+	std::wstring strCopyrightLink;
 
 };
 

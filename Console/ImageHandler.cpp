@@ -403,6 +403,26 @@ bool ImageHandler::GetBingImageData(ImageData& imageData)
 			imageData.strFilename = std::wstring(L"http://www.bing.com");
 			imageData.strFilename += bstrUrlBase;
 			imageData.strFilename += L"_1920x1080.jpg";
+
+			CComPtr<IXMLDOMNode> pCopyrightNode;
+			if( FAILED(pBingRoot->selectSingleNode(CComBSTR(L"/images/image/copyright"), &pCopyrightNode)) ) return true;
+
+			CComPtr<IXMLDOMElement> pCopyrightElement;
+			if( FAILED(pCopyrightNode.QueryInterface(&pCopyrightElement)) ) return false;
+
+			CComBSTR bstrCopyright;
+			if( SUCCEEDED(pCopyrightElement->get_text(&bstrCopyright)) )
+				imageData.strCopyright = bstrCopyright;
+
+			CComPtr<IXMLDOMNode> pCopyrightLinkNode;
+			if( FAILED(pBingRoot->selectSingleNode(CComBSTR(L"/images/image/copyrightlink"), &pCopyrightLinkNode)) ) return true;
+
+			CComPtr<IXMLDOMElement> pCopyrightLinkElement;
+			if( FAILED(pCopyrightLinkNode.QueryInterface(&pCopyrightLinkElement)) ) return false;
+
+			CComBSTR bstrCopyrightLink;
+			if( SUCCEEDED(pCopyrightLinkElement->get_text(&bstrCopyrightLink)) )
+				imageData.strCopyrightLink = bstrCopyrightLink;
 		}
 	}
 	catch( std::exception& )
