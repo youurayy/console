@@ -257,9 +257,6 @@
     <ClInclude Include="AeroTabCtrl.h">
       <Filter>Header Files\GUI custom</Filter>
     </ClInclude>
-    <ClInclude Include="..\wtl\wtl\include\multisplit.h">
-      <Filter>Header Files\GUI custom</Filter>
-    </ClInclude>
     <ClInclude Include="DlgSettingsBehavior2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -285,6 +282,9 @@
       <Filter>Header Files\GUI custom</Filter>
     </ClInclude>
     <ClInclude Include="CNegativeNumberEdit.h">
+      <Filter>Header Files\GUI custom</Filter>
+    </ClInclude>
+    <ClInclude Include="multisplit.h">
       <Filter>Header Files\GUI custom</Filter>
     </ClInclude>
   </ItemGroup>

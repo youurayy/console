@@ -616,7 +616,6 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="..\shared\NamedPipe.h" />
     <ClInclude Include="..\shared\version.h" />
     <ClInclude Include="..\shared\Win32Exception.h" />
-    <ClInclude Include="..\wtl\wtl\include\multisplit.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AeroTabCtrl.h" />
     <ClInclude Include="CNegativeNumberEdit.h" />
@@ -648,6 +647,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="ImageHandler.h" />
     <ClInclude Include="JumpList.h" />
     <ClInclude Include="MainFrame.h" />
+    <ClInclude Include="multisplit.h" />
     <ClInclude Include="PageSettingsTab.h" />
     <ClInclude Include="PageSettingsTabs1.h" />
     <ClInclude Include="PageSettingsTabs2.h" />
