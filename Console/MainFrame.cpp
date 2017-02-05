@@ -3116,6 +3116,26 @@ LRESULT MainFrame::OnViewConsole(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWnd
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnForwardMouseEvents(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+  if (m_activeTabView)
+  {
+    std::shared_ptr<ConsoleView> activeConsoleView = m_activeTabView->GetActiveConsole(_T(__FUNCTION__));
+    if( activeConsoleView )
+    {
+      activeConsoleView->SetForwardMouseEvents(!activeConsoleView->GetForwardMouseEvents());
+      UISetCheck(ID_FORWARD_MOUSE_EVENTS, activeConsoleView->GetConsoleWindowVisible() ? TRUE : FALSE);
+    }
+  }
+
+  return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnAlwaysOnTop(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	ZOrder newOrder;

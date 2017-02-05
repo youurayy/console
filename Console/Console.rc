@@ -711,6 +711,8 @@ BEGIN
         MENUITEM "Stop Scr&olling",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
+        MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
@@ -760,6 +762,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Stop Scr&olling",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM SEPARATOR
+        MENUITEM "Forward mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -874,6 +878,7 @@ STRINGTABLE
 BEGIN
     ID_FILE_NEW_TAB         "Open a new tab\nNew tab"
     ID_VIEW_CONSOLE         "Show or hide the console"
+    ID_FORWARD_MOUSE_EVENTS "Forward mouse events"
     ID_FILE_CLOSE_TAB       "Close the current tab\nClose Tab"
     ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Close all tabs but the current"
     ID_FILE_CLOSE_ALL_TABS_LEFT     "Close all tabs to the left of the current"
@@ -1064,7 +1069,8 @@ BEGIN
     IDS_DETACH_VIEW          "Detach view"
     IDS_ATTACH_CONSOLES      "Attach consoles"
     IDS_LOAD_WORKSPACE       "Load workspace"
-    IDS_SAVE_WORKSPACE       "Save Workspace"
+    IDS_SAVE_WORKSPACE       "Save workspace"
+    IDS_FORWARD_MOUSE_EVENTS "Turn on/off mouse events forwarding"
     IDS_SPLIT_HORIZ          "Split horizontally"
     IDS_SPLIT_VERT           "Split vertically"
     IDS_SPLIT_SWAP           "Swap with the view that previously had focus"

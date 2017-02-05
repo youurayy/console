@@ -149,6 +149,12 @@ class ConsoleView
 		bool GetConsoleWindowVisible() const { return m_bConsoleWindowVisible; }
 		void SetConsoleWindowVisible(bool bVisible);
 
+		inline bool GetForwardMouseEvents() const { return m_bForwardMouseEvents; }
+		inline void SetForwardMouseEvents(bool value) { m_bForwardMouseEvents = value; }
+
+		inline const std::wstring & GetImageCopyright() const { return m_tabDataTab->imageData.strCopyright; }
+		inline const std::wstring & GetImageCopyrightLink() const { return m_tabDataTab->imageData.strCopyrightLink; }
+
 		void SetAppActiveStatus(bool bAppActive);
 
 		static bool RecreateFont(DWORD dwNewFontSize, bool boolZooming, DWORD dwScreenDpi);
@@ -243,6 +249,7 @@ class ConsoleView
 		bool	m_bConsoleWindowVisible;
 		bool  m_boolIsGrouped;
 		bool  m_boolImmComposition;
+		bool  m_bForwardMouseEvents;
 
 		DWORD	m_dwStartupRows;
 		DWORD	m_dwStartupColumns;

@@ -77,6 +77,7 @@ ConsoleView::ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr
 , m_dcText(::CreateCompatibleDC(NULL))
 , m_boolIsGrouped(false)
 , m_boolImmComposition(false)
+, m_bForwardMouseEvents(false)
 #ifdef CONSOLEZ_CHRONOS
 , m_timePoint1(std::chrono::high_resolution_clock::now())
 #endif // CONSOLEZ_CHRONOS
@@ -639,29 +640,61 @@ LRESULT ConsoleView::OnMouseWheel(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*
     }
     else
     {
-      if (uKeys & MK_SHIFT)
-      {
-        // scroll pages
-        ScrollSettings& scrollSettings = g_settingsHandler->GetBehaviorSettings().scrollSettings;
-        if (scrollSettings.dwPageScrollRows > 0)
-        {
-          // modified behavior: pagescroll = x lines
-          nScrollDelta *= static_cast<int>(scrollSettings.dwPageScrollRows);
-        }
-        else
-        {
-          nScrollDelta *= static_cast<int>(m_consoleHandler.GetConsoleParams()->dwRows);
-        }
-      }
-      else
-      {
-        // scroll lines
-        UINT uScrollAmount = 3;
-        if (!SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &uScrollAmount, 0))
-          uScrollAmount = 3;
-        nScrollDelta *= static_cast<int>(uScrollAmount);
-      }
-      DoScroll(SB_VERT, SB_WHEEL, nScrollDelta);
+			if( m_bForwardMouseEvents )
+			{
+				COORD coord = { 0, 0 };
+
+				DWORD dwMouseButtonState = 0;
+				DWORD dwControlKeyState = 0;
+				DWORD dwEventFlags = 0;
+
+				// get mouse button states
+				if( uKeys & MK_LBUTTON ) dwMouseButtonState |= FROM_LEFT_1ST_BUTTON_PRESSED;
+				if( uKeys & MK_MBUTTON ) dwMouseButtonState |= FROM_LEFT_2ND_BUTTON_PRESSED;
+				if( uKeys & MK_RBUTTON ) dwMouseButtonState |= RIGHTMOST_BUTTON_PRESSED;
+				if( uKeys & MK_XBUTTON1 ) dwMouseButtonState |= FROM_LEFT_3RD_BUTTON_PRESSED;
+				if( uKeys & MK_XBUTTON2 ) dwMouseButtonState |= FROM_LEFT_4TH_BUTTON_PRESSED;
+
+				// get control key states
+				if( GetKeyState(VK_RMENU) < 0 ) dwControlKeyState |= RIGHT_ALT_PRESSED;
+				if( GetKeyState(VK_LMENU) < 0 ) dwControlKeyState |= LEFT_ALT_PRESSED;
+				if( GetKeyState(VK_RCONTROL) < 0 ) dwControlKeyState |= RIGHT_CTRL_PRESSED;
+				if( GetKeyState(VK_LCONTROL) < 0 ) dwControlKeyState |= LEFT_CTRL_PRESSED;
+				if( GetKeyState(VK_CAPITAL) < 0 ) dwControlKeyState |= CAPSLOCK_ON;
+				if( GetKeyState(VK_NUMLOCK) < 0 ) dwControlKeyState |= NUMLOCK_ON;
+				if( GetKeyState(VK_SCROLL) < 0 ) dwControlKeyState |= SCROLLLOCK_ON;
+				if( GetKeyState(VK_SHIFT) < 0 ) dwControlKeyState |= SHIFT_PRESSED;
+
+				dwEventFlags = MOUSE_WHEELED;
+
+				m_consoleHandler.SendMouseEvent(coord, MAKELONG(dwMouseButtonState, GET_WHEEL_DELTA_WPARAM(wParam)), dwControlKeyState, dwEventFlags);
+			}
+			else
+			{
+				if( uKeys & MK_SHIFT )
+				{
+					// scroll pages
+					ScrollSettings& scrollSettings = g_settingsHandler->GetBehaviorSettings().scrollSettings;
+					if( scrollSettings.dwPageScrollRows > 0 )
+					{
+						// modified behavior: pagescroll = x lines
+						nScrollDelta *= static_cast<int>(scrollSettings.dwPageScrollRows);
+					}
+					else
+					{
+						nScrollDelta *= static_cast<int>(m_consoleHandler.GetConsoleParams()->dwRows);
+					}
+				}
+				else
+				{
+					// scroll lines
+					UINT uScrollAmount = 3;
+					if( !SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &uScrollAmount, 0) )
+						uScrollAmount = 3;
+					nScrollDelta *= static_cast<int>(uScrollAmount);
+				}
+				DoScroll(SB_VERT, SB_WHEEL, nScrollDelta);
+			}
     }
   }
 
@@ -700,10 +733,18 @@ LRESULT ConsoleView::OnMouseButton(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 {
 	_boolMenuSysKeyCancelled = true;
 
+	CPoint point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+
+	if( m_bForwardMouseEvents )
+	{
+		ForwardMouseClick(uMsg, wParam, point);
+
+		return 0;
+	}
+
 	UINT						uKeys			= GET_KEYSTATE_WPARAM(wParam); 
 	UINT						uXButton		= GET_XBUTTON_WPARAM(wParam);
 
-	CPoint						point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 	MouseSettings&				mouseSettings	= g_settingsHandler->GetMouseSettings();
 	MouseSettings::Action		mouseAction;
 

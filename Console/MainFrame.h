@@ -115,6 +115,7 @@ class MainFrame
 			UPDATE_ELEMENT(ID_VIEW_TABS, UPDUI_MENUPOPUP)
 			UPDATE_ELEMENT(ID_VIEW_STATUS_BAR, UPDUI_MENUPOPUP)
 			UPDATE_ELEMENT(ID_VIEW_CONSOLE, UPDUI_MENUPOPUP)
+			UPDATE_ELEMENT(ID_FORWARD_MOUSE_EVENTS, UPDUI_MENUPOPUP)
 			UPDATE_ELEMENT(ID_VIEW_FULLSCREEN, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
 			UPDATE_ELEMENT(ID_SEARCH_MATCH_CASE, UPDUI_TOOLBAR)
 			UPDATE_ELEMENT(ID_SEARCH_MATCH_WHOLE_WORD, UPDUI_TOOLBAR)
@@ -244,6 +245,7 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_VIEW_STATUS_BAR, OnViewStatusBar)
 			COMMAND_ID_HANDLER(ID_VIEW_TABS, OnViewTabs)
 			COMMAND_ID_HANDLER(ID_VIEW_CONSOLE, OnViewConsole)
+			COMMAND_ID_HANDLER(ID_FORWARD_MOUSE_EVENTS, OnForwardMouseEvents)
 			COMMAND_ID_HANDLER(ID_HELP, OnHelp)
 			COMMAND_ID_HANDLER(ID_APP_ABOUT, OnAppAbout)
 			COMMAND_ID_HANDLER(IDC_DUMP_BUFFER, OnDumpBuffer)
@@ -367,6 +369,7 @@ class MainFrame
 		LRESULT OnViewStatusBar(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnViewTabs(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnViewConsole(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnForwardMouseEvents(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnAlwaysOnTop(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnFullScreen(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnZoom(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
