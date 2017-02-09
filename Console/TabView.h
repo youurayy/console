@@ -73,6 +73,7 @@ public:
   void SwitchView(WORD wID);
   void ResizeView(WORD wID);
   void SetActiveConsole(HWND hwnd);
+	void UpdateTheme();
 
   void PostMessageToConsoles(UINT Msg, WPARAM wParam, LPARAM lParam);
   void WriteConsoleInputToConsoles(KEY_EVENT_RECORD* pkeyEvent);

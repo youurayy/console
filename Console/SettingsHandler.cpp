@@ -711,6 +711,7 @@ StylesSettings::StylesSettings()
 , bIntegratedIME(false)
 , bHideWhenInactive(false)
 , bPerMonitorDpi(false)
+, bKeepViewTheme(false)
 , dwInsideBorder(2)
 , dwSplitBarSize(0)
 , dwQuakeAnimationTime(300)
@@ -742,6 +743,7 @@ bool StylesSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"integrated_ime"), bIntegratedIME, false);
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"hide_when_inactive"), bHideWhenInactive, false);
 		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"per_monitor_dpi"), bPerMonitorDpi, false);
+		XmlHelper::GetAttribute(pStylesElement, CComBSTR(L"keep_view_theme"), bKeepViewTheme, false);
 
 		CComPtr<IXMLDOMElement>	pSelColorElement;
 		if( SUCCEEDED(XmlHelper::GetDomElement(pStylesElement, CComBSTR(L"selection_color"), pSelColorElement)) )
@@ -781,6 +783,7 @@ bool StylesSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"integrated_ime"), bIntegratedIME);
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"hide_when_inactive"), bHideWhenInactive);
 	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"per_monitor_dpi"), bPerMonitorDpi);
+	XmlHelper::SetAttribute(pStylesElement, CComBSTR(L"keep_view_theme"), bKeepViewTheme);
 
 	CComPtr<IXMLDOMElement>	pSelColorElement;
 	if (SUCCEEDED(XmlHelper::AddDomElementIfNotExist(pStylesElement, CComBSTR(L"selection_color"), pSelColorElement)))
@@ -810,6 +813,7 @@ StylesSettings& StylesSettings::operator=(const StylesSettings& other)
 	bIntegratedIME		= other.bIntegratedIME;
 	bHideWhenInactive = other.bHideWhenInactive;
 	bPerMonitorDpi = other.bPerMonitorDpi;
+	bKeepViewTheme = other.bKeepViewTheme;
 	dwInsideBorder	= other.dwInsideBorder;
     dwSplitBarSize  = other.dwSplitBarSize;
 	dwQuakeAnimationTime	= other.dwQuakeAnimationTime;

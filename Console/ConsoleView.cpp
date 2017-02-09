@@ -63,8 +63,8 @@ ConsoleView::ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr
 , m_consoleSettings(g_settingsHandler->GetConsoleSettings())
 , m_appearanceSettings(g_settingsHandler->GetAppearanceSettings())
 , m_hotkeys(g_settingsHandler->GetHotKeys())
-, m_tabDataTab(tabDataTab)
 , m_tabDataShell(tabDataShell.get() ? tabDataShell : tabDataTab)
+, m_tabDataTab(m_appearanceSettings.stylesSettings.bKeepViewTheme ? m_tabDataShell : tabDataTab)
 , m_background()
 , m_backgroundBrush(NULL)
 , m_cursor()
@@ -1604,7 +1604,11 @@ void ConsoleView::SetParentTab(HWND hwndTabView, std::shared_ptr<TabData> tabDat
 {
 	SetParent(hwndTabView);
 	m_hwndTabView = hwndTabView;
-	m_tabDataTab = tabDataTab;
+
+	m_tabDataTab =
+		m_appearanceSettings.stylesSettings.bKeepViewTheme ?
+			m_tabDataShell :
+			tabDataTab;
 
 	SetBackground();
 }
@@ -3671,4 +3675,21 @@ std::wstring ConsoleView::GetFontInfo(void) const
 	}
 
 	return ret;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool ConsoleView::SaveWorkspace(CComPtr<IXMLDOMElement>& pViewElement)
+{
+	XmlHelper::SetAttribute(pViewElement, CComBSTR(L"Title"), m_tabDataShell->strTitle);
+	XmlHelper::SetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), this->GetConsoleHandler().GetCurrentDirectory());
+	XmlHelper::SetAttribute(pViewElement, CComBSTR(L"InitialCommand"), this->GetInitialCommand());
+	DWORD dwBasePriority = this->GetBasePriority();
+	if( dwBasePriority != ULONG_MAX )
+		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"BasePriority"), std::wstring(TabData::PriorityToString(dwBasePriority)));
+
+	return true;
 }

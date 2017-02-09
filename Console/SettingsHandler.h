@@ -234,6 +234,7 @@ struct StylesSettings : public SettingsBase
 	bool			bIntegratedIME;
 	bool			bHideWhenInactive;
 	bool			bPerMonitorDpi;
+	bool			bKeepViewTheme;
 	DWORD			dwInsideBorder;
     DWORD           dwSplitBarSize;
 	DWORD			dwQuakeAnimationTime;

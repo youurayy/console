@@ -258,6 +258,7 @@ BEGIN
     RTEXT           "Highlighting's color:",IDC_STATIC,130,135,80,8
     CONTROL         "",IDC_HIGHLIGHT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,211,132,16,14,WS_EX_DLGMODALFRAME
 
+    CONTROL         "View keeps  background, colors and cursor when it moved into another tab.",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
 END
 
 IDD_SETTINGS_CONTROLS DIALOGEX 0, 0, 235, 265

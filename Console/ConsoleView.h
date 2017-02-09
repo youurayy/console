@@ -206,6 +206,8 @@ class ConsoleView
 		static inline int GetCharWidth(void) { return m_nCharWidth; }
 		static inline int GetCharHeight(void) { return m_nCharHeight; }
 
+		bool SaveWorkspace(CComPtr<IXMLDOMElement>& pViewElement);
+
 	private:
 
 		void OnConsoleChange(bool bResize);
@@ -277,8 +279,8 @@ class ConsoleView
 		AppearanceSettings&				m_appearanceSettings;
 		HotKeys&						m_hotkeys;
 
-		std::shared_ptr<TabData>    m_tabDataTab;
 		std::shared_ptr<TabData>    m_tabDataShell;
+		std::shared_ptr<TabData>    m_tabDataTab;
 		std::shared_ptr<BackgroundImage>		m_background;
 
 		CBrush							m_backgroundBrush;

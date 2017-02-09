@@ -727,6 +727,20 @@ void TabView::SetActiveConsole(HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////
 
+void TabView::UpdateTheme()
+{
+	MutexLock viewMapLock(m_viewsMutex);
+	for( auto it = m_views.begin(); it != m_views.end(); ++it )
+	{
+		// modify the tab owner of the view to current tab
+		it->second->SetParentTab(m_hWnd, m_tabData);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
 void TabView::OnSplitBarMove(HWND /*hwndPane0*/, HWND /*hwndPane1*/, bool /*boolEnd*/)
 {
   CRect clientRect(0, 0, 0, 0);
@@ -989,12 +1003,7 @@ bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* 
 		CComPtr<IXMLDOMElement> pViewElement;
 		if( FAILED(XmlHelper::CreateDomElement(pElement, CComBSTR(L"View"), pViewElement)) ) return false;
 
-		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"Title"), m_tabData->strTitle);
-		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), m_views[pane->window]->GetConsoleHandler().GetCurrentDirectory());
-		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"InitialCommand"), m_views[pane->window]->GetInitialCommand());
-		DWORD dwBasePriority = m_views[pane->window]->GetBasePriority();
-		if( dwBasePriority != ULONG_MAX )
-			XmlHelper::SetAttribute(pViewElement, CComBSTR(L"BasePriority"), std::wstring(TabData::PriorityToString(dwBasePriority)));
+		if( m_views[pane->window]->SaveWorkspace(pViewElement) == false ) return false;
 	}
 
 	return true;

@@ -344,6 +344,7 @@
 #define IDC_CHECK_HIDE_TAB_CLOSE_BUTTON  1252
 #define IDC_SPIN_SPLIT_BAR_SIZE          1253
 #define IDC_SPLIT_BAR_SIZE               1254
+#define IDC_CHECK_KEEP_VIEW_THEME        1255
 
 #define ID_SNIPPET_ID_FIRST             1900
 #define ID_SNIPPET_ID_LAST              1999
@@ -631,7 +632,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        400
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1253
+#define _APS_NEXT_CONTROL_VALUE         1256
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

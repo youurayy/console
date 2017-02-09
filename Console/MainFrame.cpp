@@ -2901,6 +2901,7 @@ LRESULT MainFrame::OnEditRenameTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	DockPosition oldDockPosition = g_settingsHandler->GetAppearanceSettings().positionSettings.dockPosition;
+	bool oldKeepViewTheme = g_settingsHandler->GetAppearanceSettings().stylesSettings.bKeepViewTheme;
 
 	DlgSettingsMain dlg;
 
@@ -2988,6 +2989,14 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 				it->second->GetTabData()->nIndex = it2->get()->nIndex;
 				break;
 			}
+		}
+	}
+
+	if( oldKeepViewTheme != g_settingsHandler->GetAppearanceSettings().stylesSettings.bKeepViewTheme )
+	{
+		for( auto it = m_tabs.begin(); it != m_tabs.end(); ++it )
+		{
+			it->second->UpdateTheme();
 		}
 	}
 
