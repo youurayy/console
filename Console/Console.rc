@@ -258,7 +258,7 @@ BEGIN
     RTEXT           "Highlighting's color:",IDC_STATIC,130,135,80,8
     CONTROL         "",IDC_HIGHLIGHT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,211,132,16,14,WS_EX_DLGMODALFRAME
 
-    CONTROL         "View keeps  background, colors and cursor when it moved into another tab.",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
+    CONTROL         "View keeps background, colors and cursor when it's moved into another tab.",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
 END
 
 IDD_SETTINGS_CONTROLS DIALOGEX 0, 0, 235, 265
@@ -767,7 +767,7 @@ BEGIN
         MENUITEM "Stop Scr&olling",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Resume Scrolling",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Forward mouse Events",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -1015,7 +1015,7 @@ BEGIN
 
     MSG_TABVIEW_RUNAS       "Run as different user"
 
-    MSG_ABOUT               "\nConsoleZ %1%\n\nCopyright (c) 2011-2017\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
+    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright (c) 2011-2017\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
 END
 
 STRINGTABLE

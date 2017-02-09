@@ -257,23 +257,27 @@ BEGIN
     CONTROL         "",IDC_SELECTION_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,91,132,16,14,WS_EX_DLGMODALFRAME
     RTEXT           "Couleur de surlignage :",IDC_STATIC,130,135,80,8
     CONTROL         "",IDC_HIGHLIGHT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,211,132,16,14,WS_EX_DLGMODALFRAME
-    GROUPBOX        "Styles",IDC_STATIC,0,0,235,153
 
-    CONTROL         "",IDC_TABS_CONTROLS,"SysTabControl32",TCS_BUTTONS | TCS_FLATBUTTONS | WS_TABSTOP,5,165,225,95
+    CONTROL         "La vue conserve fond, couleurs et curseur lorsqu’elle est déplacée dans un autre onglet.",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
+END
 
-    CONTROL         "Afficher le &menu",IDC_CHECK_SHOW_MENU,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,178,100,16
-    CONTROL         "Afficher la barre d'outils",IDC_CHECK_SHOW_TOOLBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,194,100,16
-    CONTROL         "Afficher la barre de recherche",IDC_CHECK_SHOW_SEARCH_BAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,210,100,16
-    CONTROL         "Afficher la barre de status",IDC_CHECK_SHOW_STATUS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,226,100,16
+IDD_SETTINGS_CONTROLS DIALOGEX 0, 0, 235, 265
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TABS_CONTROLS,"SysTabControl32",TCS_BUTTONS | TCS_FLATBUTTONS | WS_TABSTOP,5,10,225,100
 
-    CONTROL         "Afficher la barre d'onglets",IDC_CHECK_SHOW_TABS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,178,95,16
-    CONTROL         "Masquer l'onglet seul",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,194,85,16
-    CONTROL         "Barre des onglets en dessous",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,210,85,16
-    CONTROL         "Masquer les icônes",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,226,85,16
-    CONTROL         "Masquer le bouton de fermeture",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,242,85,16
+    CONTROL         "Afficher le &menu",IDC_CHECK_SHOW_MENU,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,26,100,16
+    CONTROL         "Afficher la barre d'outils",IDC_CHECK_SHOW_TOOLBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,42,100,16
+    CONTROL         "Afficher la barre de recherche",IDC_CHECK_SHOW_SEARCH_BAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,58,100,16
+    CONTROL         "Afficher la barre de status",IDC_CHECK_SHOW_STATUS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,74,100,16
+    CONTROL         "Afficher les barres de défilement",IDC_CHECK_SHOW_SCROLLBARS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,90,100,16
 
-    CONTROL         "Afficher les barres de défilement",IDC_CHECK_SHOW_SCROLLBARS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,242,100,16
-    GROUPBOX        "Contrôles",IDC_STATIC,0,155,235,110
+    CONTROL         "Afficher la barre d'onglets",IDC_CHECK_SHOW_TABS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,26,95,16
+    CONTROL         "Masquer l'onglet seul",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,42,85,16
+    CONTROL         "Barre des onglets en dessous",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,58,85,16
+    CONTROL         "Masquer les icônes",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,74,85,16
+    CONTROL         "Masquer le bouton de fermeture",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,90,85,16
 
 END
 
@@ -711,6 +715,8 @@ BEGIN
         MENUITEM "Stopper le Défilement",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Reprendre le Défilement",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
+        MENUITEM "Rediriger les Évenements de la Souris",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM SEPARATOR
         MENUITEM "&Renommer l'Onglet",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
         MENUITEM "Diviser &Horizontallement",         ID_SPLIT_HORIZ
@@ -760,6 +766,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Stopper le Défilement",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Reprendre le Défilement",            ID_EDIT_RESUME_SCROLLING
+        MENUITEM SEPARATOR
+        MENUITEM "Rediriger les Évenements de la Souris",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Renommer l'Onglet",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -874,6 +882,7 @@ STRINGTABLE
 BEGIN
     ID_FILE_NEW_TAB         "Ouvrir un nouvel onglet\nNouvel onglet"
     ID_VIEW_CONSOLE         "Affiche ou masque la console"
+    ID_FORWARD_MOUSE_EVENTS "Rediriger les événements de la souris"
     ID_FILE_CLOSE_TAB       "Fermer l'onglet courant\nFermer l'Onglet"
     ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Fermer tous les onglets sauf le courant"
     ID_FILE_CLOSE_ALL_TABS_LEFT     "Fermer tous les onglets à gauche du courant"
@@ -897,7 +906,7 @@ BEGIN
     ID_DETACH_VIEW          "Détacher la vue courante\nDétacher la vue"
     ID_ATTACH_CONSOLES      "Rattacher les consoles\nRattacher les consoles"
     ID_LOAD_WORKSPACE       "Load workspace\nLoad workspace"
-    ID_SAVE_WORKSPACE       "Save workspace\nSave workspace"
+    ID_SAVE_WORKSPACE       "Enregistrer l'espace de travail\nEnregistrer l'espace de travail"
     ID_SPLIT_HORIZ          "Divise horizontallement la vue courante\nDivise Horizontallement"
     ID_SPLIT_VERT           "Divise verticallement la vue courante\nDivise Verticallement"
     ID_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus\nÉchange les Vues"
@@ -1006,7 +1015,7 @@ BEGIN
 
     MSG_TABVIEW_RUNAS       "Lancer en tant qu'un autre utilisateur"
 
-    MSG_ABOUT               "\nConsoleZ %1%\n\nCopyright (C) 2011-2016\nChristophe Bucher\n\nversion modifiée de\nConsole 2\nécrit par\nMarko Bozikovic"
+    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright (C) 2011-2017\nChristophe Bucher\n\nversion modifiée de\nConsole 2\nécrit par\nMarko Bozikovic"
 END
 
 STRINGTABLE
@@ -1064,7 +1073,8 @@ BEGIN
     IDS_DETACH_VIEW          "Détacher la vue"
     IDS_ATTACH_CONSOLES      "Rattacher les consoles"
     IDS_LOAD_WORKSPACE       "Load workspace"
-    IDS_SAVE_WORKSPACE       "Save Workspace"
+    IDS_SAVE_WORKSPACE       "Enregistrer l'espace de travail"
+    IDS_FORWARD_MOUSE_EVENTS "Activer/Désactiver la redirection des événements de la souris"
     IDS_SPLIT_HORIZ          "Divise horizontallement"
     IDS_SPLIT_VERT           "Divise verticallement"
     IDS_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus."
@@ -1185,6 +1195,7 @@ IDS_SETTINGS_HOTKEY        "Touche de raccourci"
 IDS_SETTINGS_VARIABLE      "Variable"
 IDS_SETTINGS_VALUE         "Valeur"
 IDS_SETTINGS_WINDOWED      "Fenêtré"
+IDS_SETTINGS_CONTROLS      "Contrôles"
 END
 
 STRINGTABLE

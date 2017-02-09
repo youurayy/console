@@ -21,6 +21,7 @@
     <None Include="html\running.html" />
     <None Include="html\settings.html" />
     <None Include="html\settings_appearance.html" />
+    <None Include="html\settings_appearance_controls.html" />
     <None Include="html\settings_appearance_font.html" />
     <None Include="html\settings_appearance_fullscreen.html" />
     <None Include="html\settings_appearance_styles.html" />

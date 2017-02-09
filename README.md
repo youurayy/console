@@ -38,7 +38,7 @@ Changelog
     + added
     * fixed
 
-Changes in 1.18.0 experimental (30 Jan 2017)
+Changes in 1.18.0 experimental (09 Feb 2017)
 
     ! Update tab title current directory in realtime.
     ! Renaming a tab title to empty is no longer allowed
@@ -49,6 +49,11 @@ Changes in 1.18.0 experimental (30 Jan 2017)
     + Option to hide the "close tab" button.
     + Split bar size is configurable.
     + Allow merging tabs (horizontally or vertically).
+    + Allow view keeping background, colors and cursor
+      when it moved into another tab.
+    + Support for reversed video (swap foreground and background).
+    + Allow mouse events forwarding.
+    + Show bing image copyright in status bar.
     * GDI leaks (thanks to char101).
     * Allow choosing environment variables inheritage method.
     * Improve Windows 10 glass transparency.
