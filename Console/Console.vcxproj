@@ -578,6 +578,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClCompile Include="DlgSettingsBehavior.cpp" />
     <ClCompile Include="DlgSettingsBehavior2.cpp" />
     <ClCompile Include="DlgSettingsConsole.cpp" />
+    <ClCompile Include="DlgSettingsControls.cpp" />
     <ClCompile Include="DlgSettingsFont.cpp" />
     <ClCompile Include="DlgSettingsFullScreen.cpp" />
     <ClCompile Include="DlgSettingsHotkeys.cpp" />
@@ -619,6 +620,7 @@ copy "..\setup\dlls\x64\FreeImagePlus.dll" "..\bin\$(Platform)\$(Configuration)\
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AeroTabCtrl.h" />
     <ClInclude Include="CNegativeNumberEdit.h" />
+    <ClInclude Include="DlgSettingsControls.h" />
     <ClInclude Include="DynamicSnippetDialog.h" />
     <ClInclude Include="CFileNameEdit.h" />
     <ClInclude Include="Console.h" />

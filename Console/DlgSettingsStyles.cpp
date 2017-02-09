@@ -31,7 +31,6 @@ DlgSettingsStyles::DlgSettingsStyles(CComPtr<IXMLDOMElement>& pOptionsRoot)
 
 LRESULT DlgSettingsStyles::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	m_controlsSettings.Load(m_pOptionsRoot);
 	m_stylesSettings.Load(m_pOptionsRoot);
 
 	CUpDownCtrl	spin;
@@ -41,9 +40,9 @@ LRESULT DlgSettingsStyles::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 	spin.SetRange(0, 10);
 	spin.Detach();
 
-    spin.Attach(GetDlgItem(IDC_SPIN_SPLIT_BAR_SIZE));
-    spin.SetRange(0, 8);
-    spin.Detach();
+	spin.Attach(GetDlgItem(IDC_SPIN_SPLIT_BAR_SIZE));
+	spin.SetRange(0, 8);
+	spin.Detach();
 
 	spin.Attach(GetDlgItem(IDC_SPIN_QUAKE_ANIMATION_TIME));
 	spin.SetRange(10, 20000);
@@ -52,12 +51,6 @@ LRESULT DlgSettingsStyles::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 	spin.SetAccel(1, &udAccel);
 	spin.Detach();
 
-	m_tabCtrl.Attach(GetDlgItem(IDC_TABS_CONTROLS));
-
-	m_tabCtrl.InsertItem(0, Helpers::LoadStringW(IDS_SETTINGS_WINDOWED).c_str());
-	m_tabCtrl.InsertItem(1, Helpers::LoadStringW(IDS_SETTINGS_FULLSCREEN).c_str());
-
-	EnableTabControls();
 	EnableQuakeControls();
 
 	DoDataExchange(DDX_LOAD);
@@ -109,15 +102,12 @@ LRESULT DlgSettingsStyles::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWn
 		DoDataExchange(DDX_SAVE);
 
 		if (m_stylesSettings.dwInsideBorder > 10) m_stylesSettings.dwInsideBorder = 10;
-        if (m_stylesSettings.dwSplitBarSize > 8) m_stylesSettings.dwSplitBarSize = 8;
+		if (m_stylesSettings.dwSplitBarSize > 8) m_stylesSettings.dwSplitBarSize = 8;
 
-		ControlsSettings&			controlsSettings	= g_settingsHandler->GetAppearanceSettings().controlsSettings;
-		StylesSettings&				stylesSettings		= g_settingsHandler->GetAppearanceSettings().stylesSettings;
+		StylesSettings& stylesSettings = g_settingsHandler->GetAppearanceSettings().stylesSettings;
 
-		controlsSettings	= m_controlsSettings;
-		stylesSettings		= m_stylesSettings;
+		stylesSettings = m_stylesSettings;
 
-		m_controlsSettings.Save(m_pOptionsRoot);
 		m_stylesSettings.Save(m_pOptionsRoot);
 	}
 
@@ -128,13 +118,6 @@ LRESULT DlgSettingsStyles::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWn
 
 
 //////////////////////////////////////////////////////////////////////////////
-
-LRESULT DlgSettingsStyles::OnClickedShowTabs(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-{
-	DoDataExchange(DDX_SAVE);
-	EnableTabControls();
-	return 0;
-}
 
 LRESULT DlgSettingsStyles::OnClickedQuake(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
@@ -191,39 +174,12 @@ LRESULT DlgSettingsStyles::OnClickedHiColor(WORD /*wNotifyCode*/, WORD /*wID*/, 
 
 //////////////////////////////////////////////////////////////////////////////
 
-void DlgSettingsStyles::EnableTabControls()
-{
-	GetDlgItem(IDC_CHECK_HIDE_SINGLE_TAB).EnableWindow(m_controlsSettings.ShowTabs());
-	GetDlgItem(IDC_CHECK_TABS_ON_BOTTOM).EnableWindow(m_controlsSettings.ShowTabs());
-	GetDlgItem(IDC_CHECK_HIDE_TAB_ICONS).EnableWindow(m_controlsSettings.ShowTabs());
-	GetDlgItem(IDC_CHECK_HIDE_TAB_CLOSE_BUTTON).EnableWindow(m_controlsSettings.ShowTabs());
-}
-
 void DlgSettingsStyles::EnableQuakeControls()
 {
 	GetDlgItem(IDC_STATIC_QUAKE_1).EnableWindow(m_stylesSettings.bQuake);
 	GetDlgItem(IDC_STATIC_QUAKE_2).EnableWindow(m_stylesSettings.bQuake);
 	GetDlgItem(IDC_QUAKE_ANIMATION_TIME).EnableWindow(m_stylesSettings.bQuake);
 	GetDlgItem(IDC_SPIN_QUAKE_ANIMATION_TIME).EnableWindow(m_stylesSettings.bQuake);
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-
-//////////////////////////////////////////////////////////////////////////////
-
-LRESULT DlgSettingsStyles::OnTabItemChanged(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
-{
-	// save FULLSCREEN or WINDOWED settings
-	DoDataExchange(DDX_SAVE);
-
-	// switch FULLSCREEN <-> WINDOWED
-	m_controlsSettings.bIsFullScreen = m_tabCtrl.GetCurSel() == 1;
-
-	DoDataExchange(DDX_LOAD);
-	EnableTabControls();
-
-	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////

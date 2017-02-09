@@ -4,6 +4,7 @@
 #include "DlgSettingsConsole.h"
 #include "DlgSettingsAppearance.h"
 #include "DlgSettingsStyles.h"
+#include "DlgSettingsControls.h"
 #include "DlgSettingsTransparency.h"
 #include "DlgSettingsFont.h"
 #include "DlgSettingsFullScreen.h"
@@ -213,6 +214,10 @@ void DlgSettingsMain::CreateSettingsTree()
 	// create styles settings dialog
 	std::shared_ptr<DlgSettingsBase>	dlgStyles(new DlgSettingsStyles(m_pSettingsRoot));
 	AddDialogToTree(IDS_SETTINGS_STYLES, dlgStyles, rect, htiAppearance);
+
+	// create controls settings dialog
+	std::shared_ptr<DlgSettingsBase>	dlgControls(new DlgSettingsControls(m_pSettingsRoot));
+	AddDialogToTree(IDS_SETTINGS_CONTROLS, dlgControls, rect, htiAppearance);
 
 	// create window transparency dialog
 	std::shared_ptr<DlgSettingsBase>	dlgTransparency(new DlgSettingsTransparency(m_pSettingsRoot));

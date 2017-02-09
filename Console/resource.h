@@ -34,6 +34,7 @@
 #define IDD_SETTINGS_FONT               219
 #define IDD_SETTINGS_BEHAVIOR_2         220
 #define IDD_SETTINGS_TABS_ENV           221
+#define IDD_SETTINGS_CONTROLS           222
 
 #define IDR_TOOLBAR_16                  300
 #define IDR_FULLSCREEN1_16              301
@@ -562,6 +563,7 @@
 #define IDS_SETTINGS_VARIABLE           8019
 #define IDS_SETTINGS_VALUE              8020
 #define IDS_SETTINGS_WINDOWED           8021
+#define IDS_SETTINGS_CONTROLS           8022
 
 #define IDS_SNIPPET_AUTHOR              9000
 #define IDS_SNIPPET_DESCRIPTION         9001

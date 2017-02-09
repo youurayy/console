@@ -19,6 +19,12 @@
     <Filter Include="Header Files\GUI custom">
       <UniqueIdentifier>{fd74ff25-b1b7-4b37-ad0f-9f0c90ddc90c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\DlgSettings">
+      <UniqueIdentifier>{08b0ea22-1fa7-4d3f-aaa2-a94aaa5ae297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DlgSettings">
+      <UniqueIdentifier>{f3c9c73e-daf1-47f4-9208-844b1f5e228c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp">
@@ -40,30 +46,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgRenameTab.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsAppearance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsBehavior.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsConsole.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsHotkeys.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsMouse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsStyles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsTabs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Helpers.cpp">
@@ -102,26 +84,53 @@
     <ClCompile Include="Wallpaper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DlgSettingsFullScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PageSettingsTabsColors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsFont.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSettingsBehavior2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PageSettingsTabsEnv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DlgSettingsTransparency.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Snippet.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsAppearance.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsBehavior.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsBehavior2.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsConsole.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsFont.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsFullScreen.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsHotkeys.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsMain.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsMouse.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsStyles.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsTabs.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsTransparency.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSettingsControls.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,33 +156,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DlgRenameTab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsAppearance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsBehavior.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsConsole.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsHotkeys.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsMain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsMouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsStyles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsTabs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FastDelegate.h">
@@ -221,16 +203,10 @@
     <ClInclude Include="Wallpaper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgSettingsFullScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PageSettingsTab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PageSettingsTabsColors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsFont.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\Cpp11Helpers.h">
@@ -257,17 +233,11 @@
     <ClInclude Include="AeroTabCtrl.h">
       <Filter>Header Files\GUI custom</Filter>
     </ClInclude>
-    <ClInclude Include="DlgSettingsBehavior2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PageSettingsTabsEnv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wtlaero.h">
       <Filter>Header Files\GUI custom</Filter>
-    </ClInclude>
-    <ClInclude Include="DlgSettingsTransparency.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DynamicDialog.h">
       <Filter>Header Files</Filter>
@@ -286,6 +256,48 @@
     </ClInclude>
     <ClInclude Include="multisplit.h">
       <Filter>Header Files\GUI custom</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsAppearance.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsBase.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsBehavior.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsBehavior2.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsConsole.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsFont.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsFullScreen.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsHotkeys.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsMain.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsMouse.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsStyles.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsTabs.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsTransparency.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSettingsControls.h">
+      <Filter>Header Files\DlgSettings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
