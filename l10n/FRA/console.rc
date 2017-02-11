@@ -69,7 +69,7 @@ CAPTION "À propos"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,130,50,14
-    PUSHBUTTON      "website",IDC_BTN_HOME_PAGE,130,110,50,14
+    PUSHBUTTON      "site internet",IDC_BTN_HOME_PAGE,130,110,50,14
 #ifndef _USE_AERO
     CTEXT           "",IDC_STATIC_VERSION,15,41,100,96
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
@@ -248,7 +248,7 @@ BEGIN
     CONTROL         "",IDC_SPIN_INSIDE_BORDER,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,193,93,11,14
     LTEXT           "pixels",IDC_STATIC,92,116,21,8
 
-    RTEXT           "Split bar siz&e*:",IDC_STATIC,123,116,49,8
+    RTEXT           "Taille de la barre de partage*:",IDC_STATIC,123,116,49,8
     EDITTEXT        IDC_SPLIT_BAR_SIZE,173,114,33,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SPLIT_BAR_SIZE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,213,93,11,14
     LTEXT           "pixels",IDC_STATIC,207,116,21,8
@@ -376,12 +376,12 @@ BEGIN
     CONTROL         "inclus",IDC_CHECK_INC_RIGHT_DELIMITER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,193,107,40,16
     GROUPBOX        "Délimiteurs de mot",IDC_STATIC,120,80,115,48
 
-    CONTROL         "Faire clignoter onglets inactifs",IDC_CHECK_FLASH_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,141,100,16
+    CONTROL         "Faire clignoter les onglets cachés",IDC_CHECK_FLASH_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,141,100,16
     LTEXT           "clignotements",IDC_STATIC_FLASHES,55,160,55,8
     EDITTEXT        IDC_TAB_FLASHES,20,158,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_TAB_FLASHES,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,75,158,11,14
     CONTROL         "Conserver la mise en évidence",IDC_CHECK_LEAVE_HIGHLIGHTED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,19,173,90,16
-    GROUPBOX        "Inactive tab activity flash",IDC_STATIC,0,130,115,63,WS_GROUP
+    GROUPBOX        "Activité des onglets cachés",IDC_STATIC,0,130,115,63,WS_GROUP
 
     CONTROL         "Défiler un écran",IDC_PAGE_SCROLL,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,130,141,100,16
     CONTROL         "Défiler",IDC_PAGE_SCROLL2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,130,157,40,16
@@ -468,10 +468,10 @@ BEGIN
     CONTROL         "Étendre sur les moniteurs",IDC_CHECK_BK_EXTEND,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,23,83,195,16
     RTEXT           "Position :",IDC_STATIC_BK_POS,105,70,33,8,NOT WS_GROUP
     COMBOBOX        IDC_COMBO_BK_POS,140,68,63,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Couleur de la teinte :",IDC_STATIC_TINT_COLOR,17,119,41,8,NOT WS_GROUP
-    CONTROL         "",IDC_TINT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,60,116,16,14,WS_EX_DLGMODALFRAME
-    RTEXT           "Opacité de la teinte :",IDC_STATIC_TINT_OPACITY,17,133,41,8,NOT WS_GROUP
-    CONTROL         "",IDC_TINT_OPACITY,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,60,131,148,20
+    RTEXT           "Couleur de la teinte :",IDC_STATIC_TINT_COLOR,17,119,80,8,NOT WS_GROUP
+    CONTROL         "",IDC_TINT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,100,116,16,14,WS_EX_DLGMODALFRAME
+    RTEXT           "Opacité de la teinte :",IDC_STATIC_TINT_OPACITY,17,133,80,8,NOT WS_GROUP
+    CONTROL         "",IDC_TINT_OPACITY,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,100,131,108,20
     LTEXT           "255",IDC_TINT_OPACITY_VAL,207,133,14,8,0,WS_EX_RIGHT
 
     CONTROL         "Hériter",IDC_BTN_INHERIT_BACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,152,37,10
@@ -697,8 +697,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Rattacher les Consoles",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
-        MENUITEM "Load Workspace...",           ID_LOAD_WORKSPACE
-        MENUITEM "Save Workspace...",           ID_SAVE_WORKSPACE
+        MENUITEM "Charger l'Espace de Travail...",           ID_LOAD_WORKSPACE
+        MENUITEM "Enregistrer l'Espace de Travail...",           ID_SAVE_WORKSPACE
         MENUITEM SEPARATOR
         MENUITEM "&Quitter",                       ID_APP_EXIT
     END
@@ -721,8 +721,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Diviser &Horizontallement",         ID_SPLIT_HORIZ
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
-        MENUITEM "Échanger les Vues.",                  ID_SPLIT_SWAP
-        MENUITEM "Cloner dans un nouvel onglet",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Échanger les Vues",                  ID_SPLIT_SWAP
+        MENUITEM "Cloner dans un Nouvel Onglet",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Paramétrage...",                ID_EDIT_SETTINGS
     END
@@ -739,7 +739,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Mode Plein Écran",                ID_VIEW_FULLSCREEN
         MENUITEM "Allumer/Éteindre la Transparence",  ID_SWITCH_TRANSPARENCY
-        MENUITEM "Always On Top",               ID_VIEW_ALWAYS_ON_TOP
+        MENUITEM "Toujours au Premier Plan",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Aide"
     BEGIN
@@ -773,8 +773,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Diviser &Horizontallement",         ID_SPLIT_HORIZ
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
-        MENUITEM "Échanger les Vues.",                  ID_SPLIT_SWAP
-        MENUITEM "Cloner dans un nouvel onglet",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Échanger les Vues",                  ID_SPLIT_SWAP
+        MENUITEM "Cloner dans un Nouvel Onglet",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Fenêtre de la Console",             ID_VIEW_CONSOLE
     END
@@ -784,8 +784,8 @@ IDR_TAB2_POPUP_MENU MENU
 BEGIN
     POPUP "Tab2"
     BEGIN
-        MENUITEM "Merge Horizontally",          ID_MERGE_HORIZONTALLY
-        MENUITEM "Merge Vertically",            ID_MERGE_VERTICALLY
+        MENUITEM "Fusionner Horizontallement",          ID_MERGE_HORIZONTALLY
+        MENUITEM "Fusionner Verticallement",            ID_MERGE_VERTICALLY
     END
 END
 
@@ -898,14 +898,14 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_NEXT_TAB             "Basculer sur l'onglet suivant\nOnglet suivant"
-    ID_PREV_TAB             "Basculer sur l'onglet précédent\nOnglet précédent"
+    ID_NEXT_TAB             "Basculer sur l'onglet suivant\nOnglet Suivant"
+    ID_PREV_TAB             "Basculer sur l'onglet précédent\nOnglet Précédent"
     ID_NEXT_VIEW            "Basculer sur la vue suivante\nVue Suivante"
     ID_PREV_VIEW            "Basculer sur la vue précédente\nVue Précédente"
     ID_CLOSE_VIEW           "Fermer la vue courante\nFermer la Vue"
     ID_DETACH_VIEW          "Détacher la vue courante\nDétacher la vue"
     ID_ATTACH_CONSOLES      "Rattacher les consoles\nRattacher les consoles"
-    ID_LOAD_WORKSPACE       "Load workspace\nLoad workspace"
+    ID_LOAD_WORKSPACE       "Charger l'espace de travail\nCharger l'espace de travail"
     ID_SAVE_WORKSPACE       "Enregistrer l'espace de travail\nEnregistrer l'espace de travail"
     ID_SPLIT_HORIZ          "Divise horizontallement la vue courante\nDivise Horizontallement"
     ID_SPLIT_VERT           "Divise verticallement la vue courante\nDivise Verticallement"
@@ -913,7 +913,7 @@ BEGIN
 
     ID_CLONE_IN_NEW_TAB     "Cloner la vue courante dans un nouvel onglet\nCloner dans un nouvel onglet"
     ID_VIEW_FULLSCREEN      "Basculer en plein écran\nPlein Écran"
-    ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
+    ID_VIEW_ALWAYS_ON_TOP   "Basculer la fenêtre en mode toujours au premier plan\nToujours au Premier Plan"
     ID_GROUP_ALL            "Groupe tous les terminaux (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper Tous les Terminaux"
     ID_UNGROUP_ALL          "Supprime le regroupement pour tous les terminaux\nGrouper Tous les Terminaux"
     ID_GROUP_TAB            "Groupe tous les terminaux de l'onglet courant (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper les Terminaux de l'Onglet"
@@ -1072,7 +1072,7 @@ BEGIN
     IDS_CLOSE_VIEW           "Fermer la Vue"
     IDS_DETACH_VIEW          "Détacher la vue"
     IDS_ATTACH_CONSOLES      "Rattacher les consoles"
-    IDS_LOAD_WORKSPACE       "Load workspace"
+    IDS_LOAD_WORKSPACE       "Charger l'espace de travail"
     IDS_SAVE_WORKSPACE       "Enregistrer l'espace de travail"
     IDS_FORWARD_MOUSE_EVENTS "Activer/Désactiver la redirection des événements de la souris"
     IDS_SPLIT_HORIZ          "Divise horizontallement"
@@ -1080,7 +1080,7 @@ BEGIN
     IDS_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus."
     IDS_CLONE_IN_NEW_TAB     "Cloner la vue dans un nouvel onglet"
     IDS_VIEW_FULLSCREEN      "Plein Écran"
-    IDS_VIEW_ALWAYS_ON_TOP   "Always on top"
+    IDS_VIEW_ALWAYS_ON_TOP   "Toujours au premier plan"
     IDS_VIEW_ZOOM_100        "Zoom 100%"
     IDS_VIEW_ZOOM_INC        "Augmenter le zoom"
     IDS_VIEW_ZOOM_DEC        "Diminuer le zoom"
@@ -1202,7 +1202,7 @@ STRINGTABLE
 BEGIN
 IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
 IDC_COMBO_DOCKING            "Aucun;Coin haut gauche;Coin haut droit;Coin bas gauche;Coin bas droit;Milieu haut;Milieu bas;Milieu gauche;Milieu droit;"
-IDC_COMBO_ZORDER             "Normal;Toujours au dessus;Toujours en dessous;Épinglé au bureau;"
+IDC_COMBO_ZORDER             "Normal;Toujours au premier plan;Toujours au dernier plan;Épinglé au bureau;"
 IDC_COMBO_SMOOTHING          "Default;None;ClearType;Natural ClearType;Antialiased"
 IDC_COMBO_BUTTONS            "Aucun;Gauche;Droit;Milieu;Quatrième;Cinquième;"
 IDC_COMBO_BK_POS             "Centrer;Étirer;Mosaïque;Ajuster;Remplissage;"
