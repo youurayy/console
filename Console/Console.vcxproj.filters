@@ -60,12 +60,6 @@
     <ClCompile Include="MainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PageSettingsTabs1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PageSettingsTabs2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SelectionHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -82,12 +76,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Wallpaper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PageSettingsTabsColors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PageSettingsTabsEnv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Snippet.cpp">
@@ -130,6 +118,18 @@
       <Filter>Source Files\DlgSettings</Filter>
     </ClCompile>
     <ClCompile Include="DlgSettingsControls.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="PageSettingsTabs1.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="PageSettingsTabs2.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="PageSettingsTabsColors.cpp">
+      <Filter>Source Files\DlgSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="PageSettingsTabsEnv.cpp">
       <Filter>Source Files\DlgSettings</Filter>
     </ClCompile>
   </ItemGroup>
@@ -176,12 +176,6 @@
     <ClInclude Include="MainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PageSettingsTabs1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PageSettingsTabs2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -201,12 +195,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wallpaper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PageSettingsTab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PageSettingsTabsColors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\Cpp11Helpers.h">
@@ -232,9 +220,6 @@
     </ClInclude>
     <ClInclude Include="AeroTabCtrl.h">
       <Filter>Header Files\GUI custom</Filter>
-    </ClInclude>
-    <ClInclude Include="PageSettingsTabsEnv.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wtlaero.h">
       <Filter>Header Files\GUI custom</Filter>
@@ -297,6 +282,21 @@
       <Filter>Header Files\DlgSettings</Filter>
     </ClInclude>
     <ClInclude Include="DlgSettingsControls.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="PageSettingsTab.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="PageSettingsTabs1.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="PageSettingsTabs2.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="PageSettingsTabsColors.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="PageSettingsTabsEnv.h">
       <Filter>Header Files\DlgSettings</Filter>
     </ClInclude>
   </ItemGroup>

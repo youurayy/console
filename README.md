@@ -38,7 +38,7 @@ Changelog
     + added
     * fixed
 
-Changes in 1.18.0 experimental (09 Feb 2017)
+Changes in 1.18.0 (17 Feb 2017)
 
     ! Update tab title current directory in realtime.
     ! Renaming a tab title to empty is no longer allowed
@@ -57,6 +57,7 @@ Changes in 1.18.0 experimental (09 Feb 2017)
     * GDI leaks (thanks to char101).
     * Allow choosing environment variables inheritage method.
     * Improve Windows 10 glass transparency.
+    * PowerShell progress bar is fixed on Windows 10.
 
 Changes in 1.17.2 (18 Nov 2016)
 
