@@ -616,6 +616,7 @@ void ConsoleHandler::StartShellProcess
 	m_consoleParams->dwColumns             = dwStartupColumns;
 	m_consoleParams->dwBufferRows          = g_settingsHandler->GetConsoleSettings().dwBufferRows;
 	m_consoleParams->dwBufferColumns       = g_settingsHandler->GetConsoleSettings().dwBufferColumns;
+	m_consoleParams->bWin10                = Helpers::CheckOSVersion(10, 0);
 
 	m_hConsoleProcess.reset(pi.hProcess);
 	m_dwConsolePid    = pi.dwProcessId;
@@ -749,6 +750,7 @@ void ConsoleHandler::AttachToShellProcess(
 		m_consoleParams->dwColumns             = dwStartupColumns;
 		m_consoleParams->dwBufferRows          = g_settingsHandler->GetConsoleSettings().dwBufferRows;
 		m_consoleParams->dwBufferColumns       = g_settingsHandler->GetConsoleSettings().dwBufferColumns;
+		m_consoleParams->bWin10                = Helpers::CheckOSVersion(10, 0);
 
 		m_hConsoleProcess.reset(hProcess.release());
 		m_dwConsolePid    = pi.dwProcessId;

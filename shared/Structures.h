@@ -16,6 +16,7 @@ struct ConsoleParams
 	, dwMaxColumns(0)
 	, hwndConsoleWindow(NULL)
 	, dwHookThreadId(0)
+	, bWin10(false)
 	{
 	}
 
@@ -31,6 +32,7 @@ struct ConsoleParams
 	, dwMaxColumns(other.dwMaxColumns)
 	, hwndConsoleWindow(other.hwndConsoleWindow)
 	, dwHookThreadId(other.dwHookThreadId)
+	, bWin10(other.bWin10)
 	{
 	}
 
@@ -42,6 +44,11 @@ struct ConsoleParams
 	DWORD	dwColumns;
 	DWORD	dwBufferRows;
 	DWORD	dwBufferColumns;
+
+	// detecting Windows 10 requires executable manifest with correct OS guids
+	// we cannot be sure shell detects correctly Windows 10
+	// so detection is done in console.exe
+	bool bWin10;
 
 	// stuff set by console hook
 	DWORD	dwMaxRows;

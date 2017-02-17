@@ -386,9 +386,11 @@ void ConsoleHandler::SetConsoleFont()
 
 bool ConsoleHandler::GetPowerShellProgress(HANDLE hStdOut, CONSOLE_SCREEN_BUFFER_INFO& csbiConsole, unsigned long long & ullProgressCompleted, unsigned long long & ullProgressTotal)
 {
-	// if we are in another screen buffer
-	// we avoid the progress bar detection
-	if( hStdOut != m_hStdOut ) return false;
+	// Bug in KernelBase appears from Windows 8 and still alive in Windows 8.1 console!
+	// when application calls ReadConsoleOutput function to read region out of screen buffer
+	// access violation occurs (application crashes)
+	// behavior has been fixed in Windows 10
+	if( !m_consoleParams->bWin10 ) return false;
 
 	SHORT sBufferColumns = csbiConsole.dwSize.X;
 	SHORT sBufferRows    = csbiConsole.dwSize.Y;
