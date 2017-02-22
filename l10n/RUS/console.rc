@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+﻿// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 #include "version.h"
@@ -197,7 +197,7 @@ BEGIN
     RTEXT           "&Расстояние:",IDC_STATIC,89,229,45,8
     EDITTEXT        IDC_SNAP,136,227,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SNAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,166,231,11,14
-    LTEXT           "пиксел",IDC_STATIC,179,229,52,8
+    LTEXT           "пикс.",IDC_STATIC,179,229,52,8
 
     RTEXT           "Привязка:",IDC_STATIC,10,245,37,8
     COMBOBOX        IDC_COMBO_DOCKING,48,243,60,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
