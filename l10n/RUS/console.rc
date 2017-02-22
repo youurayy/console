@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 #include "version.h"
@@ -197,7 +197,7 @@ BEGIN
     RTEXT           "&Расстояние:",IDC_STATIC,89,229,45,8
     EDITTEXT        IDC_SNAP,136,227,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SNAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,166,231,11,14
-    LTEXT           "пиксел",IDC_STATIC,179,229,52,8
+    LTEXT           "пикс.",IDC_STATIC,179,229,52,8
 
     RTEXT           "Привязка:",IDC_STATIC,10,245,37,8
     COMBOBOX        IDC_COMBO_DOCKING,48,243,60,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -228,37 +228,37 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "&Заголовок",IDC_CHECK_STYLE_CAPTION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
     CONTROL         "&Изменение размеров",IDC_CHECK_STYLE_RESIZABLE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,27,100,16
-    CONTROL         "&Рамку",IDC_CHECK_STYLE_BORDER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
+    CONTROL         "&Рамка",IDC_CHECK_STYLE_BORDER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
     CONTROL         "Сворачивать при неактивности окна",IDC_CHECK_HIDE_WHEN_INACTIVE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,59,100,16
     CONTROL         "Свернуть/развернуть как в &Quake",IDC_CHECK_STYLE_QUAKE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,75,100,16
 
     CONTROL         "&На панели задач",IDC_CHECK_STYLE_TASKBAR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
-    CONTROL         "Иконк&у в трее",IDC_CHECK_STYLE_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,27,100,16
+    CONTROL         "Иконк&а в трее",IDC_CHECK_STYLE_TRAY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,27,100,16
     CONTROL         "Списо&к часто используемых (Win7)",IDC_CHECK_USE_JUMPLIST,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,43,100,16
     CONTROL         "Интеграция IME",IDC_CHECK_INTEGRATED_IME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,59,100,16
     CONTROL         "Мониторное DPI*",IDC_CHECK_PER_MONITOR_DPI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,75,100,16
 
-    LTEXT           "Время анимации:",IDC_STATIC_QUAKE_1,22,94,55,8
+    LTEXT           "Время анимации:",IDC_STATIC_QUAKE_1,12,94,55,8
     EDITTEXT        IDC_QUAKE_ANIMATION_TIME,80,91,40,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_QUAKE_ANIMATION_TIME,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,130,85,11,14
     LTEXT           "мс",IDC_STATIC_QUAKE_2,123,94,10,8
 
-    RTEXT           "Внутренн&яя рамка:",IDC_STATIC,8,116,49,8
+    RTEXT           "Внутренн&яя рамка:",IDC_STATIC,10,112,40,16
     EDITTEXT        IDC_INSIDE_BORDER,58,114,33,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_INSIDE_BORDER,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,193,93,11,14
-    LTEXT           "пиксел",IDC_STATIC,92,116,21,8
+    LTEXT           "пикс.",IDC_STATIC,92,116,18,8
 
-    RTEXT           "Split bar siz&e*:",IDC_STATIC,123,116,49,8
-    EDITTEXT        IDC_SPLIT_BAR_SIZE,173,114,33,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    CONTROL         "",IDC_SPIN_SPLIT_BAR_SIZE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,213,93,11,14
-    LTEXT           "пиксел",IDC_STATIC,207,116,21,8
+    RTEXT           "Толщина &границы разделения*:",IDC_STATIC,110,112,63,16
+    EDITTEXT        IDC_SPLIT_BAR_SIZE,175,114,33,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_SPLIT_BAR_SIZE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,215,93,11,14
+    LTEXT           "пикс.",IDC_STATIC,209,116,21,8
 
     RTEXT           "Цвет выделения:",IDC_STATIC,10,135,80,8
     CONTROL         "",IDC_SELECTION_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,91,132,16,14,WS_EX_DLGMODALFRAME
     RTEXT           "Цвет подсветки:",IDC_STATIC,130,135,80,8
     CONTROL         "",IDC_HIGHLIGHT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,211,132,16,14,WS_EX_DLGMODALFRAME
 
-    CONTROL         "View keeps background, colors and cursor when it's moved into another tab.",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
+    CONTROL         "Сохранять фон, цвет и курсор при перемещении в другую вкладку",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
 END
 
 IDD_SETTINGS_CONTROLS DIALOGEX 0, 0, 235, 265
@@ -277,7 +277,7 @@ BEGIN
     CONTROL         "&если не одна",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,42,85,16
     CONTROL         "внизу окна",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,58,85,16
     CONTROL         "Скрывать иконки",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,74,85,16
-    CONTROL         "Hide close button",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,90,85,16
+    CONTROL         "Скрывать кнопку закрытия",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,90,85,16
 
 END
 
@@ -368,12 +368,12 @@ BEGIN
     CONTROL         "Unix (LF)",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,10,107,100,16
     GROUPBOX        "Копировать новую строку как",IDC_STATIC,0,80,115,48,WS_GROUP
 
-    RTEXT           "Слева:",IDC_STATIC,130,95,30,8
-    EDITTEXT        IDC_LEFT_DELIMITERS,161,92,29,14,ES_LEFT | ES_NOHIDESEL | ES_AUTOHSCROLL
-    CONTROL         "включать",IDC_CHECK_INC_LEFT_DELIMITER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,193,92,40,16
-    RTEXT           "Справа:",IDC_STATIC,130,110,30,8
-    EDITTEXT        IDC_RIGHT_DELIMITERS,161,107,29,14,ES_LEFT | ES_NOHIDESEL | ES_AUTOHSCROLL
-    CONTROL         "включать",IDC_CHECK_INC_RIGHT_DELIMITER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,193,107,40,16
+    RTEXT           "Слева:",IDC_STATIC,125,95,30,8
+    EDITTEXT        IDC_LEFT_DELIMITERS,156,92,29,14,ES_LEFT | ES_NOHIDESEL | ES_AUTOHSCROLL
+    CONTROL         "включать",IDC_CHECK_INC_LEFT_DELIMITER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,188,92,45,16
+    RTEXT           "Справа:",IDC_STATIC,125,110,30,8
+    EDITTEXT        IDC_RIGHT_DELIMITERS,156,107,29,14,ES_LEFT | ES_NOHIDESEL | ES_AUTOHSCROLL
+    CONTROL         "включать",IDC_CHECK_INC_RIGHT_DELIMITER,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,188,107,45,16
     GROUPBOX        "Разделители слов",IDC_STATIC,120,80,115,48
 
     CONTROL         "Мигает",IDC_CHECK_FLASH_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,141,100,16
@@ -384,15 +384,15 @@ BEGIN
     GROUPBOX        "Неактивная вкладка...",IDC_STATIC,0,130,115,63,WS_GROUP
 
     CONTROL         "Прокрутка на один экран",IDC_PAGE_SCROLL,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,130,141,100,16
-    CONTROL         "Прокрутка на",IDC_PAGE_SCROLL2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,130,157,40,16
-    EDITTEXT        IDC_SCROLL_PAGE_ROWS,173,158,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
+    CONTROL         "Прокрутка на",IDC_PAGE_SCROLL2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,130,157,47,16
+    EDITTEXT        IDC_SCROLL_PAGE_ROWS,180,158,26,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SCROLL_PAGE_ROWS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,187,158,11,14
     LTEXT           "строк",IDC_STATIC_ROWS,209,160,26,8
     GROUPBOX        "Прокрутка страницы",IDC_STATIC,120,130,115,63
 
-    CONTROL         "Inherit environment variables", IDC_CHECK_ENVIRONMENT_INHERIT, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 206, 220, 16
-    CONTROL         "Pick up system or user environment variables changes", IDC_CHECK_ENVIRONMENT_SYNC, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 222, 220, 16
-    GROUPBOX        "Environment*", IDC_STATIC, 0, 195, 235, 48, WS_GROUP
+    CONTROL         "Наследовать переменные окружения", IDC_CHECK_ENVIRONMENT_INHERIT, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 206, 220, 16
+    CONTROL         "Отслеживать изменения системных или пользовательских переменных", IDC_CHECK_ENVIRONMENT_SYNC, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 222, 220, 16
+    GROUPBOX        "Переменные окружения*", IDC_STATIC, 0, 195, 235, 48, WS_GROUP
 END
 
 IDD_SETTINGS_BEHAVIOR_2 DIALOGEX 0, 0, 235, 265
@@ -402,7 +402,7 @@ BEGIN
     CONTROL         "При наведении мыши",IDC_CHECK_FOCUS_FOLLOW_MOUSE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,11,100,16
     GROUPBOX        "Фокус",IDC_STATIC,0,0,115,33,WS_GROUP
 
-    CONTROL         "Разрешить запуск нескольких копий программы",IDC_CHECK_MULTI_INSTANCES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
+    CONTROL         "Разрешить запуск нескольких копий",IDC_CHECK_MULTI_INSTANCES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
     GROUPBOX        "Копии программы",IDC_STATIC,120,0,115,33,WS_GROUP
 
     CONTROL         "Открывать новую оболочку в текущей директории",IDC_CHECK_OPEN_CURRENT_DIR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,46,220,16
@@ -412,9 +412,9 @@ BEGIN
     GROUPBOX        "Запуск от имени другого пользователя",IDC_STATIC,0,70,235,33
 
     CONTROL         "Разрешать закрывать/выделять в отдельное окно последнюю вкладку",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,116,220,16
-    CONTROL         "Exit on closing of last tab",IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,132,220,16
+    CONTROL         "Выход при закрытии последней вкладки",IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,132,220,16
     CONTROL         "Предупреждение при закрытии нескольких вкладок",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,148,220,16
-    CONTROL         "Save workspace on exit",IDC_CHECK_SAVE_WORKSPACE_ON_EXIT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,164,220,16
+    CONTROL         "Сохранять рабочее пространство при выходе",IDC_CHECK_SAVE_WORKSPACE_ON_EXIT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,164,220,16
     GROUPBOX        "Закрытие/Выделение в отдельное окно",IDC_STATIC,0,105,235,80,WS_GROUP
 END
 
@@ -428,7 +428,7 @@ BEGIN
     RTEXT           "Иконка:",IDC_STATIC, 8, 34, 30, 8
     EDITTEXT        IDC_TAB_ICON, 50, 31, 93, 14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON, 145, 31, 15, 14
-    CONTROL         "Use shell icon",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 163, 34, 57, 10
+    CONTROL         "Иконка комндной оболочки",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 163, 26, 57, 24
     GROUPBOX        "Заголовок && иконка",IDC_STATIC,0,3,221,50,0,WS_EX_TRANSPARENT
 
     RTEXT           "&Командная оболочка:",IDC_STATIC,8,71,75,8
@@ -697,8 +697,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Прикрепить консоли",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
-        MENUITEM "Load Workspace...",           ID_LOAD_WORKSPACE
-        MENUITEM "Save Workspace...",           ID_SAVE_WORKSPACE
+        MENUITEM "Загрузить рабочее пространство...",           ID_LOAD_WORKSPACE
+        MENUITEM "Сохранить рабочее пространство...",           ID_SAVE_WORKSPACE
         MENUITEM SEPARATOR
         MENUITEM "В&ыход",                       ID_APP_EXIT
     END
@@ -715,7 +715,7 @@ BEGIN
         MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Возобновить прокрутку",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM "Отслеживать клавиши и колесико мыши",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -767,7 +767,7 @@ BEGIN
         MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Возобновить прокрутку",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM "Отслеживать клавиши и колесико мыши",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
@@ -782,10 +782,10 @@ END
 
 IDR_TAB2_POPUP_MENU MENU
 BEGIN
-    POPUP "Tab2"
+    POPUP "Вкладка2"
     BEGIN
-        MENUITEM "Merge Horizontally",          ID_MERGE_HORIZONTALLY
-        MENUITEM "Merge Vertically",            ID_MERGE_VERTICALLY
+        MENUITEM "Объединить горизонтально",          ID_MERGE_HORIZONTALLY
+        MENUITEM "Объединить вертикально",            ID_MERGE_VERTICALLY
     END
 END
 
@@ -882,7 +882,7 @@ STRINGTABLE
 BEGIN
     ID_FILE_NEW_TAB         "Открыть новую вкладку\nНовая вкладка"
     ID_VIEW_CONSOLE         "Показать или скрыть консоль"
-    ID_FORWARD_MOUSE_EVENTS "Forward mouse events"
+    ID_FORWARD_MOUSE_EVENTS "Отслеживать клавиши и колесико мыши"
     ID_FILE_CLOSE_TAB       "Закрыть текущую вкладку\nЗакрыть вкладку"
     ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Закрыть все вкладки, кроме текущей"
     ID_FILE_CLOSE_ALL_TABS_LEFT     "Закрыть все вкладки слева от текущей"
@@ -905,8 +905,8 @@ BEGIN
     ID_CLOSE_VIEW           "Закрыть текущее окно\nЗакрыть окно"
     ID_DETACH_VIEW          "Выделить текущую вкладку в отдельное окно\nВыделить вкладку в отдельное окно"
     ID_ATTACH_CONSOLES      "Прикрепить консоли\nПрикрепить консоли"
-    ID_LOAD_WORKSPACE       "Load workspace\nLoad workspace"
-    ID_SAVE_WORKSPACE       "Save workspace\nSave workspace"
+    ID_LOAD_WORKSPACE       "Загрузить рабочее пространство\nЗагрузить рабочее пространство"
+    ID_SAVE_WORKSPACE       "Сохранить рабочее пространство\nСохранить рабочее пространство"
     ID_SPLIT_HORIZ          "Разделить текущее окно по горизонтали\nРазделить по горизонтали"
     ID_SPLIT_VERT           "Разделить текущее окно по вертикали\nРазделить по вертикали"
     ID_SPLIT_SWAP           "Поменять местами с предыдущим\nПоменять местами"
@@ -1072,9 +1072,9 @@ BEGIN
     IDS_CLOSE_VIEW           "Закрыть окно"
     IDS_DETACH_VIEW          "Выделить вкладку в отдельное окно"
     IDS_ATTACH_CONSOLES      "Прикрепить консоли"
-    IDS_LOAD_WORKSPACE       "Load workspace"
-    IDS_SAVE_WORKSPACE       "Save workspace"
-    IDS_FORWARD_MOUSE_EVENTS "Turn on/off mouse events forwarding"
+    IDS_LOAD_WORKSPACE       "Загрузить рабочее пространство"
+    IDS_SAVE_WORKSPACE       "Сохранить рабочее пространство"
+    IDS_FORWARD_MOUSE_EVENTS "Вкл\Выкл отслеживание клавиш и колесика мыши"
     IDS_SPLIT_HORIZ          "Разделить по горизонтали"
     IDS_SPLIT_VERT           "Разделить по вертикали"
     IDS_SPLIT_SWAP           "Поменять местами с предыдущим"
@@ -1152,9 +1152,9 @@ ID_COLUMN_SELECTION_END_KEY       "Выделить колонку до конц
 ID_COLUMN_SELECTION_PAGEUP_KEY    "Выделить колонку на страницу вверх"
 ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Выделить колонку на страницу вниз"
 
-IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT "Scroll Right"
-IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT  "Scroll Left"
-IDS_TABBINGFRAMEWORK_TIPS_CLOSE       "Close"
+IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT "Прокрутить вправо"
+IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT  "Прокрутить влево"
+IDS_TABBINGFRAMEWORK_TIPS_CLOSE       "Закрыть"
 END
 
 STRINGTABLE
