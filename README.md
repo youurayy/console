@@ -53,9 +53,9 @@ Changes in 1.18.0 (17 Feb 2017)
       when it moved into another tab.
     + Support for reversed video (swap foreground and background).
     + Allow mouse events forwarding.
-    + Show bing image copyright in status bar.
+    + Show Bing image copyright in status bar.
     * GDI leaks (thanks to char101).
-    * Allow choosing environment variables inheritage method.
+    * Allow choosing environment variables inheritance method.
     * Improve Windows 10 glass transparency.
     * PowerShell progress bar is fixed on Windows 10.
 
