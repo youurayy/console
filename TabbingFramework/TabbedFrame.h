@@ -248,7 +248,7 @@ public:
 	CCustomTabOwnerImpl() :
 		m_cxImage(::GetSystemMetrics(SM_CXSMICON)),
 		m_cyImage(::GetSystemMetrics(SM_CYSMICON)),
-		m_nTabAreaHeight(::GetSystemMetrics(SM_CYSMICON) + 8),
+		m_nTabAreaHeight(::GetSystemMetrics(SM_CYSMICON) * 3 / 2),
 		m_nMinTabCountForVisibleTabs(1)
 	{
 		m_bKeepTabsHidden = (m_nMinTabCountForVisibleTabs > 0);
@@ -326,7 +326,7 @@ public:
 		// Dynamically figure out a reasonable tab area height
 		// based on the tab's font metrics
 
-		const int nNominalHeight = ::GetSystemMetrics(SM_CYSMICON) + 8;
+		const int nNominalHeight = m_cyImage + 8;
 		const int nNominalFontLogicalUnits = 11;	// 8 point Tahoma with 96 DPI
 
 		// Initialize nFontLogicalUnits to the typical case
@@ -1280,7 +1280,7 @@ public:
       size.cy = 16;
     }
 
-    int nNewTabAreaHeight2 = ::GetSystemMetrics(SM_CYSMICON) * 3 / 2;
+    int nNewTabAreaHeight2 = m_cyImage + 8;
     int nNewTabAreaHeight  = max(size.cy + 4, nNewTabAreaHeight2);
 
     this->GetTabCtrl().SetTopMargin(nNewTabAreaHeight - nNewTabAreaHeight2);

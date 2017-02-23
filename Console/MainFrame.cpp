@@ -14,6 +14,8 @@
 #include "DynamicDialog.h"
 #include "DynamicSnippetDialog.h"
 
+extern int g_nIconSize;
+
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -194,6 +196,12 @@ MainFrame::MainFrame
 {
 	// allow middle mouse button on tab area with no tabs
 	m_nMinTabCountForVisibleTabs = 0;
+	if( g_nIconSize )
+	{
+		m_cxImage = g_nIconSize;
+		m_cyImage = g_nIconSize;
+		m_nTabAreaHeight = m_cyImage + 8;
+	}
 
 	m_Margins.cxLeftWidth    = 0;
 	m_Margins.cxRightWidth   = 0;
