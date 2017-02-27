@@ -278,6 +278,11 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
 #endif
 
+		 // Set global value of splitbar size.
+		 CMultiSplitPane::splitBarWidth    = g_settingsHandler->GetAppearanceSettings().stylesSettings.dwSplitBarSize;
+		 CMultiSplitPane::splitBarHeight   = g_settingsHandler->GetAppearanceSettings().stylesSettings.dwSplitBarSize;
+		 CMultiSplitPane::splitBarAutoSize = g_settingsHandler->GetAppearanceSettings().stylesSettings.dwSplitBarSize != 0;
+
     // create main window
     NoTaskbarParent noTaskbarParent;
     MainFrame wndMain(lpstrCmdLine);

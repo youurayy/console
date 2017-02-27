@@ -6,8 +6,9 @@
 #include "DlgCredentials.h"
 #include "MainFrame.h"
 
-int CMultiSplitPane::splitBarWidth  = 0;
-int CMultiSplitPane::splitBarHeight = 0;
+int  CMultiSplitPane::splitBarWidth    = 0;
+int  CMultiSplitPane::splitBarHeight   = 0;
+bool CMultiSplitPane::splitBarAutoSize = true;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -83,20 +84,16 @@ BOOL TabView::PreTranslateMessage(MSG* pMsg)
 
 LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
-    // Set global value of splitbar size.
-    CMultiSplitPane::splitBarWidth = g_settingsHandler->GetAppearanceSettings().stylesSettings.dwSplitBarSize;
-    CMultiSplitPane::splitBarHeight = g_settingsHandler->GetAppearanceSettings().stylesSettings.dwSplitBarSize;
-
-    // load icon
+	// load icon
 	UpdateIcons();
 
-    LRESULT result = -1;
+	LRESULT result = -1;
 
 	CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
 	ConsoleViewCreate* consoleViewCreate = reinterpret_cast<ConsoleViewCreate*>(createStruct->lpCreateParams);
 
-    ATLTRACE(_T("TabView::OnCreate\n"));
-    MutexLock viewMapLock(m_viewsMutex);
+	ATLTRACE(_T("TabView::OnCreate\n"));
+	MutexLock viewMapLock(m_viewsMutex);
 	switch( consoleViewCreate->type )
 	{
 	case ConsoleViewCreate::CREATE:

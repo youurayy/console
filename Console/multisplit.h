@@ -623,6 +623,7 @@ namespace WTL
 
 	public:
 		static int splitBarWidth, splitBarHeight; // splitter bar width/height (system setting)
+		static bool splitBarAutoSize;
 	};
 
 	template <class T>
@@ -1129,16 +1130,16 @@ namespace WTL
 
 		void SystemSettingsGet (bool update)
 		{
-            if (CMultiSplitPane::splitBarWidth == 0 || CMultiSplitPane::splitBarHeight == 0)
-            {
+			if( !CMultiSplitPane::splitBarAutoSize )
+			{
 #if _USE_AERO
-                CMultiSplitPane::splitBarWidth  = 4;
-                CMultiSplitPane::splitBarHeight = 4;
+				CMultiSplitPane::splitBarWidth  = ::GetSystemMetrics (SM_CXSMICON) / 4;
+				CMultiSplitPane::splitBarHeight = ::GetSystemMetrics (SM_CYSMICON) / 4;
 #else
-                CMultiSplitPane::splitBarWidth  = ::GetSystemMetrics (SM_CXSIZEFRAME);
-                CMultiSplitPane::splitBarHeight = ::GetSystemMetrics (SM_CYSIZEFRAME);
+				CMultiSplitPane::splitBarWidth  = ::GetSystemMetrics(SM_CXSIZEFRAME);
+				CMultiSplitPane::splitBarHeight = ::GetSystemMetrics(SM_CYSIZEFRAME);
 #endif
-            }
+			}
 
 			this->edgeWidth  = ::GetSystemMetrics (SM_CXEDGE);
 			this->edgeHeight = ::GetSystemMetrics (SM_CYEDGE);
