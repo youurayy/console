@@ -97,6 +97,7 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 	switch( consoleViewCreate->type )
 	{
 	case ConsoleViewCreate::CREATE:
+	case ConsoleViewCreate::ATTACH:
 		{
 			HWND hwndConsoleView = CreateNewConsole(consoleViewCreate);
 			if( hwndConsoleView )
