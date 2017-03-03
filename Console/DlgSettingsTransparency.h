@@ -21,7 +21,7 @@ class DlgSettingsTransparency
 		DlgSettingsTransparency(CComPtr<IXMLDOMElement>& pOptionsRoot);
 
 		BEGIN_DDX_MAP(DlgSettingsTransparency)
-			DDX_RADIO(IDC_TRANSPARENCY_TYPE, reinterpret_cast<int&>(m_transparencySettings.transType))
+			DDX_RADIO(IDC_TRANSPARENCY_TYPE, reinterpret_cast<int&>(m_transparencySettings.TransType()))
 		END_DDX_MAP()
 
 		BEGIN_MSG_MAP(DlgSettingsTransparency)
@@ -32,6 +32,7 @@ class DlgSettingsTransparency
 			COMMAND_ID_HANDLER(IDCANCEL, OnCloseCmd)
 			COMMAND_HANDLER(IDC_KEY_COLOR, BN_CLICKED, OnClickedKeyColor)
 			COMMAND_RANGE_CODE_HANDLER(IDC_TRANSPARENCY_TYPE, IDC_TRANSPARENCY_TYPE5, BN_CLICKED, OnClickedTransType)
+			NOTIFY_CODE_HANDLER(TCN_SELCHANGE, OnTabItemChanged)
 		END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
@@ -47,6 +48,8 @@ class DlgSettingsTransparency
 		LRESULT OnClickedKeyColor(WORD /*wNotifyCode*/, WORD /*wID*/, HWND hWndCtl, BOOL& /*bHandled*/);
 		LRESULT OnClickedTransType(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
+		LRESULT OnTabItemChanged(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/);
+
 	private:
 
 		void UpdateSliderText(HWND hwnd);
@@ -58,6 +61,8 @@ class DlgSettingsTransparency
 
 		CTrackBarCtrl				m_sliderActiveAlpha;
 		CTrackBarCtrl				m_sliderInactiveAlpha;
+
+		CTabCtrl              m_tabCtrl;
 };
 
 //////////////////////////////////////////////////////////////////////////////

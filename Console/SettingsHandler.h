@@ -164,7 +164,7 @@ struct FullScreenSettings : public SettingsBase
 
 //////////////////////////////////////////////////////////////////////////////
 
-struct ControlsSettings2
+struct ControlsSettings2 : public SettingsBase
 {
 	ControlsSettings2();
 
@@ -185,7 +185,7 @@ struct ControlsSettings2
 	bool			bShowScrollbars;
 };
 
-struct ControlsSettings
+struct ControlsSettings : public SettingsBase
 {
 	ControlsSettings();
 
@@ -333,6 +333,21 @@ enum TransparencyType
 
 //////////////////////////////////////////////////////////////////////////////
 
+struct TransparencySettings2 : public SettingsBase
+{
+	TransparencySettings2();
+
+	bool Load(const CComPtr<IXMLDOMElement>& pTransElement);
+	bool Save(const CComPtr<IXMLDOMElement>& pTransElement);
+
+	TransparencySettings2& operator=(const TransparencySettings2& other);
+
+	TransparencyType transType;
+	BYTE             byActiveAlpha;
+	BYTE             byInactiveAlpha;
+	COLORREF         crColorKey;
+};
+
 struct TransparencySettings : public SettingsBase
 {
 	TransparencySettings();
@@ -342,12 +357,18 @@ struct TransparencySettings : public SettingsBase
 
 	TransparencySettings& operator=(const TransparencySettings& other);
 
-	TransparencyType	transType;
-	BYTE				byActiveAlpha;
-	BYTE				byInactiveAlpha;
-	COLORREF			crColorKey;
+	bool         bIsFullScreen;
+	inline TransparencyType & TransType     (void) { return bIsFullScreen ? transparencyFullScreen.transType       : transparencyWindowed.transType; }
+	inline BYTE             & ActiveAlpha   (void) { return bIsFullScreen ? transparencyFullScreen.byActiveAlpha   : transparencyWindowed.byActiveAlpha; }
+	inline BYTE             & InactiveAlpha (void) { return bIsFullScreen ? transparencyFullScreen.byInactiveAlpha : transparencyWindowed.byInactiveAlpha; }
+	inline COLORREF         & ColorKey      (void) { return bIsFullScreen ? transparencyFullScreen.crColorKey      : transparencyWindowed.crColorKey; }
 
-	static BYTE			minAlpha;
+	inline TransparencySettings2 & Settings (void) { return bIsFullScreen ? transparencyFullScreen : transparencyWindowed; }
+
+	TransparencySettings2 transparencyFullScreen;
+	TransparencySettings2 transparencyWindowed;
+
+	static const BYTE minAlpha = 5;
 };
 
 //////////////////////////////////////////////////////////////////////////////

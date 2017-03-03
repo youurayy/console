@@ -2440,7 +2440,7 @@ void ConsoleView::RepaintText(CDC& dc)
 	bitmapRect.bottom = bitmapSize.cy;
 
 #ifdef _USE_AERO
-	TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
+	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
 #endif //_USE_AERO
 
 	if(m_tabDataTab->backgroundImageType == bktypeNone)
@@ -2753,6 +2753,10 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
   CPoint pointTab(0,0);
   ::ClientToScreen(this->m_hwndTabView, &pointTab);
 
+#ifdef _USE_AERO
+	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
+#endif //_USE_AERO
+
   if (m_tabDataTab->backgroundImageType != bktypeNone)
   {
     //TRACE(L"========UpdateImageBitmap=====================================\n"
@@ -2782,10 +2786,6 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
       rect.left   = m_nVInsideBorder;
       rect.bottom = dwY + m_nCharHeight;
       rect.right  = dwX;
-
-#ifdef _USE_AERO
-			TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
-#endif //_USE_AERO
 
       if (m_tabDataTab->backgroundImageType == bktypeNone)
       {

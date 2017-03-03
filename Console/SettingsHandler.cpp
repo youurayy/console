@@ -932,11 +932,9 @@ PositionSettings& PositionSettings::operator=(const PositionSettings& other)
 //////////////////////////////////////////////////////////////////////////////
 
 
-BYTE TransparencySettings::minAlpha = 5;
-
 //////////////////////////////////////////////////////////////////////////////
 
-TransparencySettings::TransparencySettings()
+TransparencySettings2::TransparencySettings2()
 : transType(transNone)
 , byActiveAlpha(255)
 , byInactiveAlpha(255)
@@ -949,19 +947,12 @@ TransparencySettings::TransparencySettings()
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool TransparencySettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+bool TransparencySettings2::Load(const CComPtr<IXMLDOMElement>& pTransElement)
 {
-	CComPtr<IXMLDOMElement> pTransElement;
-	if( SUCCEEDED(XmlHelper::GetDomElement(pSettingsRoot, CComBSTR(L"appearance/transparency"), pTransElement)) )
-	{
-		XmlHelper::GetAttribute(pTransElement, CComBSTR(L"type"), reinterpret_cast<DWORD&>(transType), static_cast<DWORD>(transNone));
-		XmlHelper::GetAttribute(pTransElement, CComBSTR(L"active_alpha"), byActiveAlpha, 255);
-		XmlHelper::GetAttribute(pTransElement, CComBSTR(L"inactive_alpha"), byInactiveAlpha, 255);
-		XmlHelper::GetRGBAttribute(pTransElement, crColorKey, RGB(0, 0, 0));
-	}
-
-	if (byActiveAlpha < minAlpha) byActiveAlpha = minAlpha;
-	if (byInactiveAlpha < minAlpha) byInactiveAlpha = minAlpha;
+	XmlHelper::GetAttribute(pTransElement, CComBSTR(L"type"), reinterpret_cast<DWORD&>(transType), static_cast<DWORD>(transNone));
+	XmlHelper::GetAttribute(pTransElement, CComBSTR(L"active_alpha"), byActiveAlpha, 255);
+	XmlHelper::GetAttribute(pTransElement, CComBSTR(L"inactive_alpha"), byInactiveAlpha, 255);
+	XmlHelper::GetRGBAttribute(pTransElement, crColorKey, RGB(0, 0, 0));
 
 	return true;
 }
@@ -971,14 +962,8 @@ bool TransparencySettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool TransparencySettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+bool TransparencySettings2::Save(const CComPtr<IXMLDOMElement>& pTransElement)
 {
-	CComPtr<IXMLDOMElement> pAppearanceElement;
-	if (FAILED(XmlHelper::AddDomElementIfNotExist(pSettingsRoot, CComBSTR(L"appearance"), pAppearanceElement))) return false;
-
-	CComPtr<IXMLDOMElement> pTransElement;
-	if (FAILED(XmlHelper::AddDomElementIfNotExist(pAppearanceElement, CComBSTR(L"transparency"), pTransElement))) return false;
-
 	XmlHelper::SetAttribute(pTransElement, CComBSTR(L"type"), reinterpret_cast<DWORD&>(transType));
 	XmlHelper::SetAttribute(pTransElement, CComBSTR(L"active_alpha"), byActiveAlpha);
 	XmlHelper::SetAttribute(pTransElement, CComBSTR(L"inactive_alpha"), byInactiveAlpha);
@@ -992,12 +977,107 @@ bool TransparencySettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 //////////////////////////////////////////////////////////////////////////////
 
+TransparencySettings2& TransparencySettings2::operator=(const TransparencySettings2& other)
+{
+	transType       = other.transType;
+	byActiveAlpha   = other.byActiveAlpha;
+	byInactiveAlpha = other.byInactiveAlpha;
+	crColorKey      = other.crColorKey;
+
+	return *this;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+TransparencySettings::TransparencySettings()
+	: transparencyFullScreen()
+	, transparencyWindowed()
+	, bIsFullScreen(false)
+{
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool TransparencySettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+{
+	// WINDOWED
+	{
+		CComPtr<IXMLDOMElement> pTransElement;
+		if( SUCCEEDED(XmlHelper::GetDomElement(pSettingsRoot, CComBSTR(L"appearance/transparency"), pTransElement)) )
+		{
+			if( !transparencyWindowed.Load(pTransElement) ) return false;
+		}
+	}
+
+	// FULLSCREEN
+	{
+		CComPtr<IXMLDOMElement> pTransElement;
+		if( SUCCEEDED(XmlHelper::GetDomElement(pSettingsRoot, CComBSTR(L"appearance/fullscreen/transparency"), pTransElement)) )
+		{
+			if( !transparencyFullScreen.Load(pTransElement) ) return false;
+		}
+		else
+		{
+			// by default same transparency settings for full screen and windowed mode
+			transparencyFullScreen = transparencyWindowed;
+		}
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+bool TransparencySettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
+{
+	CComPtr<IXMLDOMElement> pAppearanceElement;
+	if( FAILED(XmlHelper::AddDomElementIfNotExist(pSettingsRoot, CComBSTR(L"appearance"), pAppearanceElement)) ) return false;
+
+	// FULLSCREEN
+	{
+		CComPtr<IXMLDOMElement>	pFullScreenElement;
+		if( FAILED(XmlHelper::AddDomElementIfNotExist(pAppearanceElement, CComBSTR(L"fullscreen"), pFullScreenElement)) ) return false;
+
+		CComPtr<IXMLDOMElement> pTransElement;
+		if( FAILED(XmlHelper::AddDomElementIfNotExist(pFullScreenElement, CComBSTR(L"transparency"), pTransElement)) ) return false;
+
+		if( !transparencyFullScreen.Save(pTransElement) ) return false;
+	}
+
+	// WINDOWED
+	{
+		CComPtr<IXMLDOMElement> pTransElement;
+		if( FAILED(XmlHelper::AddDomElementIfNotExist(pAppearanceElement, CComBSTR(L"transparency"), pTransElement)) ) return false;
+
+		if( !transparencyWindowed.Save(pTransElement) ) return false;
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 TransparencySettings& TransparencySettings::operator=(const TransparencySettings& other)
 {
-	transType		= other.transType;
-	byActiveAlpha	= other.byActiveAlpha;
-	byInactiveAlpha	= other.byInactiveAlpha;
-	crColorKey		= other.crColorKey;
+	transparencyFullScreen = other.transparencyFullScreen;
+	transparencyWindowed   = other.transparencyWindowed;
 
 	return *this;
 }

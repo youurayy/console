@@ -806,7 +806,7 @@ void MainFrame::ActivateApp(void)
 	if (m_activeTabView)
 		m_activeTabView->SetAppActiveStatus(m_bAppActive);
 
-	TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
+	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
 	TransparencyType transType = m_bTransparencyActive ? transparencySettings.transType : transNone;
 
 	if( (transType == transAlpha || transType == transAlphaAndColorKey) &&
@@ -4369,6 +4369,7 @@ void MainFrame::ShowFullScreen(bool bShow)
     m_toolbar.ChangeBitmap(ID_VIEW_FULLSCREEN, m_nFullSreen2Bitmap);
   }
 
+	g_settingsHandler->GetAppearanceSettings().transparencySettings.bIsFullScreen = m_bFullScreen;
 	ControlsSettings&	controlsSettings = g_settingsHandler->GetAppearanceSettings().controlsSettings;
 	controlsSettings.bIsFullScreen = m_bFullScreen;
 
@@ -4705,7 +4706,7 @@ void MainFrame::SetTransparency()
 #endif
 
   // set transparency
-  TransparencySettings& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings;
+	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
   TransparencyType transType = m_bTransparencyActive ? transparencySettings.transType : transNone;
 
   // RAZ

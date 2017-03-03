@@ -33,6 +33,11 @@ LRESULT DlgSettingsTransparency::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, 
 {
 	m_transparencySettings.Load(m_pOptionsRoot);
 
+	m_tabCtrl.Attach(GetDlgItem(IDC_TABS_TRANSPARENCY));
+
+	m_tabCtrl.InsertItem(0, Helpers::LoadStringW(IDS_SETTINGS_WINDOWED).c_str());
+	m_tabCtrl.InsertItem(1, Helpers::LoadStringW(IDS_SETTINGS_FULLSCREEN).c_str());
+
 	m_sliderActiveAlpha.Attach(GetDlgItem(IDC_ACTIVE_ALPHA));
 	m_sliderActiveAlpha.SetRange(0, 255 - TransparencySettings::minAlpha);
 	m_sliderActiveAlpha.SetTicFreq(5);
@@ -43,8 +48,8 @@ LRESULT DlgSettingsTransparency::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, 
 	m_sliderInactiveAlpha.SetTicFreq(5);
 	m_sliderInactiveAlpha.SetPageSize(5);
 
-	m_sliderActiveAlpha.SetPos(255 - m_transparencySettings.byActiveAlpha);
-	m_sliderInactiveAlpha.SetPos(255 - m_transparencySettings.byInactiveAlpha);
+	m_sliderActiveAlpha.SetPos(255 - m_transparencySettings.ActiveAlpha());
+	m_sliderInactiveAlpha.SetPos(255 - m_transparencySettings.InactiveAlpha());
 
 	UpdateSliderText(m_sliderActiveAlpha.m_hWnd);
 	UpdateSliderText(m_sliderInactiveAlpha.m_hWnd);
@@ -67,7 +72,7 @@ LRESULT DlgSettingsTransparency::OnCtlColorStatic(UINT /*uMsg*/, WPARAM wParam, 
 
 	if (staticCtl.m_hWnd == GetDlgItem(IDC_KEY_COLOR))
 	{
-		CBrush	brush(::CreateSolidBrush(m_transparencySettings.crColorKey));
+		CBrush	brush(::CreateSolidBrush(m_transparencySettings.ColorKey()));
 		CRect	rect;
 
 		staticCtl.GetClientRect(&rect);
@@ -101,8 +106,8 @@ LRESULT DlgSettingsTransparency::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND
 	{
 		DoDataExchange(DDX_SAVE);
 
-		m_transparencySettings.byActiveAlpha	= static_cast<BYTE>(255 - m_sliderActiveAlpha.GetPos());
-		m_transparencySettings.byInactiveAlpha	= static_cast<BYTE>(255 - m_sliderInactiveAlpha.GetPos());
+		m_transparencySettings.ActiveAlpha()	= static_cast<BYTE>(255 - m_sliderActiveAlpha.GetPos());
+		m_transparencySettings.InactiveAlpha()	= static_cast<BYTE>(255 - m_sliderInactiveAlpha.GetPos());
 
 		TransparencySettings&		transparencySettings= g_settingsHandler->GetAppearanceSettings().transparencySettings;
 
@@ -121,12 +126,12 @@ LRESULT DlgSettingsTransparency::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND
 
 LRESULT DlgSettingsTransparency::OnClickedKeyColor(WORD /*wNotifyCode*/, WORD /*wID*/, HWND hWndCtl, BOOL& /*bHandled*/)
 {
-	CColorDialog	dlg(m_transparencySettings.crColorKey, CC_FULLOPEN);
+	CColorDialog	dlg(m_transparencySettings.ColorKey(), CC_FULLOPEN);
 
 	if (dlg.DoModal() == IDOK)
 	{
 		// update color
-		m_transparencySettings.crColorKey = dlg.GetColor();
+		m_transparencySettings.ColorKey() = dlg.GetColor();
 		CWindow(hWndCtl).Invalidate();
 	}
 
@@ -200,9 +205,9 @@ void DlgSettingsTransparency::EnableTransparencyControls()
 	GetDlgItem(IDC_STATIC_KEY_COLOR).EnableWindow(FALSE);
 	GetDlgItem(IDC_KEY_COLOR).EnableWindow(FALSE);
 
-	if (m_transparencySettings.transType == transAlpha ||
-	    m_transparencySettings.transType == transAlphaAndColorKey ||
-	    m_transparencySettings.transType == transGlass)
+	if (m_transparencySettings.TransType() == transAlpha ||
+	    m_transparencySettings.TransType() == transAlphaAndColorKey ||
+	    m_transparencySettings.TransType() == transGlass)
 	{
 		GetDlgItem(IDC_STATIC_ACTIVE_WINDOW).EnableWindow();
 		GetDlgItem(IDC_STATIC_INACTIVE_WINDOW).EnableWindow();
@@ -212,12 +217,31 @@ void DlgSettingsTransparency::EnableTransparencyControls()
 		GetDlgItem(IDC_STATIC_INACTIVE_ALPHA).EnableWindow();
 	}
 
-	if (m_transparencySettings.transType == transColorKey ||
-	    m_transparencySettings.transType == transAlphaAndColorKey)
+	if (m_transparencySettings.TransType() == transColorKey ||
+	    m_transparencySettings.TransType() == transAlphaAndColorKey)
   {
 		GetDlgItem(IDC_STATIC_KEY_COLOR).EnableWindow();
 		GetDlgItem(IDC_KEY_COLOR).EnableWindow();
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+LRESULT DlgSettingsTransparency::OnTabItemChanged(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
+{
+	// save FULLSCREEN or WINDOWED settings
+	DoDataExchange(DDX_SAVE);
+
+	// switch FULLSCREEN <-> WINDOWED
+	m_transparencySettings.bIsFullScreen = m_tabCtrl.GetCurSel() == 1;
+
+	DoDataExchange(DDX_LOAD);
+	EnableTransparencyControls();
+
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////
