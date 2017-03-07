@@ -945,6 +945,26 @@ bool ConsoleHandler::ClickLink(const COORD& coordCurrent) const
 
 //////////////////////////////////////////////////////////////////////////////
 
+bool ConsoleHandler::GetCP(UINT& input, UINT& output) const
+{
+	m_multipleInfo->fMask = MULTIPLEINFO_CODE_PAGE;
+	if( ::SetEvent(m_multipleInfo.GetReqEvent()) &&
+	    ::WaitForSingleObject(m_multipleInfo.GetRespEvent(), 2000) == WAIT_OBJECT_0 )
+	{
+		input  = m_multipleInfo->uiInputCP;
+		output = m_multipleInfo->uiOutputCP;
+
+		return true;
+	}
+
+	return false;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 std::wstring ConsoleHandler::GetFontInfo(void) const
 {
 	std::wstring result(L"");

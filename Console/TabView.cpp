@@ -931,6 +931,15 @@ void TabView::Diagnose(HANDLE hFile)
 		dummy += console->second->GetConsoleHandler().IsElevated() ? L"yes" : L"no";
 		Helpers::WriteLine(hFile, dummy);
 
+		UINT input = 0, output = 0;
+		console->second->GetConsoleHandler().GetCP(input, output);
+		dummy = L"  input code page ";
+		dummy += std::to_wstring(input);
+		Helpers::WriteLine(hFile, dummy);
+		dummy = L"  output code page ";
+		dummy += std::to_wstring(output);
+		Helpers::WriteLine(hFile, dummy);
+
 		Helpers::WriteLine(hFile, L"  Windows console font");
 		Helpers::WriteLine(hFile, console->second->GetConsoleHandler().GetFontInfo());
 

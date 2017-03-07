@@ -179,6 +179,7 @@ class ConsoleHandler
 		bool         SelectWord(const COORD& coordCurrent, COORD& coordLeft, COORD& coordRight) const;
 		bool         SearchText(CString& text, bool bNext, const COORD& coordCurrent, COORD& coordLeft, COORD& coordRight) const;
 		bool         ClickLink(const COORD& coordCurrent) const;
+		bool         GetCP(UINT& input, UINT& output) const;
 		std::wstring GetFontInfo(void) const;
 
 	private:

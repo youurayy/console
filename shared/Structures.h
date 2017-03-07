@@ -326,6 +326,7 @@ struct NamedPipeMessage
 #define MULTIPLEINFO_CLICK_LINK        0x00000010
 #define MULTIPLEINFO_FONT              0x00000020
 #define MULTIPLEINFO_SELECTION_PART    0x00000040
+#define MULTIPLEINFO_CODE_PAGE         0x00000080
 
 #define MAX_WORD_DELIMITERS            64
 #define MAX_SEARCH_TEXT                128
@@ -359,4 +360,7 @@ struct MultipleInfo
 
 	OUT COORD               coordFontSize;
 	OUT CONSOLE_FONT_INFOEX consoleFontInfo;
+
+	OUT UINT uiInputCP;
+	OUT UINT uiOutputCP;
 };

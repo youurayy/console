@@ -1982,9 +1982,15 @@ DWORD ConsoleHandler::MonitorThread()
 					ClickLink();
 				}
 				//  font info
-				if(m_multipleInfo->fMask & MULTIPLEINFO_FONT)
+				if( m_multipleInfo->fMask & MULTIPLEINFO_FONT )
 				{
 					GetFontInfo();
+				}
+				//  code page
+				if( m_multipleInfo->fMask & MULTIPLEINFO_CODE_PAGE )
+				{
+					m_multipleInfo->uiInputCP  = ::GetConsoleCP();
+					m_multipleInfo->uiOutputCP = ::GetConsoleOutputCP();
 				}
 
 				::SetEvent(m_multipleInfo.GetRespEvent());
