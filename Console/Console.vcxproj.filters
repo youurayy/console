@@ -164,9 +164,6 @@
     <ClInclude Include="Helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HotkeyEdit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ImageHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -297,6 +294,9 @@
       <Filter>Header Files\DlgSettings</Filter>
     </ClInclude>
     <ClInclude Include="PageSettingsTabsEnv.h">
+      <Filter>Header Files\DlgSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="HotkeyEdit.h">
       <Filter>Header Files\DlgSettings</Filter>
     </ClInclude>
   </ItemGroup>
