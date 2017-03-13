@@ -4259,6 +4259,11 @@ void MainFrame::ShowMenu(bool bShow)
 	rebar.ShowBand(nBandIndex, m_bMenuVisible);
 	UISetCheck(ID_VIEW_MENU, m_bMenuChecked);
 
+	// if you press ALT and next hide menu
+	// ALT+SPACE is no longer working
+	// workaround: reset the last system key pressed
+	m_CmdBar.m_uSysKey = 0;
+
 	UpdateLayout();
 	AdjustWindowSize(ADJUSTSIZE_WINDOW);
 }

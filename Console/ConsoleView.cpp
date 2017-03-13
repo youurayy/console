@@ -326,7 +326,7 @@ LRESULT ConsoleView::OnWindowPosChanged(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 
 //////////////////////////////////////////////////////////////////////////////
 
-LRESULT ConsoleView::OnSysKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+LRESULT ConsoleView::OnSysKey(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	/*
 	lParam
@@ -337,7 +337,33 @@ LRESULT ConsoleView::OnSysKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
 	*/
 	if ((wParam == VK_SPACE) && (lParam & (0x1 << 29)))
 	{
+		_boolMenuSysKeyCancelled = true;
 		return m_mainFrame.SendMessage(WM_SYSCOMMAND, SC_KEYMENU, VK_SPACE);
+	}
+
+	if (uMsg == WM_SYSKEYDOWN && wParam == VK_MENU)
+	{
+		TRACE(L"WM_SYSKEYDOWN + VK_MENU\n");
+		/*
+		lParam
+		Bits Meaning
+		30   The previous key state.
+		     The value is 1 if the key is down before the message is sent,
+		     or it is 0 if the key is up.
+		*/
+		if ((lParam & (0x1 << 30)) == 0)
+		{
+			_boolMenuSysKeyCancelled = false;
+		}
+	}
+
+	if (uMsg == WM_SYSKEYUP && wParam == VK_MENU)
+	{
+		if (!_boolMenuSysKeyCancelled)
+		{
+			m_mainFrame.PostMessage(WM_COMMAND, ID_VIEW_MENU2);
+			return 0;
+		}
 	}
 
 	return OnConsoleFwdMsg(uMsg, wParam, lParam, bHandled);
@@ -360,27 +386,6 @@ WORD wLastVirtualKey = 0;
 LRESULT ConsoleView::OnConsoleFwdMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/)
 {
 	if (((uMsg == WM_KEYDOWN) || (uMsg == WM_KEYUP)) && (wParam == VK_PACKET)) return 0;
-
-	if (uMsg == WM_SYSKEYDOWN && wParam == VK_MENU)
-	{
-		/*
-		lParam
-		Bits Meaning
-		30   The previous key state.
-		     The value is 1 if the key is down before the message is sent,
-		     or it is 0 if the key is up.
-		*/
-		if ((lParam & (0x1 << 30)) == 0)
-			_boolMenuSysKeyCancelled = false;
-	}
-
-	if (uMsg == WM_SYSKEYUP && wParam == VK_MENU)
-	{
-		if( !_boolMenuSysKeyCancelled )
-			m_mainFrame.PostMessage(WM_COMMAND, ID_VIEW_MENU2);
-
-		return 0;
-	}
 
 	if (!TranslateKeyDown(uMsg, wParam, lParam))
 	{

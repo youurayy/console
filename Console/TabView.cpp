@@ -59,17 +59,13 @@ BOOL TabView::PreTranslateMessage(MSG* pMsg)
 
 		// private API TranslateMessageEx
 		// called with the TM_POSTCHARBREAKS flag
-		// return FALSE if no char is posted
-		if( !TranslateMessageEx(pMsg, TM_POSTCHARBREAKS) )
+		// returns FALSE if no char is posted
+		if( TranslateMessageEx(pMsg, TM_POSTCHARBREAKS) )
 		{
-			TRACE_KEY(L"TabView::PreTranslateMessage Msg not translated: 0x%04X, wParam: 0x%08X, lParam: 0x%08X\n", pMsg->message, pMsg->wParam, pMsg->lParam);
-			::DispatchMessage(pMsg);
-		}
-		else
-		{
-			wLastVirtualKey = static_cast<WORD>(pMsg->wParam);
 			TRACE_KEY(L"TabView::PreTranslateMessage Msg translated: 0x%04X, wParam: 0x%08X, lParam: 0x%08X\n", pMsg->message, pMsg->wParam, pMsg->lParam);
+			wLastVirtualKey = static_cast<WORD>(pMsg->wParam);
 		}
+		::DispatchMessage(pMsg);
 
 		return TRUE;
 	}
