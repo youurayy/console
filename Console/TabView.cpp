@@ -39,6 +39,7 @@ TabView::~TabView()
 //////////////////////////////////////////////////////////////////////////////
 
 extern WORD wLastVirtualKey;
+extern bool _boolMenuSysKeyCancelled;
 
 BOOL TabView::PreTranslateMessage(MSG* pMsg)
 {
@@ -57,15 +58,59 @@ BOOL TabView::PreTranslateMessage(MSG* pMsg)
 		// Input Method Manager
 		if (pMsg->wParam == VK_PROCESSKEY) return FALSE;
 
+		/*
+		lParam
+		Bits Meaning
+		29   The context code. The value is 1 if the ALT key is down while the key is pressed;
+		it is 0 if the WM_SYSKEYDOWN message is posted to the active window
+		because no window has the keyboard focus.
+		*/
+		if (pMsg->message == WM_SYSKEYDOWN && (pMsg->wParam == VK_SPACE) && (pMsg->lParam & (0x1 << 29)))
+		{
+			TRACE(L"WM_SYSKEYDOWN + VK_SPACE\n");
+			_boolMenuSysKeyCancelled = true;
+			m_mainFrame.PostMessage(WM_SYSCOMMAND, SC_KEYMENU, VK_SPACE);
+			::DispatchMessage(pMsg);
+			return TRUE;
+		}
+
+		if (pMsg->message == WM_SYSKEYDOWN && pMsg->wParam == VK_MENU)
+		{
+			TRACE(L"WM_SYSKEYDOWN + VK_MENU\n");
+			/*
+			lParam
+			Bits Meaning
+			30   The previous key state.
+			The value is 1 if the key is down before the message is sent,
+			or it is 0 if the key is up.
+			*/
+			if ((pMsg->lParam & (0x1 << 30)) == 0)
+			{
+				_boolMenuSysKeyCancelled = false;
+			}
+		}
+
+		if (pMsg->message == WM_SYSKEYUP && pMsg->wParam == VK_MENU)
+		{
+			TRACE(L"WM_SYSKEYUP + VK_MENU\n");
+			if (!_boolMenuSysKeyCancelled)
+			{
+				m_mainFrame.PostMessage(WM_COMMAND, ID_VIEW_MENU2);
+			}
+		}
+
 		// private API TranslateMessageEx
 		// called with the TM_POSTCHARBREAKS flag
 		// returns FALSE if no char is posted
-		if( TranslateMessageEx(pMsg, TM_POSTCHARBREAKS) )
+		if (TranslateMessageEx(pMsg, TM_POSTCHARBREAKS))
 		{
 			TRACE_KEY(L"TabView::PreTranslateMessage Msg translated: 0x%04X, wParam: 0x%08X, lParam: 0x%08X\n", pMsg->message, pMsg->wParam, pMsg->lParam);
 			wLastVirtualKey = static_cast<WORD>(pMsg->wParam);
 		}
-		::DispatchMessage(pMsg);
+		else
+		{
+			::DispatchMessage(pMsg);
+		}
 
 		return TRUE;
 	}

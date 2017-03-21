@@ -326,54 +326,6 @@ LRESULT ConsoleView::OnWindowPosChanged(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM
 
 //////////////////////////////////////////////////////////////////////////////
 
-LRESULT ConsoleView::OnSysKey(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-{
-	/*
-	lParam
-	Bits Meaning
-	29   The context code. The value is 1 if the ALT key is down while the key is pressed;
-	     it is 0 if the WM_SYSKEYDOWN message is posted to the active window
-	     because no window has the keyboard focus.
-	*/
-	if ((wParam == VK_SPACE) && (lParam & (0x1 << 29)))
-	{
-		_boolMenuSysKeyCancelled = true;
-		return m_mainFrame.SendMessage(WM_SYSCOMMAND, SC_KEYMENU, VK_SPACE);
-	}
-
-	if (uMsg == WM_SYSKEYDOWN && wParam == VK_MENU)
-	{
-		TRACE(L"WM_SYSKEYDOWN + VK_MENU\n");
-		/*
-		lParam
-		Bits Meaning
-		30   The previous key state.
-		     The value is 1 if the key is down before the message is sent,
-		     or it is 0 if the key is up.
-		*/
-		if ((lParam & (0x1 << 30)) == 0)
-		{
-			_boolMenuSysKeyCancelled = false;
-		}
-	}
-
-	if (uMsg == WM_SYSKEYUP && wParam == VK_MENU)
-	{
-		if (!_boolMenuSysKeyCancelled)
-		{
-			m_mainFrame.PostMessage(WM_COMMAND, ID_VIEW_MENU2);
-			return 0;
-		}
-	}
-
-	return OnConsoleFwdMsg(uMsg, wParam, lParam, bHandled);
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-
-//////////////////////////////////////////////////////////////////////////////
-
 /* MSDN mentions that you should use the last virtual key code received
   * when putting a virtual key identity to a WM_CHAR message since multiple
   * or translated keys may be involved. */

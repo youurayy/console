@@ -66,8 +66,8 @@ class ConsoleView
 			MESSAGE_HANDLER(WM_ERASEBKGND, OnEraseBkgnd)
 			MESSAGE_HANDLER(WM_PAINT, OnPaint)
 			MESSAGE_HANDLER(WM_WINDOWPOSCHANGED, OnWindowPosChanged)
-			MESSAGE_HANDLER(WM_SYSKEYDOWN, OnSysKey)
-			MESSAGE_HANDLER(WM_SYSKEYUP, OnSysKey)
+			MESSAGE_HANDLER(WM_SYSKEYDOWN, OnConsoleFwdMsg)
+			MESSAGE_HANDLER(WM_SYSKEYUP, OnConsoleFwdMsg)
 			MESSAGE_HANDLER(WM_KEYDOWN, OnConsoleFwdMsg)
 			MESSAGE_HANDLER(WM_KEYUP, OnConsoleFwdMsg)
 			MESSAGE_HANDLER(WM_CHAR, OnConsoleFwdMsg)
@@ -113,7 +113,6 @@ class ConsoleView
 		LRESULT OnPaint(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnPrintClient(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnWindowPosChanged(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
-		LRESULT OnSysKey(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 		LRESULT OnConsoleFwdMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/);
 		LRESULT OnVScroll(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnHScroll(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/);
