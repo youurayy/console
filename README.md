@@ -38,13 +38,14 @@ Changelog
     + added
     * fixed
 
-Changes in 1.18.1 (17 Mar 2017)
+Changes in 1.18.1 (27 Mar 2017)
 
     + Transparency settings per windowed/full screen mode.
     + Print code page (for each shell) in diagnostic report.
     * ALT-SPACE menu.
     * "Attach Consoles" failure.
     * Split bar size.
+    * Start a safe console when no console started.
 
 Changes in 1.18.0 (17 Feb 2017)
 

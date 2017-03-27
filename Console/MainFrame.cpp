@@ -3518,6 +3518,7 @@ bool MainFrame::CreateSafeConsole()
 	consoleViewCreate.u.userCredentials = nullptr;
 
 	std::shared_ptr<TabData> tabData(new TabData());
+	tabData->strShell = L"%ComSpec%";
 
 	return CreateNewConsole(&consoleViewCreate, tabData);
 }
