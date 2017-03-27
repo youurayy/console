@@ -46,6 +46,7 @@ Changes in 1.18.1 (27 Mar 2017)
     * "Attach Consoles" failure.
     * Split bar size.
     * Start a safe console when no console started.
+    * Standardize hotkeys modifiers and order (mouse).
 
 Changes in 1.18.0 (17 Feb 2017)
 

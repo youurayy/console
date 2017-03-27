@@ -23,7 +23,19 @@ DlgSettingsMouse::DlgSettingsMouse(CComPtr<IXMLDOMElement>& pOptionsRoot)
 
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
+
+CString GetKeyName(UINT uiVk)
+{
+	LONG lScanCode = ::MapVirtualKey(uiVk, 0) << 16;
+
+	CString strKeyName(L"");
+
+	::GetKeyNameText(lScanCode, strKeyName.GetBufferSetLength(255), 255);
+	strKeyName.ReleaseBuffer();
+
+	return strKeyName;
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -50,6 +62,10 @@ LRESULT DlgSettingsMouse::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 	m_listCtrl.SetColumnWidth(0, 170);
 	m_listCtrl.SetColumnWidth(1, 218);
 
+	m_btnCtrl.SetWindowText(GetKeyName(VK_CONTROL));
+	m_btnShift.SetWindowText(GetKeyName(VK_SHIFT));
+	m_btnAlt.SetWindowText(GetKeyName(VK_MENU));
+
 	MouseSettings::CommandsSequence::iterator it = m_mouseSettings.commands.begin();
 	for (; it != m_mouseSettings.commands.end(); ++it)
 	{
@@ -57,12 +73,17 @@ LRESULT DlgSettingsMouse::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 		m_listCtrl.SetItemData(nItem, reinterpret_cast<DWORD_PTR>(it->get()));
 
 		CString strAction;
-
 		m_comboButtons.GetLBText(static_cast<int>((*it)->action.button), strAction);
-		
-		if ((*it)->action.modifiers & MouseSettings::mkCtrl) strAction += L" + Ctrl";
-		if ((*it)->action.modifiers & MouseSettings::mkShift) strAction += L" + Shift";
-		if ((*it)->action.modifiers & MouseSettings::mkAlt) strAction += L" + Alt";
+
+		if ((*it)->action.modifiers & MouseSettings::mkAlt)
+			strAction = GetKeyName(VK_MENU) + L"+" + strAction;
+
+		if ((*it)->action.modifiers & MouseSettings::mkShift)
+			strAction = GetKeyName(VK_SHIFT) + L"+" + strAction;
+
+		if ((*it)->action.modifiers & MouseSettings::mkCtrl)
+			strAction = GetKeyName(VK_CONTROL) + L"+" + strAction;
+
 		m_listCtrl.SetItemText(nItem, 1, strAction);
 	}
 
@@ -122,12 +143,17 @@ LRESULT DlgSettingsMouse::OnBtnAssign(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /
 	if (m_btnAlt.GetCheck())	pCommandData->action.modifiers |= MouseSettings::mkAlt;
 
 	CString strAction;
-
 	m_comboButtons.GetLBText(static_cast<int>(pCommandData->action.button), strAction);
-	
-	if (pCommandData->action.modifiers & MouseSettings::mkCtrl)	strAction += L" + Ctrl";
-	if (pCommandData->action.modifiers & MouseSettings::mkShift)strAction += L" + Shift";
-	if (pCommandData->action.modifiers & MouseSettings::mkAlt)	strAction += L" + Alt";
+
+	if (pCommandData->action.modifiers & MouseSettings::mkAlt)
+		strAction = GetKeyName(VK_MENU) + L"+" + strAction;
+
+	if (pCommandData->action.modifiers & MouseSettings::mkShift)
+		strAction = GetKeyName(VK_SHIFT) + L"+" + strAction;
+
+	if (pCommandData->action.modifiers & MouseSettings::mkCtrl)
+		strAction = GetKeyName(VK_CONTROL) + L"+" + strAction;
+
 	m_listCtrl.SetItemText(m_listCtrl.GetSelectedIndex(), 1, strAction);
 
 	return 0;
