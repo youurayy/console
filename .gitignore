@@ -1,6 +1,7 @@
 bin/
 obj/
 ipch/
+.vs/
 help/console.chm
 help/html/changelog.html
 help/xx*
@@ -20,6 +21,7 @@ help/xx*
 *.bak
 *.orig
 *.swp
+*.chw
 
 l10n/*/res/
 l10n/*/resource.h

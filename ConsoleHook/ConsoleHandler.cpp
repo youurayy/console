@@ -418,7 +418,7 @@ bool ConsoleHandler::GetPowerShellProgress(HANDLE hStdOut, CONSOLE_SCREEN_BUFFER
 	srBuffer.Right = sBufferColumns - 1;
 	std::unique_ptr<CHAR_INFO[]> pScreenBuffer(new CHAR_INFO[sBufferColumns]);
 
-	TRACE(L"GetPowerShellProgress from %hd to %hd\n", sMinRow, sMaxRow);
+	//TRACE(L"GetPowerShellProgress from %hd to %hd\n", sMinRow, sMaxRow);
 	for( SHORT sRow = sMinRow; sRow <= sMaxRow; ++sRow )
 	{
 		srBuffer.Top    = sRow;

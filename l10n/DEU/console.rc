@@ -248,7 +248,7 @@ BEGIN
     CONTROL         "",IDC_SPIN_INSIDE_BORDER,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,193,93,11,14
     LTEXT           "Pixel",IDC_STATIC,92,116,21,8
 
-    RTEXT           "Split bar siz&e*:",IDC_STATIC,123,116,49,8
+    RTEXT           "Trennbalken Größ&e*:",IDC_STATIC,123,116,49,8
     EDITTEXT        IDC_SPLIT_BAR_SIZE,173,114,33,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SPLIT_BAR_SIZE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,213,93,11,14
     LTEXT           "Pixel",IDC_STATIC,207,116,21,8
@@ -258,7 +258,7 @@ BEGIN
     RTEXT           "Hervorhebungs-Farbe:",IDC_STATIC,130,135,80,8
     CONTROL         "",IDC_HIGHLIGHT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,211,132,16,14,WS_EX_DLGMODALFRAME
 
-    CONTROL         "View keeps background, colors and cursor when it's moved into another tab.",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
+    CONTROL         "Ansicht behält Hintergrund, Farben und Cursor beim Wechsel auf einen anderen Tab bei.",IDC_CHECK_KEEP_VIEW_THEME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,151,220,16
 END
 
 IDD_SETTINGS_CONTROLS DIALOGEX 0, 0, 235, 265
@@ -277,7 +277,7 @@ BEGIN
     CONTROL         "Einzelnen Tab verstecken",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,42,85,16
     CONTROL         "Tabs unten",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,58,85,16
     CONTROL         "Symbole verstecken",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,74,85,16
-    CONTROL         "Hide close button",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,90,85,16
+    CONTROL         "Schließen-Button verstecken",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,90,85,16
 
 END
 
@@ -285,24 +285,26 @@ IDD_SETTINGS_TRANSPARENCY DIALOGEX 0, 0, 235, 265
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "&Leer",IDC_TRANSPARENCY_TYPE,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE | WS_GROUP,10,11,100,16
-    CONTROL         "&Alpha",IDC_TRANSPARENCY_TYPE2,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,43,100,16
-    CONTROL         "Farben &key",IDC_TRANSPARENCY_TYPE3,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,120,100,16
+    CONTROL         "", IDC_TABS_TRANSPARENCY,"SysTabControl32",TCS_BUTTONS | TCS_FLATBUTTONS | WS_TABSTOP,5,10,225,100
+
+    CONTROL         "&Leer",IDC_TRANSPARENCY_TYPE,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE | WS_GROUP,10,26,100,16
+    CONTROL         "&Alpha",IDC_TRANSPARENCY_TYPE2,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,58,100,16
+    CONTROL         "Farben &key",IDC_TRANSPARENCY_TYPE3,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,148,100,16
 #ifdef _USE_AERO
-    CONTROL         "Glass",IDC_TRANSPARENCY_TYPE4,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,130,43,100,16
+    CONTROL         "Glass",IDC_TRANSPARENCY_TYPE4,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,130,58,100,16
 #endif
-    CONTROL         "Alpha mit Farbe",IDC_TRANSPARENCY_TYPE5,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,27,100,16
+    CONTROL         "Alpha mit Farbe",IDC_TRANSPARENCY_TYPE5,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,42,100,16
 
-    LTEXT           "A&ctives Fenster",IDC_STATIC_ACTIVE_WINDOW,22,61,240,8
-    CONTROL         "",IDC_ACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,71,192,20
-    LTEXT           "255",IDC_STATIC_ACTIVE_ALPHA,215,73,14,8,0,WS_EX_RIGHT
+    LTEXT           "A&ctives Fenster",IDC_STATIC_ACTIVE_WINDOW,22,74,240,8
+    CONTROL         "",IDC_ACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,84,192,20
+    LTEXT           "255",IDC_STATIC_ACTIVE_ALPHA,215,87,14,8,0,WS_EX_RIGHT
     
-    LTEXT           "&Inaktives Fenster",IDC_STATIC_INACTIVE_WINDOW,22,91,240,8
-    CONTROL         "",IDC_INACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,101,192,20
-    LTEXT           "255",IDC_STATIC_INACTIVE_ALPHA,215,103,14,8,0,WS_EX_RIGHT
+    LTEXT           "&Inaktives Fenster",IDC_STATIC_INACTIVE_WINDOW,22,106,240,8
+    CONTROL         "",IDC_INACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,116,192,20
+    LTEXT           "255",IDC_STATIC_INACTIVE_ALPHA,215,119,14,8,0,WS_EX_RIGHT
 
-    LTEXT           "Key Farbe:",IDC_STATIC_KEY_COLOR,22,141,40,8
-    CONTROL         "",IDC_KEY_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,65,138,16,14,WS_EX_DLGMODALFRAME
+    LTEXT           "Key Farbe:",IDC_STATIC_KEY_COLOR,22,167,40,8
+    CONTROL         "",IDC_KEY_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,65,164,16,14,WS_EX_DLGMODALFRAME
 END
 
 IDD_SETTINGS_FONT DIALOGEX 0, 0, 235, 265
@@ -366,7 +368,7 @@ BEGIN
 
     CONTROL         "Windows (CR+LF)",IDC_RADIO_COPY_NEWLINE_CHAR,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,10,91,100,16
     CONTROL         "Unix (LF)",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,10,107,100,16
-    GROUPBOX        "Zeilenumbruch Kopieren",IDC_STATIC,0,80,115,48,WS_GROUP
+    GROUPBOX        "Zeilenumbruch kopieren",IDC_STATIC,0,80,115,48,WS_GROUP
 
     RTEXT           "Links:",IDC_STATIC,130,95,30,8
     EDITTEXT        IDC_LEFT_DELIMITERS,161,92,29,14,ES_LEFT | ES_NOHIDESEL | ES_AUTOHSCROLL
@@ -390,8 +392,8 @@ BEGIN
     LTEXT           "Spalte",IDC_STATIC_ROWS,209,160,26,8
     GROUPBOX        "Seiten Scrollen",IDC_STATIC,120,130,115,63
 
-    CONTROL         "Inherit environment variables", IDC_CHECK_ENVIRONMENT_INHERIT, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 206, 220, 16
-    CONTROL         "Pick up system or user environment variables changes", IDC_CHECK_ENVIRONMENT_SYNC, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 222, 220, 16
+    CONTROL         "Erbe Umgebungsvariablen", IDC_CHECK_ENVIRONMENT_INHERIT, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 206, 220, 16
+    CONTROL         "Übernahme von geänderten System/Benutzervariablen", IDC_CHECK_ENVIRONMENT_SYNC, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 10, 222, 220, 16
     GROUPBOX        "Environment*", IDC_STATIC, 0, 195, 235, 48, WS_GROUP
 END
 
@@ -412,9 +414,9 @@ BEGIN
     GROUPBOX        "Als Benutzer ausführen",IDC_STATIC,0,70,235,33
 
     CONTROL         "Erlaube schließen/lösen des letzten Tabs/Sicht",IDC_CHECK_CLOSING_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,116,220,16
-    CONTROL         "Exit on closing of last tab",IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,132,220,16
+    CONTROL         "Beenden nach Schließen des letzten Tabs",IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,132,220,16
     CONTROL         "Schließen mehrerer Fenster/Tabs bestätigen",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,148,220,16
-    CONTROL         "Save workspace on exit",IDC_CHECK_SAVE_WORKSPACE_ON_EXIT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,164,220,16
+    CONTROL         "Speichern der Arbeitsumgebung beim Verlassen",IDC_CHECK_SAVE_WORKSPACE_ON_EXIT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,164,220,16
     GROUPBOX        "Schließen/lösen",IDC_STATIC,0,105,235,80,WS_GROUP
 END
 
@@ -428,7 +430,7 @@ BEGIN
     RTEXT           "Symbol:",IDC_STATIC,8,34,45,8
     EDITTEXT        IDC_TAB_ICON,55,31,90,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON,147,31,15,14
-    CONTROL         "Use shell icon",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,167,31,48,16
+    CONTROL         "Benutze Konsolen Symbol",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,167,31,48,16
     GROUPBOX        "Titel && Symbol",IDC_STATIC,0,3,221,50,0,WS_EX_TRANSPARENT
 
     RTEXT           "Konsole:",IDC_STATIC,8,71,45,8
@@ -488,9 +490,9 @@ BEGIN
     RTEXT           "&Schalter:",IDC_STATIC,3,230,44,8
     COMBOBOX        IDC_COMBO_BUTTONS,50,228,67,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     RTEXT           "&Modifizierer:",IDC_STATIC,3,250,44,8
-    CONTROL         "Kontrolle",IDC_CHECK_CTRL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,249,40,10
-    CONTROL         "&Shift",IDC_CHECK_SHIFT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,95,249,40,10
-    CONTROL         "Al&t",IDC_CHECK_ALT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,249,40,10
+    CONTROL         "",IDC_CHECK_CTRL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,249,40,10
+    CONTROL         "",IDC_CHECK_SHIFT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,95,249,40,10
+    CONTROL         "",IDC_CHECK_ALT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,249,40,10
     PUSHBUTTON      "&Zuweisen",IDC_BTN_ASSIGN,133,227,42,14
     PUSHBUTTON      "&Leeren",IDC_BTN_CLEAR,181,227,42,14
 END
@@ -697,8 +699,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Konsolen anhängen",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
-        MENUITEM "Load Workspace...",           ID_LOAD_WORKSPACE
-        MENUITEM "Save Workspace...",           ID_SAVE_WORKSPACE
+        MENUITEM "Laden Arbeitsplatz...",           ID_LOAD_WORKSPACE
+        MENUITEM "Speichern Arbeitsplatz...",           ID_SAVE_WORKSPACE
         MENUITEM SEPARATOR
         MENUITEM "Schließen",                       ID_APP_EXIT
     END
@@ -710,17 +712,17 @@ BEGIN
         MENUITEM "&Einfügen",                      ID_EDIT_PASTE
         MENUITEM "Auswahl einfügen",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
-        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Einfügen Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Scrollen anhalten",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Scrollen fortsetzen",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM "Weitergabe Maus Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
-        MENUITEM "Horizontal splitten",         ID_SPLIT_HORIZ
-        MENUITEM "Vertikal splitten",           ID_SPLIT_VERT
+        MENUITEM "Teilen &horizontal",         ID_SPLIT_HORIZ
+        MENUITEM "Teilen &vertikal",           ID_SPLIT_VERT
         MENUITEM "Anzeige auswechseln",                  ID_SPLIT_SWAP
         MENUITEM "In neuen Tab duplizieren",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
@@ -734,7 +736,7 @@ BEGIN
         MENUITEM "&Menü",                       ID_VIEW_MENU
         MENUITEM "Werkzeugleiste",                    ID_VIEW_TOOLBAR
         MENUITEM "Suchfeld",                  ID_VIEW_SEARCH_BAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "&Statusleiste",                 ID_VIEW_STATUS_BAR
         MENUITEM "Tabs",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
         MENUITEM "&Vollbild",                ID_VIEW_FULLSCREEN
@@ -762,17 +764,17 @@ BEGIN
         MENUITEM "&Ansicht schließen",                 ID_CLOSE_VIEW
         MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Einfügen Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Scrollen anhalten",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Scrollen fortsetzen",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM "Weitergabe Maus Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
         MENUITEM SEPARATOR
-        MENUITEM "Horizontal splitten",         ID_SPLIT_HORIZ
-        MENUITEM "Vertikal splitten",           ID_SPLIT_VERT
+        MENUITEM "Teilen &horizontal",         ID_SPLIT_HORIZ
+        MENUITEM "Teilen &vertikal",           ID_SPLIT_VERT
         MENUITEM "Anzeige auswechseln",                  ID_SPLIT_SWAP
         MENUITEM "In neuen Tab duplizieren",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
@@ -784,8 +786,8 @@ IDR_TAB2_POPUP_MENU MENU
 BEGIN
     POPUP "Tab2"
     BEGIN
-        MENUITEM "Merge Horizontally",          ID_MERGE_HORIZONTALLY
-        MENUITEM "Merge Vertically",            ID_MERGE_VERTICALLY
+        MENUITEM "Verbinden horizontal",          ID_MERGE_HORIZONTALLY
+        MENUITEM "Verbinden vertikal",            ID_MERGE_VERTICALLY
     END
 END
 
