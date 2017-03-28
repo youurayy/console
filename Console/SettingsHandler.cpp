@@ -2951,11 +2951,11 @@ bool SettingsHandler::SerializeSettings(CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 //////////////////////////////////////////////////////////////////////////////
 
-void SettingsHandler::SetUserDataDir(SettingsDirType settingsDirType)
+void SettingsHandler::SetUserDataDir(SettingsDirType settingsDirType, bool createIfNotExists)
 {
 	if (settingsDirType == dirTypeExe)
 	{
-		m_strSettingsPath = Helpers::GetModulePath(NULL, true);
+		m_strSettingsPath = Helpers::GetModulePath(nullptr, true);
 	}
 	else if (settingsDirType == dirTypeUser)
 	{
@@ -2963,8 +2963,8 @@ void SettingsHandler::SetUserDataDir(SettingsDirType settingsDirType)
 		::ZeroMemory(wszAppData, sizeof(wszAppData));
 		::GetEnvironmentVariable(L"APPDATA", wszAppData, _countof(wszAppData));
 
-		m_strSettingsPath = wstring(wszAppData) + wstring(L"\\Console\\");
-		::CreateDirectory(m_strSettingsPath.c_str(), NULL);
+		m_strSettingsPath = std::wstring(wszAppData) + std::wstring(L"\\Console\\");
+		if( createIfNotExists ) ::CreateDirectory(m_strSettingsPath.c_str(), nullptr);
 	}
 
 	m_settingsDirType = settingsDirType;

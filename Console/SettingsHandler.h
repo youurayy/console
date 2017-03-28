@@ -1147,7 +1147,7 @@ class SettingsHandler
 		const std::wstring& GetSettingsTitle() const { return m_strSettingsFileName; }
 
 		SettingsDirType GetSettingsDirType() const { return m_settingsDirType; }
-		void SetUserDataDir(SettingsDirType settingsDirType);
+		void SetUserDataDir(SettingsDirType settingsDirType, bool createIfNotExists = false);
 
 		ConsoleSettings& GetConsoleSettings() { return m_consoleSettings; }
 		AppearanceSettings& GetAppearanceSettings() { return m_appearanceSettings; }

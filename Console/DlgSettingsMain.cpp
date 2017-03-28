@@ -92,7 +92,7 @@ LRESULT DlgSettingsMain::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndC
 	{
 		if (m_checkUserDataDir.IsWindowEnabled())
 		{
-			g_settingsHandler->SetUserDataDir((m_checkUserDataDir.GetCheck() == 1) ? SettingsHandler::dirTypeUser : SettingsHandler::dirTypeExe);
+			g_settingsHandler->SetUserDataDir((m_checkUserDataDir.GetCheck() == 1) ? SettingsHandler::dirTypeUser : SettingsHandler::dirTypeExe, true);
 		}
 
 		HRESULT hr = m_pSettingsDocument->save(CComVariant(g_settingsHandler->GetSettingsFileName().c_str()));
