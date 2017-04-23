@@ -363,10 +363,10 @@ void ConsoleHandler::CreateShellProcess
 		if( strShellCmdLine.empty() ) strShellCmdLine = L"cmd.exe";
 	}
 
-	if( !consoleOptions.strInitialCmd.empty())
+	if( !consoleOptions.strShellArguments.empty())
 	{
 		strShellCmdLine += L" ";
-		strShellCmdLine += consoleOptions.strInitialCmd;
+		strShellCmdLine += consoleOptions.strShellArguments;
 	}
 
 	wstring strStartupDir = Helpers::ExpandEnvironmentStrings(strNewEnvironment.c_str(), consoleOptions.strInitialDir);
@@ -560,10 +560,10 @@ void ConsoleHandler::StartShellProcess
 			strParams += Helpers::EscapeCommandLineArg(consoleOptions.strInitialDir);
 		}
 		// startup shell command
-		if (!consoleOptions.strInitialCmd.empty())
+		if (!consoleOptions.strShellArguments.empty())
 		{
 			strParams += L" -r ";
-			strParams += Helpers::EscapeCommandLineArg(consoleOptions.strInitialCmd);
+			strParams += Helpers::EscapeCommandLineArg(consoleOptions.strShellArguments);
 		}
 		// priority
 		strParams += L" -p ";

@@ -1113,7 +1113,10 @@ bool TabView::LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* 
 				consoleViewCreate.type = ConsoleViewCreate::CREATE;
 				consoleViewCreate.u.userCredentials = nullptr;
 				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), consoleViewCreate.consoleOptions.strInitialDir, L"");
-				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"InitialCommand"), consoleViewCreate.consoleOptions.strInitialCmd, L"");
+				// for backward compatibility (InitialCommand attribute has been replaced by ShellArguments)
+				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"InitialCommand"), consoleViewCreate.consoleOptions.strShellArguments, L"");
+				if(consoleViewCreate.consoleOptions.strShellArguments.empty())
+					XmlHelper::GetAttribute(pViewElement, CComBSTR(L"ShellArguments"), consoleViewCreate.consoleOptions.strShellArguments, L"");
 				std::wstring strBasePriority;
 				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"BasePriority"), strBasePriority, L"");
 				consoleViewCreate.consoleOptions.dwBasePriority = TabData::StringToPriority(strBasePriority.c_str());

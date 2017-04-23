@@ -62,9 +62,9 @@
 	</p>
 	<br/>
 
-	<p class="block-row-name">-r &lt;command&gt;</p>
+	<p class="block-row-name">-r &lt;arguments&gt;</p>
 	<p class="block-row-description">
-		Appends command to the startup shell command line.
+		Appends arguments to the startup shell command line.
 		<b>Do not confuse whith a command that you type in the shell!</b>
 	</p>
 	<br/>
@@ -134,23 +134,19 @@
 	<p>
 		<b>Note:</b> If you specify multiple -t options, you can specify 
 		multiple -d and -r options as well. In that case, each -t, -d and -r 
-		option will be grouped together. If there is no corresponding -d 
-		option for a -t option, the initial directory from that tab's settings 
-		will be used.
+		option will be grouped together.<br />
+		If there is no corresponding -d option for a -t option,
+		the initial directory from that tab's settings will be used.<br />
 		For example:
 		<br /><br />
-		Console.exe -t bash -d C:\WINDOWS -r &quot;ls -al&quot; -t cmd -d D:\ -t ncftp
+		Console.exe -t powershell -d C:\WINDOWS -r <b>&quot;</b>-NoExit -Command &quot;&quot;&quot;Write-Host 'Hello World' -ForeGroundColor yellow&quot;&quot;&quot;<b>&quot;</b> -t cmd -d D:\ -t ncftp
 		<br /><br />
-		Will start 'bash' tab in C:\WINDOWS, running &quot;ls -al&quot; 
-		command in it and 'cmd' tab in D:\. 'ncftp' tab will be started in the 
-		initial directory specified in its settings.
-	</p>
-	<p>
-		<b>Note:</b> Some shells need an additional switch in the startup 
-		command string. E.g. when using cmd.exe, you must put /k at the 
-		beginning of your command string:
-		<br /><br />
-		Console.exe -t cmd -r &quot;/k dir /b&quot;
+		Will start
+		<ul>
+			<li>'powershell' tab in C:\WINDOWS, running <i>Write-Host 'Hello World' -ForeGroundColor yellow</i> command in it</li>
+			<li>'cmd' tab in D:\.</li>
+			<li>'ncftp' tab will be started in the initial directory specified in its settings.</li>
+		</ul>
 	</p>
 	<p>
 		<b>Note:</b> -ts option can be useful if you want to start multiple 

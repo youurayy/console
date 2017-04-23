@@ -78,7 +78,7 @@ void MainFrame::ParseCommandLine
 			// startup cmd
 			++i;
 			if (i == argc) break;
-			commandLineOptions.startupCmds.push_back(argv[i]);
+			commandLineOptions.startupShellArgs.push_back(argv[i]);
 		}
 		else if (wstring(argv[i]) == wstring(L"-p"))
 		{
@@ -153,10 +153,10 @@ void MainFrame::ParseCommandLine
 		}
 	}
 
-	// make sure that startupTabTitles, startupDirs, and startupCmds are at least as big as startupTabs
+	// make sure that startupTabTitles, startupDirs, and startupShellArgs are at least as big as startupTabs
 	if (commandLineOptions.startupTabTitles.size() < commandLineOptions.startupTabs.size()) commandLineOptions.startupTabTitles.resize(commandLineOptions.startupTabs.size());
 	if (commandLineOptions.startupDirs     .size() < commandLineOptions.startupTabs.size()) commandLineOptions.startupDirs     .resize(commandLineOptions.startupTabs.size());
-	if (commandLineOptions.startupCmds     .size() < commandLineOptions.startupTabs.size()) commandLineOptions.startupCmds     .resize(commandLineOptions.startupTabs.size());
+	if (commandLineOptions.startupShellArgs.size() < commandLineOptions.startupTabs.size()) commandLineOptions.startupShellArgs.resize(commandLineOptions.startupTabs.size());
 	if (commandLineOptions.basePriorities  .size() < commandLineOptions.startupTabs.size()) commandLineOptions.basePriorities  .resize(commandLineOptions.startupTabs.size(), ULONG_MAX);
 }
 
@@ -284,10 +284,15 @@ LRESULT MainFrame::CreateInitialTabs
 		{
 			ConsoleOptions consoleOptions;
 
-			if (commandLineOptions.startupTabTitles.size() > 0) consoleOptions.strTitle       = commandLineOptions.startupTabTitles[0];
-			if (commandLineOptions.startupDirs     .size() > 0) consoleOptions.strInitialDir  = commandLineOptions.startupDirs[0];
-			if (commandLineOptions.startupCmds     .size() > 0) consoleOptions.strInitialCmd  = commandLineOptions.startupCmds[0];
+			if (commandLineOptions.startupTabTitles.size() > 0) consoleOptions.strTitle          = commandLineOptions.startupTabTitles[0];
+			if (commandLineOptions.startupDirs     .size() > 0) consoleOptions.strInitialDir     = commandLineOptions.startupDirs[0];
+			if (commandLineOptions.startupShellArgs.size() > 0) consoleOptions.strShellArguments = commandLineOptions.startupShellArgs[0];
 
+			// startup directory choice (by descending order of priority):
+			// 1 - ConsoleZ command line startup tab dir (-d)
+			// 2 - Tab setting
+			// 3 - ConsoleZ command line working dir (-cwd)
+			// 4 - Settings global initial dir
 			if( consoleOptions.strInitialDir.empty() && tabSettings.tabDataVector[0]->strInitialDir.empty() )
 				consoleOptions.strInitialDir = commandLineOptions.strWorkingDir;
 
@@ -323,12 +328,19 @@ LRESULT MainFrame::CreateInitialTabs
 					// found it, create
 					ConsoleOptions consoleOptions;
 
-					consoleOptions.strTitle       = commandLineOptions.startupTabTitles[tabIndex];
-					consoleOptions.strInitialDir  = commandLineOptions.startupDirs[tabIndex].empty() && tabSettings.tabDataVector[i]->strInitialDir.empty() ? commandLineOptions.strWorkingDir : commandLineOptions.startupDirs[tabIndex];
-					consoleOptions.strInitialCmd  = commandLineOptions.startupCmds[tabIndex];
-					consoleOptions.dwBasePriority = commandLineOptions.basePriorities[tabIndex];
+					consoleOptions.strTitle          = commandLineOptions.startupTabTitles[tabIndex];
 
-					consoleOptions.strEnvironment = commandLineOptions.strEnvironment;
+					// startup directory choice (by descending order of priority):
+					// 1 - ConsoleZ command line startup tab dir (-d)
+					// 2 - Tab setting
+					// 3 - ConsoleZ command line working dir (-cwd)
+					// 4 - Settings global initial dir
+					consoleOptions.strInitialDir     = commandLineOptions.startupDirs[tabIndex].empty() && tabSettings.tabDataVector[i]->strInitialDir.empty() ? commandLineOptions.strWorkingDir : commandLineOptions.startupDirs[tabIndex];
+
+					consoleOptions.strShellArguments = commandLineOptions.startupShellArgs[tabIndex];
+					consoleOptions.dwBasePriority    = commandLineOptions.basePriorities[tabIndex];
+
+					consoleOptions.strEnvironment    = commandLineOptions.strEnvironment;
 
 					if (CreateNewConsole(
 						static_cast<DWORD>(i),

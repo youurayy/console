@@ -39,7 +39,7 @@ struct CommandLineOptions
 		, startupTabs()
 		, startupTabTitles()
 		, startupDirs()
-		, startupCmds()
+		, startupShellArgs()
 		, basePriorities()
 		, nMultiStartSleep(0)
 		, visibility(ShowHideWindowAction::SHWA_DONOTHING)
@@ -53,7 +53,7 @@ struct CommandLineOptions
 	std::vector<std::wstring> startupTabs;
 	std::vector<std::wstring> startupTabTitles;
 	std::vector<std::wstring> startupDirs;
-	std::vector<std::wstring> startupCmds;
+	std::vector<std::wstring> startupShellArgs;
 	std::vector<DWORD> basePriorities;
 	int nMultiStartSleep;
 	ShowHideWindowAction visibility;

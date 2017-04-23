@@ -99,6 +99,9 @@
     <None Include="html\settings_appearance_controls.html">
       <Filter>Help Files\html</Filter>
     </None>
+    <None Include="html\workspaces.html">
+      <Filter>Help Files\html</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Help Files">

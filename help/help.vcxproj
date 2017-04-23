@@ -39,6 +39,7 @@
     <None Include="html\snippets.html" />
     <None Include="html\text_formatting.html" />
     <None Include="html\tips_tricks.html" />
+    <None Include="html\workspaces.html" />
     <None Include="makefile" />
     <None Include="styles\help.css" />
   </ItemGroup>
