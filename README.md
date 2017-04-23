@@ -23,6 +23,7 @@ This fork supports:
 * High DPI (per monitor)
 * Localization
 * Snippets
+* Workspaces
 * and more...
 
 Downloads
