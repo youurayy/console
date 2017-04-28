@@ -212,7 +212,12 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 				{
 					ConsoleOptions consoleOptions;
 
-					consoleOptions.strInitialDir = g_settingsHandler->GetConsoleSettings().strInitialDir;
+					// startup directory choice (by descending order of priority):
+					// 1 - ConsoleZ command line startup tab dir (-d)
+					// 2 - Tab setting
+					// 3 - ConsoleZ command line working dir (-cwd)
+					// 4 - Settings global initial dir
+					consoleOptions.strInitialDir = commandLineOptions.strWorkingDir;
 
 					if (commandLineOptions.startupDirs.size() > 0 && commandLineOptions.startupDirs[0].length() > 0)
 					{
@@ -230,11 +235,9 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 						strShell	= tabData->get()->strShell;
 					}
 
-					consoleOptions.strInitialCmd = commandLineOptions.strWorkingDir;
-
-					if (commandLineOptions.startupCmds.size() > 0 && commandLineOptions.startupCmds[0].length() > 0)
+					if (commandLineOptions.startupShellArgs.size() > 0 && commandLineOptions.startupShellArgs[0].length() > 0)
 					{
-						consoleOptions.strInitialCmd = commandLineOptions.startupCmds[0];
+						consoleOptions.strShellArguments = commandLineOptions.startupShellArgs[0];
 					}
 
 					if (commandLineOptions.basePriorities.size() > 0)

@@ -118,6 +118,11 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 	{
 		ConsoleOptions consoleOptions;
 
+		// startup directory choice (by descending order of priority):
+		// 1 - ConsoleZ command line startup tab dir (-d)
+		// 2 - Tab setting
+		// 3 - ConsoleZ command line working dir (-cwd)
+		// 4 - Settings global initial dir
 		consoleOptions.strInitialDir = m_consoleSettings.strInitialDir;
 
 		if (m_consoleOptions.strInitialDir.length() > 0)
@@ -139,7 +144,7 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 		UserCredentials* userCredentials = consoleViewCreate->u.userCredentials;
 
 		consoleOptions.strTitle = m_tabDataShell->strTitle;
-		consoleOptions.strInitialCmd = m_consoleOptions.strInitialCmd;
+		consoleOptions.strShellArguments = m_consoleOptions.strShellArguments;
 		consoleOptions.strEnvironment = m_consoleOptions.strEnvironment;
 		consoleOptions.dwBasePriority = m_consoleOptions.dwBasePriority == ULONG_MAX ? m_tabDataShell->dwBasePriority : m_consoleOptions.dwBasePriority;
 
@@ -3643,7 +3648,7 @@ bool ConsoleView::SaveWorkspace(CComPtr<IXMLDOMElement>& pViewElement)
 {
 	XmlHelper::SetAttribute(pViewElement, CComBSTR(L"Title"), m_tabDataShell->strTitle);
 	XmlHelper::SetAttribute(pViewElement, CComBSTR(L"CurrentDirectory"), this->GetConsoleHandler().GetCurrentDirectory());
-	XmlHelper::SetAttribute(pViewElement, CComBSTR(L"InitialCommand"), this->GetInitialCommand());
+	XmlHelper::SetAttribute(pViewElement, CComBSTR(L"ShellArguments"), this->GetShellArguments());
 	DWORD dwBasePriority = this->GetBasePriority();
 	if( dwBasePriority != ULONG_MAX )
 		XmlHelper::SetAttribute(pViewElement, CComBSTR(L"BasePriority"), std::wstring(TabData::PriorityToString(dwBasePriority)));

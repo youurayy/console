@@ -194,7 +194,7 @@ class ConsoleView
 
 		inline DWORD GetBasePriority() const { return m_consoleOptions.dwBasePriority; }
 		inline const std::wstring& GetEnvironment() const { return m_consoleOptions.strEnvironment; }
-		inline const std::wstring& GetInitialCommand() const { return m_consoleOptions.strInitialCmd; }
+		inline const std::wstring& GetShellArguments() const { return m_consoleOptions.strShellArguments; }
 
 		void DoScroll(int nType, int nScrollCode, int nThumbPos);
 

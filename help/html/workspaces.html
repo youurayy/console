@@ -289,11 +289,11 @@
 				</td>
 			</tr>
 			<tr>
-				<td>InitialCommand</td>
+				<td>ShellArguments</td>
 				<td>
 					Optional attribute.<br />
 					<br />
-					Appends command to the startup shell command line. Do not confuse whith a command that you type in the shell! By default, empty.
+					Appends arguments to the shell command line. Do not confuse whith a command that you type in the shell! By default, empty.
 				</td>
 			</tr>
 			<tr>
@@ -369,22 +369,22 @@
   </span><span class="sc1">&lt;Tab</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabA"</span><span class="sc8"> </span><span class="sc3">Name</span><span class="sc8">=</span><span class="sc6">"first"</span><span class="sc1">&gt;</span><span class="sc0">
     </span><span class="sc1">&lt;SplitView</span><span class="sc8"> </span><span class="sc3">Type</span><span class="sc8">=</span><span class="sc6">"Horizontal"</span><span class="sc8"> </span><span class="sc3">Ratio</span><span class="sc8">=</span><span class="sc6">"30"</span><span class="sc1">&gt;</span><span class="sc0">
       </span><span class="sc1">&lt;Pane0&gt;</span><span class="sc0">
-        </span><span class="sc1">&lt;View</span><span class="sc8">  </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabA"</span><span class="sc8"> </span><span class="sc3">CurrentDirectory</span><span class="sc8">=</span><span class="sc6">"G:\gitstuff\console.git\Console"</span><span class="sc8"> </span><span class="sc3">InitialCommand</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc8"> </span><span class="sc0">
+        </span><span class="sc1">&lt;View</span><span class="sc8">  </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabA"</span><span class="sc8"> </span><span class="sc3">CurrentDirectory</span><span class="sc8">=</span><span class="sc6">"G:\gitstuff\console.git\Console"</span><span class="sc8"> </span><span class="sc3">ShellArguments</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc8"> </span><span class="sc0">
       </span><span class="sc1">&lt;/Pane0&gt;</span><span class="sc0">
       </span><span class="sc1">&lt;Pane1&gt;</span><span class="sc0">
         </span><span class="sc1">&lt;SplitView</span><span class="sc8"> </span><span class="sc3">Type</span><span class="sc8">=</span><span class="sc6">"Vertical"</span><span class="sc8"> </span><span class="sc3">Ratio</span><span class="sc8">=</span><span class="sc6">"50"</span><span class="sc1">&gt;</span><span class="sc0">
           </span><span class="sc1">&lt;Pane0&gt;</span><span class="sc0">
-            </span><span class="sc1">&lt;View</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabA"</span><span class="sc8"> </span><span class="sc3">CurrentDirectory</span><span class="sc8">=</span><span class="sc6">"%AppData%\Console"</span><span class="sc8"> </span><span class="sc3">InitialCommand</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc8"> </span><span class="sc0">
+            </span><span class="sc1">&lt;View</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabA"</span><span class="sc8"> </span><span class="sc3">CurrentDirectory</span><span class="sc8">=</span><span class="sc6">"%AppData%\Console"</span><span class="sc8"> </span><span class="sc3">ShellArguments</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc8"> </span><span class="sc0">
           </span><span class="sc1">&lt;/Pane0&gt;</span><span class="sc0">
           </span><span class="sc1">&lt;Pane1&gt;</span><span class="sc0">
-            </span><span class="sc1">&lt;View</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabC"</span><span class="sc8"> </span><span class="sc8"> </span><span class="sc3">InitialCommand</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc8"> </span><span class="sc3">BasePriority</span><span class="sc8">=</span><span class="sc6">"BelowNormal"</span><span class="sc11">/&gt;</span><span class="sc0">
+            </span><span class="sc1">&lt;View</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabC"</span><span class="sc8"> </span><span class="sc8"> </span><span class="sc3">ShellArguments</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc8"> </span><span class="sc3">BasePriority</span><span class="sc8">=</span><span class="sc6">"BelowNormal"</span><span class="sc11">/&gt;</span><span class="sc0">
           </span><span class="sc1">&lt;/Pane1&gt;</span><span class="sc0">
         </span><span class="sc1">&lt;/SplitView&gt;</span><span class="sc0">
       </span><span class="sc1">&lt;/Pane1&gt;</span><span class="sc0">
     </span><span class="sc1">&lt;/SplitView&gt;</span><span class="sc0">
   </span><span class="sc1">&lt;/Tab&gt;</span><span class="sc0">
   </span><span class="sc1">&lt;Tab</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabB"</span><span class="sc8"> </span><span class="sc3">Name</span><span class="sc8">=</span><span class="sc6">"second"</span><span class="sc1">&gt;</span><span class="sc0">
-    </span><span class="sc1">&lt;View</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabB"</span><span class="sc8"> </span><span class="sc3">CurrentDirectory</span><span class="sc8">=</span><span class="sc6">"G:\gitstuff\console.git\Console"</span><span class="sc8"> </span><span class="sc3">InitialCommand</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc11">/&gt;</span><span class="sc0">
+    </span><span class="sc1">&lt;View</span><span class="sc8"> </span><span class="sc3">Title</span><span class="sc8">=</span><span class="sc6">"tabB"</span><span class="sc8"> </span><span class="sc3">CurrentDirectory</span><span class="sc8">=</span><span class="sc6">"G:\gitstuff\console.git\Console"</span><span class="sc8"> </span><span class="sc3">ShellArguments</span><span class="sc8">=</span><span class="sc6">""</span><span class="sc11">/&gt;</span><span class="sc0">
   </span><span class="sc1">&lt;/Tab&gt;</span><span class="sc0">
 </span><span class="sc1">&lt;/ConsoleZWorkspace&gt;</span></div>
 
