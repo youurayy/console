@@ -88,6 +88,7 @@ struct ConsoleOptions
 	ConsoleOptions()
 		: strTitle()
 		, strInitialDir()
+		, strWorkingDir()
 		, strShellArguments()
 		, strEnvironment()
 		, dwBasePriority(ULONG_MAX)
@@ -96,6 +97,7 @@ struct ConsoleOptions
 
 	std::wstring strTitle;
 	std::wstring strInitialDir;
+	std::wstring strWorkingDir;
 	std::wstring strShellArguments;
 	std::wstring strEnvironment;
 	DWORD        dwBasePriority;

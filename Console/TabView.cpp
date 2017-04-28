@@ -216,7 +216,7 @@ HWND TabView::CreateNewConsole(ConsoleViewCreate* consoleViewCreate)
 		m_dwColumns	= dwColumns;
 	}
 #endif
-	std::shared_ptr<ConsoleView> consoleView(new ConsoleView(m_mainFrame, m_hWnd, m_tabData, consoleViewCreate->m_tabDataShell, dwRows, dwColumns, consoleViewCreate->consoleOptions));
+	std::shared_ptr<ConsoleView> consoleView(new ConsoleView(m_mainFrame, m_hWnd, m_tabData, consoleViewCreate->tabDataShell, dwRows, dwColumns, consoleViewCreate->consoleOptions));
 	consoleView->Group(this->IsGrouped());
 	UserCredentials userCredentials;
 
@@ -549,19 +549,18 @@ void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
 
 	std::shared_ptr<ConsoleView> activeConsoleView = GetActiveConsole(_T(__FUNCTION__));
 
-	if( g_settingsHandler->GetBehaviorSettings2().cloneSettings.bUseCurrentDirectory )
-	{
-		strCurrentDirectory = activeConsoleView->GetConsoleHandler().GetCurrentDirectory();
-	}
-
 	if( multisplitClass::defaultFocusPane && multisplitClass::defaultFocusPane->window )
 	{
 		ConsoleViewCreate consoleViewCreate;
 		consoleViewCreate.type = ConsoleViewCreate::CREATE;
 		consoleViewCreate.u.userCredentials = nullptr;
-		consoleViewCreate.consoleOptions.strInitialDir = strCurrentDirectory;
-		consoleViewCreate.consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
-		consoleViewCreate.m_tabDataShell = activeConsoleView->GetTabData();
+		consoleViewCreate.consoleOptions = activeConsoleView->GetOptions();
+		consoleViewCreate.tabDataShell   = activeConsoleView->GetTabData();
+
+		if (g_settingsHandler->GetBehaviorSettings2().cloneSettings.bUseCurrentDirectory)
+		{
+			consoleViewCreate.consoleOptions.strInitialDir = activeConsoleView->GetConsoleHandler().GetCurrentDirectory();
+		}
 
 		HWND hwndConsoleView = CreateNewConsole(&consoleViewCreate);
 		if( hwndConsoleView )
@@ -1120,7 +1119,7 @@ bool TabView::LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* 
 				std::wstring strBasePriority;
 				XmlHelper::GetAttribute(pViewElement, CComBSTR(L"BasePriority"), strBasePriority, L"");
 				consoleViewCreate.consoleOptions.dwBasePriority = TabData::StringToPriority(strBasePriority.c_str());
-				consoleViewCreate.m_tabDataShell = tabSettings.tabDataVector[i];
+				consoleViewCreate.tabDataShell = tabSettings.tabDataVector[i];
 
 				pane->window = CreateNewConsole(&consoleViewCreate);
 				return pane->window ? true : false;

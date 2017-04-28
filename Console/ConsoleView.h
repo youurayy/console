@@ -38,7 +38,7 @@ struct ConsoleViewCreate
 
 	ConsoleOptions consoleOptions;
 
-	std::shared_ptr<TabData> m_tabDataShell;
+	std::shared_ptr<TabData> tabDataShell;
 
 	CComPtr<IXMLDOMElement> pTabElement;
 };
@@ -193,8 +193,8 @@ class ConsoleView
 		void Group(bool b) { m_boolIsGrouped = b; }
 
 		inline DWORD GetBasePriority() const { return m_consoleOptions.dwBasePriority; }
-		inline const std::wstring& GetEnvironment() const { return m_consoleOptions.strEnvironment; }
 		inline const std::wstring& GetShellArguments() const { return m_consoleOptions.strShellArguments; }
+		inline const ConsoleOptions& GetOptions() const { return m_consoleOptions; }
 
 		void DoScroll(int nType, int nScrollCode, int nThumbPos);
 

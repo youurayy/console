@@ -291,10 +291,9 @@ LRESULT MainFrame::CreateInitialTabs
 			// startup directory choice (by descending order of priority):
 			// 1 - ConsoleZ command line startup tab dir (-d)
 			// 2 - Tab setting
-			// 3 - ConsoleZ command line working dir (-cwd)
-			// 4 - Settings global initial dir
-			if( consoleOptions.strInitialDir.empty() && tabSettings.tabDataVector[0]->strInitialDir.empty() )
-				consoleOptions.strInitialDir = commandLineOptions.strWorkingDir;
+			// 3 - Settings global initial dir
+			// 4 - ConsoleZ command line working dir (-cwd)
+			consoleOptions.strWorkingDir  = commandLineOptions.strWorkingDir;
 
 			consoleOptions.dwBasePriority = commandLineOptions.basePriorities.size() > 0? commandLineOptions.basePriorities[0] : tabSettings.tabDataVector[0]->dwBasePriority;
 
@@ -333,10 +332,10 @@ LRESULT MainFrame::CreateInitialTabs
 					// startup directory choice (by descending order of priority):
 					// 1 - ConsoleZ command line startup tab dir (-d)
 					// 2 - Tab setting
-					// 3 - ConsoleZ command line working dir (-cwd)
-					// 4 - Settings global initial dir
-					consoleOptions.strInitialDir     = commandLineOptions.startupDirs[tabIndex].empty() && tabSettings.tabDataVector[i]->strInitialDir.empty() ? commandLineOptions.strWorkingDir : commandLineOptions.startupDirs[tabIndex];
-
+					// 3 - Settings global initial dir
+					// 4 - ConsoleZ command line working dir (-cwd)
+					consoleOptions.strInitialDir     = commandLineOptions.startupDirs[tabIndex];
+					consoleOptions.strWorkingDir     = commandLineOptions.strWorkingDir;
 					consoleOptions.strShellArguments = commandLineOptions.startupShellArgs[tabIndex];
 					consoleOptions.dwBasePriority    = commandLineOptions.basePriorities[tabIndex];
 
@@ -2658,19 +2657,16 @@ LRESULT MainFrame::OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 	std::shared_ptr<TabData> tabData = activeConsoleView->GetTabData();
 	if( !tabData->bCloneable ) return 0;
 
-	std::wstring strCurrentDirectory(L"");
-
-	if( g_settingsHandler->GetBehaviorSettings2().cloneSettings.bUseCurrentDirectory )
-	{
-		strCurrentDirectory = activeConsoleView->GetConsoleHandler().GetCurrentDirectory();
-	}
-
 	ConsoleViewCreate consoleViewCreate;
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
 
-	consoleViewCreate.consoleOptions.strInitialDir = strCurrentDirectory;
-	consoleViewCreate.consoleOptions.dwBasePriority = activeConsoleView->GetBasePriority();
+	consoleViewCreate.consoleOptions = activeConsoleView->GetOptions();
+
+	if (g_settingsHandler->GetBehaviorSettings2().cloneSettings.bUseCurrentDirectory)
+	{
+		consoleViewCreate.consoleOptions.strInitialDir = activeConsoleView->GetConsoleHandler().GetCurrentDirectory();
+	}
 
 	CreateNewConsole(&consoleViewCreate, tabData);
 

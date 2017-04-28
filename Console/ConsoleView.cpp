@@ -121,10 +121,8 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 		// startup directory choice (by descending order of priority):
 		// 1 - ConsoleZ command line startup tab dir (-d)
 		// 2 - Tab setting
-		// 3 - ConsoleZ command line working dir (-cwd)
-		// 4 - Settings global initial dir
-		consoleOptions.strInitialDir = m_consoleSettings.strInitialDir;
-
+		// 3 - Settings global initial dir
+		// 4 - ConsoleZ command line working dir (-cwd)
 		if (m_consoleOptions.strInitialDir.length() > 0)
 		{
 			consoleOptions.strInitialDir = m_consoleOptions.strInitialDir;
@@ -132,6 +130,14 @@ LRESULT ConsoleView::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, B
 		else if (m_tabDataShell->strInitialDir.length() > 0)
 		{
 			consoleOptions.strInitialDir = m_tabDataShell->strInitialDir;
+		}
+		else if (m_consoleSettings.strInitialDir.length() > 0)
+		{
+			consoleOptions.strInitialDir = m_consoleSettings.strInitialDir;
+		}
+		else
+		{
+			consoleOptions.strInitialDir = m_consoleOptions.strWorkingDir;
 		}
 
 		wstring	strShell(m_consoleSettings.strShell);
