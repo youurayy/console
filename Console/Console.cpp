@@ -206,6 +206,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 			TabSettings& tabSettings = g_settingsHandler->GetTabSettings();
 
 			// find tab with corresponding name...
+			bool found = false;
 			for (auto tabData = tabSettings.tabDataVector.begin(); tabData != tabSettings.tabDataVector.end(); ++tabData)
 			{
 				if (tabData->get()->strTitle == commandLineOptions.startupTabs[0])
@@ -261,9 +262,17 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 						return 1;
 					}
 
+					found = true;
 					break;
 				}
 			}
+
+			if( !found )
+				MessageBox(
+					NULL,
+					boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_UNDEFINED_TAB)) % commandLineOptions.startupTabs[0]).c_str(),
+					Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
+					MB_ICONERROR | MB_OK);
 
       return 0;
     }

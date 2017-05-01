@@ -1126,6 +1126,11 @@ bool TabView::LoadWorkspace(CComPtr<IXMLDOMElement>& pElement, CMultiSplitPane* 
 			}
 		}
 
+		MessageBox(
+			boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_UNDEFINED_TAB)) % strTitle).c_str(),
+			Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
+			MB_ICONERROR | MB_OK);
+
 		return false;
 	}
 

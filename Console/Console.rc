@@ -965,6 +965,7 @@ BEGIN
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% is not a Win32 console application!"
     IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
     IDS_ERR_XML_PARSING "XML parsing error (%1$#x) in file %2% on line %3% at column %4%: %5%"
+    IDS_ERR_UNDEFINED_TAB "%1%: undefined tab"
 END
 
 STRINGTABLE

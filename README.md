@@ -39,6 +39,11 @@ Changelog
     + added
     * fixed
 
+Changes in future version
+
+    ! Display an error dialog when seeking settings of an undefined tab.
+    * Fix startup directory consistency.
+
 Changes in 1.18.1 (27 Mar 2017)
 
     + Transparency settings per windowed/full screen mode.

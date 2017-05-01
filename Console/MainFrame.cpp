@@ -318,6 +318,7 @@ LRESULT MainFrame::CreateInitialTabs
 		for (size_t tabIndex = 0; tabIndex < commandLineOptions.startupTabs.size(); ++tabIndex)
 		{
 			// find tab with corresponding name...
+			bool found = false;
 			for (size_t i = 0; i < tabSettings.tabDataVector.size(); ++i)
 			{
 				if (tabSettings.tabDataVector[i]->strTitle == commandLineOptions.startupTabs[tabIndex])
@@ -347,9 +348,17 @@ LRESULT MainFrame::CreateInitialTabs
 					{
 						bAtLeastOneStarted = true;
 					}
+
+					found = true;
 					break;
 				}
 			}
+
+			if( !found )
+				MessageBox(
+					boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_UNDEFINED_TAB)) % commandLineOptions.startupTabs[tabIndex]).c_str(),
+					Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
+					MB_ICONERROR | MB_OK);
 		}
 	}
 
@@ -5583,6 +5592,7 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 		TabSettings& tabSettings = g_settingsHandler->GetTabSettings();
 
 		// find tab with corresponding name...
+		bool found = false;
 		for( size_t i = 0; i < tabSettings.tabDataVector.size(); ++i )
 		{
 			if( tabSettings.tabDataVector[i]->strTitle == strTabTitle )
@@ -5599,9 +5609,16 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 				if( CreateNewConsole(&consoleViewCreate, tabData) ) bAtLeastOneStarted = true;
 
+				found = true;
 				break;
 			}
 		}
+
+		if( !found )
+			MessageBox(
+				boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_UNDEFINED_TAB)) % strTabTitle).c_str(),
+				Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
+				MB_ICONERROR | MB_OK);
 	}
 
 	return bAtLeastOneStarted;
