@@ -995,6 +995,11 @@ void MainFrame::ShowHideWindow(ShowHideWindowAction action /*= ShowHideWindowAct
   {
     PostMessage(WM_ACTIVATEAPP, TRUE, 0);
 
+#if 0
+		// "Annoying" behavior has been disabled.
+		// When application is activated by global hotkey or systray
+		// mouse cursor is moved inside ConsoleZ window
+
     POINT	cursorPos;
     CRect	windowRect;
 
@@ -1005,6 +1010,7 @@ void MainFrame::ShowHideWindow(ShowHideWindowAction action /*= ShowHideWindowAct
     if ((cursorPos.y < windowRect.top) || (cursorPos.y > windowRect.bottom)) cursorPos.y = windowRect.top + windowRect.Height()/2;
 
     ::SetCursorPos(cursorPos.x, cursorPos.y);
+#endif
     ::SetForegroundWindow(m_hWnd);
   }
 
