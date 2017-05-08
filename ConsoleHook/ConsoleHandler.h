@@ -136,6 +136,7 @@ class ConsoleHandler
 
 		wchar_t                           m_szConsoleTitle[1024];
 		wchar_t                           m_szCurrentDirectory[_MAX_PATH];
+		DWORD                             m_dwLastAttachedPID;
 
 		DWORD                             m_dwWaitingTime;
 		std::chrono::system_clock::time_point m_timePoint;

@@ -29,6 +29,7 @@ ConsoleHandler::ConsoleHandler()
 , m_hMonitorThread()
 , m_hMonitorThreadExit(std::shared_ptr<void>(::CreateEvent(NULL, FALSE, FALSE, NULL), ::CloseHandle))
 , m_dwScreenBufferSize(0)
+, m_dwLastAttachedPID(0)
 , m_dwWaitingTime(INFINITE)
 , m_timePoint(std::chrono::system_clock::now())
 , m_hStdOut(true)
@@ -332,21 +333,43 @@ void ConsoleHandler::RealReadConsoleBuffer()
 		m_consoleInfo->progressChanged  = true;
 	}
 
-	// compare current directory
-	wchar_t szCurrentDirectory[_MAX_PATH];
-	szCurrentDirectory[0] = 0;
-	DWORD len = ::GetCurrentDirectory(_MAX_PATH, szCurrentDirectory);
-	if( len >= _MAX_PATH )
-		// truncated
-		szCurrentDirectory[0] = 0;
-	if( wcscmp(szCurrentDirectory, m_szCurrentDirectory) )
+	if (!m_consoleInfo->titleChanged)
 	{
-		::memcpy(m_szCurrentDirectory, szCurrentDirectory, _MAX_PATH);
-		somethingChanged = true;
+		// compare current directory
+		wchar_t szCurrentDirectory[_MAX_PATH];
+		szCurrentDirectory[0] = 0;
+		DWORD len = ::GetCurrentDirectory(_MAX_PATH, szCurrentDirectory);
+		if (len >= _MAX_PATH)
+			// truncated
+			szCurrentDirectory[0] = 0;
+		if (wcscmp(szCurrentDirectory, m_szCurrentDirectory))
+		{
+			::memcpy(m_szCurrentDirectory, szCurrentDirectory, _MAX_PATH);
+			somethingChanged = true;
 
-		// only ConsoleZ sets the flags to false
-		m_consoleInfo->titleChanged = true;
+			// only ConsoleZ sets the flags to false
+			m_consoleInfo->titleChanged = true;
+		}
 	}
+
+	if (!m_consoleInfo->titleChanged)
+	{
+		// compare last process ID attached to the console
+		DWORD lpdwProcessList[256];
+		DWORD dwProcessCount = ::GetConsoleProcessList(lpdwProcessList, 256);
+		if (dwProcessCount > 0 && dwProcessCount < 256)
+		{
+			if (lpdwProcessList[dwProcessCount - 1] != m_dwLastAttachedPID)
+			{
+				m_dwLastAttachedPID = lpdwProcessList[dwProcessCount - 1];
+				somethingChanged = true;
+
+				// only ConsoleZ sets the flags to false
+				m_consoleInfo->titleChanged = true;
+			}
+		}
+	}
+
 
 	// if something changed then event is alerted
 	if(somethingChanged)

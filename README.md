@@ -43,14 +43,16 @@ Changes in future version
 
     ! Display an error dialog when seeking settings of an undefined tab.
     * Fix startup directory consistency.
+    * Fix last process ID attached to the console.
+    * Refresh tab title when last process ID attached to the console has changed.
 
 Changes in 1.18.1 (27 Mar 2017)
 
     + Transparency settings per windowed/full screen mode.
     + Print code page (for each shell) in diagnostic report.
-    * ALT-SPACE menu.
-    * "Attach Consoles" failure.
-    * Split bar size.
+    * Fix ALT-SPACE menu.
+    * Fix "Attach Consoles" failure.
+    * Fix split bar size.
     * Start a safe console when no console started.
     * Standardize hotkeys modifiers and order (mouse).
 
