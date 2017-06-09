@@ -174,7 +174,6 @@ MainFrame::MainFrame
 , m_bStatusBarVisible(true)
 , m_bTabsVisible     (true)
 , m_bFullScreen      (false)
-, m_bTransparencyActive(true)
 , m_dockPosition(dockNone)
 , m_zOrder(zorderNormal)
 , m_tabs()
@@ -577,7 +576,8 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 	ShowTabs(bShowTabs);
 
-	UISetCheck(ID_SWITCH_TRANSPARENCY, m_bTransparencyActive);
+	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
+	UISetCheck(ID_SWITCH_TRANSPARENCY, transparencySettings.bActive? TRUE : FALSE);
 
 	SearchSettings& searchSettings = g_settingsHandler->GetBehaviorSettings2().searchSettings;
 	UISetCheck(ID_SEARCH_MATCH_CASE, searchSettings.bMatchCase);
@@ -827,7 +827,7 @@ void MainFrame::ActivateApp(void)
 		m_activeTabView->SetAppActiveStatus(m_bAppActive);
 
 	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
-	TransparencyType transType = m_bTransparencyActive ? transparencySettings.transType : transNone;
+	TransparencyType transType = transparencySettings.bActive ? transparencySettings.transType : transNone;
 
 	if( (transType == transAlpha || transType == transAlphaAndColorKey) &&
 		 ((transparencySettings.byActiveAlpha != 255) || (transparencySettings.byInactiveAlpha != 255)) )
@@ -4736,7 +4736,7 @@ void MainFrame::SetTransparency()
 
   // set transparency
 	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
-  TransparencyType transType = m_bTransparencyActive ? transparencySettings.transType : transNone;
+  TransparencyType transType = transparencySettings.bActive ? transparencySettings.transType : transNone;
 
   // RAZ
   SetWindowLong(
@@ -5453,8 +5453,10 @@ LRESULT MainFrame::OnFind(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, 
 
 LRESULT MainFrame::OnSwitchTransparency(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	m_bTransparencyActive = !m_bTransparencyActive;
-	UISetCheck(ID_SWITCH_TRANSPARENCY, m_bTransparencyActive);
+	TransparencySettings2& transparencySettings = g_settingsHandler->GetAppearanceSettings().transparencySettings.Settings();
+	transparencySettings.bActive = !transparencySettings.bActive;
+	g_settingsHandler->SaveSettings();
+	UISetCheck(ID_SWITCH_TRANSPARENCY, transparencySettings.bActive? TRUE : FALSE);
 	SetTransparency();
 
 	return 0;

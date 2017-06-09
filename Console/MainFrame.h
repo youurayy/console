@@ -479,7 +479,6 @@ class MainFrame
 		bool m_bStatusBarVisible;
 		bool m_bTabsVisible;
 		bool m_bFullScreen;
-		bool m_bTransparencyActive;
 
 		DockPosition	m_dockPosition;
 		ZOrder			m_zOrder;

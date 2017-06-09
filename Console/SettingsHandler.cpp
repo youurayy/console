@@ -939,6 +939,7 @@ TransparencySettings2::TransparencySettings2()
 , byActiveAlpha(255)
 , byInactiveAlpha(255)
 , crColorKey(RGB(0, 0, 0))
+, bActive(true)
 {
 }
 
@@ -953,6 +954,7 @@ bool TransparencySettings2::Load(const CComPtr<IXMLDOMElement>& pTransElement)
 	XmlHelper::GetAttribute(pTransElement, CComBSTR(L"active_alpha"), byActiveAlpha, 255);
 	XmlHelper::GetAttribute(pTransElement, CComBSTR(L"inactive_alpha"), byInactiveAlpha, 255);
 	XmlHelper::GetRGBAttribute(pTransElement, crColorKey, RGB(0, 0, 0));
+	XmlHelper::GetAttribute(pTransElement, CComBSTR(L"active"), bActive, true);
 
 	return true;
 }
@@ -968,6 +970,7 @@ bool TransparencySettings2::Save(const CComPtr<IXMLDOMElement>& pTransElement)
 	XmlHelper::SetAttribute(pTransElement, CComBSTR(L"active_alpha"), byActiveAlpha);
 	XmlHelper::SetAttribute(pTransElement, CComBSTR(L"inactive_alpha"), byInactiveAlpha);
 	XmlHelper::SetRGBAttribute(pTransElement, crColorKey);
+	XmlHelper::SetAttribute(pTransElement, CComBSTR(L"active"), bActive);
 
 	return true;
 }
@@ -983,6 +986,7 @@ TransparencySettings2& TransparencySettings2::operator=(const TransparencySettin
 	byActiveAlpha   = other.byActiveAlpha;
 	byInactiveAlpha = other.byInactiveAlpha;
 	crColorKey      = other.crColorKey;
+	bActive         = other.bActive;
 
 	return *this;
 }
