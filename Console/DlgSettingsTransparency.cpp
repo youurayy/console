@@ -109,9 +109,9 @@ LRESULT DlgSettingsTransparency::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND
 		m_transparencySettings.ActiveAlpha()	= static_cast<BYTE>(255 - m_sliderActiveAlpha.GetPos());
 		m_transparencySettings.InactiveAlpha()	= static_cast<BYTE>(255 - m_sliderInactiveAlpha.GetPos());
 
-		TransparencySettings&		transparencySettings= g_settingsHandler->GetAppearanceSettings().transparencySettings;
+		TransparencySettings& transparencySettings= g_settingsHandler->GetAppearanceSettings().transparencySettings;
 
-		transparencySettings= m_transparencySettings;
+		transparencySettings = m_transparencySettings;
 
 		m_transparencySettings.Save(m_pOptionsRoot);
 	}
@@ -235,10 +235,20 @@ LRESULT DlgSettingsTransparency::OnTabItemChanged(int /*idCtrl*/, LPNMHDR /*pnmh
 	// save FULLSCREEN or WINDOWED settings
 	DoDataExchange(DDX_SAVE);
 
+	m_transparencySettings.ActiveAlpha() = static_cast<BYTE>(255 - m_sliderActiveAlpha.GetPos());
+	m_transparencySettings.InactiveAlpha() = static_cast<BYTE>(255 - m_sliderInactiveAlpha.GetPos());
+
 	// switch FULLSCREEN <-> WINDOWED
 	m_transparencySettings.bIsFullScreen = m_tabCtrl.GetCurSel() == 1;
 
 	DoDataExchange(DDX_LOAD);
+
+	m_sliderActiveAlpha.SetPos(255 - m_transparencySettings.ActiveAlpha());
+	m_sliderInactiveAlpha.SetPos(255 - m_transparencySettings.InactiveAlpha());
+
+	UpdateSliderText(m_sliderActiveAlpha.m_hWnd);
+	UpdateSliderText(m_sliderInactiveAlpha.m_hWnd);
+
 	EnableTransparencyControls();
 
 	return 0;
