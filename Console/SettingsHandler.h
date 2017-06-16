@@ -182,6 +182,7 @@ struct ControlsSettings2 : public SettingsBase
 	bool			bTabsOnBottom;
 	bool			bHideTabIcons;
 	bool			bHideTabCloseButton;
+	bool			bHideTabNewButton;
 	bool			bShowScrollbars;
 };
 
@@ -204,6 +205,7 @@ struct ControlsSettings : public SettingsBase
 	inline bool& TabsOnBottom       (void) { return bIsFullScreen? controlsFullScreen.bTabsOnBottom       : controlsWindowed.bTabsOnBottom       ; }
 	inline bool& HideTabIcons       (void) { return bIsFullScreen? controlsFullScreen.bHideTabIcons       : controlsWindowed.bHideTabIcons       ; }
 	inline bool& HideTabCloseButton (void) { return bIsFullScreen? controlsFullScreen.bHideTabCloseButton : controlsWindowed.bHideTabCloseButton ; }
+	inline bool& HideTabNewButton   (void) { return bIsFullScreen? controlsFullScreen.bHideTabNewButton   : controlsWindowed.bHideTabNewButton   ; }
 	inline bool& ShowScrollbars     (void) { return bIsFullScreen? controlsFullScreen.bShowScrollbars     : controlsWindowed.bShowScrollbars     ; }
 
 	ControlsSettings2 controlsFullScreen;

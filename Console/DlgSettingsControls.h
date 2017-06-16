@@ -31,6 +31,7 @@ class DlgSettingsControls
 			DDX_CHECK(IDC_CHECK_SHOW_SCROLLBARS, m_controlsSettings.ShowScrollbars())
 			DDX_CHECK(IDC_CHECK_HIDE_TAB_ICONS, m_controlsSettings.HideTabIcons())
 			DDX_CHECK(IDC_CHECK_HIDE_TAB_CLOSE_BUTTON, m_controlsSettings.HideTabCloseButton())
+			DDX_CHECK(IDC_CHECK_HIDE_TAB_NEW_BUTTON, m_controlsSettings.HideTabNewButton())
 		END_DDX_MAP()
 
 		BEGIN_MSG_MAP(DlgSettingsControls)

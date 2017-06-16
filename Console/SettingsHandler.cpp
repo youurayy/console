@@ -540,6 +540,7 @@ ControlsSettings2::ControlsSettings2()
 , bTabsOnBottom(false)
 , bHideTabIcons(false)
 , bHideTabCloseButton(false)
+, bHideTabNewButton(false)
 , bShowScrollbars(true)
 {
 }
@@ -560,6 +561,7 @@ bool ControlsSettings2::Load(const CComPtr<IXMLDOMElement>& pCtrlsElement)
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"tabs_on_bottom"), bTabsOnBottom, false);
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_icons"), bHideTabIcons, false);
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_close_button"), bHideTabCloseButton, false);
+	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_new_button"), bHideTabNewButton, false);
 	XmlHelper::GetAttribute(pCtrlsElement, CComBSTR(L"show_scrollbars"), bShowScrollbars, true);
 
 	return true;
@@ -581,6 +583,7 @@ bool ControlsSettings2::Save(const CComPtr<IXMLDOMElement>& pCtrlsElement)
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"tabs_on_bottom"), bTabsOnBottom);
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_icons"), bHideTabIcons);
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_close_button"), bHideTabCloseButton);
+	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"hide_tab_new_button"), bHideTabNewButton);
 	XmlHelper::SetAttribute(pCtrlsElement, CComBSTR(L"show_scrollbars"), bShowScrollbars);
 
 	return true;
@@ -602,6 +605,7 @@ ControlsSettings2& ControlsSettings2::operator=(const ControlsSettings2& other)
 	bTabsOnBottom       = other.bTabsOnBottom;
 	bHideTabIcons       = other.bHideTabIcons;
 	bHideTabCloseButton = other.bHideTabCloseButton;
+	bHideTabNewButton   = other.bHideTabNewButton;
 	bShowScrollbars     = other.bShowScrollbars;
 
 	return *this;
