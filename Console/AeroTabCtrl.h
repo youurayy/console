@@ -259,9 +259,8 @@ public:
 #endif //_DRAW_TAB_RECT
   }
 
-  void DrawItem_InitBounds(DWORD /*dwStyle*/, RECT /*rcItem*/, RECT& rcTab, RECT& rcText, int& nIconVerticalCenter)
+  void DrawItem_InitBounds(DWORD dwStyle, RECT /*rcItem*/, RECT& rcTab, RECT& rcText, int& nIconVerticalCenter)
   {
-    DWORD dwStyle = this->GetStyle();
     if (CTCS_BOTTOM == (dwStyle & CTCS_BOTTOM))
     {
       rcText.top += AERO_FRAME_BORDER_SIZE;
@@ -684,6 +683,40 @@ public:
 
   }
 
+  void DrawNewButton(LPNMCTCCUSTOMDRAW lpNMCustomDraw)
+  {
+//#ifdef _DRAW_TAB_RECT
+    Gdiplus::Color color;
+    if(ectcMouseDownL_NewTabButton == (m_dwState & ectcMouseDown))
+      color.SetValue(static_cast<Gdiplus::ARGB>(Gdiplus::Color::DarkKhaki));
+    else if(ectcMouseOver_NewTabButton == (m_dwState & ectcMouseOver))
+      color.SetValue(static_cast<Gdiplus::ARGB>(Gdiplus::Color::HotPink));
+    else
+      color.SetValue(static_cast<Gdiplus::ARGB>(Gdiplus::Color::DeepPink));
+
+    Gdiplus::Graphics g(lpNMCustomDraw->nmcd.hdc);
+    Gdiplus::Pen pen(color);
+    g.DrawRectangle(
+      &pen,
+      m_rcNewTabButton.left, m_rcNewTabButton.top,
+      m_rcNewTabButton.right - m_rcNewTabButton.left, m_rcNewTabButton.bottom - m_rcNewTabButton.top);
+
+    g.DrawLine(
+      &pen,
+      m_rcNewTabButton.left + 2,
+      m_rcNewTabButton.top + (m_rcNewTabButton.bottom - m_rcNewTabButton.top) / 2,
+      m_rcNewTabButton.right - 2,
+      m_rcNewTabButton.top + (m_rcNewTabButton.bottom - m_rcNewTabButton.top) / 2);
+
+    g.DrawLine(
+      &pen,
+      m_rcNewTabButton.left + (m_rcNewTabButton.right - m_rcNewTabButton.left) / 2,
+      m_rcNewTabButton.top + 2,
+      m_rcNewTabButton.left + (m_rcNewTabButton.right - m_rcNewTabButton.left) / 2,
+      m_rcNewTabButton.bottom - 2);
+//#endif //_DRAW_TAB_RECT
+  }
+
   void CalcSize_CloseButton(LPRECT /*prcTabItemArea*/)
   {
     DWORD dwStyle = this->GetStyle();
@@ -798,6 +831,17 @@ public:
     prcTabItemArea->right = m_rcScrollLeft.left;
   }
 
+  void CalcSize_NewTabButton(LPRECT prcTabItemArea)
+  {
+    LONG nTabAreaWidth = (prcTabItemArea->right - prcTabItemArea->left);
+    LONG nNewTabButtonWidth = (prcTabItemArea->bottom - prcTabItemArea->top) - ::GetSystemMetrics(SM_CXSMICON) / 4;
+
+    if(nTabAreaWidth >= nNewTabButtonWidth)
+    {
+      prcTabItemArea->right -= nNewTabButtonWidth;
+    }
+  }
+
   void UpdateLayout_CloseButton(RECT rcItem)
   {
     if( m_Items.GetCount() < 1 )
@@ -846,6 +890,11 @@ public:
     HFONT hOldFont = dc.SelectFont(m_font);
 
     LONG nTabAreaWidth = (rcTabItemArea.right - rcTabItemArea.left);
+    LONG nNewTabButtonWidth = (rcTabItemArea.bottom - rcTabItemArea.top) - ::GetSystemMetrics(SM_CXSMICON) / 4;
+
+    DWORD dwStyle = this->GetStyle();
+    if( 0 == (dwStyle & CTCS_NEWTABBUTTON) || nTabAreaWidth < nNewTabButtonWidth )
+      nNewTabButtonWidth = 0;
 
     RECT rcItem = rcTabItemArea;
     // rcItem.top and rcItem.bottom aren't really going to change
@@ -911,6 +960,19 @@ public:
         }
       }
     }
+
+    if(nNewTabButtonWidth > 0)
+    {
+      m_rcNewTabButton.top = rcTabItemArea.top;
+      m_rcNewTabButton.bottom = rcTabItemArea.bottom;
+      m_rcNewTabButton.left = xpos;
+      m_rcNewTabButton.right = xpos + nNewTabButtonWidth;
+    }
+    else
+    {
+      ::SetRectEmpty(&m_rcNewTabButton);
+    }
+
     xpos += m_settings.iIndent;
 
     if(xpos > nTabAreaWidth && nCount > 0 && m_iCurSel >= 0)
@@ -952,6 +1014,10 @@ public:
           if((int)i == m_iCurSel)
           {
             rcItem.right += (rcItemDesired.right - rcItemDesired.left);
+
+            // close button
+            m_rcCloseButton.right = rcItem.right - m_settings.iMargin;
+            m_rcCloseButton.left = m_rcCloseButton.right - m_iCloseButtonWidth;
           }
           else
           {
@@ -981,15 +1047,50 @@ public:
           rcItem.right += cxItem;
           m_Items[i]->SetRect(rcItem);
           xpos += (rcItem.right-rcItem.left);
+
+          // close button
+          bool bSelected = ((int)i == m_iCurSel);
+          if( bSelected )
+          {
+            m_rcCloseButton.right = rcItem.right - m_settings.iMargin;
+            m_rcCloseButton.left = m_rcCloseButton.right - m_iCloseButtonWidth;
+          }
         }
+      }
+
+      if( nNewTabButtonWidth > 0 )
+      {
+        m_rcNewTabButton.top = rcTabItemArea.top;
+        m_rcNewTabButton.bottom = rcTabItemArea.bottom;
+        m_rcNewTabButton.left = xpos;
+        m_rcNewTabButton.right = xpos + nNewTabButtonWidth;
+      }
+      else
+      {
+        ::SetRectEmpty(&m_rcNewTabButton);
       }
     }
 
     dc.SelectFont(hOldFont);
+
+    if(CTCS_NEWTABBUTTON == (dwStyle & CTCS_NEWTABBUTTON))
+    {
+      if(m_tooltip.IsWindow())
+      {
+        m_tooltip.SetToolRect(m_hWnd, (UINT)ectcToolTip_NewTab, &m_rcNewTabButton);
+      }
+    }
   }
 
   void UpdateLayout_ScrollToFit(RECT rcTabItemArea)
   {
+    LONG nTabAreaWidth = (rcTabItemArea.right - rcTabItemArea.left);
+    LONG nNewTabButtonWidth = (rcTabItemArea.bottom - rcTabItemArea.top) - ::GetSystemMetrics(SM_CXSMICON) / 4;
+
+    DWORD dwStyle = this->GetStyle();
+    if(0 == (dwStyle & CTCS_NEWTABBUTTON) || nTabAreaWidth < nNewTabButtonWidth)
+      nNewTabButtonWidth = 0;
+
     // When we scroll to fit, we ignore what's passed in for the
     // tab item area rect, and use the client rect instead
     RECT rcClient;
@@ -1048,6 +1149,19 @@ public:
         hRestoreNormalFont = NULL;
       }
     }
+
+    if( nNewTabButtonWidth > 0 )
+    {
+      m_rcNewTabButton.top = rcClient.top;
+      m_rcNewTabButton.bottom = rcClient.bottom;
+      m_rcNewTabButton.left = rcClient.left + xpos;
+      m_rcNewTabButton.right = rcClient.left + xpos + nNewTabButtonWidth;
+    }
+    else
+    {
+      ::SetRectEmpty(&m_rcNewTabButton);
+    }
+
     xpos += m_settings.iIndent;
 
     // If we've been scrolled to the left, and resize so
@@ -1060,6 +1174,22 @@ public:
     this->UpdateScrollOverflowStatus();
 
     dc.SelectFont(hOldFont);
+
+    if(CTCS_NEWTABBUTTON == (dwStyle & CTCS_NEWTABBUTTON))
+    {
+      ::OffsetRect(&m_rcNewTabButton, m_iScrollOffset, 0);
+
+      if(m_rcNewTabButton.left > rcTabItemArea.right)
+      {
+        m_rcNewTabButton.left = rcTabItemArea.right;
+        m_rcNewTabButton.right = rcTabItemArea.right + nNewTabButtonWidth;
+      }
+
+      if( m_tooltip.IsWindow() )
+      {
+        m_tooltip.SetToolRect(m_hWnd, (UINT)ectcToolTip_NewTab, &m_rcNewTabButton);
+      }
+    }
 
     ::OffsetRect(&m_rcCloseButton, m_iScrollOffset, 0);
     if( m_rcCloseButton.right > rcTabItemArea.right )

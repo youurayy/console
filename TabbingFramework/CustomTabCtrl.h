@@ -236,6 +236,7 @@
 #define CTCS_TOOLTIPS            0x4000   // TCS_TOOLTIPS
 //#define CTCS_FOCUSNEVER          0x8000   // TCS_FOCUSNEVER
 #define CTCS_CLOSELASTTAB        0x10000
+#define CTCS_NEWTABBUTTON        0x20000
 
 // Notifications:
 
@@ -252,6 +253,7 @@
 #define CTCN_MOVEITEM           (TCN_FIRST - 13)
 #define CTCN_SWAPITEMPOSITIONS  (TCN_FIRST - 14)
 #define CTCN_CLOSE              (TCN_FIRST - 15)
+#define CTCN_NEWTAB             (TCN_FIRST - 16)
 #define CTCN_BEGINITEMDRAG      (TCN_FIRST - 21)
 #define CTCN_ACCEPTITEMDRAG     (TCN_FIRST - 22)
 #define CTCN_CANCELITEMDRAG     (TCN_FIRST - 23)
@@ -266,6 +268,7 @@
 #define CTCHT_ONCLOSEBTN         0x0010
 #define CTCHT_ONSCROLLRIGHTBTN   0x0020
 #define CTCHT_ONSCROLLLEFTBTN    0x0040
+#define CTCHT_ONNEWTABBTN        0x0080
 
 // Find Item flags
 #define CTFI_NONE                0x0000
@@ -811,6 +814,7 @@ protected:
 	RECT m_rcScrollLeft;
 	RECT m_rcScrollRight;
 	RECT m_rcCloseButton;
+	RECT m_rcNewTabButton;
 
 	int m_iDragItem;
 	int m_iDragItemOriginal;
@@ -873,7 +877,8 @@ protected:
 		ectcHotTrack_CloseButton  = 0x00010000,
 		ectcHotTrack_ScrollRight  = 0x00020000,
 		ectcHotTrack_ScrollLeft   = 0x00030000,
-		ectcHotTrack_TabItem      = 0x00040000,
+		ectcHotTrack_NewTabButton = 0x00040000,
+		ectcHotTrack_TabItem      = 0x00050000,
 
 		// Mouse Down
 		// bits                    = 0x00f00000
@@ -881,12 +886,14 @@ protected:
 		ectcMouseDownL_CloseButton = 0x00100000,
 		ectcMouseDownL_ScrollRight = 0x00200000,
 		ectcMouseDownL_ScrollLeft  = 0x00300000,
-		ectcMouseDownL_TabItem     = 0x00400000,
+		ectcMouseDownL_NewTabButton= 0x00400000,
+		ectcMouseDownL_TabItem     = 0x00500000,
 
 		ectcMouseDownR_CloseButton = 0x00900000,
 		ectcMouseDownR_ScrollRight = 0x00a00000,
 		ectcMouseDownR_ScrollLeft  = 0x00b00000,
-		ectcMouseDownR_TabItem     = 0x00c00000,
+		ectcMouseDownR_NewTabButton= 0x00c00000,
+		ectcMouseDownR_TabItem     = 0x00d00000,
 
 		// Mouse Over
 		// bits                   = 0x0f000000
@@ -894,7 +901,8 @@ protected:
 		ectcMouseOver_CloseButton = 0x01000000,
 		ectcMouseOver_ScrollRight = 0x02000000,
 		ectcMouseOver_ScrollLeft  = 0x03000000,
-		ectcMouseOver_TabItem     = 0x04000000,
+		ectcMouseOver_NewTabButton= 0x04000000,
+		ectcMouseOver_TabItem     = 0x05000000,
 	};
 
 	enum ButtonToolTipIDs
@@ -902,6 +910,7 @@ protected:
 		ectcToolTip_Close         = 0xFFFFFFF0,
 		ectcToolTip_ScrollRight   = 0xFFFFFFF1,
 		ectcToolTip_ScrollLeft    = 0xFFFFFFF2,
+		ectcToolTip_NewTab        = 0xFFFFFFF3,
 	};
 
 	enum TimerIDs
@@ -939,6 +948,7 @@ public:
 		::SetRectEmpty(&m_rcCloseButton);
 		::SetRectEmpty(&m_rcScrollLeft);
 		::SetRectEmpty(&m_rcScrollRight);
+		::SetRectEmpty(&m_rcNewTabButton);
 
 		m_dwState |=  ((40 << ectcScrollDeltaShift) & ectcScrollDeltaMask);
 		m_dwState |=  ectcScrollRepeat_Normal;
@@ -1003,6 +1013,13 @@ protected:
 				this->InvalidateRect(&m_rcScrollLeft);
 			}
 			break;
+		case ectcHotTrack_NewTabButton:
+			m_dwState &= ~ectcHotTrack;
+			if( bRedrawEffectedArea )
+			{
+				this->InvalidateRect(&m_rcNewTabButton);
+			}
+			break;
 		case ectcHotTrack_TabItem:
 			m_dwState &= ~ectcHotTrack;
 			m_iHotItem = -1;
@@ -1051,6 +1068,14 @@ protected:
 			if(bRedrawEffectedArea)
 			{
 				this->InvalidateRect(&m_rcScrollLeft);
+			}
+			break;
+		case ectcMouseDownL_NewTabButton:
+		case ectcMouseDownR_NewTabButton:
+			m_dwState &= ~ectcMouseDown;
+			if( bRedrawEffectedArea )
+			{
+				this->InvalidateRect(&m_rcNewTabButton);
 			}
 			break;
 		case ectcMouseDownL_TabItem:
@@ -1104,6 +1129,13 @@ protected:
 			if(bRedrawEffectedArea)
 			{
 				this->InvalidateRect(&m_rcScrollLeft);
+			}
+			break;
+		case ectcMouseOver_NewTabButton:
+			m_dwState &= ~ectcMouseOver;
+			if( bRedrawEffectedArea )
+			{
+				this->InvalidateRect(&m_rcNewTabButton);
 			}
 			break;
 		case ectcMouseOver_TabItem:
@@ -1559,6 +1591,39 @@ public:
 				}
 			}
 
+			if(boolHitNotFound && ::PtInRect(&m_rcNewTabButton, ptCursor))
+			{
+				boolHitNotFound = false;
+				if(ectcMouseOver_NewTabButton != (m_dwState & ectcMouseOver))
+				{
+					this->ClearCurrentMouseOverTracking(true);
+					m_dwState |= ectcMouseOver_NewTabButton;
+
+					if(ectcMouseDownL_NewTabButton == (m_dwState & ectcMouseDown))
+					{
+						this->InvalidateRect(&m_rcNewTabButton);
+					}
+				}
+				else if(0 == (m_dwState & ectcMouseDown) &&
+					ectcHotTrack_NewTabButton != (m_dwState & ectcHotTrack))
+				{
+					this->ClearCurrentHotTracking(true);
+					m_dwState |= ectcHotTrack_NewTabButton;
+					this->InvalidateRect(&m_rcNewTabButton);
+				}
+			}
+			else
+			{
+				if(ectcMouseOver_NewTabButton == (m_dwState & ectcMouseOver))
+				{
+					this->ClearCurrentMouseOverTracking(true);
+				}
+				if(ectcHotTrack_NewTabButton == (m_dwState & ectcHotTrack))
+				{
+					this->ClearCurrentHotTracking(true);
+				}
+			}
+
 			if(boolHitNotFound && ::PtInRect(&m_rcTabItemArea, ptCursor))
 			{
 				boolHitNotFound = false;
@@ -1712,6 +1777,12 @@ public:
 			}
 			this->SetCapture();
 		}
+		else if(::PtInRect(&m_rcNewTabButton, ptCursor))
+		{
+			m_dwState |= (ectcMouseDownL_NewTabButton | ectcMouseOver_NewTabButton);
+			this->InvalidateRect(&m_rcNewTabButton);
+			this->SetCapture();
+		}
 		else
 		{
 			// Search for a tab
@@ -1770,6 +1841,14 @@ public:
 			{
 				// Close Button
 				NMCTCITEM nmh = {{ m_hWnd, this->GetDlgCtrlID(), CTCN_CLOSE }, m_iCurSel, {ptCursor.x, ptCursor.y}, 0};
+				::SendMessage(GetParent(), WM_NOTIFY, nmh.hdr.idFrom, (LPARAM)&nmh);
+			}
+
+			if(ectcMouseDownL_NewTabButton == (dwState & ectcMouseDown) &&
+				 ectcMouseOver_NewTabButton == (dwState & ectcMouseOver))
+			{
+				// New Tab Button
+				NMCTCITEM nmh = {{ m_hWnd, this->GetDlgCtrlID(), CTCN_NEWTAB }, m_iCurSel, {ptCursor.x, ptCursor.y}, 0};
 				::SendMessage(GetParent(), WM_NOTIFY, nmh.hdr.idFrom, (LPARAM)&nmh);
 			}
 
@@ -2030,6 +2109,24 @@ public:
 					//this->Invalidate();
 				}
 
+				// New Button
+				if((((pStyles->styleOld) & CTCS_NEWTABBUTTON) != CTCS_NEWTABBUTTON) &&
+					(((pStyles->styleNew) & CTCS_NEWTABBUTTON) == CTCS_NEWTABBUTTON))
+				{
+					if(m_tooltip.IsWindow())
+					{
+						m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_NEWTAB, &rcDefault, (UINT)ectcToolTip_NewTab);
+					}
+				}
+				else if((((pStyles->styleOld) & CTCS_NEWTABBUTTON) == CTCS_NEWTABBUTTON) &&
+					(((pStyles->styleNew) & CTCS_NEWTABBUTTON) != CTCS_NEWTABBUTTON))
+				{
+					if(m_tooltip.IsWindow())
+					{
+						m_tooltip.DelTool(m_hWnd, (UINT)ectcToolTip_NewTab);
+					}
+				}
+
 				// Close Button
 				if((((pStyles->styleOld) & CTCS_CLOSEBUTTON) != CTCS_CLOSEBUTTON) &&
 					(((pStyles->styleNew) & CTCS_CLOSEBUTTON) == CTCS_CLOSEBUTTON))
@@ -2248,6 +2345,14 @@ public:
 				m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_CLOSE, &rcDefault, (UINT)ectcToolTip_Close);
 			}
 		}
+
+		if(CTCS_NEWTABBUTTON == (dwStyle & CTCS_NEWTABBUTTON))
+		{
+			if(m_tooltip.IsWindow())
+			{
+				m_tooltip.AddTool(m_hWnd, IDS_TABBINGFRAMEWORK_TIPS_NEWTAB, &rcDefault, (UINT)ectcToolTip_NewTab);
+			}
+		}
 	}
 
 	void Uninitialize(void)
@@ -2267,6 +2372,11 @@ public:
 			if(CTCS_CLOSEBUTTON == (dwStyle & CTCS_CLOSEBUTTON))
 			{
 				m_tooltip.DelTool(m_hWnd, (UINT)ectcToolTip_Close);
+			}
+
+			if(CTCS_NEWTABBUTTON == (dwStyle & CTCS_NEWTABBUTTON))
+			{
+				m_tooltip.DelTool(m_hWnd, (UINT)ectcToolTip_NewTab);
 			}
 		}
 
@@ -2340,6 +2450,15 @@ public:
 		if(CTCS_SCROLL == (dwStyle & CTCS_SCROLL))
 		{
 			pT->CalcSize_ScrollButtons(&m_rcTabItemArea);
+		}
+
+		if(CTCS_NEWTABBUTTON == (dwStyle & CTCS_NEWTABBUTTON))
+		{
+			pT->CalcSize_NewTabButton(&m_rcTabItemArea);
+		}
+
+		if(CTCS_SCROLL == (dwStyle & CTCS_SCROLL))
+		{
 			pT->UpdateLayout_ScrollToFit(m_rcTabItemArea);
 			pT->UpdateScrollOverflowStatus();
 		}
@@ -2351,15 +2470,19 @@ public:
 		pT->UpdateTabItemTooltipRects();
 	}
 
-	void CalcSize_NonClient(LPRECT prcTabItemArea)
+	void CalcSize_NonClient(LPRECT /*prcTabItemArea*/)
 	{
 	}
 
-	void CalcSize_CloseButton(LPRECT prcTabItemArea)
+	void CalcSize_CloseButton(LPRECT /*prcTabItemArea*/)
 	{
 	}
 
-	void CalcSize_ScrollButtons(LPRECT prcTabItemArea)
+	void CalcSize_ScrollButtons(LPRECT /*prcTabItemArea*/)
+	{
+	}
+
+	void CalcSize_NewTabButton(LPRECT /*prcTabItemArea*/)
 	{
 	}
 
@@ -3270,6 +3393,10 @@ public:
 			else if(::PtInRect(&m_rcScrollLeft, pHitTestInfo->pt))
 			{
 				pHitTestInfo->flags = CTCHT_ONSCROLLLEFTBTN;
+			}
+			else if(::PtInRect(&m_rcNewTabButton, pHitTestInfo->pt))
+			{
+				pHitTestInfo->flags = CTCHT_ONNEWTABBTN;
 			}
 		}
 		return -1;

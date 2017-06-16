@@ -177,8 +177,9 @@ class MainFrame
 			NOTIFY_CODE_HANDLER(CTCN_ACCEPTITEMDRAG, OnTabOrderChanged)
 			NOTIFY_CODE_HANDLER(CTCN_DELETEITEM, OnTabOrderChanged)
 			NOTIFY_CODE_HANDLER(CTCN_CLOSE, OnTabClose)
-			NOTIFY_CODE_HANDLER(CTCN_MCLICK, OnTabMiddleClick);
-			NOTIFY_CODE_HANDLER(NM_RCLICK, OnTabRightClick);
+			NOTIFY_CODE_HANDLER(CTCN_NEWTAB, OnNewTab)
+			NOTIFY_CODE_HANDLER(CTCN_MCLICK, OnTabMiddleClick)
+			NOTIFY_CODE_HANDLER(NM_RCLICK, OnTabRightClick)
 #ifdef _USE_AERO
 			NOTIFY_CODE_HANDLER(NM_CLICK, OnStartMouseDragExtendedFrameToClientArea)
 			NOTIFY_CODE_HANDLER(NM_LDOWN, OnStartMouseDragExtendedFrameToClientArea)
@@ -319,6 +320,7 @@ class MainFrame
 		LRESULT OnTabChanged(int /*idCtrl*/, LPNMHDR pnmh, BOOL& bHandled);
 		LRESULT OnTabOrderChanged(int /*idCtrl*/, LPNMHDR pnmh, BOOL& bHandled);
 		LRESULT OnTabClose(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /* bHandled */);
+		LRESULT OnNewTab(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /* bHandled */);
 		LRESULT OnTabMiddleClick(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /* bHandled */);
 		LRESULT OnTabRightClick(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /* bHandled */);
 #ifdef _USE_AERO

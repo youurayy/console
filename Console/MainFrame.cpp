@@ -2092,6 +2092,29 @@ LRESULT MainFrame::OnTabClose(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /* bHandled */
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnNewTab(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /* bHandled */)
+{
+	NMCTCITEM* pTabItems = reinterpret_cast<NMCTCITEM*>(pnmh);
+
+	// I prefer choose my console with the good environment ...
+	// CreateNewConsole(0);
+
+	if( !m_tabsMenu.IsNull() )
+	{
+		CPoint point(pTabItems->pt.x, pTabItems->pt.y);
+		CPoint screenPoint(point);
+		this->m_TabCtrl.ClientToScreen(&screenPoint);
+		m_CmdBar.TrackPopupMenu(m_tabsMenu, 0, screenPoint.x, screenPoint.y);
+	}
+
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnTabMiddleClick(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandled*/)
 {
 	NMCTCITEM*       pTabItems = reinterpret_cast<NMCTCITEM*>(pnmh);
@@ -2099,7 +2122,6 @@ LRESULT MainFrame::OnTabMiddleClick(int /*idCtrl*/, LPNMHDR pnmh, BOOL& /*bHandl
 
 	if (pTabItem == NULL)
 	{
-
 		// I prefer choose my console with the good environment ...
 		// CreateNewConsole(0);
 

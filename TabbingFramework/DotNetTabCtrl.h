@@ -767,6 +767,10 @@ public:
 		dc.SelectPen(penOld);
 	}
 
+	void DrawNewButton(LPNMCTCCUSTOMDRAW /*lpNMCustomDraw*/)
+	{
+	}
+
 // Overrides for painting from CCustomTabCtrl
 public:
 
@@ -833,11 +837,6 @@ public:
 
 		DWORD dwStyle = this->GetStyle();
 
-		if(0 == (dwStyle & (CTCS_CLOSEBUTTON | CTCS_SCROLL)))
-		{
-			return;
-		}
-
 		// Close Button
 		if(CTCS_CLOSEBUTTON == (dwStyle & CTCS_CLOSEBUTTON))
 		{
@@ -856,6 +855,12 @@ public:
 		if(CTCS_SCROLL == (dwStyle & CTCS_SCROLL))
 		{
 			pT->DrawScrollButtons(lpNMCustomDraw);
+		}
+
+		// New Button
+		if(CTCS_NEWTABBUTTON == (dwStyle & CTCS_NEWTABBUTTON))
+		{
+			pT->DrawNewButton(lpNMCustomDraw);
 		}
 	}
 
