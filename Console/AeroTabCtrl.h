@@ -683,38 +683,136 @@ public:
 
   }
 
+  void DrawNewButtonTop(LPNMCTCCUSTOMDRAW /*lpNMCustomDraw*/, Gdiplus::Graphics& g, Gdiplus::Color& colorTab)
+  {
+    INT X = m_rcNewTabButton.left + m_iLeftSpacing + 1;
+    INT Y = m_rcNewTabButton.top + m_iTopMargin + 1;
+    INT width = m_rcNewTabButton.right - m_rcNewTabButton.left - m_iLeftSpacing - 2;
+    INT height = m_rcNewTabButton.bottom - m_rcNewTabButton.top - m_iTopMargin - 4;
+
+    Gdiplus::SolidBrush brushTab(colorTab);
+    g.FillRectangle(&brushTab, X, Y, width, height);
+
+    Gdiplus::Pen pen(Gdiplus::Color(static_cast<Gdiplus::ARGB>(0x72000000)), 1.0);
+
+    INT width4 = width / 4;
+    INT height4 = height / 4;
+
+    g.DrawLine(
+      &pen,
+      X + width4,
+      Y + height / 2 - 1,
+      X + width - width4 - 1,
+      Y + height / 2 - 1);
+    g.DrawLine(
+      &pen,
+      X + width4,
+      Y + height / 2,
+      X + width - width4 - 1,
+      Y + height / 2);
+
+    g.DrawLine(
+      &pen,
+      X + width / 2 - 1,
+      Y + height4,
+      X + width / 2 - 1,
+      Y + height - height4 - 1);
+    g.DrawLine(
+      &pen,
+      X + width / 2,
+      Y + height4,
+      X + width / 2,
+      Y + height - height4 - 1);
+  }
+
+  void DrawNewButtonBottom(LPNMCTCCUSTOMDRAW /*lpNMCustomDraw*/, Gdiplus::Graphics& g, Gdiplus::Color& colorTab)
+  {
+    INT X = m_rcNewTabButton.left + m_iLeftSpacing + 1;
+    INT Y = m_rcNewTabButton.top + 3;
+    INT width = m_rcNewTabButton.right - m_rcNewTabButton.left - m_iLeftSpacing - 2;
+    INT height = m_rcNewTabButton.bottom - m_rcNewTabButton.top - 4;
+
+    Gdiplus::SolidBrush brushTab(colorTab);
+    g.FillRectangle(&brushTab, X, Y, width, height);
+
+    Gdiplus::Pen pen(Gdiplus::Color(static_cast<Gdiplus::ARGB>(0x72000000)), 1.0);
+
+    INT width4 = width / 4;
+    INT height4 = height / 4;
+
+    g.DrawLine(
+      &pen,
+      X + width4,
+      Y + height / 2 - 1,
+      X + width - width4 - 1,
+      Y + height / 2 - 1);
+    g.DrawLine(
+      &pen,
+      X + width4,
+      Y + height / 2,
+      X + width - width4 - 1,
+      Y + height / 2);
+
+    g.DrawLine(
+      &pen,
+      X + width / 2 - 1,
+      Y + height4,
+      X + width / 2 - 1,
+      Y + height - height4 - 1);
+    g.DrawLine(
+      &pen,
+      X + width / 2,
+      Y + height4,
+      X + width / 2,
+      Y + height - height4 - 1);
+  }
+
   void DrawNewButton(LPNMCTCCUSTOMDRAW lpNMCustomDraw)
   {
-//#ifdef _DRAW_TAB_RECT
-    Gdiplus::Color color;
+    COLORREF colorrefTab = 0;
+    BYTE     byteAlpha = 0;
+
     if(ectcMouseDownL_NewTabButton == (m_dwState & ectcMouseDown))
-      color.SetValue(static_cast<Gdiplus::ARGB>(Gdiplus::Color::DarkKhaki));
+    {
+      colorrefTab = lpNMCustomDraw->clrSelectedTab;
+      byteAlpha   = 255;
+    }
     else if(ectcMouseOver_NewTabButton == (m_dwState & ectcMouseOver))
-      color.SetValue(static_cast<Gdiplus::ARGB>(Gdiplus::Color::HotPink));
+    {
+      colorrefTab = lpNMCustomDraw->clrSelectedTab;
+      byteAlpha   = 160;
+    }
     else
-      color.SetValue(static_cast<Gdiplus::ARGB>(Gdiplus::Color::DeepPink));
+    {
+      colorrefTab = lpNMCustomDraw->clrBtnShadow;
+      byteAlpha   = 128;
+    }
 
     Gdiplus::Graphics g(lpNMCustomDraw->nmcd.hdc);
-    Gdiplus::Pen pen(color);
+    Gdiplus::Color colorTab(Gdiplus::Color::MakeARGB(byteAlpha,
+                                                     GetRValue(colorrefTab),
+                                                     GetGValue(colorrefTab),
+                                                     GetBValue(colorrefTab)));
+
+    Gdiplus::SolidBrush brushTab(colorTab);
+
+    DWORD dwStyle = this->GetStyle();
+    if(CTCS_BOTTOM == (dwStyle & CTCS_BOTTOM))
+    {
+      DrawNewButtonBottom(lpNMCustomDraw, g, colorTab);
+    }
+    else
+    {
+      DrawNewButtonTop(lpNMCustomDraw, g, colorTab);
+    }
+
+#ifdef _DRAW_TAB_RECT
+    Gdiplus::Pen pen(Gdiplus::Color(static_cast<Gdiplus::ARGB>(Gdiplus::Color::DeepPink)));
     g.DrawRectangle(
       &pen,
       m_rcNewTabButton.left, m_rcNewTabButton.top,
       m_rcNewTabButton.right - m_rcNewTabButton.left, m_rcNewTabButton.bottom - m_rcNewTabButton.top);
-
-    g.DrawLine(
-      &pen,
-      m_rcNewTabButton.left + 2,
-      m_rcNewTabButton.top + (m_rcNewTabButton.bottom - m_rcNewTabButton.top) / 2,
-      m_rcNewTabButton.right - 2,
-      m_rcNewTabButton.top + (m_rcNewTabButton.bottom - m_rcNewTabButton.top) / 2);
-
-    g.DrawLine(
-      &pen,
-      m_rcNewTabButton.left + (m_rcNewTabButton.right - m_rcNewTabButton.left) / 2,
-      m_rcNewTabButton.top + 2,
-      m_rcNewTabButton.left + (m_rcNewTabButton.right - m_rcNewTabButton.left) / 2,
-      m_rcNewTabButton.bottom - 2);
-//#endif //_DRAW_TAB_RECT
+#endif //_DRAW_TAB_RECT
   }
 
   void CalcSize_CloseButton(LPRECT /*prcTabItemArea*/)
