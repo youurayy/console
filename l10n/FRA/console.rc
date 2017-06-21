@@ -278,6 +278,7 @@ BEGIN
     CONTROL         "Barre des onglets en dessous",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,58,85,16
     CONTROL         "Masquer les icônes",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,74,85,16
     CONTROL         "Masquer le bouton de fermeture",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,90,85,16
+    CONTROL         "Masquer le bouton 'nouvel onglet'",IDC_CHECK_HIDE_TAB_NEW_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,106,85,16
 
 END
 
@@ -965,7 +966,7 @@ BEGIN
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% n'est pas une application console Win32 !"
     IDS_ERR_CANT_GET_USER "Unable to get current user identity (reason: %1%)!"
     IDS_ERR_XML_PARSING "Erreur d’analyse XML (%1$#x) dans le fichier %2% à la ligne %3% colonne %4%: %5%"
-    IDS_ERR_UNDEFINED_TAB "%1%: undefined tab"
+    IDS_ERR_UNDEFINED_TAB "%1% : onglet non défini"
 END
 
 STRINGTABLE
@@ -1158,6 +1159,7 @@ ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Touche de sélection de colonne page vers le 
 IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT "Faire défiler vers la droite"
 IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT  "Faire défiler vers la gauche"
 IDS_TABBINGFRAMEWORK_TIPS_CLOSE       "Fermer"
+IDS_TABBINGFRAMEWORK_TIPS_NEWTAB      "Nouvel Onglet"
 END
 
 STRINGTABLE

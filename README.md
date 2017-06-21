@@ -39,11 +39,14 @@ Changelog
     + added
     * fixed
 
-Changes in future version
+Changes in 1.18.2 (21 Jun 2017)
 
     ! Display an error dialog when seeking settings of an undefined tab.
+    + "New Tab" button in tabs area.
+    + Save "Switch On/Off Transparency" state.
     * Fix startup directory consistency.
     * Fix last process ID attached to the console.
+    * Fix sliders in transparency settings dialog.
     * Refresh tab title when last process ID attached to the console has changed.
 
 Changes in 1.18.1 (27 Mar 2017)
