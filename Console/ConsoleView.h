@@ -151,8 +151,8 @@ class ConsoleView
 		inline bool GetForwardMouseEvents() const { return m_bForwardMouseEvents; }
 		inline void SetForwardMouseEvents(bool value) { m_bForwardMouseEvents = value; }
 
-		inline const std::wstring & GetImageCopyright() const { return m_background->imageData.strCopyright; }
-		inline const std::wstring & GetImageCopyrightLink() const { return m_background->imageData.strCopyrightLink; }
+		inline const std::wstring & GetImageCopyright() const { static const std::wstring empty(L""); return m_background? m_background->imageData.strCopyright : empty; }
+		inline const std::wstring & GetImageCopyrightLink() const { static const std::wstring empty(L""); return m_background ? m_background->imageData.strCopyrightLink : empty; }
 
 		void SetAppActiveStatus(bool bAppActive);
 
