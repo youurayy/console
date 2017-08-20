@@ -967,6 +967,7 @@ BEGIN
     IDS_ERR_CANT_GET_USER "Невозможно определить текущего пользователя (причина: %1%)!"
     IDS_ERR_XML_PARSING "Ошибка парсинга XML (%1$#x) в файле %2% в строке %3% в колонке %4%: %5%"
     IDS_ERR_UNDEFINED_TAB "%1%: undefined tab"
+    IDS_ERR_CONSOLEZ_HOOKED "ConsoleZ launched ConsoleZ as shell. To prevent an infinite loop, ConsoleZ instance will be terminated."
 END
 
 STRINGTABLE
