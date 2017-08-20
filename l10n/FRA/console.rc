@@ -741,7 +741,7 @@ BEGIN
         MENUITEM "Onglets",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
         MENUITEM "&Mode Plein Écran",                ID_VIEW_FULLSCREEN
-        MENUITEM "Allumer/Éteindre la Transparence",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "Activer la Transparence",         ID_SWITCH_TRANSPARENCY
         MENUITEM "Toujours au Premier Plan",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Aide"
