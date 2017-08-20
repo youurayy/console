@@ -174,7 +174,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
     if (strConfigFile.length() == 0)
     {
-      strConfigFile = wstring(L"console.xml");
+      strConfigFile = std::wstring(L"console.xml");
     }
 
 		// load settings
@@ -189,6 +189,20 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 		}
 
 		LoadLocalizedResources(g_settingsHandler->GetLanguage());
+		// check if console.exe has been hooked
+		{
+			HMODULE hModule;
+			if( ::GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, L"ConsoleHook.dll", &hModule) ||
+			    ::GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, L"ConsoleHook32.dll", &hModule) )
+			{
+				::MessageBox(
+					nullptr,
+					Helpers::LoadStringW(IDS_ERR_CONSOLEZ_HOOKED).c_str(),
+					Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
+					MB_OK | MB_ICONERROR);
+				return 1;
+			}
+		}
 
 		CMessageLoop theLoop;
 		_Module.AddMessageLoop(&theLoop);
@@ -258,7 +272,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 					}
 					catch (const ConsoleException& ex)
 					{
-						MessageBox(NULL, ex.GetMessage().c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR|MB_OK);
+						::MessageBox(nullptr, ex.GetMessage().c_str(), Helpers::LoadString(IDS_CAPTION_ERROR).c_str(), MB_ICONERROR|MB_OK);
 						return 1;
 					}
 
@@ -268,8 +282,8 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 			}
 
 			if( !found )
-				MessageBox(
-					NULL,
+				::MessageBox(
+					nullptr,
 					boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_UNDEFINED_TAB)) % commandLineOptions.startupTabs[0]).c_str(),
 					Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
 					MB_ICONERROR | MB_OK);
@@ -297,10 +311,10 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
     if (!g_settingsHandler->GetAppearanceSettings().stylesSettings.bTaskbarButton)
     {
-      noTaskbarParent.Create(NULL);
+      noTaskbarParent.Create(nullptr);
     }
 
-    if(wndMain.CreateEx(noTaskbarParent.m_hWnd) == NULL)
+    if(wndMain.CreateEx(noTaskbarParent.m_hWnd) == nullptr)
     {
       ATLTRACE(_T("Main window creation failed!\n"));
       return 1;
@@ -359,7 +373,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
     int nRet = theLoop.Run();
 
-    if (noTaskbarParent.m_hWnd != NULL) noTaskbarParent.DestroyWindow();
+    if (noTaskbarParent.m_hWnd != nullptr) noTaskbarParent.DestroyWindow();
 
     _Module.RemoveMessageLoop();
 
@@ -367,7 +381,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
   }
   catch(std::exception& e)
   {
-    ::MessageBoxA(0, e.what(), "exception", MB_OK);
+    ::MessageBoxA(nullptr, e.what(), "exception", MB_OK);
     return 1;
   }
 }

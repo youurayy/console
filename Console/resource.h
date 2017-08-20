@@ -432,6 +432,7 @@
 #define IDS_ERR_CANT_GET_USER           5009
 #define IDS_ERR_XML_PARSING             5010
 #define IDS_ERR_UNDEFINED_TAB           5011
+#define IDS_ERR_CONSOLEZ_HOOKED         5012
 
 #define IDS_EDIT_SETTINGS               6000
 #define IDS_HELP                        6001
