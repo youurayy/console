@@ -29,6 +29,9 @@ What actually happens.
 2. What does someone need to do to recreate the issue?
 
 ### Diagnostic Report
+When reporting a bug you **must** provide a diagnostic report.
+If you are not able to create a diagnostic report, explain why.
+Privacy is not a valid explanation! The report is a human readable and you can mask private data.
 ```
 From within ConsoleZ select Help > Diagnose.
 This will open a file in Notepad with useful information.
