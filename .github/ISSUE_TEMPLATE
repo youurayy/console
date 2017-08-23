@@ -31,7 +31,7 @@ What actually happens.
 ### Diagnostic Report
 When reporting a bug you **must** provide a diagnostic report.
 If you are not able to create a diagnostic report, explain why.
-Privacy is not a valid explanation! The report is a human readable and you can mask private data.
+Privacy is not a valid explanation! The report is human readable and private data can be masked.
 ```
 From within ConsoleZ select Help > Diagnose.
 This will open a file in Notepad with useful information.
