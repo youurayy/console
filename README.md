@@ -39,15 +39,17 @@ Changelog
     + added
     * fixed
 
-Changes in 1.18.2 (21 Jun 2017)
+Changes in 1.18.2 (30 Aug 2017)
 
     ! Display an error dialog when seeking settings of an undefined tab.
+    ! Detect if ConsoleZ is hooked (ConsoleHook/ConsoleHook32).
     + "New Tab" button in tabs area.
     + Save "Switch On/Off Transparency" state.
     * Fix startup directory consistency.
-    * Fix last process ID attached to the console.
+    * Fix retrieving of last process ID attached to the console.
     * Fix sliders in transparency settings dialog.
-    * Refresh tab title when last process ID attached to the console has changed.
+    * Refresh tab title when last process ID attached to the console changes.
+    * Fix bing image copyright displayed into status bar.
 
 Changes in 1.18.1 (27 Mar 2017)
 
