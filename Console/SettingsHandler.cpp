@@ -2237,7 +2237,7 @@ bool HotKeys::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 		if( i->empty() ) continue;
 
 		CComPtr<IXMLDOMElement> pNewExternalCommandElement;
-		if( FAILED(XmlHelper::CreateDomElement(pSettingsRoot, CComBSTR(L"external_command"), pNewExternalCommandElement)) ) return false;
+		if( FAILED(XmlHelper::CreateDomElement(pExternalCommandsElement, CComBSTR(L"external_command"), pNewExternalCommandElement)) ) return false;
 
 		XmlHelper::SetAttribute(pNewExternalCommandElement, CComBSTR(L"id"), static_cast<int>(i - externalCommands.begin() + 1));
 		XmlHelper::SetAttribute(pNewExternalCommandElement, CComBSTR(L"value"), *i);
