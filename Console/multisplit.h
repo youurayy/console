@@ -454,6 +454,15 @@ namespace WTL
 			pane->updateLayout();
 		}
 
+		void setVisiblity(bool boolVisibility, const CMultiSplitPane* paneAllButThis)
+		{
+			if( this == paneAllButThis ) return;
+
+			if( this->window ) ::ShowWindow(this->window, boolVisibility ? SW_SHOW : SW_HIDE);
+			if( this->pane0 ) this->pane0->setVisiblity(boolVisibility, paneAllButThis);
+			if( this->pane1 ) this->pane1->setVisiblity(boolVisibility, paneAllButThis);
+		}
+
 		CMultiSplitPane* get(WHERE position)
 		{
 			POINT point;
@@ -629,10 +638,14 @@ namespace WTL
 	template <class T>
 	class CMultiSplitImpl
 	{
-	public :
-		CRect visibleRect;                 // visible area defined by parent
-		CMultiSplitPane tree;
+	private:
+		CRect            visibleRect;      // visible area defined by parent
+	public:
+		CMultiSplitPane  rootPane;
+		CMultiSplitPane* maximizedPane;
 		CMultiSplitPane* defaultFocusPane; // pane to focus when splitter gets focus
+
+	private:
 		CMultiSplitPane* previousFocusPane;// pane to focus when splitter gets focus
 		CMultiSplitPane* resizingPane;     // pane with splitbar moving
 		int              resizingDelta;    // splitbar delta move
@@ -642,18 +655,20 @@ namespace WTL
 		static HCURSOR vertCursor;         // cursor to display on vertical splitter bar
 		static HCURSOR horzCursor;         // cursor to display on horizontal splitter bar
 
+	public:
+
 		// Constructor
 
 		CMultiSplitImpl (void)
-			:
-			defaultFocusPane (&this->tree),
-			previousFocusPane (nullptr),
-			resizingPane (nullptr),
-			resizingDelta (0),
-			resizingDelta0 (0),
-			drawContentWhileResizing (true),
-			edgeWidth (0),
-			edgeHeight (0)
+			: maximizedPane (&this->rootPane)
+			, defaultFocusPane (&this->rootPane)
+			, previousFocusPane (nullptr)
+			, resizingPane (nullptr)
+			, resizingDelta (0)
+			, resizingDelta0 (0)
+			, drawContentWhileResizing (true)
+			, edgeWidth (0)
+			, edgeHeight (0)
 		{
 			visibleRect.SetRectEmpty ();
 
@@ -677,7 +692,7 @@ namespace WTL
 
 		// Attributes
 
-		void RectSet (LPRECT newRect = 0, bool update = true)
+		void SetRect(LPRECT newRect = 0, bool update = true)
 		{										// define visible area within parent
 			T * pT = static_cast<T *> (this);
 
@@ -695,6 +710,11 @@ namespace WTL
 				UpdateLayout ();
 			}
 		}
+
+    inline const CRect & GetRect() const
+    {
+      return visibleRect;
+    }
 
 		// draw all splitter bars & empty panes, occupied panes draw themselves
 
@@ -725,7 +745,7 @@ namespace WTL
 				visibleRect.Width (), visibleRect.Height ());
 #endif
 
-			this->tree.draw(dc);
+			this->maximizedPane->draw(dc);
 		}
 
 		// Overrideable by derived classes
@@ -785,7 +805,7 @@ namespace WTL
 			SystemSettingsGet (false);
 
 			CRect InitRect (0, 0, ((CREATESTRUCT *) lParam)->cx, ((CREATESTRUCT *) lParam)->cy);
-			RectSet (&InitRect, false);
+			SetRect(&InitRect, false);
 
 			bHandled = FALSE;
 			return 0;
@@ -807,7 +827,7 @@ namespace WTL
 				DWORD Position = ::GetMessagePos ();
 				POINT Point = { GET_X_LPARAM (Position), GET_Y_LPARAM (Position) };
 				pT->ScreenToClient (&Point);
-				if ( this->tree.getSplitBar(Point) )
+				if ( this->maximizedPane->getSplitBar(Point) )
 					return 1;
 			}
 			bHandled = FALSE;
@@ -845,7 +865,7 @@ namespace WTL
 			else
 			{
 				// not dragging, just set cursor
-				CMultiSplitPane* splitBar = this->tree.getSplitBar(Point);
+				CMultiSplitPane* splitBar = this->maximizedPane->getSplitBar(Point);
 				if ( splitBar )
 					::SetCursor (splitBar->splitType == CMultiSplitPane::VERTICAL ? vertCursor : horzCursor);
 
@@ -859,7 +879,7 @@ namespace WTL
 		LRESULT OnLButtonDown (UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL & bHandled)
 		{
 			POINT Point = { GET_X_LPARAM (lParam), GET_Y_LPARAM (lParam) };
-			this->resizingPane = this->tree.getSplitBar(Point);
+			this->resizingPane = this->maximizedPane->getSplitBar(Point);
 			if( resizingPane )
 			{
 				this->resizingDelta0 = this->resizingDelta = resizingPane->getSplitBarDelta(Point);
@@ -889,11 +909,11 @@ namespace WTL
 					pT->UpdateWindow ();
 				}
 
-				HWND hwndPane0 = 0, hwndPane1 = 0;
+				HWND hwndPane0 = nullptr, hwndPane1 = nullptr;
 				if( this->resizingPane->pane0 ) hwndPane0 = this->resizingPane->pane0->window;
 				if( this->resizingPane->pane1 ) hwndPane1 = this->resizingPane->pane1->window;
 
-				this->resizingPane = 0;
+				this->resizingPane = nullptr;
 				::ReleaseCapture ();
 
 				if( delta )
@@ -922,7 +942,7 @@ namespace WTL
 		{
 			T * pT = static_cast<T *> (this);
 			LRESULT Result = pT->DefWindowProc (uMsg, wParam, lParam);
-			/*
+#if 0
 			LPCTSTR Text;
 			switch (Result)
 			{
@@ -940,7 +960,7 @@ namespace WTL
 			break;
 			}
 			ATLTRACE(_T("CMultiSplitImpl::OnMouseActivate: %s\n"), Text);
-			*/
+#endif
 			if (Result == MA_ACTIVATE || Result == MA_ACTIVATEANDEAT)
 			{
 				// select focus pane from mouse position
@@ -948,7 +968,7 @@ namespace WTL
 				POINT Point = { GET_X_LPARAM (Position), GET_Y_LPARAM (Position) };
 				pT->ScreenToClient (&Point);
 
-				CMultiSplitPane* pane = this->tree.getPane(Point);
+				CMultiSplitPane* pane = this->maximizedPane->getPane(Point);
 				if( pane && !pane->isSplitBar() )
 				{
 					SetDefaultFocusPane(pane);
@@ -985,9 +1005,9 @@ namespace WTL
 			if( this->defaultFocusPane &&
 			    this->previousFocusPane &&
 			    this->defaultFocusPane != this->previousFocusPane &&
-			    this->tree.contains(this->defaultFocusPane) &&        // exchange only panes contained in the tree
-			    this->tree.contains(this->previousFocusPane) &&
-			    this->defaultFocusPane->window &&                     // exchange only panes with a window
+			    this->maximizedPane->contains(this->defaultFocusPane) &&        // exchange only panes contained in the visible tree
+			    this->maximizedPane->contains(this->previousFocusPane) &&
+			    this->defaultFocusPane->window &&                               // exchange only panes with a window
 			    this->previousFocusPane->window )
 			{
 				this->defaultFocusPane->swap(this->previousFocusPane);
@@ -1021,37 +1041,40 @@ namespace WTL
 
 		bool Merge(CMultiSplitImpl & other, CMultiSplitPane::SPLITTYPE splitType)
 		{
+			// restore visibility to whole other tree before merging
+			other.Restore(false);
+
 #ifdef _DEBUG
 			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge into tree\n", ::GetCurrentThreadId());
-			this->tree.dump(0, 0);
+			this->rootPane.dump(0, 0);
 			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge into defaultFocusPane\n", ::GetCurrentThreadId());
 			if( this->defaultFocusPane )
 				this->defaultFocusPane->dump(0, this->defaultFocusPane->parent);
 
 			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge from tree\n", ::GetCurrentThreadId());
-			other.tree.dump(0, 0);
+			other.rootPane.dump(0, 0);
 			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge from defaultFocusPane\n", ::GetCurrentThreadId());
 			if( other.defaultFocusPane )
 				other.defaultFocusPane->dump(0, other.defaultFocusPane->parent);
 #endif
-			// clone tree into pane0
-			CMultiSplitPane * pane0 = new CMultiSplitPane(this->tree);
+			// clone maximizedPane (visible tree) into pane0
+			CMultiSplitPane * pane0 = new CMultiSplitPane(*this->maximizedPane);
 			if( pane0->pane0 ) pane0->pane0->parent = pane0;
 			if( pane0->pane1 ) pane0->pane1->parent = pane0;
 
-			// clone other.tree into pane1
-			CMultiSplitPane * pane1 = new CMultiSplitPane(other.tree);
+			// clone other.rootPane into pane1
+			CMultiSplitPane * pane1 = new CMultiSplitPane(other.rootPane);
 			if( pane1->pane0 ) pane1->pane0->parent = pane1;
 			if( pane1->pane1 ) pane1->pane1->parent = pane1;
 
 			// set panes
-			this->tree.window = nullptr;
-			this->tree.splitType = splitType;
-			this->tree.splitRatio = 50;
-			this->tree.pane0 = pane0;
-			this->tree.pane1 = pane1;
-			pane0->parent = &this->tree;
-			pane1->parent = &this->tree;
+			this->maximizedPane->window = nullptr;
+			this->maximizedPane->splitType = splitType;
+			this->maximizedPane->splitRatio = 50;
+			this->maximizedPane->pane0 = pane0;
+			this->maximizedPane->pane1 = pane1;
+			pane0->parent = this->maximizedPane;
+			pane1->parent = this->maximizedPane;
 
 			// get current defaultFocusPane
 			// if unsplit current defaultFocusPane is pane0
@@ -1062,9 +1085,9 @@ namespace WTL
 			CMultiSplitPane * defaultFocusPane1 = pane1->isSplitBar() ? other.defaultFocusPane : pane1;
 
 			// clean other tree
-			other.tree.window = nullptr;
-			other.tree.pane0 = nullptr;
-			other.tree.pane1 = nullptr;
+			other.rootPane.window = nullptr;
+			other.rootPane.pane0 = nullptr;
+			other.rootPane.pane1 = nullptr;
 			other.defaultFocusPane = nullptr;
 			other.previousFocusPane = nullptr;
 
@@ -1073,7 +1096,7 @@ namespace WTL
 
 #ifdef _DEBUG
 			ATLTRACE(L"%08lx-CMultiSplitImpl::Merge merged tree\n", ::GetCurrentThreadId());
-			this->tree.dump(0, 0);
+			this->rootPane.dump(0, 0);
 #endif
 
 			// current defaultFocusPane keeps the same
@@ -1088,7 +1111,7 @@ namespace WTL
 		{
 #ifdef _DEBUG
 			ATLTRACE(L"%08lx-CMultiSplitImpl::Remove tree\n", ::GetCurrentThreadId());
-			this->tree.dump(0, 0);
+			this->rootPane.dump(0, 0);
 			ATLTRACE(L"%08lx-CMultiSplitImpl::Remove defaultFocusPane\n", ::GetCurrentThreadId());
 			if( this->defaultFocusPane )
 				this->defaultFocusPane->dump(0, this->defaultFocusPane->parent);
@@ -1098,6 +1121,36 @@ namespace WTL
 				this->SetDefaultFocusPane(this->defaultFocusPane->remove());
 			else
 				return false;
+
+			return true;
+		}
+
+		bool Maximize()
+		{
+			if( this->defaultFocusPane == nullptr )
+				return false;
+
+			this->maximizedPane = this->defaultFocusPane;
+			this->maximizedPane->x = 0;
+			this->maximizedPane->y = 0;
+
+			this->rootPane.setVisiblity(false, this->maximizedPane);
+			UpdateLayout();
+
+			// prevent swap with a hidden pane
+			this->previousFocusPane = nullptr;
+
+			return true;
+		}
+
+		bool Restore(bool boolUpdateLayout = true)
+		{
+			if( this->maximizedPane == &this->rootPane )
+				return false;
+
+			this->rootPane.setVisiblity(true, this->maximizedPane);
+			this->maximizedPane = &this->rootPane;
+			if( boolUpdateLayout ) UpdateLayout();
 
 			return true;
 		}
@@ -1122,7 +1175,7 @@ namespace WTL
 		{
 			T * pT = static_cast<T *> (this);
 			pT->InvalidateRect(NULL);
-			this->tree.resize(this->visibleRect.Width(), this->visibleRect.Height());
+			this->maximizedPane->resize(this->visibleRect.Width(), this->visibleRect.Height());
 		}
 
 
@@ -1190,7 +1243,7 @@ namespace WTL
 		LRESULT OnSize (UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL & /*bHandled*/)
 		{
 			CRect Rect (0, 0, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-			RectSet (&Rect);
+			SetRect(&Rect);
 			return 0;							// handled
 		}
 	};

@@ -147,7 +147,7 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 				TRACE(L"multisplitClass::OnCreate returns %p\n", result);
 				if( result == 0 )
 				{
-					multisplitClass::tree.window = hwndConsoleView;
+					multisplitClass::rootPane.window = hwndConsoleView;
 				}
 			}
 		}
@@ -159,7 +159,7 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 			TRACE(L"multisplitClass::OnCreate returns %p\n", result);
 			if( result == 0 )
 			{
-				if( !LoadWorkspace(consoleViewCreate->pTabElement, &(multisplitClass::tree)) || m_views.empty() )
+				if( !LoadWorkspace(consoleViewCreate->pTabElement, &(multisplitClass::rootPane)) || m_views.empty() )
 					result = -1;
 			}
 		}
@@ -170,7 +170,7 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 	{
 		CRect rect;
 		m_views.begin()->second->GetRect(rect);
-		multisplitClass::RectSet(rect, true);
+		multisplitClass::SetRect(rect, true);
 	}
 
     bHandled = TRUE;
@@ -189,7 +189,7 @@ LRESULT TabView::OnSize (UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL &
   if (wParam != SIZE_MINIMIZED && m_mainFrame.m_bOnCreateDone)
   {
     TRACE(L"TabView::OnSize -> multisplitClass::RectSet\n");
-    multisplitClass::RectSet(); // to ClientRect
+    multisplitClass::SetRect(); // to ClientRect
   }
 
   bHandled = FALSE;
@@ -423,7 +423,7 @@ std::shared_ptr<ConsoleView> TabView::GetActiveConsole(const TCHAR* /*szFrom*/)
     if( iter != m_views.end() )
       result = iter->second;
     else
-      TRACE(L"defaultFocusPane->window = %p not found !!!\n", defaultFocusPane->window);
+      TRACE(L"defaultFocusPane->window = %p not found !!!\n", multisplitClass::defaultFocusPane->window);
   }
   else
   {
@@ -436,7 +436,7 @@ std::shared_ptr<ConsoleView> TabView::GetActiveConsole(const TCHAR* /*szFrom*/)
 
 void TabView::GetRect(CRect& clientRect)
 {
-  clientRect = this->visibleRect;
+  clientRect = multisplitClass::GetRect();
 }
 
 void TabView::UpdateIcons()
@@ -697,7 +697,7 @@ void TabView::SwitchView(WORD wID)
           ++iter;
           if( iter == m_views.end() )
             iter = m_views.begin();
-          multisplitClass::SetDefaultFocusPane(multisplitClass::tree.get(iter->first));
+          multisplitClass::SetDefaultFocusPane(multisplitClass::maximizedPane->get(iter->first));
         }
         break;
       case ID_PREV_VIEW:
@@ -706,7 +706,7 @@ void TabView::SwitchView(WORD wID)
           if( iter == m_views.begin() )
             iter = m_views.end();
           --iter;
-          multisplitClass::SetDefaultFocusPane(multisplitClass::tree.get(iter->first));
+          multisplitClass::SetDefaultFocusPane(multisplitClass::maximizedPane->get(iter->first));
         }
         break;
       case ID_LEFT_VIEW:
@@ -788,7 +788,7 @@ void TabView::SetActiveConsole(HWND hwnd)
   MutexLock viewMapLock(m_viewsMutex);
   auto it = m_views.find(hwnd);
   if( it != m_views.end() )
-    multisplitClass::SetDefaultFocusPane(multisplitClass::tree.get(hwnd), m_mainFrame.GetAppActiveStatus());
+    multisplitClass::SetDefaultFocusPane(multisplitClass::maximizedPane->get(hwnd), m_mainFrame.GetAppActiveStatus());
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1028,7 +1028,7 @@ bool TabView::SaveWorkspace(CComPtr<IXMLDOMElement>& pTabElement)
 	XmlHelper::SetAttribute(pTabElement, CComBSTR(L"Title"), m_tabData->strTitle);
 	XmlHelper::SetAttribute(pTabElement, CComBSTR(L"Name"), m_strTitle);
 
-	if( !SaveWorkspace(pTabElement, &(multisplitClass::tree), CComBSTR(L"\r\n\t\t")) ) return false;
+	if( !SaveWorkspace(pTabElement, &(multisplitClass::rootPane), CComBSTR(L"\r\n\t\t")) ) return false;
 
 	XmlHelper::AddTextNode(pTabElement, CComBSTR(L"\r\n\t"));
 
