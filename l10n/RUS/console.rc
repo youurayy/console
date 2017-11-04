@@ -698,6 +698,9 @@ BEGIN
         MENUITEM "З&акрыть  активную вкладку",                 ID_CLOSE_VIEW
         MENUITEM "&Выделить вкладку в отдельное окно",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
+        MENUITEM SEPARATOR
         MENUITEM "Прикрепить консоли",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
         MENUITEM "Загрузить рабочее пространство...",           ID_LOAD_WORKSPACE
@@ -741,7 +744,7 @@ BEGIN
         MENUITEM "&Вкладки",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
         MENUITEM "Во весь &экран",                ID_VIEW_FULLSCREEN
-        MENUITEM "Прозрачность",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "Прозрачность",         ID_SWITCH_TRANSPARENCY
         MENUITEM "Поверх всех окон",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Справка"
@@ -764,6 +767,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "З&акрыть  активную вкладку",                 ID_CLOSE_VIEW
         MENUITEM "&Выделить вкладку в отдельное окно",                ID_DETACH_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Вставить сниппет",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
@@ -1080,6 +1086,8 @@ BEGIN
     IDS_LOAD_WORKSPACE       "Загрузить рабочее пространство"
     IDS_SAVE_WORKSPACE       "Сохранить рабочее пространство"
     IDS_FORWARD_MOUSE_EVENTS "Вкл\Выкл отслеживание клавиш и колесика мыши"
+    IDS_MAXIMIZE_VIEW        "Maximize view"
+    IDS_RESTORE_VIEW         "Restore view"
     IDS_SPLIT_HORIZ          "Разделить по горизонтали"
     IDS_SPLIT_VERT           "Разделить по вертикали"
     IDS_SPLIT_SWAP           "Поменять местами с предыдущим"

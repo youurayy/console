@@ -2664,6 +2664,22 @@ LRESULT MainFrame::OnMergeTabs(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnMaximizeView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	// check if current tab is valid
+	if( !m_activeTabView ) return 0;
+
+	m_activeTabView->MaximizeView(wID);
+
+	return 0;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnSwap(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	MutexLock viewMapLock(m_tabsMutex);

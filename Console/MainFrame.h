@@ -273,6 +273,8 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_SAVE_WORKSPACE,          OnSaveWorkspace)
 			COMMAND_ID_HANDLER(ID_MERGE_HORIZONTALLY,      OnMergeTabs)
 			COMMAND_ID_HANDLER(ID_MERGE_VERTICALLY,        OnMergeTabs)
+			COMMAND_ID_HANDLER(ID_MAXIMIZE_VIEW,           OnMaximizeView)
+			COMMAND_ID_HANDLER(ID_RESTORE_VIEW,            OnMaximizeView)
 
 			COMMAND_RANGE_HANDLER(ID_EXTERNAL_COMMAND_1, (ID_EXTERNAL_COMMAND_1 + EXTERNAL_COMMANDS_COUNT - 1), OnExternalCommand)
 			COMMAND_RANGE_HANDLER(ID_SNIPPET_ID_FIRST, ID_SNIPPET_ID_LAST, OnSnippet)
@@ -344,6 +346,7 @@ class MainFrame
 		LRESULT OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSplit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnMergeTabs(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnMaximizeView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSwap(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);

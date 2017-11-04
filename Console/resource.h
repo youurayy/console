@@ -415,6 +415,8 @@
 #define ID_SAVE_WORKSPACE               2942
 #define ID_MERGE_HORIZONTALLY           2943
 #define ID_MERGE_VERTICALLY             2944
+#define ID_MAXIMIZE_VIEW                2945
+#define ID_RESTORE_VIEW                 2946
 
 #define IDC_DUMP_BUFFER                 3000
 
@@ -530,6 +532,8 @@
 #define IDS_LOAD_WORKSPACE              6093
 #define IDS_SAVE_WORKSPACE              6094
 #define IDS_FORWARD_MOUSE_EVENTS        6095
+#define IDS_MAXIMIZE_VIEW               6096
+#define IDS_RESTORE_VIEW                6097
 
 #define IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT 6900
 #define IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT  6901

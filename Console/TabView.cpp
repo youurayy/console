@@ -575,6 +575,36 @@ void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
 	}
 }
 
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+void TabView::MaximizeView(WORD wID)
+{
+	switch( wID )
+	{
+	case ID_MAXIMIZE_VIEW:
+		if( multisplitClass::defaultFocusPane && multisplitClass::defaultFocusPane->window )
+		{
+			if( multisplitClass::Maximize() )
+			{
+				CRect clientRect(0, 0, 0, 0);
+				AdjustRectAndResize(ADJUSTSIZE_WINDOW, clientRect, WMSZ_BOTTOM);
+			}
+		}
+		break;
+
+	case ID_RESTORE_VIEW:
+		if( multisplitClass::Restore() )
+		{
+			CRect clientRect(0, 0, 0, 0);
+			AdjustRectAndResize(ADJUSTSIZE_WINDOW, clientRect, WMSZ_BOTTOM);
+		}
+		break;
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////

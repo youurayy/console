@@ -68,6 +68,7 @@ public:
 	void UpdateIcons();
 
   void Split(CMultiSplitPane::SPLITTYPE);
+	void MaximizeView(WORD wID);
   void Merge(std::shared_ptr<TabView>, CMultiSplitPane::SPLITTYPE);
   bool CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed);
   void SwitchView(WORD wID);

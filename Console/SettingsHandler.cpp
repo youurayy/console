@@ -2016,6 +2016,8 @@ HotKeys::HotKeys()
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"closeview",          ID_CLOSE_VIEW,           IDS_CLOSE_VIEW          )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"detachview",         ID_DETACH_VIEW,          IDS_DETACH_VIEW         )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"maximizeview",       ID_MAXIMIZE_VIEW,        IDS_MAXIMIZE_VIEW       )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"restoreview",        ID_RESTORE_VIEW,         IDS_RESTORE_VIEW        )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"attach",             ID_ATTACH_CONSOLES,      IDS_ATTACH_CONSOLES     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splithoriz",         ID_SPLIT_HORIZ,          IDS_SPLIT_HORIZ         )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitvert",          ID_SPLIT_VERT,           IDS_SPLIT_VERT          )));
@@ -2079,7 +2081,7 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdMenu3",           ID_SHOW_CONTEXT_MENU_3,         IDS_SHOW_CONTEXT_MENU_3 )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"cmdSnippets",        ID_SHOW_CONTEXT_MENU_SNIPPETS,  ID_SHOW_CONTEXT_MENU_SNIPPETS )));
 
-	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"ctrlC",              ID_SEND_CTRL_C,          IDS_SEND_CTRL_C         )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"ctrlC",              ID_SEND_CTRL_C,          IDS_SEND_CTRL_C    )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"wspload",            ID_LOAD_WORKSPACE,       IDS_LOAD_WORKSPACE )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"wspsave",            ID_SAVE_WORKSPACE,       IDS_SAVE_WORKSPACE )));

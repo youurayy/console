@@ -698,6 +698,9 @@ BEGIN
         MENUITEM "&Ansicht schließen",                 ID_CLOSE_VIEW
         MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
+        MENUITEM SEPARATOR
         MENUITEM "Konsolen anhängen",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
         MENUITEM "Laden Arbeitsplatz...",           ID_LOAD_WORKSPACE
@@ -741,7 +744,7 @@ BEGIN
         MENUITEM "Tabs",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
         MENUITEM "&Vollbild",                ID_VIEW_FULLSCREEN
-        MENUITEM "Transparenz An/Aus",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "Transparenz An/Aus",         ID_SWITCH_TRANSPARENCY
         MENUITEM "Immer oben",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "Hilfe"
@@ -764,6 +767,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Ansicht schließen",                 ID_CLOSE_VIEW
         MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Einfügen Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
@@ -1080,6 +1086,8 @@ BEGIN
     IDS_LOAD_WORKSPACE       "Load workspace"
     IDS_SAVE_WORKSPACE       "Save workspace"
     IDS_FORWARD_MOUSE_EVENTS "Turn on/off mouse events forwarding"
+    IDS_MAXIMIZE_VIEW        "Maximize view"
+    IDS_RESTORE_VIEW         "Restore view"
     IDS_SPLIT_HORIZ          "Horizontal teilen"
     IDS_SPLIT_VERT           "Vertikal teilen"
     IDS_SPLIT_SWAP           "Mit vorheriger Fokus-Ansicht austauschen"

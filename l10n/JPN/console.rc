@@ -698,6 +698,9 @@ BEGIN
         MENUITEM "ビューを閉じる",                 ID_CLOSE_VIEW
         MENUITEM "ビューをデタッチ",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
+        MENUITEM SEPARATOR
         MENUITEM "コンソールのアタッチ",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
         MENUITEM "Load Workspace...",           ID_LOAD_WORKSPACE
@@ -741,7 +744,7 @@ BEGIN
         MENUITEM "タブ",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
         MENUITEM "フルスクリーン",                ID_VIEW_FULLSCREEN
-        MENUITEM "透過のON/OFF",  ID_SWITCH_TRANSPARENCY
+        MENUITEM "透過のON/OFF",         ID_SWITCH_TRANSPARENCY
         MENUITEM "常に前面に表示",               ID_VIEW_ALWAYS_ON_TOP
     END
     POPUP "ヘルプ"
@@ -764,6 +767,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "ビューを閉じる",                 ID_CLOSE_VIEW
         MENUITEM "ビューをデタッチ",                ID_DETACH_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
         MENUITEM "スニペットの挿入",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
@@ -1080,6 +1086,8 @@ BEGIN
     IDS_LOAD_WORKSPACE       "Load workspace"
     IDS_SAVE_WORKSPACE       "Save workspace"
     IDS_FORWARD_MOUSE_EVENTS "Turn on/off mouse events forwarding"
+    IDS_MAXIMIZE_VIEW        "Maximize view"
+    IDS_RESTORE_VIEW         "Restore view"
     IDS_SPLIT_HORIZ          "水平方向に分割"
     IDS_SPLIT_VERT           "垂直方向に分割"
     IDS_SPLIT_SWAP           "前のフォーカス画面と交換"

@@ -698,6 +698,9 @@ BEGIN
         MENUITEM "&Close View",                 ID_CLOSE_VIEW
         MENUITEM "&Detach View",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
+        MENUITEM SEPARATOR
         MENUITEM "Attach Consoles",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
         MENUITEM "Load Workspace...",           ID_LOAD_WORKSPACE
@@ -764,6 +767,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Close View",                 ID_CLOSE_VIEW
         MENUITEM "&Detach View",                ID_DETACH_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Insert Snippet",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
@@ -1080,6 +1086,8 @@ BEGIN
     IDS_LOAD_WORKSPACE       "Load workspace"
     IDS_SAVE_WORKSPACE       "Save workspace"
     IDS_FORWARD_MOUSE_EVENTS "Turn on/off mouse events forwarding"
+    IDS_MAXIMIZE_VIEW        "Maximize view"
+    IDS_RESTORE_VIEW         "Restore view"
     IDS_SPLIT_HORIZ          "Split horizontally"
     IDS_SPLIT_VERT           "Split vertically"
     IDS_SPLIT_SWAP           "Swap with the view that previously had focus"

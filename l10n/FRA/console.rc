@@ -698,6 +698,9 @@ BEGIN
         MENUITEM "&Fermer la Vue",                 ID_CLOSE_VIEW
         MENUITEM "&Détacher la Vue",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
+        MENUITEM SEPARATOR
         MENUITEM "Rattacher les Consoles",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
         MENUITEM "Charger l'Espace de Travail...",           ID_LOAD_WORKSPACE
@@ -764,6 +767,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Fermer la Vue",                 ID_CLOSE_VIEW
         MENUITEM "&Détacher la Vue",                ID_DETACH_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
+        MENUITEM "Restore View",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Insérer un Extrait de Code",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
@@ -1080,6 +1086,8 @@ BEGIN
     IDS_LOAD_WORKSPACE       "Charger l'espace de travail"
     IDS_SAVE_WORKSPACE       "Enregistrer l'espace de travail"
     IDS_FORWARD_MOUSE_EVENTS "Activer/Désactiver la redirection des événements de la souris"
+    IDS_MAXIMIZE_VIEW        "Maximize view"
+    IDS_RESTORE_VIEW         "Restore view"
     IDS_SPLIT_HORIZ          "Divise horizontallement"
     IDS_SPLIT_VERT           "Divise verticallement"
     IDS_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus."
