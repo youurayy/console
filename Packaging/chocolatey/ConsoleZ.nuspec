@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>ConsoleZ</id>
-    <version>1.18.1.17087</version>
+    <version>1.18.2.17272</version>
     <title>ConsoleZ</title>
     <authors>cbucher</authors>
     <owners>cbucher</owners>
@@ -33,13 +33,14 @@ This fork supports:
 * Workspaces
 * and more...</description>
     <summary>This is a modified version of Console 2 for a better experience under Windows Vista/7/8/10 and a better visual rendering.</summary>
-    <releaseNotes>+ Transparency settings per windowed/full screen mode.
-+ Print code page (for each shell) in diagnostic report.
-* ALT-SPACE menu.
-* "Attach Consoles" failure.
-* Split bar size.
-* Start a safe console when no console started.
-* Standardize hotkeys modifiers and order (mouse).</releaseNotes>
+    <releaseNotes>+ "New Tab" button in tabs area.
++ Save "Switch On/Off Transparency" state.
+* Fix startup directory consistency.
+* Fix retrieving of last process ID attached to the console.
+* Fix sliders in transparency settings dialog.
+* Refresh tab title when last process ID attached to the console changes.
+* Fix bing image copyright displayed into status bar.
+* Fix external command saving into settings file.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>shell console tabs split glass fullscreen</tags>
     <projectSourceUrl>https://github.com/cbucher/console</projectSourceUrl>
