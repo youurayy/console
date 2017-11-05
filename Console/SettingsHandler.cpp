@@ -1989,7 +1989,7 @@ HotKeys::HotKeys()
 		commands.push_back(std::shared_ptr<CommandData>(new CommandData(std::wstring(L"newtab") + std::to_wstring(i + 1), ID_NEW_TAB_1 + i, IDS_NEW_TAB_1 + i)));
 	}
 
-	for(WORD i = 0; i < 12; ++i)
+	for(WORD i = 0; i < 10; ++i)
 	{
 		commands.push_back(std::shared_ptr<CommandData>(new CommandData(std::wstring(L"switchtab") + std::to_wstring(i + 1), ID_SWITCH_TAB_1 + i, IDS_SWITCH_TAB_1 + i)));
 	}
