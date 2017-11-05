@@ -78,7 +78,8 @@ namespace WTL
 			TOP,
 			BOTTOM,
 			LEFT,
-			RIGHT
+			RIGHT,
+			ZOOM
 		}
 		WHERE;
 
@@ -87,6 +88,7 @@ namespace WTL
 		int  y;
 		int  width;
 		int  height;
+		bool visible;             // visible ?
 		SPLITTYPE splitType;      // split type
 		int       splitRatio;     // ratio in percent of pane0
 		CMultiSplitPane* pane0;   // if splitted left or top pane
@@ -99,6 +101,7 @@ namespace WTL
 			, y         (0)
 			, width     (0)
 			, height    (0)
+			, visible   (true)
 			, splitType (NONE)
 			, splitRatio(100)
 			, pane0     (0)
@@ -454,13 +457,15 @@ namespace WTL
 			pane->updateLayout();
 		}
 
-		void setVisiblity(bool boolVisibility, const CMultiSplitPane* paneAllButThis)
+		void setVisiblity(bool boolVisible, const CMultiSplitPane* paneAllButThis)
 		{
 			if( this == paneAllButThis ) return;
 
-			if( this->window ) ::ShowWindow(this->window, boolVisibility ? SW_SHOW : SW_HIDE);
-			if( this->pane0 ) this->pane0->setVisiblity(boolVisibility, paneAllButThis);
-			if( this->pane1 ) this->pane1->setVisiblity(boolVisibility, paneAllButThis);
+			this->visible = boolVisible;
+
+			if( this->window ) ::ShowWindow(this->window, boolVisible ? SW_SHOW : SW_HIDE);
+			if( this->pane0 ) this->pane0->setVisiblity(boolVisible, paneAllButThis);
+			if( this->pane1 ) this->pane1->setVisiblity(boolVisible, paneAllButThis);
 		}
 
 		CMultiSplitPane* get(WHERE position)
@@ -471,6 +476,12 @@ namespace WTL
 			{
 			case ROOT:
 				return this->parent ? this->parent->get(ROOT) : this;
+				break;
+
+			case ZOOM:
+				if( !this->visible ) return nullptr;        // we are not in visible sub tree
+				if( this->parent == nullptr ) return this;  // we are at the tree's root
+				return this->parent->visible ? this->parent->get(ZOOM) : this;
 				break;
 
 			case TOP:
@@ -497,7 +508,7 @@ namespace WTL
 				return nullptr;
 			}
 
-			return this->get(ROOT)->getPane(point);
+			return this->get(ZOOM)->getPane(point);
 		}
 
 		CMultiSplitPane* get(HWND window)
