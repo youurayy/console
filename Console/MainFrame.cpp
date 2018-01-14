@@ -224,16 +224,16 @@ MainFrame::MainFrame
 
 BOOL MainFrame::PreTranslateMessage(MSG* pMsg)
 {
-	if (!m_acceleratorTable.IsNull() && m_acceleratorTable.TranslateAccelerator(m_hWnd, pMsg)) return TRUE;
-
-	if(CTabbedFrameImpl<MainFrame>::PreTranslateMessage(pMsg)) return TRUE;
-
 	if( pMsg->hwnd == m_searchedit.m_hWnd )
 	{
 		if( pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN )
 			this->PostMessage(WM_COMMAND, MAKEWPARAM(ID_SEARCH_PREV, 0));
 		return FALSE;
 	}
+
+	if( m_hWnd && !m_acceleratorTable.IsNull() && m_acceleratorTable.TranslateAccelerator(m_hWnd, pMsg) ) return TRUE;
+
+	if( CTabbedFrameImpl<MainFrame>::PreTranslateMessage(pMsg) ) return TRUE;
 
 	if (!m_activeTabView) return FALSE;
 
