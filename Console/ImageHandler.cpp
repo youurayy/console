@@ -454,7 +454,7 @@ bool ImageHandler::LoadImage(std::shared_ptr<BackgroundImage>& bkImage)
 	if (!bkImage->image.IsNull()) bkImage->image.DeleteObject();
 
 	// create new original image
-	bkImage->originalImage.reset(new fipImage());
+	bkImage->originalImage.reset(new internalImage());
 
 	// load background image
 	if (!bkImage->originalImage->loadU(Helpers::ExpandEnvironmentStrings(bkImage->imageData.strFilename).c_str()))
@@ -465,8 +465,6 @@ bool ImageHandler::LoadImage(std::shared_ptr<BackgroundImage>& bkImage)
 
 	bkImage->dwOriginalImageWidth	= bkImage->originalImage->getWidth();
 	bkImage->dwOriginalImageHeight	= bkImage->originalImage->getHeight();
-
-	bkImage->originalImage->convertTo32Bits();
 
 	return true;
 }
@@ -492,11 +490,10 @@ bool ImageHandler::LoadImageFromContent(std::shared_ptr<BackgroundImage>& bkImag
 	if (!bkImage->image.IsNull()) bkImage->image.DeleteObject();
 
 	// create new original image
-	bkImage->originalImage.reset(new fipImage());
+	bkImage->originalImage.reset(new internalImage());
 
 	// load background image
-	fipMemoryIO memIO(reinterpret_cast<BYTE*>(const_cast<char*>(&content[0])), static_cast<DWORD>(content.size()));
-	if (!bkImage->originalImage->loadFromMemory(memIO))
+	if (!bkImage->originalImage->loadFromMemory(reinterpret_cast<BYTE*>(const_cast<char*>(&content[0])), static_cast<DWORD>(content.size())))
 	{
 		bkImage->originalImage.reset();
 		return false;
@@ -504,8 +501,6 @@ bool ImageHandler::LoadImageFromContent(std::shared_ptr<BackgroundImage>& bkImag
 
 	bkImage->dwOriginalImageWidth	= bkImage->originalImage->getWidth();
 	bkImage->dwOriginalImageHeight	= bkImage->originalImage->getHeight();
-
-	bkImage->originalImage->convertTo32Bits();
 
 	return true;
 }
@@ -545,33 +540,21 @@ void ImageHandler::PaintRelativeImage(const CDC& dc, CBitmap&	bmpTemplate, std::
   {
     // resize background image
     ImageHandler::CalcRescale(dwNewWidth, dwNewHeight, bkImage);
-    fipImage tempImage(*(bkImage->originalImage));
+    internalImage tempImage(*(bkImage->originalImage));
 
 #ifdef _DEBUG
     DWORD dwGetTickCount = ::GetTickCount();
 #endif
-    tempImage.rescale(dwNewWidth, dwNewHeight, FILTER_BILINEAR);
+    tempImage.rescale(dwNewWidth, dwNewHeight);
 #ifdef _DEBUG
     TRACE(L"rescale in %lu ms\n", ::GetTickCount() - dwGetTickCount);
 #endif
 
-    bmpTemplate.CreateDIBitmap(
-      dc,
-      tempImage.getInfoHeader(),
-      CBM_INIT,
-      tempImage.accessPixels(),
-      tempImage.getInfo(),
-      DIB_RGB_COLORS);
+		tempImage.CreateDIBitmap(dc, bmpTemplate);
   }
   else
   {
-    bmpTemplate.CreateDIBitmap(
-      dc,
-      bkImage->originalImage->getInfoHeader(),
-      CBM_INIT,
-      bkImage->originalImage->accessPixels(),
-      bkImage->originalImage->getInfo(),
-      DIB_RGB_COLORS);
+		bkImage->originalImage->CreateDIBitmap(dc, bmpTemplate);
   }
 
   dwDisplayWidth  = dwNewWidth;
@@ -702,29 +685,17 @@ void ImageHandler::CreateImage(const CDC& dc, const CRect& clientRect, std::shar
 		{
 			// resize background image
 			ImageHandler::CalcRescale(dwNewWidth, dwNewHeight, bkImage);
-			fipImage tempImage(*(bkImage->originalImage));
-			tempImage.rescale(dwNewWidth, dwNewHeight, FILTER_BILINEAR);
+			internalImage tempImage(*(bkImage->originalImage));
+			tempImage.rescale(dwNewWidth, dwNewHeight);
 
-			bmpTemplate.CreateDIBitmap(
-							dc,
-							tempImage.getInfoHeader(),
-							CBM_INIT,
-							tempImage.accessPixels(),
-							tempImage.getInfo(),
-							DIB_RGB_COLORS);
+			tempImage.CreateDIBitmap(dc, bmpTemplate);
 		}
 		else
 		{
 			dwNewWidth  = bkImage->dwOriginalImageWidth;
 			dwNewHeight = bkImage->dwOriginalImageHeight;
 
-			bmpTemplate.CreateDIBitmap(
-							dc,
-							bkImage->originalImage->getInfoHeader(),
-							CBM_INIT,
-							bkImage->originalImage->accessPixels(),
-							bkImage->originalImage->getInfo(),
-							DIB_RGB_COLORS);
+			bkImage->originalImage->CreateDIBitmap(dc, bmpTemplate);
 		}
 
 		dcTemplate.SelectBitmap(bmpTemplate);

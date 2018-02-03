@@ -603,6 +603,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
 	int nRet = Run(lpstrCmdLine, nCmdShow);
 
+	g_imageHandler.reset();
+
 #ifdef _USE_AERO
   // shutdown GDI+;
   Gdiplus::GdiplusShutdown(gdiplusToken);
