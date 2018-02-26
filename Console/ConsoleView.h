@@ -207,6 +207,10 @@ class ConsoleView
 
 		bool SaveWorkspace(CComPtr<IXMLDOMElement>& pViewElement);
 
+#ifdef _USE_AERO
+		inline UINT_PTR GetBackGroundIDTimerEvent() const { return m_background ? m_background->originalImage->getIDTimerEvent() : 0; }
+#endif
+		inline void SetBackgroundChanged() { m_bBackgroundChanged = true; }
 	private:
 
 		void OnConsoleChange(bool bResize);
@@ -247,6 +251,7 @@ class ConsoleView
 		bool	m_bActive;
 		bool	m_bMouseTracking;
 		bool	m_bNeedFullRepaint;
+		bool	m_bBackgroundChanged;
 		bool	m_bConsoleWindowVisible;
 		bool  m_boolIsGrouped;
 		bool  m_boolImmComposition;

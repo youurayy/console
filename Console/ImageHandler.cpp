@@ -41,12 +41,55 @@ bool ImageHandler::CheckWin8()
 
 ImageHandler::ImageHandler()
 : m_images()
+, m_hWnd(nullptr)
+, m_bAnimationStarted(false)
 {
 }
 
 ImageHandler::~ImageHandler()
 {
 }
+
+#ifdef _USE_AERO
+void ImageHandler::StartAnimation(HWND hWnd)
+{
+	if( m_bAnimationStarted == true ) return;
+
+	m_hWnd = hWnd;
+	for( auto i : m_images )
+	{
+		i->originalImage->nextFrame(m_hWnd);
+	}
+
+	m_bAnimationStarted = true;
+}
+
+void ImageHandler::StopAnimation()
+{
+	if( m_bAnimationStarted == false ) return;
+
+	for( auto i : m_images )
+	{
+		i->originalImage->stop(m_hWnd);
+	}
+
+	m_bAnimationStarted = false;
+}
+
+void ImageHandler::NextFrame(UINT_PTR nIDTimerEvent)
+{
+	if( m_bAnimationStarted == false ) return;
+
+	for( auto i : m_images )
+	{
+		if( i->originalImage->getIDTimerEvent() == nIDTimerEvent )
+		{
+			i->originalImage->nextFrame(m_hWnd);
+			break;
+		}
+	}
+}
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -124,6 +167,10 @@ std::shared_ptr<BackgroundImage> ImageHandler::GetImage(const ImageData& imageDa
 
 	m_images.push_back(bkImage);
 
+#ifdef _USE_AERO
+	if( m_bAnimationStarted ) bkImage->originalImage->nextFrame(m_hWnd);
+#endif
+
 	return bkImage;
 }
 
@@ -154,6 +201,10 @@ std::shared_ptr<BackgroundImage> ImageHandler::GetDesktopImage(ImageData& imageD
 	LoadImage(bkImage);
 
 	m_images.push_back(bkImage);
+
+#ifdef _USE_AERO
+	if( m_bAnimationStarted ) bkImage->originalImage->nextFrame(m_hWnd);
+#endif
 
 	return bkImage;
 }
@@ -191,6 +242,10 @@ std::shared_ptr<BackgroundImage> ImageHandler::GetBingImage(ImageData& imageData
 
 	m_images.push_back(bkImage);
 
+#ifdef _USE_AERO
+	if( m_bAnimationStarted ) bkImage->originalImage->nextFrame(m_hWnd);
+#endif
+
 	return bkImage;
 }
 
@@ -218,18 +273,24 @@ void ImageHandler::ReloadDesktopImages()
 
 //////////////////////////////////////////////////////////////////////////////
 
-void ImageHandler::UpdateImageBitmap(const CDC& dc, const CRect& clientRect, std::shared_ptr<BackgroundImage>& bkImage)
+void ImageHandler::UpdateImageBitmap(const CDC& dc, const CRect& clientRect, std::shared_ptr<BackgroundImage>& bkImage, bool force)
 {
 	if (bkImage->imageData.bRelative)
 	{
-		if (!bkImage->image.IsNull()) return;
-		// first access to relative image, create it
+		if( !force
+		    &&
+		    !bkImage->image.IsNull() ) // first access to relative image
+			return;
+
 		CreateRelativeImage(dc, bkImage);
 	}
 	else
 	{
-		if ((bkImage->dwImageWidth == static_cast<DWORD>(clientRect.Width())) &&
-			(bkImage->dwImageHeight == static_cast<DWORD>(clientRect.Height())))
+		if( !force
+		    &&
+		    bkImage->dwImageWidth == static_cast<DWORD>(clientRect.Width())
+		    &&
+		    bkImage->dwImageHeight == static_cast<DWORD>(clientRect.Height()) )
 		{
 			// no client size change, nothing to do
 			return;
@@ -569,9 +630,10 @@ void ImageHandler::CreateRelativeImage(const CDC& dc, std::shared_ptr<Background
   bkImage->dwImageHeight	= ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
 
   // create background DC
-  bkImage->dcImage.CreateCompatibleDC(NULL);
+	if( bkImage->dcImage.IsNull() ) bkImage->dcImage.CreateCompatibleDC(NULL);
 
   // create background bitmap
+	if( !bkImage->image.IsNull() ) bkImage->image.DeleteObject();
   Helpers::CreateBitmap(dc, bkImage->dwImageWidth, bkImage->dwImageHeight, bkImage->image);
   bkImage->dcImage.SelectBitmap(bkImage->image);
 

@@ -463,6 +463,21 @@ void TabView::Repaint(bool bFullRepaint)
   }
 }
 
+#ifdef _USE_AERO
+void TabView::RepaintBackground(UINT_PTR nIDTimerEvent)
+{
+	MutexLock	viewMapLock(m_viewsMutex);
+	for( ConsoleViewMap::iterator it = m_views.begin(); it != m_views.end(); ++it )
+	{
+		if( it->second->GetBackGroundIDTimerEvent() == nIDTimerEvent )
+		{
+			it->second->SetBackgroundChanged();
+			it->second->Repaint(true);
+		}
+	}
+}
+#endif
+
 void TabView::SetResizing(bool bResizing)
 {
   MutexLock	viewMapLock(m_viewsMutex);

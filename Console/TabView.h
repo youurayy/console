@@ -62,6 +62,9 @@ public:
   void SetResizing(bool bResizing);
   bool MainframeMoving();
   void Repaint(bool bFullRepaint);
+#ifdef _USE_AERO
+	void RepaintBackground(UINT_PTR nIDTimerEvent);
+#endif
   void InitializeScrollbars();
   void AdjustRectAndResize(ADJUSTSIZE as, CRect& clientRect, DWORD dwResizeWindowEdge);
   void GetRect(CRect& clientRect);

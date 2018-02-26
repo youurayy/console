@@ -40,6 +40,8 @@ public:
 
 #else
 
+static unsigned long _nIDTimerEventCounter = 0;
+
 class internalImage
 {
 public:
@@ -63,6 +65,8 @@ public:
 			return FALSE;
 
 		bitmap.reset(Gdiplus::Bitmap::FromStream(stream));
+
+		loadEx();
 
 		return TRUE;
 	}
@@ -105,11 +109,74 @@ public:
 
 		bitmap.reset(Gdiplus::Bitmap::FromStream(stream));
 
+		loadEx();
+
 		return TRUE;
 	}
 
+	inline UINT_PTR getIDTimerEvent() const
+	{
+		return this->nIDTimerEvent;
+	}
+
+	void nextFrame(HWND hWnd)
+	{
+		if( this->nIDTimerEvent == 0 ) return;
+
+		//Change Active frame
+
+		GUID Guid = Gdiplus::FrameDimensionTime;
+		bitmap->SelectActiveFrame(&Guid, this->uiCurrentFrame);
+
+		this->uiCurrentFrame++;
+		if( this->uiCurrentFrame >= this->uiFrameCount )
+			this->uiCurrentFrame = 0;
+
+		::SetTimer(hWnd, this->nIDTimerEvent, static_cast<UINT *>(this->propertyItem->value)[this->uiCurrentFrame] * 10, nullptr);
+	}
+
+	void stop(HWND hWnd)
+	{
+		if( this->nIDTimerEvent == 0 ) return;
+
+		::KillTimer(hWnd, this->nIDTimerEvent);
+	}
+
+	internalImage()
+		: uiFrameCount(0)
+		, uiCurrentFrame(0)
+		, nIDTimerEvent(0)
+	{ }
+
 private:
+	void loadEx()
+	{
+		UINT uiFrameDimensionsCount = bitmap->GetFrameDimensionsCount();
+		std::unique_ptr<GUID[]> guids(new GUID[uiFrameDimensionsCount]);
+		bitmap->GetFrameDimensionsList(guids.get(), uiFrameDimensionsCount);
+
+		this->uiFrameCount = bitmap->GetFrameCount(&guids[0]);
+
+		if( this->uiFrameCount > 1 )
+		{
+			//PropertyTagFrameDelay is a pre-defined identifier
+			//to present frame-delays by GDI+
+			UINT uiTotalBuffer = bitmap->GetPropertyItemSize(PropertyTagFrameDelay);
+			propertyItem.reset(static_cast<Gdiplus::PropertyItem *>(malloc(uiTotalBuffer)), free);
+			if( uiTotalBuffer > 0 && propertyItem.get() )
+			{
+				bitmap->GetPropertyItem(PropertyTagFrameDelay, uiTotalBuffer, propertyItem.get());
+				this->nIDTimerEvent = 1000 + ::InterlockedIncrement(&_nIDTimerEventCounter);
+			}
+		}
+	}
+
 	std::shared_ptr<Gdiplus::Bitmap> bitmap;
+	std::shared_ptr<Gdiplus::PropertyItem> propertyItem;
+	UINT uiFrameCount;
+	UINT uiCurrentFrame;
+
+	UINT_PTR nIDTimerEvent;
 };
 #endif
 
@@ -298,8 +365,14 @@ class ImageHandler
 		std::shared_ptr<BackgroundImage> GetBingImage(ImageData& imageData);
 		void ReloadDesktopImages();
 
-		void UpdateImageBitmap(const CDC& dc, const CRect& clientRect, std::shared_ptr<BackgroundImage>& bkImage);
+		void UpdateImageBitmap(const CDC& dc, const CRect& clientRect, std::shared_ptr<BackgroundImage>& bkImage, bool force = false);
 		static inline bool IsWin8(void) { return m_win8; }
+
+#ifdef _USE_AERO
+		void StartAnimation(HWND hWnd);
+		void StopAnimation();
+		void NextFrame(UINT_PTR nIDTimerEvent);
+#endif
 
 	private:
 
@@ -328,6 +401,8 @@ class ImageHandler
 	private:
 
 		Images	m_images;
+		HWND		m_hWnd;
+		bool		m_bAnimationStarted;
 		static bool	m_win8;
 };
 

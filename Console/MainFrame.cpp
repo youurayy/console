@@ -662,6 +662,10 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	    g_settingsHandler->GetAppearanceSettings().positionSettings.nState == WindowState::stateFullScreen )
 		ShowFullScreen(true);
 
+#ifdef _USE_AERO
+	g_imageHandler->StartAnimation(m_hWnd);
+#endif
+
 	return 0;
 }
 
@@ -707,6 +711,10 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 				return 0;
 		}
 	}
+
+#ifdef _USE_AERO
+	g_imageHandler->StopAnimation();
+#endif
 
 	// save workspace
 	if(g_settingsHandler->GetBehaviorSettings2().closeSettings.bSaveWorkspaceOnExit)
@@ -1416,6 +1424,16 @@ LRESULT MainFrame::OnTimer(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL
 		KillTimer(TIMER_SIZING);
 		ResizeWindow();
 	}
+#ifdef _USE_AERO
+	else if( wParam > 1000 )
+	{
+		TRACE(L"MainFrame::OnTimer %Iu\n", wParam);
+		if( m_activeTabView )
+			m_activeTabView->RepaintBackground(wParam);
+
+		g_imageHandler->NextFrame(wParam);
+	}
+#endif
 
 	return 0;
 }

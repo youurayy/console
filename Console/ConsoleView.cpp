@@ -47,6 +47,7 @@ ConsoleView::ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr
 , m_bActive(true)
 , m_bMouseTracking(false)
 , m_bNeedFullRepaint(true) // first OnPaint will do a full repaint
+, m_bBackgroundChanged(false)
 , m_bConsoleWindowVisible(false)
 , m_dwStartupRows(dwRows)
 , m_dwStartupColumns(dwColumns)
@@ -2448,7 +2449,8 @@ void ConsoleView::RepaintText(CDC& dc)
 		//TRACE(L"========UpdateImageBitmap=====================================\n"
 		//      L"rect: %ix%i - %ix%i\n", rectTab.left, rectTab.top, rectTab.right, rectTab.bottom);
 
-		g_imageHandler->UpdateImageBitmap(dc, rectTab, m_background);
+		g_imageHandler->UpdateImageBitmap(dc, rectTab, m_background, m_bBackgroundChanged);
+		m_bBackgroundChanged = false;
 
 		int xSrc = rectView.left + pointView.x;
 		int ySrc = rectView.top  + pointView.y;
@@ -2508,7 +2510,6 @@ void ConsoleView::RepaintText(CDC& dc)
 	now2 = std::chrono::high_resolution_clock::now();
 	i64cpu7 = std::chrono::duration_cast<std::chrono::nanoseconds>(now2 - now1).count();
 #endif // CONSOLEZ_CHRONOS
-
 
 	MutexLock bufferLock(m_consoleHandler.m_bufferMutex);
 
