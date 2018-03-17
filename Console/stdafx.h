@@ -116,6 +116,7 @@ an alternative solution is to add an additional library to your linker input, le
 #pragma warning(disable: 4702)
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <string>
 #include <map>
 #include <vector>

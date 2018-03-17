@@ -18,9 +18,9 @@ public:
 		return rc;
 	}
 
-	BOOL loadFromMemory(BYTE *data, DWORD size_in_bytes)
+	BOOL loadFromMemory(const BYTE *data, DWORD size_in_bytes)
 	{
-		fipMemoryIO memIO(data, size_in_bytes);
+		fipMemoryIO memIO(const_cast<BYTE *>(data), size_in_bytes);
 		BOOL rc = fipImage::loadFromMemory(memIO);
 		if( rc ) fipImage::convertTo32Bits();
 		return rc;
@@ -55,20 +55,17 @@ public:
 	}
   BOOL loadU(const wchar_t* lpszPathName)
 	{
-		CComPtr<IStream> stream;
-		if( ::SHCreateStreamOnFileEx(lpszPathName,
-		                             STGM_READ | STGM_SHARE_DENY_WRITE,
-		                             0,
-		                             FALSE,
-		                             nullptr,
-		                             &stream) != S_OK )
-			return FALSE;
+		std::ifstream file(lpszPathName, std::ios::binary | std::ios::ate);
+		std::streamsize size = file.tellg();
+		file.seekg(0, std::ios::beg);
 
-		bitmap.reset(Gdiplus::Bitmap::FromStream(stream));
+		std::vector<char> content(size);
+		if( file.read(content.data(), size) )
+		{
+			return loadFromMemory(reinterpret_cast<const BYTE*>(content.data()), static_cast<DWORD>(content.size()));
+		}
 
-		loadEx();
-
-		return TRUE;
+		return FALSE;
 	}
 	BOOL rescale(unsigned new_width, unsigned new_height)
 	{
@@ -102,7 +99,7 @@ public:
 				DIB_RGB_COLORS);
 		}
 	}
-	BOOL loadFromMemory(BYTE *data, DWORD size_in_bytes)
+	BOOL loadFromMemory(const BYTE *data, DWORD size_in_bytes)
 	{
 		CComPtr<IStream> stream;
 		stream.Attach(::SHCreateMemStream(data, size_in_bytes));

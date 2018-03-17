@@ -554,7 +554,7 @@ bool ImageHandler::LoadImageFromContent(std::shared_ptr<BackgroundImage>& bkImag
 	bkImage->originalImage.reset(new internalImage());
 
 	// load background image
-	if (!bkImage->originalImage->loadFromMemory(reinterpret_cast<BYTE*>(const_cast<char*>(&content[0])), static_cast<DWORD>(content.size())))
+	if (!bkImage->originalImage->loadFromMemory(reinterpret_cast<const BYTE*>(content.data()), static_cast<DWORD>(content.size())))
 	{
 		bkImage->originalImage.reset();
 		return false;
