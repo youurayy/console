@@ -1,4 +1,4 @@
-// WtlAero.h
+﻿// WtlAero.h
 //
 // WTL::aero namespace: classes and functions supporting the Vista(r) Aero visual style
 //
