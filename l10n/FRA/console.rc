@@ -691,9 +691,9 @@ BEGIN
     BEGIN
         MENUITEM "&Nouvel Onglet",                    ID_FILE_NEW_TAB
         MENUITEM "&Fermer l'Onglet",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Fermer TOUS les Onglets SAUF Celui-ci",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Fermer TOUS les Onglets à Gauche",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "Fermer TOUS les Onglets à Droite", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "Fermer les Autres Onglets",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "Fermer les Onglets Situés à Gauche",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "Fermer les Onglets Situés à Droite",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "&Fermer la Vue",                 ID_CLOSE_VIEW
         MENUITEM "&Détacher la Vue",                ID_DETACH_VIEW
@@ -761,9 +761,9 @@ BEGIN
     POPUP "Onglet"
     BEGIN
         MENUITEM "&Fermer l'Onglet",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Fermer TOUS les Onglets SAUF Celui-ci",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Fermer TOUS les Onglets à Gauche",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "Fermer TOUS les Onglets à Droite", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "Fermer les Autres Onglets",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "Fermer les Onglets Situés à Gauche",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "Fermer les Onglets Situés à Droite",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "&Fermer la Vue",                 ID_CLOSE_VIEW
         MENUITEM "&Détacher la Vue",                ID_DETACH_VIEW
@@ -893,9 +893,9 @@ BEGIN
     ID_VIEW_CONSOLE         "Affiche ou masque la console"
     ID_FORWARD_MOUSE_EVENTS "Rediriger les événements de la souris"
     ID_FILE_CLOSE_TAB       "Fermer l'onglet courant\nFermer l'Onglet"
-    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Fermer tous les onglets sauf le courant"
-    ID_FILE_CLOSE_ALL_TABS_LEFT     "Fermer tous les onglets à gauche du courant"
-    ID_FILE_CLOSE_ALL_TABS_RIGHT    "Fermer tous les onglets à droite du courant"
+    ID_FILE_CLOSE_OTHER_TABS        "Fermer tous les onglets sauf le courant"
+    ID_FILE_CLOSE_TABS_TO_THE_LEFT  "Fermer tous les onglets à gauche du courant"
+    ID_FILE_CLOSE_TABS_TO_THE_RIGHT "Fermer tous les onglets à droite du courant"
     ID_FONT_INFO            "Afficher les informations de la police utilisée dans la console cachée"
     ID_VIEW_MENU            "Affiche ou masque le menu"
     ID_VIEW_TABS            "Affiche ou masque la barre des onglets"

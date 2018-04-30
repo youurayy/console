@@ -691,9 +691,9 @@ BEGIN
     BEGIN
         MENUITEM "&Neuer Tab",                    ID_FILE_NEW_TAB
         MENUITEM "&Tab schließen",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Alle Tabs außer diesem schließen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Alle Tabs links schließen",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "Alle Tabs rechts schließen", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "Alle Tabs außer diesem schließen",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "Alle Tabs links schließen",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "Alle Tabs rechts schließen",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "&Ansicht schließen",                 ID_CLOSE_VIEW
         MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
@@ -761,9 +761,9 @@ BEGIN
     POPUP "Tab"
     BEGIN
         MENUITEM "&Tab schließen",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Alle Tabs außer diesem schließen",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Alle Tabs links schließen",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "Alle Tabs rechts schließen", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "Alle Tabs außer diesem schließen",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "Alle Tabs links schließen",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "Alle Tabs rechts schließen",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "&Ansicht schließen",                 ID_CLOSE_VIEW
         MENUITEM "&Ansicht trennen",                ID_DETACH_VIEW
@@ -893,9 +893,9 @@ BEGIN
     ID_VIEW_CONSOLE         "Konsole anzeigen oder verstecken"
     ID_FORWARD_MOUSE_EVENTS "Forward mouse events"
     ID_FILE_CLOSE_TAB       "Aktuellen Tab schließen\nTab schließen"
-    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Alle Tabs außer diesem schließen"
-    ID_FILE_CLOSE_ALL_TABS_LEFT     "Alle Tabs links schließen"
-    ID_FILE_CLOSE_ALL_TABS_RIGHT    "Alle Tabs rechts schließen"
+    ID_FILE_CLOSE_OTHER_TABS        "Alle Tabs außer diesem schließen"
+    ID_FILE_CLOSE_TABS_TO_THE_LEFT  "Alle Tabs links schließen"
+    ID_FILE_CLOSE_TABS_TO_THE_RIGHT "Alle Tabs rechts schließen"
     ID_FONT_INFO            "Schriftart-Information der versteckten Konsole anzeigen"
     ID_VIEW_MENU            "Menü anzeigen oder verstecken"
     ID_VIEW_TABS            "Tabs anzeigen oder verstecken"

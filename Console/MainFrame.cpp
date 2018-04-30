@@ -2303,15 +2303,15 @@ LRESULT MainFrame::OnFileCloseTab(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl
 		CloseTab(pCurSelTabItem);
 		break;
 
-	case ID_FILE_CLOSE_ALL_TABS_BUT_THIS:
-	case ID_FILE_CLOSE_ALL_TABS_LEFT:
-	case ID_FILE_CLOSE_ALL_TABS_RIGHT:
+	case ID_FILE_CLOSE_OTHER_TABS:
+	case ID_FILE_CLOSE_TABS_TO_THE_LEFT:
+	case ID_FILE_CLOSE_TABS_TO_THE_RIGHT:
 		{
 			MutexLock viewMapLock(m_tabsMutex);
 
-			// close all to the left
-			if( wID == ID_FILE_CLOSE_ALL_TABS_BUT_THIS ||
-			    wID == ID_FILE_CLOSE_ALL_TABS_LEFT )
+			// close tabs to the left
+			if( wID == ID_FILE_CLOSE_OTHER_TABS ||
+			    wID == ID_FILE_CLOSE_TABS_TO_THE_LEFT )
 			{
 				for(;;)
 				{
@@ -2327,9 +2327,9 @@ LRESULT MainFrame::OnFileCloseTab(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl
 				}
 			}
 
-			// close all to the right
-			if( wID == ID_FILE_CLOSE_ALL_TABS_BUT_THIS ||
-			    wID == ID_FILE_CLOSE_ALL_TABS_RIGHT )
+			// close tabs to the right
+			if( wID == ID_FILE_CLOSE_OTHER_TABS ||
+			    wID == ID_FILE_CLOSE_TABS_TO_THE_RIGHT )
 			{
 				for(;;)
 				{
@@ -5360,9 +5360,9 @@ void MainFrame::UpdateUI()
 		UIEnable(ID_DETACH_VIEW, b);
 	}
 
-	UIEnable(ID_FILE_CLOSE_ALL_TABS_BUT_THIS, m_tabs.size() > 1);
-	UIEnable(ID_FILE_CLOSE_ALL_TABS_LEFT, m_TabCtrl.GetCurSel() > 0);
-	UIEnable(ID_FILE_CLOSE_ALL_TABS_RIGHT, m_TabCtrl.GetCurSel() < (m_TabCtrl.GetItemCount() - 1));
+	UIEnable(ID_FILE_CLOSE_OTHER_TABS, m_tabs.size() > 1);
+	UIEnable(ID_FILE_CLOSE_TABS_TO_THE_LEFT, m_TabCtrl.GetCurSel() > 0);
+	UIEnable(ID_FILE_CLOSE_TABS_TO_THE_RIGHT, m_TabCtrl.GetCurSel() < (m_TabCtrl.GetItemCount() - 1));
 }
 
 /////////////////////////////////////////////////////////////////////////////

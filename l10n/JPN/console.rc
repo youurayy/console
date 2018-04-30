@@ -691,9 +691,9 @@ BEGIN
     BEGIN
         MENUITEM "新しいタブ",                    ID_FILE_NEW_TAB
         MENUITEM "タブを閉じる",                  ID_FILE_CLOSE_TAB
-        MENUITEM "他のタブをすべて閉じる",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "左側のタブをすべて閉じる",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "右側のタブをすべて閉じる", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "他のタブをすべて閉じる",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "左側のタブをすべて閉じる",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "右側のタブをすべて閉じる",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "ビューを閉じる",                 ID_CLOSE_VIEW
         MENUITEM "ビューをデタッチ",                ID_DETACH_VIEW
@@ -761,9 +761,9 @@ BEGIN
     POPUP "タブ"
     BEGIN
         MENUITEM "タブを閉じる",                  ID_FILE_CLOSE_TAB
-        MENUITEM "他のタブをすべて閉じる",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "左側のタブをすべて閉じる",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "右側のタブをすべて閉じる", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "他のタブをすべて閉じる",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "左側のタブをすべて閉じる",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "右側のタブをすべて閉じる",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "ビューを閉じる",                 ID_CLOSE_VIEW
         MENUITEM "ビューをデタッチ",                ID_DETACH_VIEW
@@ -893,9 +893,9 @@ BEGIN
     ID_VIEW_CONSOLE         "コンソールの表示/非表示"
     ID_FORWARD_MOUSE_EVENTS "Forward mouse events"
     ID_FILE_CLOSE_TAB       "現在のタブを閉じる\nタブを閉じる"
-    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "利用中以外のタブをすべて閉じる"
-    ID_FILE_CLOSE_ALL_TABS_LEFT     "利用中のタブより左のタブを閉じる"
-    ID_FILE_CLOSE_ALL_TABS_RIGHT    "利用中のタブより右のタブを閉じる"
+    ID_FILE_CLOSE_OTHER_TABS        "利用中以外のタブをすべて閉じる"
+    ID_FILE_CLOSE_TABS_TO_THE_LEFT  "利用中のタブより左のタブを閉じる"
+    ID_FILE_CLOSE_TABS_TO_THE_RIGHT "利用中のタブより右のタブを閉じる"
     ID_FONT_INFO            "隠れたコンソールのフォント情報を表示"
     ID_VIEW_MENU            "メニューの表示/非表示"
     ID_VIEW_TABS            "タブの表示/非表示"

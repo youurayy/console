@@ -691,9 +691,9 @@ BEGIN
     BEGIN
         MENUITEM "&New Tab",                    ID_FILE_NEW_TAB
         MENUITEM "&Close Tab",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Close All Tabs BUT This",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Close All Tabs to the Left",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "Close All Tabs to the Right", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "Close Other Tabs",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "Close Tabs to the Left",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "Close Tabs to the Right",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "&Close View",                 ID_CLOSE_VIEW
         MENUITEM "&Detach View",                ID_DETACH_VIEW
@@ -761,9 +761,9 @@ BEGIN
     POPUP "Tab"
     BEGIN
         MENUITEM "&Close Tab",                  ID_FILE_CLOSE_TAB
-        MENUITEM "Close All Tabs BUT This",     ID_FILE_CLOSE_ALL_TABS_BUT_THIS
-        MENUITEM "Close All Tabs to the Left",  ID_FILE_CLOSE_ALL_TABS_LEFT
-        MENUITEM "Close All Tabs to the Right", ID_FILE_CLOSE_ALL_TABS_RIGHT
+        MENUITEM "Close Other Tabs",            ID_FILE_CLOSE_OTHER_TABS
+        MENUITEM "Close Tabs to the Left",      ID_FILE_CLOSE_TABS_TO_THE_LEFT
+        MENUITEM "Close Tabs to the Right",     ID_FILE_CLOSE_TABS_TO_THE_RIGHT
         MENUITEM SEPARATOR
         MENUITEM "&Close View",                 ID_CLOSE_VIEW
         MENUITEM "&Detach View",                ID_DETACH_VIEW
@@ -893,9 +893,9 @@ BEGIN
     ID_VIEW_CONSOLE         "Show or hide the console"
     ID_FORWARD_MOUSE_EVENTS "Forward mouse events"
     ID_FILE_CLOSE_TAB       "Close the current tab\nClose Tab"
-    ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Close all tabs but the current"
-    ID_FILE_CLOSE_ALL_TABS_LEFT     "Close all tabs to the left of the current"
-    ID_FILE_CLOSE_ALL_TABS_RIGHT    "Close all tabs to the right of the current"
+    ID_FILE_CLOSE_OTHER_TABS        "Close all tabs but the current"
+    ID_FILE_CLOSE_TABS_TO_THE_LEFT  "Close tabs to the left of the current"
+    ID_FILE_CLOSE_TABS_TO_THE_RIGHT "Close tabs to the right of the current"
     ID_FONT_INFO            "Display font information of the hidden console"
     ID_VIEW_MENU            "Show or hide the menu"
     ID_VIEW_TABS            "Show or hide the tabs"
