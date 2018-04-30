@@ -1427,7 +1427,6 @@ LRESULT MainFrame::OnTimer(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL
 #ifdef _USE_AERO
 	else if( wParam > 1000 )
 	{
-		TRACE(L"MainFrame::OnTimer %Iu\n", wParam);
 		if( m_activeTabView )
 			m_activeTabView->RepaintBackground(wParam);
 

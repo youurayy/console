@@ -652,6 +652,7 @@ public:
 		case WM_NCMOUSEMOVE:
 		case WM_PAINT:
 		case 0x0118:	// WM_SYSTIMER (caret blink)
+		case WM_TIMER:
 			return FALSE;
 		}
 
