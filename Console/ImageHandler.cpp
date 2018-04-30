@@ -355,10 +355,10 @@ bool ImageHandler::GetDesktopImageData(ImageData& imageData)
 	strWallpaperTile.ReleaseBuffer();
 
 	// set background data
-	imageData.strFilename	= strWallpaperFile;
-	imageData.bRelative		= true;
-	imageData.bExtend		= false;
-	imageData.crBackground	= RGB(static_cast<BYTE>(r), static_cast<BYTE>(g), static_cast<BYTE>(b));
+	imageData.strFilename  = strWallpaperFile;
+	imageData.bRelative    = true;
+	imageData.bExtend      = false;
+	imageData.crBackground = RGB(static_cast<BYTE>(r), static_cast<BYTE>(g), static_cast<BYTE>(b));
 
 	if (strWallpaperTile == L"1")
 	{
@@ -975,8 +975,33 @@ void ImageHandler::LoadDesktopWallpaperWin8(MonitorEnumData* pEnumData)
 
 		if(spszWallpaper.m_pData && *spszWallpaper.m_pData)
 		{
+			std::experimental::filesystem::path imagePath(spszWallpaper.m_pData);
+
+			// c:\dir1\dir2\dir3\photo.jpg
+			// we check if following files exist (in that order)
+			// c:\dir1\dir2\dir3.ConsoleZ\photo.jpg
+			// c:\dir1\dir2.ConsoleZ\dir3\photo.jpg
+			// c:\dir1.ConsoleZ\dir2\dir3\photo.jpg
+			auto iter = imagePath.end();
+			if( iter != imagePath.begin() ) --iter;
+			if( iter != imagePath.begin() ) --iter;
+			for(; iter != imagePath.end() && iter != imagePath.begin() && !iter->has_root_path(); --iter )
+			{
+				std::experimental::filesystem::path imagePath2;
+				for( auto iter2 = imagePath.begin(); iter2 != imagePath.end(); ++iter2 )
+				{
+					imagePath2.append(*iter2);
+					if( iter2 == iter ) imagePath2.concat(L".ConsoleZ");
+				}
+				if( std::experimental::filesystem::exists(imagePath2) )
+				{
+					imagePath.swap(imagePath2);
+					break;
+				}
+			}
+
 			bkImage.reset(new BackgroundImage (pEnumData->bkImage->imageData));
-			bkImage->imageData.strFilename = spszWallpaper.m_pData;
+			bkImage->imageData.strFilename = imagePath;
 			bkImage->bWallpaper = true;
 			ImageHandler::LoadImageW(bkImage);
 		}
