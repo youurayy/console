@@ -39,6 +39,16 @@ Changelog
     + added
     * fixed
 
+Changes in 1.18.3 (30 Apr 2018)
+
+    ! WTL 10.0.7336
+    ! GDI+ replaces FreeImage library in aero version.
+    + Maximize/Restore a view in a tab.
+    + Support for animated background pictures.
+    + Support for alternate desktop wallpaper pictures.
+    * Fix duplicated "Switch to next tab" and "Switch to previous tab"
+      commands in hotkeys settings.
+
 Changes in 1.18.2 (29 Sep 2017)
 
     ! Display an error dialog when seeking settings of an undefined tab.
