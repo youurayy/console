@@ -59,7 +59,7 @@ public:
 		std::streamsize size = file.tellg();
 		file.seekg(0, std::ios::beg);
 
-		std::vector<char> content(size);
+		std::vector<char> content(static_cast<size_t>(size));
 		if( file.read(content.data(), size) )
 		{
 			return loadFromMemory(reinterpret_cast<const BYTE*>(content.data()), static_cast<DWORD>(content.size()));
