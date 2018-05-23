@@ -57,7 +57,7 @@ public:
 	unsigned char ColorB[256];
 	unsigned char ColorA[256];
 
-	int plasma[256][256];
+	unsigned char plasma[256][256];
 
 	CAboutDlg()
 	{
@@ -72,7 +72,12 @@ public:
 		for( int y = 0; y < 256; y++ )
 			for( int x = 0; x < 256; x++ )
 			{
-				plasma[y][x] = 128 + static_cast<int>(128.0 * (sin(x / 16.0) + sin(y / 8.0) + sin((x + y) / 16.0) + sin(sqrt(double(x * x + y * y)) / 8.0))) / 4;
+				plasma[y][x] = 128 +
+				               static_cast<unsigned char>(32.0 * (sin(x / 16.0) +
+				                                                  sin(y / 32.0) +
+				                                                  sin(sqrt((x - 128.0) * (x - 128.0) + (y - 128.0) * (y - 128.0)) / 8.0) +
+				                                                  sin(sqrt(x * x + y * y) / 8.0)
+				                                                 ) );
 			}
 	}
 
@@ -92,11 +97,11 @@ public:
     //get the BitmapData
     Gdiplus::BitmapData bmData;
     bmpIcon.LockBits(&rectBounds, Gdiplus::ImageLockModeRead,
-      bmpIcon.GetPixelFormat(), &bmData);
+                     bmpIcon.GetPixelFormat(), &bmData);
 
     // create a new 32 bit bitmap using the bitmapData
     Gdiplus::Bitmap bmpIconAlpha(bmData.Width, bmData.Height, bmData.Stride,
-      PixelFormat32bppARGB, (BYTE*)bmData.Scan0);
+                                 PixelFormat32bppARGB, (BYTE*)bmData.Scan0);
     bmpIcon.UnlockBits(&bmData);
 
     CWindow staticMessage(GetDlgItem(IDC_STATIC));
@@ -108,11 +113,11 @@ public:
 		Gdiplus::Rect rectPlasmaBounds(0, 0, bmpPlasma.GetWidth(), bmpPlasma.GetHeight());
 		Gdiplus::BitmapData bmdPlasma;
 		bmpPlasma.LockBits(&rectPlasmaBounds, Gdiplus::ImageLockModeWrite,
-											 bmpPlasma.GetPixelFormat(), &bmdPlasma);
+		                   bmpPlasma.GetPixelFormat(), &bmdPlasma);
 
 		unsigned char * dest = static_cast<unsigned char *>(bmdPlasma.Scan0);
 
-		int paletteShift = int(::GetTickCount() / 16);
+		DWORD paletteShift = ::GetTickCount() / 16;
 
 		for( int ypos = 0; ypos < rectVersion.Height(); ++ypos )
 		{
@@ -120,7 +125,9 @@ public:
 
 			for( int xpos = 0; xpos < rectVersion.Width(); ++xpos )
 			{
-				int color = static_cast<int>(plasma[ypos % 256][xpos % 256] + paletteShift) % 256;
+				DWORD X = ((xpos + ColorG[(ypos + paletteShift) & 0xff]) / 2) & 0xff;
+				DWORD Y = ((ypos + ColorG[(xpos + paletteShift) & 0xff]) / 2) & 0xff;
+				DWORD color = static_cast<DWORD>(plasma[X][Y] + paletteShift) & 0xff;
 				// ARGB little endian
 				*dest++ = ColorB[color]; // blue
 				*dest++ = ColorG[color]; // green

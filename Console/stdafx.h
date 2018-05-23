@@ -20,6 +20,8 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
+#define _USE_MATH_DEFINES
+
 #include <atlbase.h>
 #include <atlcoll.h>
 #include <atlstr.h>
