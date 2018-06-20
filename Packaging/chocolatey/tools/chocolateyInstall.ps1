@@ -1,10 +1,10 @@
 ﻿$packageName    = 'ConsoleZ'
 $toolsDir       = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$url            = 'https://github.com/cbucher/console/releases/download/1.18.2/ConsoleZ.x86.1.18.2.17272.zip'
-$url64          = 'https://github.com/cbucher/console/releases/download/1.18.2/ConsoleZ.x64.1.18.2.17272.zip'
-$checksum       = '6FE3F3DAB3E0F1110B9633E63FEDD7ED13A1DA028A8B7E2DF233125C91F5CAD4'
+$url            = 'https://github.com/cbucher/console/releases/download/1.18.3/ConsoleZ.x86.1.18.3.18143.zip'
+$url64          = 'https://github.com/cbucher/console/releases/download/1.18.3/ConsoleZ.x64.1.18.3.18143.zip'
+$checksum       = 'B5265A07FC79C1BCE4FC89EDCB3685CCE4C0A8CCE55163B55C15EBD0C6DD5383'
 $checksumType   = 'sha256'
-$checksum64     = '50D612C3DEA96F07562F25D1C4A69D7BB988B550B7627F31C48BD89DCB106545'
+$checksum64     = '178E5C1A8CB06768E193E80785B82E343BB7379D94C33105B81550120367936A'
 $checksumType64 = 'sha256'
 
 
