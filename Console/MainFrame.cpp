@@ -3635,7 +3635,9 @@ bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shar
 
 	int nImageIndex = -1;
 
-	if( !g_settingsHandler->GetAppearanceSettings().controlsSettings.HideTabIcons() )
+	ControlsSettings&	controlsSettings = g_settingsHandler->GetAppearanceSettings().controlsSettings;
+
+	if( !controlsSettings.HideTabIcons() )
 	{
 		// is the icon already in tab bar image list?
 		if( tabData->nImageIndex == -1 )
@@ -3656,16 +3658,17 @@ bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shar
     tabView->AdjustRectAndResize(ADJUSTSIZE_WINDOW, clientRect, WMSZ_BOTTOM);
   }
 
-  if( !m_bFullScreen &&
-      g_settingsHandler->GetAppearanceSettings().controlsSettings.ShowTabs() &&
-      (
-        m_tabs.size() > 1 ||
-        !g_settingsHandler->GetAppearanceSettings().controlsSettings.HideSingleTab()
-      )
-    )
-  {
-    ShowTabs(true);
-  }
+	bool bShowTabs = controlsSettings.ShowTabs();
+
+	if( bShowTabs )
+	{
+		if( (m_tabs.size() == 1) && (controlsSettings.HideSingleTab()) )
+		{
+			bShowTabs = false;
+		}
+	}
+
+	ShowTabs(bShowTabs);
 
 	UpdateUI();
 
