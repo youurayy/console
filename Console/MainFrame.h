@@ -163,6 +163,7 @@ class MainFrame
 			MESSAGE_HANDLER(UM_CONSOLE_RESIZED, OnConsoleResized)
 			MESSAGE_HANDLER(UM_CONSOLE_CLOSED, OnConsoleClosed)
 			MESSAGE_HANDLER(UM_UPDATE_TITLES, OnUpdateTitles)
+			MESSAGE_HANDLER(UM_UPDATE_STATUS_BAR, OnUpdateStatusBar)
 			MESSAGE_HANDLER(UM_SHOW_POPUP_MENU, OnShowPopupMenu)
 			MESSAGE_HANDLER(UM_START_MOUSE_DRAG, OnStartMouseDrag)
 			MESSAGE_HANDLER(m_uTaskbarRestart, OnTaskbarCreated)
@@ -313,6 +314,7 @@ class MainFrame
 		LRESULT OnConsoleResized(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /* bHandled */);
 		LRESULT OnConsoleClosed(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnUpdateTitles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+		LRESULT OnUpdateStatusBar(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnShowPopupMenu(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
 		LRESULT OnStartMouseDrag(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 		LRESULT OnTrayNotify(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);

@@ -1555,6 +1555,12 @@ LRESULT MainFrame::OnUpdateTitles(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*
 	return 0;
 }
 
+LRESULT MainFrame::OnUpdateStatusBar(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /* bHandled */)
+{
+	UpdateStatusBar();
+	return 0;
+}
+
 std::wstring MainFrame::FormatTitle(std::wstring strFormat, TabView * tabView, std::shared_ptr<ConsoleView> consoleView)
 {
 /*

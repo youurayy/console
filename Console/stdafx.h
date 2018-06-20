@@ -203,13 +203,14 @@ using namespace boost::multi_index;
 //////////////////////////////////////////////////////////////////////////////
 // User-defined messages
 
-#define UM_UPDATE_CONSOLE_VIEW	WM_USER + 0x1000
-#define UM_CONSOLE_RESIZED		WM_USER + 0x1001
-#define UM_CONSOLE_CLOSED		WM_USER + 0x1002
-#define UM_UPDATE_TITLES		WM_USER + 0x1003
-#define UM_SHOW_POPUP_MENU		WM_USER + 0x1004
-#define UM_START_MOUSE_DRAG		WM_USER + 0x1005
-#define UM_TRAY_NOTIFY			WM_USER + 0x1006
+#define UM_UPDATE_CONSOLE_VIEW WM_USER + 0x1000
+#define UM_CONSOLE_RESIZED     WM_USER + 0x1001
+#define UM_CONSOLE_CLOSED      WM_USER + 0x1002
+#define UM_UPDATE_TITLES       WM_USER + 0x1003
+#define UM_SHOW_POPUP_MENU     WM_USER + 0x1004
+#define UM_START_MOUSE_DRAG    WM_USER + 0x1005
+#define UM_TRAY_NOTIFY         WM_USER + 0x1006
+#define UM_UPDATE_STATUS_BAR   WM_USER + 0x1007
 
 #define UPDATE_CONSOLE_RESIZE           0x0001
 #define UPDATE_CONSOLE_TEXT_CHANGED     0x0002

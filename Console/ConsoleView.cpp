@@ -989,6 +989,8 @@ LRESULT ConsoleView::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 		}
 
 		BitBltOffscreen();
+
+		m_mainFrame.PostMessage(UM_UPDATE_STATUS_BAR, 0, 0);
 	}
 	else if ((m_mouseCommand == MouseSettings::cmdNone) && 
 			 ((uFlags & (MK_LBUTTON | MK_RBUTTON | MK_MBUTTON | MK_XBUTTON1 | MK_XBUTTON2)) != 0))
