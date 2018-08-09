@@ -1676,6 +1676,7 @@ std::wstring MainFrame::FormatTitle(std::wstring strFormat, TabView * tabView, s
 			case L'P': layers.top()->str += std::to_wstring(consoleView->GetConsoleHandler().GetLastProcessId()); break;
 			case L'n': layers.top()->str += std::to_wstring(nTabNumber); break;
 			case L'i': layers.top()->str += std::to_wstring(tabView->GetTabData()->nIndex); break;
+			case L'I': layers.top()->str += GetInstanceName(); break;
 			case L'm': layers.top()->str += strMainTitle; break;
 			case L't': layers.top()->str += tabView->GetTitle(); break;
 			case L's': if( !bShellTitle ) { bShellTitle = true; strShellTitle = consoleView->GetConsoleCommand(); }
