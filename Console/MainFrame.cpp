@@ -151,6 +151,11 @@ void MainFrame::ParseCommandLine
 				}
 			}
 		}
+		else if( std::wstring(argv[i]) == std::wstring(L"-attach") )
+		{
+			// attach consoles
+			commandLineOptions.bAttachConsoles = true;
+		}
 	}
 
 	// make sure that startupTabTitles, startupDirs, and startupShellArgs are at least as big as startupTabs
@@ -265,6 +270,19 @@ LRESULT MainFrame::CreateInitialTabs
 	bool bAtLeastOneStarted = false;
 
 	TabSettings&	tabSettings = g_settingsHandler->GetTabSettings();
+
+	// attach consoles
+	if( commandLineOptions.bAttachConsoles )
+	{
+		::EnumWindows(MainFrame::ConsoleEnumWindowsProc, reinterpret_cast<LPARAM>(this));
+
+		bAtLeastOneStarted = !m_tabs.empty();
+
+		// if no tabs defined in command line
+		// then stop here
+		if( commandLineOptions.startupTabs.empty() )
+			return bAtLeastOneStarted ? 0 : -1;
+	}
 
 	// create initial console window(s)
 	if (commandLineOptions.startupTabs.empty() && commandLineOptions.startupWorkspaces.empty())

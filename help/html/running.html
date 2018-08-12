@@ -9,14 +9,14 @@
 
 <body>
 	<h1>Running ConsoleZ</h1>
-<!--
-	<p>
-		Console setup creates shortcuts in the Start menu (Console group), on 
-		the desktop and in the quick launch bar. Any of these shortcuts will
-		run ConsoleZ with its default configuration, read from console.xml file
-		located in ConsoleZ program directory.
-	</p>
--->
+	<!--
+		<p>
+			Console setup creates shortcuts in the Start menu (Console group), on
+			the desktop and in the quick launch bar. Any of these shortcuts will
+			run ConsoleZ with its default configuration, read from console.xml file
+			located in ConsoleZ program directory.
+		</p>
+	-->
 	<h2>Command line parameters</h2>
 
 	<p>
@@ -125,15 +125,23 @@
 	</p>
 	<br />
 
+	<p class="block-row-name">-i</p>
+	<p class="block-row-description">
+		Specifies the instance name.
+	</p>
+	<br />
+
 	<p class="block-row-name">-reuse</p>
 	<p class="block-row-description">
 		Reuses another instance, if any exists, instead of starting a new one.
 	</p>
 	<br />
 
-	<p class="block-row-name">-i</p>
+	<p class="block-row-name">-attach</p>
 	<p class="block-row-description">
-		Specifies the instance name.
+		Attaches consoles to ConsoleZ. Each console is added in a new tab.
+		Only consoles that are not attached to an instance of ConsoleZ are selected.
+		ConsoleZ must have rights to hook console application.
 	</p>
 	<br />
 

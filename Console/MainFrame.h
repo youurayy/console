@@ -45,6 +45,7 @@ struct CommandLineOptions
 		, visibility(ShowHideWindowAction::SHWA_DONOTHING)
 		, strWorkingDir()
 		, strEnvironment()
+		, bAttachConsoles(false)
 	{
 	}
 
@@ -59,6 +60,7 @@ struct CommandLineOptions
 	ShowHideWindowAction visibility;
 	std::wstring strWorkingDir;
 	std::wstring strEnvironment;
+	bool bAttachConsoles;
 };
 
 //////////////////////////////////////////////////////////////////////////////
