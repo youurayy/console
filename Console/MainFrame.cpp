@@ -236,13 +236,29 @@ BOOL MainFrame::PreTranslateMessage(MSG* pMsg)
 		return FALSE;
 	}
 
-	if( m_hWnd && !m_acceleratorTable.IsNull() && m_acceleratorTable.TranslateAccelerator(m_hWnd, pMsg) ) return TRUE;
+	TRACE_KEY(L"MainFrame::PreTranslateMessage Msg translated: 0x%04X, wParam: 0x%08X, lParam: 0x%08X\n", pMsg->message, pMsg->wParam, pMsg->lParam);
 
-	if( CTabbedFrameImpl<MainFrame>::PreTranslateMessage(pMsg) ) return TRUE;
+	if( m_hWnd && !m_acceleratorTable.IsNull() && m_acceleratorTable.TranslateAccelerator(m_hWnd, pMsg) )
+	{
+		TRACE_KEY(L"m_acceleratorTable.TranslateAccelerator returns TRUE\n");
+		return TRUE;
+	}
+
+	if( CTabbedFrameImpl<MainFrame>::PreTranslateMessage(pMsg) )
+	{
+		TRACE_KEY(L"CTabbedFrameImpl<MainFrame>::PreTranslateMessage returns TRUE\n");
+		return TRUE;
+	}
 
 	if (!m_activeTabView) return FALSE;
 
-	return m_activeTabView->PreTranslateMessage(pMsg);
+	if( m_activeTabView->PreTranslateMessage(pMsg) )
+	{
+		TRACE_KEY(L"m_activeTabView->PreTranslateMessage returns TRUE\n");
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 //////////////////////////////////////////////////////////////////////////////
