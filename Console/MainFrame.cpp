@@ -1550,7 +1550,7 @@ LRESULT MainFrame::OnConsoleClosed(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam
 	for (TabViewMap::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
 	{
 		bool boolTabClosed;
-		if( it->second->CloseView(reinterpret_cast<HWND>(wParam), false, boolTabClosed) )
+		if( it->second->CloseView(reinterpret_cast<HWND>(wParam), false, true, boolTabClosed) )
 		{
 			if( boolTabClosed )
 				CloseTab(it->second->m_hWnd);
@@ -2501,7 +2501,7 @@ BOOL CALLBACK MainFrame::ConsoleEnumWindowsProc(HWND hwnd, LPARAM lParam)
 			consoleViewCreate.type = ConsoleViewCreate::ATTACH;
 			consoleViewCreate.u.dwProcessId = dwProcessId;
 
-			reinterpret_cast<MainFrame*>(lParam)->CreateNewConsole(&consoleViewCreate, tabData);
+			reinterpret_cast<MainFrame*>(lParam)->CreateNewTab(&consoleViewCreate, tabData);
 		}
 	}
 #ifdef _DEBUG
@@ -2622,7 +2622,7 @@ LRESULT MainFrame::OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 	if( m_activeTabView )
 	{
 		bool boolTabClosed;
-		m_activeTabView->CloseView(0, wID == ID_DETACH_VIEW, boolTabClosed);
+		m_activeTabView->CloseView(0, wID == ID_DETACH_VIEW, true, boolTabClosed);
 		if( boolTabClosed )
 			CloseTab(m_activeTabView->m_hWnd);
 	}
@@ -2780,7 +2780,39 @@ LRESULT MainFrame::OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 		consoleViewCreate.consoleOptions.strInitialDir = activeConsoleView->GetConsoleHandler().GetCurrentDirectory();
 	}
 
-	CreateNewConsole(&consoleViewCreate, tabData);
+	CreateNewTab(&consoleViewCreate, tabData);
+
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnMoveInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	MutexLock viewMapLock(m_tabsMutex);
+
+	if( !m_activeTabView ) return 0;
+
+	if( m_activeTabView->GetViewsCount() < 2 ) return 0;
+
+	std::shared_ptr<ConsoleView> activeConsoleView = m_activeTabView->GetActiveConsole(_T(__FUNCTION__));
+	if( !activeConsoleView ) return 0;
+
+	std::shared_ptr<TabData> tabData = activeConsoleView->GetTabData();
+	if( !tabData->bCloneable ) return 0;
+
+	bool boolTabClosed;
+	m_activeTabView->CloseView(0, false, false, boolTabClosed);
+
+	ConsoleViewCreate consoleViewCreate;
+	consoleViewCreate.type = ConsoleViewCreate::MOVE;
+	consoleViewCreate.consoleView = activeConsoleView;
+	consoleViewCreate.consoleOptions = activeConsoleView->GetOptions();
+
+	CreateNewTab(&consoleViewCreate, tabData);
 
 	return 0;
 }
@@ -3629,7 +3661,7 @@ bool MainFrame::CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& console
 
 	std::shared_ptr<TabData> tabData = g_settingsHandler->GetTabSettings().tabDataVector[dwTabIndex];
 
-	return CreateNewConsole(&consoleViewCreate, tabData);
+	return CreateNewTab(&consoleViewCreate, tabData);
 }
 
 bool MainFrame::CreateSafeConsole()
@@ -3641,10 +3673,10 @@ bool MainFrame::CreateSafeConsole()
 	std::shared_ptr<TabData> tabData(new TabData());
 	tabData->strShell = L"%ComSpec%";
 
-	return CreateNewConsole(&consoleViewCreate, tabData);
+	return CreateNewTab(&consoleViewCreate, tabData);
 }
 
-bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData)
+bool MainFrame::CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData)
 {
 	MutexLock	tabMapLock(m_tabsMutex);
 
@@ -5717,7 +5749,7 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 				std::shared_ptr<TabData> tabData = tabSettings.tabDataVector[i];
 
-				if( CreateNewConsole(&consoleViewCreate, tabData) ) bAtLeastOneStarted = true;
+				if( CreateNewTab(&consoleViewCreate, tabData) ) bAtLeastOneStarted = true;
 
 				found = true;
 				break;

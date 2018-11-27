@@ -729,6 +729,7 @@ BEGIN
         MENUITEM "&Разделить по вертикали",           ID_SPLIT_VERT
         MENUITEM "Поменять местами",                  ID_SPLIT_SWAP
         MENUITEM "К&лонировать в новой  вкладке",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Настройки...",                ID_EDIT_SETTINGS
     END
@@ -784,6 +785,7 @@ BEGIN
         MENUITEM "&Разделить по вертикали",           ID_SPLIT_VERT
         MENUITEM "Поменять местами",                  ID_SPLIT_SWAP
         MENUITEM "К&лонировать в новой  вкладке",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Окно консоли",             ID_VIEW_CONSOLE
     END
@@ -921,6 +923,7 @@ BEGIN
     ID_SPLIT_SWAP           "Поменять местами с предыдущим\nПоменять местами"
 
     ID_CLONE_IN_NEW_TAB     "Клонировать текущее окно в новую вкладку\nКлонировать в новую вкладку"
+    ID_MOVE_IN_NEW_TAB      "Move the current view in a new tab\nMove in New Tab"
     ID_VIEW_FULLSCREEN      "Переключиться в полноэкранный режим\nНа весь экран"
     ID_VIEW_ALWAYS_ON_TOP   "Переключиться в режим поверх всех окон\nПоверх всех окон"
     ID_GROUP_ALL            "Объединить все терминалы так, что входные данные одного из них направлялись всем\nГруппировать все"
@@ -1092,6 +1095,7 @@ BEGIN
     IDS_SPLIT_VERT           "Разделить по вертикали"
     IDS_SPLIT_SWAP           "Поменять местами с предыдущим"
     IDS_CLONE_IN_NEW_TAB     "Клонировать окно в новую вкладку"
+    IDS_MOVE_IN_NEW_TAB      "Move view in new tab"
     IDS_VIEW_FULLSCREEN      "На весь экран"
     IDS_VIEW_ALWAYS_ON_TOP   "Поверх всех окон"
     IDS_VIEW_ZOOM_100        "Масштаб 100%"

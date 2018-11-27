@@ -223,6 +223,7 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_GROUP_TAB   , OnGroupTab)
 			COMMAND_ID_HANDLER(ID_UNGROUP_TAB , OnUngroupTab)
 			COMMAND_ID_HANDLER(ID_CLONE_IN_NEW_TAB             , OnCloneInNewTab)
+			COMMAND_ID_HANDLER(ID_MOVE_IN_NEW_TAB              , OnMoveInNewTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_TAB               , OnFileCloseTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_OTHER_TABS        , OnFileCloseTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_TABS_TO_THE_LEFT  , OnFileCloseTab)
@@ -353,6 +354,7 @@ class MainFrame
 		LRESULT OnMaximizeView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSwap(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnMoveInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnUngroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
@@ -420,7 +422,7 @@ class MainFrame
 
 		void ActivateApp(void);
 		bool CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& consoleOptions = ConsoleOptions());
-		bool CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData);
+		bool CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData);
 		bool CreateSafeConsole();
 		void CloseTab(CTabViewTabItem* pTabItem);
 

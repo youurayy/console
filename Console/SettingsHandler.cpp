@@ -2023,6 +2023,7 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitvert",          ID_SPLIT_VERT,           IDS_SPLIT_VERT          )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitswap",          ID_SPLIT_SWAP,           IDS_SPLIT_SWAP          )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"clone",              ID_CLONE_IN_NEW_TAB,     IDS_CLONE_IN_NEW_TAB    )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"moveinnewtab",       ID_MOVE_IN_NEW_TAB,      IDS_MOVE_IN_NEW_TAB     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"fullscreen",         ID_VIEW_FULLSCREEN,      IDS_VIEW_FULLSCREEN     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"zoom100",            ID_VIEW_ZOOM_100,        IDS_VIEW_ZOOM_100       )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"zoominc",            ID_VIEW_ZOOM_INC,        IDS_VIEW_ZOOM_INC       )));

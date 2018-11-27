@@ -729,6 +729,7 @@ BEGIN
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
         MENUITEM "Échanger les Vues",                  ID_SPLIT_SWAP
         MENUITEM "Cloner dans un Nouvel Onglet",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Déplacer dans un Nouvel Onglet",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Paramétrage...",                ID_EDIT_SETTINGS
     END
@@ -784,6 +785,7 @@ BEGIN
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
         MENUITEM "Échanger les Vues",                  ID_SPLIT_SWAP
         MENUITEM "Cloner dans un Nouvel Onglet",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Déplacer dans un Nouvel Onglet",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Fenêtre de la Console",             ID_VIEW_CONSOLE
     END
@@ -921,6 +923,7 @@ BEGIN
     ID_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus\nÉchange les Vues"
 
     ID_CLONE_IN_NEW_TAB     "Cloner la vue courante dans un nouvel onglet\nCloner dans un nouvel onglet"
+    ID_MOVE_IN_NEW_TAB      "Déplacer la vue courante dans un nouvel onglet\nDéplacer dans un nouvel onglet"
     ID_VIEW_FULLSCREEN      "Basculer en plein écran\nPlein Écran"
     ID_VIEW_ALWAYS_ON_TOP   "Basculer la fenêtre en mode toujours au premier plan\nToujours au Premier Plan"
     ID_GROUP_ALL            "Groupe tous les terminaux (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper Tous les Terminaux"
@@ -1092,6 +1095,7 @@ BEGIN
     IDS_SPLIT_VERT           "Divise verticallement"
     IDS_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus."
     IDS_CLONE_IN_NEW_TAB     "Cloner la vue dans un nouvel onglet"
+    IDS_MOVE_IN_NEW_TAB      "Déplacer dans un nouvel onglet"
     IDS_VIEW_FULLSCREEN      "Plein Écran"
     IDS_VIEW_ALWAYS_ON_TOP   "Toujours au premier plan"
     IDS_VIEW_ZOOM_100        "Zoom 100%"
