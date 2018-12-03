@@ -168,13 +168,20 @@ bool ConsoleSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if (backgroundImageType == bktypeImage)
 	{
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"file"),     imageData.strFilename);
-		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"relative"), imageData.bRelative ? true : false);
-		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"extend"),   imageData.bExtend ? true : false);
-		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"position"), static_cast<DWORD>(imageData.imagePosition));
 	}
 	else
 	{
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"file"), wstring(L""));
+	}
+
+	if( backgroundImageType == bktypeImage || backgroundImageType == bktypeBing )
+	{
+		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"relative"), imageData.bRelative ? true : false);
+		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"extend"), imageData.bExtend ? true : false);
+		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"position"), static_cast<DWORD>(imageData.imagePosition));
+	}
+	else
+	{
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"relative"), false);
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"extend"), false);
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"position"), 0);
@@ -2517,9 +2524,13 @@ bool TabSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 					if( tabData->backgroundImageType == bktypeImage )
 					{
+						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"file"), tabData->imageData.strFilename, wstring(L""));
+					}
+
+					if( tabData->backgroundImageType == bktypeImage || tabData->backgroundImageType == bktypeBing )
+					{
 						DWORD dwImagePosition = 0;
 
-						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"file"), tabData->imageData.strFilename, wstring(L""));
 						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"relative"), tabData->imageData.bRelative, false);
 						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"extend"), tabData->imageData.bExtend, false);
 						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"position"), dwImagePosition, 0);
@@ -2641,13 +2652,20 @@ bool TabSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 			if ((*itTab)->backgroundImageType == bktypeImage)
 			{
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"file"), (*itTab)->imageData.strFilename);
+			}
+			else
+			{
+				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"file"), wstring(L""));
+			}
+
+			if( (*itTab)->backgroundImageType == bktypeImage || (*itTab)->backgroundImageType == bktypeBing )
+			{
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"relative"), (*itTab)->imageData.bRelative ? true : false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"extend"), (*itTab)->imageData.bExtend ? true : false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"position"), static_cast<DWORD>((*itTab)->imageData.imagePosition));
 			}
 			else
 			{
-				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"file"), wstring(L""));
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"relative"), false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"extend"), false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"position"), 0);
