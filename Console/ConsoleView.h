@@ -284,6 +284,8 @@ class ConsoleView
 		std::chrono::high_resolution_clock::time_point m_timePoint1;
 #endif // CONSOLEZ_CHRONOS
 
+		std::chrono::system_clock::time_point m_startTime;
+
 // static members
 private:
 
