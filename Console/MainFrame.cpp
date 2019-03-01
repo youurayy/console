@@ -3676,7 +3676,7 @@ bool MainFrame::CreateSafeConsole()
 	return CreateNewTab(&consoleViewCreate, tabData);
 }
 
-bool MainFrame::CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData)
+bool MainFrame::CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData, int *nTab)
 {
 	MutexLock	tabMapLock(m_tabsMutex);
 
@@ -3720,9 +3720,11 @@ bool MainFrame::CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_p
 		nImageIndex = tabData->nImageIndex;
 	}
 
-	AddTab(hwndTabView, cstrTabTitle, nImageIndex);
-
+	int nTabView = AddTab(hwndTabView, cstrTabTitle, nImageIndex);
 	DisplayTab(hwndTabView, FALSE);
+
+	if( nTab ) *nTab = nTabView;
+
 	::SetForegroundWindow(m_hWnd);
 
   if (m_tabs.size() > 1)
@@ -5718,6 +5720,8 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 	CComPtr<IXMLDOMNodeList> xmlNodeList;
 	if( FAILED(xmlElementWorksapce->selectNodes(CComBSTR(L"/ConsoleZWorkspace/Tab"), &xmlNodeList)) ) return false;
 
+	int nTabHasFocus = -1;
+
 	long lListLength;
 	if( FAILED(xmlNodeList->get_length(&lListLength)) ) return false;
 	for( long lNodeIndex = 0; lNodeIndex < lListLength; ++lNodeIndex )
@@ -5730,6 +5734,10 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 		std::wstring strTabTitle;
 		XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"Title"), strTabTitle, std::wstring());
+
+		std::wstring strTabHasFocus;
+		XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"HasFocus"), strTabHasFocus, std::wstring(L"false"));
+		bool bHasFocus = strTabHasFocus == L"true" || strTabHasFocus == L"1";
 
 		TabSettings& tabSettings = g_settingsHandler->GetTabSettings();
 
@@ -5749,7 +5757,12 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 				std::shared_ptr<TabData> tabData = tabSettings.tabDataVector[i];
 
-				if( CreateNewTab(&consoleViewCreate, tabData) ) bAtLeastOneStarted = true;
+				int nTab = -1;
+				if( CreateNewTab(&consoleViewCreate, tabData, &nTab) )
+				{
+					if( bHasFocus ) nTabHasFocus = nTab;
+					bAtLeastOneStarted = true;
+				}
 
 				found = true;
 				break;
@@ -5761,6 +5774,12 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 				boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_UNDEFINED_TAB)) % strTabTitle).c_str(),
 				Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
 				MB_ICONERROR | MB_OK);
+	}
+
+	// give focus to the tab with attribute HasFocus
+	if( bAtLeastOneStarted &&  nTabHasFocus != -1 )
+	{
+		m_TabCtrl.SetCurSel(nTabHasFocus);
 	}
 
 	return bAtLeastOneStarted;
@@ -5790,6 +5809,11 @@ bool MainFrame::SaveWorkspace(const wstring& filename)
 		if( FAILED(XmlHelper::CreateDomElement(pWorkspaceRoot, CComBSTR(L"Tab"), pTabElement)) ) return false;
 
 		if( !m_tabs[m_TabCtrl.GetItem(i)->GetTabView()]->SaveWorkspace(pTabElement) ) return false;
+
+		if( m_TabCtrl.GetCurSel() == i )
+		{
+			XmlHelper::SetAttribute(pTabElement, CComBSTR(L"HasFocus"), 1);
+		}
 	}
 
 	XmlHelper::AddTextNode(pWorkspaceRoot, CComBSTR(L"\r\n"));
