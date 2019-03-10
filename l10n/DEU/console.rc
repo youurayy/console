@@ -724,6 +724,7 @@ BEGIN
         MENUITEM "Weitergabe Maus Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Teilen &horizontal",         ID_SPLIT_HORIZ
         MENUITEM "Teilen &vertikal",           ID_SPLIT_VERT
@@ -780,6 +781,7 @@ BEGIN
         MENUITEM "Weitergabe Maus Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Teilen &horizontal",         ID_SPLIT_HORIZ
         MENUITEM "Teilen &vertikal",           ID_SPLIT_VERT
@@ -930,6 +932,8 @@ BEGIN
     ID_UNGROUP_ALL          "Alle Gruppierungen aufheben\nGruppierungen aufheben"
     ID_GROUP_TAB            "Alle Konsolen im aktuellen Tab gruppieren, so dass Eingaben in diesem Tab an allen ausgeführt werden.\nTab Gruppe"
     ID_UNGROUP_TAB          "Gruppierung von aktuellen Tab aufheben\nGruppierungen aufheben"
+
+    ID_CLONE_TAB            "Clone the whole current tab\nClone Tab"
 END
 
 STRINGTABLE
@@ -1070,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "Tab schließen"
     IDS_EDIT_RENAME_TAB      "Tab umbenennen"
+    IDS_CLONE_TAB            "Clone tab"
 
     IDS_NEXT_VIEW            "Zur nächsten Ansicht wechseln"
     IDS_PREV_VIEW            "Zur vorherigen Ansicht wechseln"

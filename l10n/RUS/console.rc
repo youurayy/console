@@ -724,6 +724,7 @@ BEGIN
         MENUITEM "Отслеживать клавиши и колесо мыши",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Разделить по &горизонтали",         ID_SPLIT_HORIZ
         MENUITEM "&Разделить по вертикали",           ID_SPLIT_VERT
@@ -780,6 +781,7 @@ BEGIN
         MENUITEM "Отслеживать клавиши и колесо мыши",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Разделить по &горизонтали",         ID_SPLIT_HORIZ
         MENUITEM "&Разделить по вертикали",           ID_SPLIT_VERT
@@ -930,6 +932,8 @@ BEGIN
     ID_UNGROUP_ALL          "Удалить объединение всех терминалов\nРазгруппировать все"
     ID_GROUP_TAB            "Объединить все терминалы вкладки так, что входные данные одного из них направлялись всем\nГруппировать вкладку"
     ID_UNGROUP_TAB          "Удалить объединение всех терминалов текущей вкладки\nРазгруппировать вкладку"
+
+    ID_CLONE_TAB            "Clone the whole current tab\nClone Tab"
 END
 
 STRINGTABLE
@@ -1070,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "Закрыть вкладку"
     IDS_EDIT_RENAME_TAB      "Переименовать вкладку"
+    IDS_CLONE_TAB            "Clone tab"
 
     IDS_NEXT_VIEW            "Перейти на следующее окно"
     IDS_PREV_VIEW            "Перейти на предыдущее окно"

@@ -724,6 +724,7 @@ BEGIN
         MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
@@ -780,6 +781,7 @@ BEGIN
         MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
@@ -930,6 +932,8 @@ BEGIN
     ID_UNGROUP_ALL          "Remove grouping from all terminals\nUngroup All"
     ID_GROUP_TAB            "Group all terminals in the current tab so that any input sent to one of them, goes to all of them\nGroup Tab"
     ID_UNGROUP_TAB          "Remove grouping of all terminals in the current tab\nUngroup Tab"
+
+    ID_CLONE_TAB            "Clone the whole current tab\nClone Tab"
 END
 
 STRINGTABLE
@@ -1070,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "Close tab"
     IDS_EDIT_RENAME_TAB      "Rename tab"
+    IDS_CLONE_TAB            "Clone tab"
 
     IDS_NEXT_VIEW            "Switch to next view"
     IDS_PREV_VIEW            "Switch to previous view"

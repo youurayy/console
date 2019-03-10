@@ -2008,6 +2008,7 @@ HotKeys::HotKeys()
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"closetab",           ID_FILE_CLOSE_TAB,       IDS_FILE_CLOSE_TAB      )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"renametab",          ID_EDIT_RENAME_TAB,      IDS_EDIT_RENAME_TAB     )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"clonetab",           ID_CLONE_TAB,            IDS_CLONE_TAB           )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"nextview",           ID_NEXT_VIEW,            IDS_NEXT_VIEW           )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"prevview",           ID_PREV_VIEW,            IDS_PREV_VIEW           )));

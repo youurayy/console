@@ -279,6 +279,7 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_MERGE_VERTICALLY,        OnMergeTabs)
 			COMMAND_ID_HANDLER(ID_MAXIMIZE_VIEW,           OnMaximizeView)
 			COMMAND_ID_HANDLER(ID_RESTORE_VIEW,            OnMaximizeView)
+			COMMAND_ID_HANDLER(ID_CLONE_TAB,               OnCloneTab)
 
 			COMMAND_RANGE_HANDLER(ID_EXTERNAL_COMMAND_1, (ID_EXTERNAL_COMMAND_1 + EXTERNAL_COMMANDS_COUNT - 1), OnExternalCommand)
 			COMMAND_RANGE_HANDLER(ID_SNIPPET_ID_FIRST, ID_SNIPPET_ID_LAST, OnSnippet)
@@ -359,6 +360,7 @@ class MainFrame
 		LRESULT OnUngroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnUngroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnCloneTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 		LRESULT OnFileExit(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 

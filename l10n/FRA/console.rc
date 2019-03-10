@@ -724,6 +724,7 @@ BEGIN
         MENUITEM "Rediriger les Évenements de la Souris",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Renommer l'Onglet",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Cloner l'Onglet",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Diviser &Horizontallement",         ID_SPLIT_HORIZ
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
@@ -780,6 +781,7 @@ BEGIN
         MENUITEM "Rediriger les Évenements de la Souris",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Renommer l'Onglet",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Cloner l'Onglet",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Diviser &Horizontallement",         ID_SPLIT_HORIZ
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
@@ -930,6 +932,8 @@ BEGIN
     ID_UNGROUP_ALL          "Supprime le regroupement pour tous les terminaux\nGrouper Tous les Terminaux"
     ID_GROUP_TAB            "Groupe tous les terminaux de l'onglet courant (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper les Terminaux de l'Onglet"
     ID_UNGROUP_TAB          "Supprime le regroupement pour les terminaux de l'onglet courant\nGrouper les Terminaux de l'Onglet"
+
+    ID_CLONE_TAB            "Cloner l'ensemble de l'onglet en cours\nCloner l'Onglet"
 END
 
 STRINGTABLE
@@ -1070,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "Fermer l'onglet"
     IDS_EDIT_RENAME_TAB      "Renommer l'onglet"
+    IDS_CLONE_TAB            "Cloner l'onglet"
 
     IDS_NEXT_VIEW            "Basculer sur la vue suivante"
     IDS_PREV_VIEW            "Basculer sur la vue précédente"

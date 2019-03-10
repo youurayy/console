@@ -2876,6 +2876,45 @@ LRESULT MainFrame::OnUngroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndC
 
 //////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnCloneTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	if( !m_activeTabView ) return 0;
+
+	CComPtr<IXMLDOMDocument> pSettingsDocument;
+	CComPtr<IXMLDOMElement> pTabElement;
+
+	HRESULT hr = pSettingsDocument.CoCreateInstance(__uuidof(DOMDocument));
+	if( FAILED(hr) || (pSettingsDocument.p == nullptr) ) return 1;
+
+	VARIANT_BOOL bLoadSuccess = VARIANT_FALSE;
+	hr = pSettingsDocument->loadXML(CComBSTR(L"<?xml version='1.0' encoding='UTF-8' standalone='yes'?>\r\n<Tab/>"), &bLoadSuccess);
+	if( FAILED(hr) || (!bLoadSuccess) ) return 1;
+
+	hr = pSettingsDocument->get_documentElement(&pTabElement);
+	if( FAILED(hr) ) return FALSE;
+
+	if( !m_activeTabView->SaveWorkspace(pTabElement) ) return 1;
+
+	std::wstring strTabTitle;
+	XmlHelper::GetAttribute(pTabElement, CComBSTR(L"Title"), strTabTitle, std::wstring());
+
+	ConsoleViewCreate consoleViewCreate;
+	consoleViewCreate.type = ConsoleViewCreate::LOAD_WORKSPACE;
+	consoleViewCreate.u.userCredentials = nullptr;
+	consoleViewCreate.pTabElement = pTabElement;
+
+	XmlHelper::GetAttribute(pTabElement, CComBSTR(L"Name"), consoleViewCreate.consoleOptions.strTitle, strTabTitle);
+
+	CreateNewTab(&consoleViewCreate, m_activeTabView->GetTabData());
+
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnFileExit(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	PostMessage(WM_CLOSE);
