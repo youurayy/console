@@ -3870,6 +3870,7 @@ void MainFrame::UpdateTabsMenu()
 	// build tabs menu
 	TabDataVector&  tabDataVector = g_settingsHandler->GetTabSettings().tabDataVector;
 	WORD            wId           = ID_NEW_TAB_1;
+	std::wstring    strLastSubMenuTitle;
 
 	for (auto it = tabDataVector.begin(); it != tabDataVector.end(); ++it, ++wId)
 	{
@@ -3878,6 +3879,16 @@ void MainFrame::UpdateTabsMenu()
 		auto hotK = g_settingsHandler->GetHotKeys().commands.get<HotKeys::commandID>().find(wId);
 
 		std::wstring strTitle = (*it)->strTitle;
+		std::wstring strSubMenuTitle;
+
+		// search for submenu seprator '/'
+		size_t pos = strTitle.find_first_of(L'/');
+		if( pos != strTitle.npos )
+		{
+			strSubMenuTitle = strTitle.substr(0, pos);
+			strTitle = strTitle.substr(pos + 1);
+		}
+
 		if( hotK != g_settingsHandler->GetHotKeys().commands.get<HotKeys::commandID>().end() )
 		{
 			strTitle += L"\t";
@@ -3889,7 +3900,31 @@ void MainFrame::UpdateTabsMenu()
 		subMenuItem.dwTypeData  = const_cast<wchar_t*>(strTitle.c_str());
 		subMenuItem.cch         = static_cast<UINT>(strTitle.length());
 
-		m_tabsMenu.InsertMenuItem(wId-ID_NEW_TAB_1, TRUE, &subMenuItem);
+		if( strSubMenuTitle.empty() )
+		{
+			strLastSubMenuTitle.clear();
+			m_tabsMenu.InsertMenuItem(m_tabsMenu.GetMenuItemCount(), TRUE, &subMenuItem);
+		}
+		else
+		{
+			if( strSubMenuTitle.compare(strLastSubMenuTitle) == 0 )
+			{
+				CMenuHandle subMenu = m_tabsMenu.GetSubMenu(m_tabsMenu.GetMenuItemCount() - 1);
+				subMenu.InsertMenuItemW(subMenu.GetMenuItemCount(), TRUE, &subMenuItem);
+			}
+			else
+			{
+				CMenu	subMenu;
+				subMenu.CreateMenu();
+				subMenu.InsertMenuItemW(0, TRUE, &subMenuItem);
+				m_tabsMenu.InsertMenu(m_tabsMenu.GetMenuItemCount(), MF_BYPOSITION, subMenu.Detach(), strSubMenuTitle.c_str());
+				strLastSubMenuTitle = strSubMenuTitle;
+			}
+		}
+
+		CString str;
+		m_tabsMenu.GetMenuString(0, str, MF_BYPOSITION);
+		str += std::to_wstring(m_tabsMenu.GetMenuItemCount()).c_str();
 
 		m_CmdBar.RemoveImage(wId);
 		HICON hiconMenu = (*it)->GetMenuIcon(g_settingsHandler->GetConsoleSettings().strShell);
