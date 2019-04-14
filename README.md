@@ -39,7 +39,7 @@ Changelog
     + added
     * fixed
 
-Changes in 1.19.0 (02 Apr 2019)
+Changes in 1.19.0 (14 Apr 2019)
 
     ! Ignore tab flashing if console view age is less than 3 seconds.
     + Named instances.
