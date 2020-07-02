@@ -220,8 +220,10 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_SPLIT_VERT  , OnSplit)
 			COMMAND_ID_HANDLER(ID_GROUP_ALL   , OnGroupAll)
 			COMMAND_ID_HANDLER(ID_UNGROUP_ALL , OnUngroupAll)
-			COMMAND_ID_HANDLER(ID_GROUP_TAB   , OnGroupTab)
-			COMMAND_ID_HANDLER(ID_UNGROUP_TAB , OnUngroupTab)
+			//COMMAND_ID_HANDLER(ID_GROUP_TAB   , OnGroupTab)
+			//COMMAND_ID_HANDLER(ID_UNGROUP_TAB , OnUngroupTab)
+			COMMAND_ID_HANDLER(ID_GROUP_TAB   , OnGroupTabToggle)
+			COMMAND_ID_HANDLER(ID_UNGROUP_TAB , OnGroupTabToggle)
 			COMMAND_ID_HANDLER(ID_CLONE_IN_NEW_TAB             , OnCloneInNewTab)
 			COMMAND_ID_HANDLER(ID_MOVE_IN_NEW_TAB              , OnMoveInNewTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_TAB               , OnFileCloseTab)
@@ -358,6 +360,7 @@ class MainFrame
 		LRESULT OnMoveInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnUngroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnGroupTabToggle(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnUngroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnCloneTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);

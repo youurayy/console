@@ -632,7 +632,7 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	pLoop->AddMessageFilter(this);
 	pLoop->AddIdleHandler(this);
 
-	// this is the only way I know that other message handlers can be aware 
+	// this is the only way I know that other message handlers can be aware
 	// if they're being called after OnCreate has finished
 	m_bOnCreateDone = true;
 
@@ -1173,7 +1173,7 @@ LRESULT MainFrame::OnSize(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL&
 
 // 	CRect rectWindow;
 // 	GetWindowRect(&rectWindow);
-// 
+//
 // 	TRACE(L"OnSize dims: %ix%i\n", rectWindow.Width(), rectWindow.Height());
 
 
@@ -1320,7 +1320,7 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 				pWinPos->y = rectDesktop.top;
 				nTB = 0;
 			}
-			
+
 			if (pWinPos->y >= rectDesktop.bottom - rectWindow.Height() - positionSettings.nSnapDistance)
 			{
 				pWinPos->y = rectDesktop.bottom - rectWindow.Height();
@@ -1360,7 +1360,7 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 			{
 				CRect rectClient;
 				GetClientRect(&rectClient);
-				// we need to invalidate client rect here for proper background 
+				// we need to invalidate client rect here for proper background
 				// repaint when using relative backgrounds
 				InvalidateRect(&rectClient, FALSE);
 			}
@@ -1972,7 +1972,7 @@ LRESULT MainFrame::OnTrayNotify(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam,
 		case WM_RBUTTONUP :
 		{
 			CPoint	posCursor;
-			
+
 			::GetCursorPos(&posCursor);
 			// show popup menu
 			::SetForegroundWindow(m_hWnd);
@@ -1985,7 +1985,7 @@ LRESULT MainFrame::OnTrayNotify(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam,
 			return 0;
 		}
 
-		case WM_LBUTTONDOWN : 
+		case WM_LBUTTONDOWN :
 		{
 			ShowHideWindow();
 			return 0;
@@ -2306,7 +2306,7 @@ LRESULT MainFrame::OnFileNewTab(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/
 	{
 		CreateNewConsole(wID-ID_NEW_TAB_1);
 	}
-	
+
 	return 0;
 }
 
@@ -2844,6 +2844,18 @@ LRESULT MainFrame::OnUngroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndC
   {
     it->second->Group(false);
   }
+  return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnGroupTabToggle(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+  if (!m_activeTabView) return 0;
+  m_activeTabView->Group( !m_activeTabView->IsGrouped() );
   return 0;
 }
 
@@ -3722,9 +3734,9 @@ bool MainFrame::CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_p
 	std::shared_ptr<TabView> tabView(new TabView(*this, tabData, consoleViewCreate->consoleOptions.strTitle));
 
 	HWND hwndTabView = tabView->Create(
-											m_hWnd, 
-											rcDefault, 
-											NULL, 
+											m_hWnd,
+											rcDefault,
+											NULL,
 											WS_CHILD | WS_VISIBLE,
 											0,
 											0U,
@@ -3848,7 +3860,7 @@ void MainFrame::CloseTab(HWND hwndTabView)
   UpdateUI();
 
   if ((m_tabs.size() == 1) &&
-    m_bTabsVisible && 
+    m_bTabsVisible &&
     (g_settingsHandler->GetAppearanceSettings().controlsSettings.HideSingleTab()))
   {
     ShowTabs(false);
@@ -4360,11 +4372,11 @@ void MainFrame::DockWindow(DockPosition dockPosition)
 	// with "snap to desktop edges"
 	// when cursor is in another monitor
 	SetWindowPos(
-		NULL, 
-		nX, 
-		nY, 
-		0, 
-		0, 
+		NULL,
+		nX,
+		nY,
+		0,
+		0,
 		SWP_NOSIZE|SWP_NOZORDER|SWP_NOSENDCHANGING);
 }
 
@@ -5058,7 +5070,7 @@ void MainFrame::SetTransparency()
       if (m_zOrder == zorderDesktop) SetParent(NULL);
 
       SetWindowLong(
-        GWL_EXSTYLE, 
+        GWL_EXSTYLE,
         GetWindowLong(GWL_EXSTYLE) | WS_EX_LAYERED);
 
       ::SetLayeredWindowAttributes(
@@ -5219,7 +5231,7 @@ void MainFrame::CreateStatusBar()
 /////////////////////////////////////////////////////////////////////////////
 
 BOOL MainFrame::SetTrayIcon(DWORD dwMessage) {
-	
+
 	NOTIFYICONDATA	tnd;
 	wstring			strToolTip(m_strWindowTitle);
 
@@ -5229,12 +5241,12 @@ BOOL MainFrame::SetTrayIcon(DWORD dwMessage) {
 	tnd.uFlags				= NIF_MESSAGE|NIF_ICON|NIF_TIP;
 	tnd.uCallbackMessage	= UM_TRAY_NOTIFY;
 	tnd.hIcon				= m_smallIcon;
-	
+
 	if (strToolTip.length() > 63) {
 		strToolTip.resize(59);
 		strToolTip += _T(" ...");
 	}
-	
+
 	// we're still using v4.0 controls, so the size of the tooltip can be at most 64 chars
 	// TODO: there should be a macro somewhere
 	wcsncpy_s(tnd.szTip, _countof(tnd.szTip), strToolTip.c_str(), (sizeof(tnd.szTip)-1)/sizeof(wchar_t));
