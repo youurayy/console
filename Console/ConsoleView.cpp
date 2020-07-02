@@ -266,7 +266,7 @@ LRESULT ConsoleView::OnPaint(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 		m_bNeedFullRepaint = false;
 	}
 
-	// this is the best way I know how to detect if the window is being 
+	// this is the best way I know how to detect if the window is being
 	// repainted while sizing
 	// the flag is set in MainFrame::OnSizing and MainFrame::OnExitSizeMove
 	if (m_bResizing)
@@ -275,13 +275,13 @@ LRESULT ConsoleView::OnPaint(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	}
 
 	dc.BitBlt(
-		dc.m_ps.rcPaint.left, 
-		dc.m_ps.rcPaint.top, 
-		dc.m_ps.rcPaint.right, 
+		dc.m_ps.rcPaint.left,
+		dc.m_ps.rcPaint.top,
+		dc.m_ps.rcPaint.right,
 		dc.m_ps.rcPaint.bottom,
-		m_dcOffscreen, 
-		dc.m_ps.rcPaint.left, 
-		dc.m_ps.rcPaint.top, 
+		m_dcOffscreen,
+		dc.m_ps.rcPaint.left,
+		dc.m_ps.rcPaint.top,
 		SRCCOPY);
 
 	return 0;
@@ -601,12 +601,13 @@ LRESULT ConsoleView::OnMouseWheel(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*
   {
     if (uKeys & MK_CONTROL)
     {
-      // recreate font with new size
-      if (RecreateFont(m_dwFontSize + nScrollDelta, true, m_dwScreenDpi))
-      {
-        // only if the new size is different (to avoid flickering at extremes)
-        m_mainFrame.AdjustWindowSize(ADJUSTSIZE_FONT);
-      }
+      // disable mouse zoom
+      // // recreate font with new size
+      // if (RecreateFont(m_dwFontSize + nScrollDelta, true, m_dwScreenDpi))
+      // {
+      //   // only if the new size is different (to avoid flickering at extremes)
+      //   m_mainFrame.AdjustWindowSize(ADJUSTSIZE_FONT);
+      // }
     }
     else
     {
@@ -712,7 +713,7 @@ LRESULT ConsoleView::OnMouseButton(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 		return 0;
 	}
 
-	UINT						uKeys			= GET_KEYSTATE_WPARAM(wParam); 
+	UINT						uKeys			= GET_KEYSTATE_WPARAM(wParam);
 	UINT						uXButton		= GET_XBUTTON_WPARAM(wParam);
 
 	MouseSettings&				mouseSettings	= g_settingsHandler->GetMouseSettings();
@@ -974,7 +975,7 @@ LRESULT ConsoleView::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 		{
 			DoScroll(SB_HORZ, SB_LINERIGHT, 0);
 		}
-		
+
 		if (point.y < rectClient.top + m_nHInsideBorder)
 		{
 			DoScroll(SB_VERT, SB_LINEUP, 0);
@@ -993,7 +994,7 @@ LRESULT ConsoleView::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
 		m_mainFrame.PostMessage(UM_UPDATE_STATUS_BAR, 0, 0);
 	}
-	else if ((m_mouseCommand == MouseSettings::cmdNone) && 
+	else if ((m_mouseCommand == MouseSettings::cmdNone) &&
 			 ((uFlags & (MK_LBUTTON | MK_RBUTTON | MK_MBUTTON | MK_XBUTTON1 | MK_XBUTTON2)) != 0))
 	{
 		ForwardMouseClick(uMsg, wParam, point);
@@ -1246,9 +1247,9 @@ LRESULT ConsoleView::OnUpdateConsoleView(UINT /*uMsg*/, WPARAM wParam, LPARAM /*
 	if (m_bShowHScroll)
 	{
 		SCROLLINFO si;
-		si.cbSize = sizeof(si); 
+		si.cbSize = sizeof(si);
 		si.fMask  = SIF_POS | SIF_DISABLENOSCROLL;
-		si.nPos   = consoleInfo->csbi.srWindow.Left; 
+		si.nPos   = consoleInfo->csbi.srWindow.Left;
 		SetScrollInfo(SB_HORZ, &si, TRUE);
 	}
 
@@ -1967,14 +1968,14 @@ void ConsoleView::CreateOffscreenBuffers()
 
 	// create selection handler
 	m_selectionHandler.reset(new SelectionHandler(
-									m_hWnd, 
+									m_hWnd,
 #ifndef _USE_AERO
-									dcWindow, 
-									rectWindowMax, 
+									dcWindow,
+									rectWindowMax,
 #endif //_USE_AERO
 									m_consoleHandler,
-									m_consoleHandler.GetConsoleParams(), 
-									m_consoleHandler.GetConsoleInfo(), 
+									m_consoleHandler.GetConsoleParams(),
+									m_consoleHandler.GetConsoleInfo(),
 									m_consoleHandler.GetCopyInfo(),
 									m_nCharWidth,
 									m_nCharHeight,
@@ -2547,7 +2548,7 @@ void ConsoleView::RepaintText(CDC& dc)
 	DWORD dwX			= m_nVInsideBorder;
 	DWORD dwY			= m_nHInsideBorder;
 	DWORD dwOffset		= 0;
-	
+
 	WORD attrBG;
 	bool	lastFontHigh = false;
 	dc.SelectFont(m_fontText);
@@ -2556,7 +2557,7 @@ void ConsoleView::RepaintText(CDC& dc)
 	int			nBkMode		= TRANSPARENT;
 	COLORREF	crBkColor	= RGB(0, 0, 0);
 	COLORREF	crTxtColor	= RGB(0, 0, 0);
-	
+
 	int			nCharWidths	= 0;
 	bool		bTextOut	= false;
 
@@ -2570,12 +2571,12 @@ void ConsoleView::RepaintText(CDC& dc)
 		nBkMode			= TRANSPARENT;
 		crBkColor		= RGB(0, 0, 0);
 		crTxtColor		= RGB(0, 0, 0);
-		
+
 		nCharWidths		= 0;
 		bTextOut		= false;
-		
+
 		attrBG = (m_screenBuffer[dwOffset].charInfo.Attributes & 0xFF) >> 4;
-		
+
 		// here we decide how to paint text over the background
 		if (/*consoleColors[attrBG] == RGB(0, 0, 0)*/attrBG == 0)
 		{
@@ -2623,7 +2624,7 @@ void ConsoleView::RepaintText(CDC& dc)
 				++nCharWidths;
 				continue;
 			}
-			
+
 			attrBG = (m_screenBuffer[dwOffset].charInfo.Attributes & 0xFF) >> 4;
 
 			if (/*consoleColors[attrBG] == RGB(0, 0, 0)*/attrBG == 0)
@@ -3158,7 +3159,7 @@ void ConsoleView::BitBltOffscreen(bool bOnlyCursor /*= false*/)
 		GetClientRect(&rectBlit);
 	}
 
-	// we can skip this for relative background images when a full repaint 
+	// we can skip this for relative background images when a full repaint
 	// is needed (UpdateOffscreen will be called in OnPaint)
 	if (!m_tabDataTab->imageData.bRelative || (m_tabDataTab->imageData.bRelative && !m_bNeedFullRepaint))
 	{
@@ -3181,13 +3182,13 @@ void ConsoleView::BitBltOffscreen(bool bOnlyCursor /*= false*/)
 void ConsoleView::UpdateOffscreen(const CRect& rectBlit)
 {
 	m_dcOffscreen.BitBlt(
-					rectBlit.left, 
-					rectBlit.top, 
-					rectBlit.right, 
-					rectBlit.bottom, 
-					m_dcText, 
-					rectBlit.left, 
-					rectBlit.top, 
+					rectBlit.left,
+					rectBlit.top,
+					rectBlit.right,
+					rectBlit.bottom,
+					m_dcText,
+					rectBlit.left,
+					rectBlit.top,
 					SRCCOPY);
 
 	// blit cursor
@@ -3290,7 +3291,7 @@ bool ConsoleView::TranslateKeyDown(UINT uMsg, WPARAM wParam, LPARAM /*lParam*/)
 			}
 		}
 	}
-	
+
 	if ((uMsg == WM_SYSKEYDOWN) || (uMsg == WM_SYSKEYUP))
 	{
 		// eat ALT+ENTER
@@ -3344,51 +3345,51 @@ void ConsoleView::ForwardMouseClick(UINT uMsg, WPARAM wParam, const CPoint& poin
 	else
 	{
 		// one of mouse click messages
-//		UINT	uKeys			= GET_KEYSTATE_WPARAM(wParam); 
+//		UINT	uKeys			= GET_KEYSTATE_WPARAM(wParam);
 		UINT	uXButton		= GET_XBUTTON_WPARAM(wParam);
 
 		switch (uMsg)
 		{
-			case WM_LBUTTONDOWN : 
+			case WM_LBUTTONDOWN :
 			{
 				dwMouseButtonState = FROM_LEFT_1ST_BUTTON_PRESSED;
 				break;
 			}
 
-			case WM_LBUTTONDBLCLK : 
+			case WM_LBUTTONDBLCLK :
 			{
 				dwMouseButtonState	 = FROM_LEFT_1ST_BUTTON_PRESSED;
 				dwEventFlags		|= DOUBLE_CLICK;
 				break;
 			}
 
-			case WM_RBUTTONDOWN : 
+			case WM_RBUTTONDOWN :
 			{
 				dwMouseButtonState = RIGHTMOST_BUTTON_PRESSED;
 				break;
 			}
 
-			case WM_RBUTTONDBLCLK : 
+			case WM_RBUTTONDBLCLK :
 			{
 				dwMouseButtonState	 = RIGHTMOST_BUTTON_PRESSED;
 				dwEventFlags		|= DOUBLE_CLICK;
 				break;
 			}
 
-			case WM_MBUTTONDOWN : 
+			case WM_MBUTTONDOWN :
 			{
 				dwMouseButtonState = FROM_LEFT_2ND_BUTTON_PRESSED;
 				break;
 			}
 
-			case WM_MBUTTONDBLCLK : 
+			case WM_MBUTTONDBLCLK :
 			{
 				dwMouseButtonState	 = FROM_LEFT_2ND_BUTTON_PRESSED;
 				dwEventFlags		|= DOUBLE_CLICK;
 				break;
 			}
 
-			case WM_XBUTTONDOWN : 
+			case WM_XBUTTONDOWN :
 			{
 				if (uXButton == XBUTTON1)
 				{
@@ -3401,7 +3402,7 @@ void ConsoleView::ForwardMouseClick(UINT uMsg, WPARAM wParam, const CPoint& poin
 				break;
 			}
 
-			case WM_XBUTTONDBLCLK : 
+			case WM_XBUTTONDBLCLK :
 			{
 				if (uXButton == XBUTTON1)
 				{
@@ -3511,7 +3512,7 @@ void ConsoleView::RedrawCharOnCursor(CDC& dc)
 
   COLORREF colorBG;
 
-  if( g_settingsHandler->GetAppearanceSettings().fontSettings.bItalic && 
+  if( g_settingsHandler->GetAppearanceSettings().fontSettings.bItalic &&
       (consoleInfo->csbi.dwCursorPosition.X - consoleInfo->csbi.srWindow.Left) > 0 )
   {
     CHAR_INFO & charInfo2 = m_screenBuffer[dwOffset - 1].charInfo;
