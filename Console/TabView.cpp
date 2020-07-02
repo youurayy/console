@@ -95,7 +95,8 @@ BOOL TabView::PreTranslateMessage(MSG* pMsg)
 			TRACE(L"WM_SYSKEYUP + VK_MENU\n");
 			if (!_boolMenuSysKeyCancelled)
 			{
-				m_mainFrame.PostMessage(WM_COMMAND, ID_VIEW_MENU2);
+				// do not show menu on alt press in fullscreen (user can use the popup menu instead)
+				// m_mainFrame.PostMessage(WM_COMMAND, ID_VIEW_MENU2);
 			}
 		}
 
